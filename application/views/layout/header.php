@@ -19,12 +19,12 @@
   <link href="<?= base_url('assets/assets/css/nucleo-svg.css'); ?>" rel="stylesheet" />
 
   <!-- Font Awesome -->
-  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <!-- Argon Dashboard CSS -->
   <link id="pagestyle" href="<?= base_url('assets/assets/css/argon-dashboard.css?v=2.1.0'); ?>" rel="stylesheet" />
+
+  <!-- Custom Sidebar CSS -->
   <link rel="stylesheet" href="<?= base_url('assets/assets/css/sidebar.css'); ?>">
 
 </head>
@@ -52,11 +52,10 @@
 
         <!-- Dashboard -->
         <li class="nav-item">
-          <!-- <a class="nav-link" href="<?= base_url('pages/dashboard'); ?>"> -->
-          <a class="nav-link <?= ($this->uri->segment(2) == 'dashboard') ? 'active' : '' ?>"
-            href="<?= base_url('pages/dashboard'); ?>">
+          <a class="nav-link <?= ($this->uri->segment(1) == 'dashboard') ? 'active' : '' ?>"
+            href="<?= base_url('dashboard'); ?>">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-tv-2 text-dark text-sm opacity-10"></i>
+              <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
             </div>
             <span class="nav-link-text ms-1">Dashboard</span>
           </a>
@@ -65,77 +64,79 @@
         <!-- Asset -->
         <li class="nav-item">
           <a href="#menuAsset"
-            class="nav-link d-flex align-items-center justify-content-between <?= ($this->uri->segment(1) == 'Gardu_induk'
-                                                                                || $this->uri->segment(1) == 'Gardu_hubung' || $this->uri->segment(1) == 'Ulp'
-                                                                                || $this->uri->segment(1) == 'Penyulang' || $this->uri->segment(1) == 'Lbs'
-                                                                                || $this->uri->segment(1) == 'Recloser' || $this->uri->segment(1) == 'Rele'
-                                                                                || $this->uri->segment(1) == 'Up3') ? 'active' : '' ?>" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="menuAsset"
-            style="color: #000; font-weight: 600; background-color: transparent;">
-
+            class="nav-link d-flex align-items-center justify-content-between 
+            <?= in_array($this->uri->segment(1), ['Gardu_induk', 'Gardu_hubung', 'Ulp', 'Penyulang', 'Lbs', 'Recloser', 'Rele', 'Up3']) ? 'active text-dark' : 'text-secondary' ?>"
+            data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="menuAsset"
+            style="font-weight: 600; background-color: transparent;">
             <div class="d-flex align-items-center">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="ni ni-archive-2 text-dark text-sm"></i>
+                <i class="ni ni-archive-2 <?= in_array($this->uri->segment(1), ['Gardu_induk', 'Gardu_hubung', 'Ulp', 'Penyulang', 'Lbs', 'Recloser', 'Rele', 'Up3']) ? 'text-dark' : 'text-secondary'; ?> text-sm"></i>
               </div>
               <span class="nav-link-text">Asset</span>
             </div>
           </a>
+        </li>
 
-          <!-- Submenu Asset -->
-          <div class="collapse <?= ($this->uri->segment(1) == 'Gardu_induk' || $this->uri->segment(1) == 'Gardu_hubung'
-                                  || $this->uri->segment(1) == 'Ulp' || $this->uri->segment(1) == 'Penyulang'
-                                  || $this->uri->segment(1) == 'Lbs' || $this->uri->segment(1) == 'Recloser'
-                                  || $this->uri->segment(1) == 'Rele' || $this->uri->segment(1) == 'Up3') ? 'show' : '' ?>" id="menuAsset">
-            <ul class="nav flex-column submenu-list">
-              <ul class="nav flex-column submenu-list">
+        <div class="collapse <?= ($this->uri->segment(1) == 'Gardu_induk' || $this->uri->segment(1) == 'Gardu_hubung'
+                                || $this->uri->segment(1) == 'Ulp' || $this->uri->segment(1) == 'Penyulang'
+                                || $this->uri->segment(1) == 'Lbs' || $this->uri->segment(1) == 'Recloser'
+                                || $this->uri->segment(1) == 'Rele' || $this->uri->segment(1) == 'Up3') ? 'show' : '' ?>" id="menuAsset">
+          <ul class="nav flex-column submenu-list">
 
-                <li class="nav-item">
-                  <a class="nav-link <?= ($this->uri->segment(1) == 'Up3') ? 'active' : '' ?>" href="<?= base_url('Up3'); ?>">
-                    <i class="fas fa-industry me-2 text-primary"></i>UP3
-                  </a>
-                </li>
+            <li class="nav-item">
+              <a class="nav-link <?= ($this->uri->segment(1) == 'Up3') ? 'active' : '' ?>" href="<?= base_url('Up3'); ?>">
+                <i class="fas fa-industry me-2 text-primary"></i>UP3
+              </a>
+            </li>
 
-                <li class="nav-item">
-                  <a class="nav-link <?= ($this->uri->segment(1) == 'Gardu_induk') ? 'active' : '' ?>" href="<?= base_url('Gardu_induk'); ?>"> <!-- ⬅️ Tambahkan ini -->
-                    <i class="fas fa-bolt me-2 text-warning"></i>GI
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link <?= ($this->uri->segment(1) == 'Gardu_hubung') ? 'active' : '' ?>" href="<?= base_url('Gardu_hubung'); ?>"> <!-- ⬅️ Tambahkan ini -->
-                    <i class="fas fa-network-wired me-2 text-primary"></i>GH
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link <?= ($this->uri->segment(1) == 'Ulp') ? 'active' : '' ?>" href="<?= base_url('Ulp'); ?>"> <!-- ⬅️ Tambahkan ini -->
-                    <i class="fas fa-building me-2 text-info"></i>ULP
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link <?= ($this->uri->segment(1) == 'Penyulang') ? 'active' : '' ?>" href="<?= base_url('Penyulang'); ?>"> <!-- ⬅️ Tambahkan ini -->
-                    <i class="fas fa-plug me-2 text-success"></i>Penyulang
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link <?= ($this->uri->segment(1) == 'Lbs') ? 'active' : '' ?>" href="<?= base_url('Lbs'); ?>"> <!-- ⬅️ Tambahkan ini -->
-                    <i class="fas fa-toggle-on me-2 text-danger"></i>LBS
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link <?= ($this->uri->segment(1) == 'Recloser') ? 'active' : '' ?>" href="<?= base_url('Recloser'); ?>"> <!-- ⬅️ Tambahkan ini -->
-                    <i class="fas fa-sync-alt me-2 text-warning"></i>Recloser
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link <?= ($this->uri->segment(1) == 'Rele') ? 'active' : '' ?>" href="<?= base_url('Rele'); ?>"> <!-- ⬅️ Tambahkan ini -->
-                    <i class="fas fa-shield-alt me-2 text-secondary"></i>Rele
-                  </a>
-                </li>
-              </ul>
-          </div>
+            <li class="nav-item">
+              <a class="nav-link <?= ($this->uri->segment(1) == 'Gardu_induk') ? 'active' : '' ?>" href="<?= base_url('Gardu_induk'); ?>">
+                <i class="fas fa-bolt me-2 text-warning"></i>GI
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link <?= ($this->uri->segment(1) == 'Gardu_hubung') ? 'active' : '' ?>" href="<?= base_url('Gardu_hubung'); ?>">
+                <i class="fas fa-network-wired me-2 text-info"></i>GH
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link <?= ($this->uri->segment(1) == 'Ulp') ? 'active' : '' ?>" href="<?= base_url('Ulp'); ?>">
+                <i class="fas fa-building me-2 text-success"></i>ULP
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link <?= ($this->uri->segment(1) == 'Penyulang') ? 'active' : '' ?>" href="<?= base_url('Penyulang'); ?>">
+                <i class="fas fa-plug me-2 text-danger"></i>Penyulang
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link <?= ($this->uri->segment(1) == 'Lbs') ? 'active' : '' ?>" href="<?= base_url('Lbs'); ?>">
+                <i class="fas fa-toggle-on me-2 text-primary"></i>LBS
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link <?= ($this->uri->segment(1) == 'Recloser') ? 'active' : '' ?>" href="<?= base_url('Recloser'); ?>">
+                <i class="fas fa-sync-alt me-2 text-warning"></i>Recloser
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link <?= ($this->uri->segment(1) == 'Rele') ? 'active' : '' ?>" href="<?= base_url('Rele'); ?>">
+                <i class="fas fa-shield-alt me-2 text-secondary"></i>Rele
+              </a>
+            </li>
+          </ul>
+        </div>
         </li>
 
         <!-- Billing -->
         <li class="nav-item">
-          <a class="nav-link <?= ($this->uri->segment(2) == 'billing') ? 'active' : '' ?>" href="<?= base_url('pages/billing'); ?>"> <!-- ⬅️ Tambahkan ini -->
+          <a class="nav-link" href="<?= base_url('pages/billing'); ?>">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
             </div>
@@ -145,7 +146,7 @@
 
         <!-- Virtual Reality -->
         <li class="nav-item">
-          <a class="nav-link <?= ($this->uri->segment(2) == 'virtual-reality') ? 'active' : '' ?>" href="<?= base_url('pages/virtual-reality'); ?>"> <!-- ⬅️ Tambahkan ini -->
+          <a class="nav-link" href="<?= base_url('pages/virtual-reality'); ?>">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-app text-dark text-sm opacity-10"></i>
             </div>
@@ -155,7 +156,7 @@
 
         <!-- RTL -->
         <li class="nav-item">
-          <a class="nav-link <?= ($this->uri->segment(2) == 'rtl') ? 'active' : '' ?>" href="<?= base_url('pages/rtl'); ?>"> <!-- ⬅️ Tambahkan ini -->
+          <a class="nav-link" href="<?= base_url('pages/rtl'); ?>">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-world-2 text-dark text-sm opacity-10"></i>
             </div>
@@ -163,14 +164,14 @@
           </a>
         </li>
 
-        <!-- Account Section -->
+        <!-- Account Pages -->
         <li class="nav-item mt-3">
           <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account Pages</h6>
         </li>
 
         <!-- Profile -->
         <li class="nav-item">
-          <a class="nav-link <?= ($this->uri->segment(2) == 'profile') ? 'active' : '' ?>" href="<?= base_url('pages/profile'); ?>"> <!-- ⬅️ Tambahkan ini -->
+          <a class="nav-link" href="<?= base_url('pages/profile'); ?>">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
             </div>
@@ -180,7 +181,7 @@
 
         <!-- Sign In -->
         <li class="nav-item">
-          <a class="nav-link <?= ($this->uri->segment(2) == 'sign-in') ? 'active' : '' ?>" href="<?= base_url('pages/sign-in'); ?>"> <!-- ⬅️ Tambahkan ini -->
+          <a class="nav-link" href="<?= base_url('pages/sign-in'); ?>">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-key-25 text-dark text-sm opacity-10"></i>
             </div>
@@ -190,13 +191,17 @@
 
         <!-- Sign Up -->
         <li class="nav-item">
-          <a class="nav-link <?= ($this->uri->segment(2) == 'sign-up') ? 'active' : '' ?>" href="<?= base_url('pages/sign-up'); ?>"> <!-- ⬅️ Tambahkan ini -->
+          <a class="nav-link" href="<?= base_url('pages/sign-up'); ?>">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-circle-08 text-dark text-sm opacity-10"></i>
             </div>
             <span class="nav-link-text ms-1">Sign Up</span>
           </a>
         </li>
+
       </ul>
     </div>
   </aside>
+</body>
+
+</html>

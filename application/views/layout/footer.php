@@ -28,6 +28,7 @@
 <script src="<?= base_url('assets/assets/js/core/bootstrap.min.js'); ?>"></script>
 <script src="<?= base_url('assets/assets/js/plugins/perfect-scrollbar.min.js'); ?>"></script>
 <script src="<?= base_url('assets/assets/js/plugins/smooth-scrollbar.min.js'); ?>"></script>
+<script src="<?= base_url('assets/assets/js/argon-dashboard.min.js') ?>"></script>
 
 <!-- Font Awesome & Nucleo -->
 <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
