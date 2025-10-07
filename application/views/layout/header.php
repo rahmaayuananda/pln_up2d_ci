@@ -70,12 +70,14 @@
             style="font-weight: 600; background-color: transparent;">
             <div class="d-flex align-items-center">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="ni ni-archive-2 <?= in_array($this->uri->segment(1), ['Gardu_induk', 'Gardu_hubung', 'Ulp', 'Penyulang', 'Lbs', 'Recloser', 'Rele', 'Up3']) ? 'text-dark' : 'text-secondary'; ?> text-sm"></i>
+                <i class="ni ni-archive-2 text-dark text-sm opacity-10"></i>
               </div>
               <span class="nav-link-text">Asset</span>
             </div>
           </a>
         </li>
+
+
 
         <div class="collapse <?= ($this->uri->segment(1) == 'Gardu_induk' || $this->uri->segment(1) == 'Gardu_hubung'
                                 || $this->uri->segment(1) == 'Ulp' || $this->uri->segment(1) == 'Penyulang'
