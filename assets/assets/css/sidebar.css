@@ -1,0 +1,109 @@
+/* sidebar.css */
+
+/* Styling submenu agar tidak terlalu menjorok */
+.submenu-list {
+  margin-left: 5px;
+  padding-left: 10px;
+  border-left: 1px solid #e0e0e0; /* 1 garis tipis */
+}
+
+.submenu-list {
+  margin-left: 15px;
+  padding-left: 10px;
+  border-left: none; /* hilangkan garis kiri */
+}
+
+.submenu-list .nav-link {
+  font-size: 14px;
+  padding: 6px 10px;
+  color: #4a4a4a;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.submenu-list .nav-link:hover {
+  background-color: #f0f4f8;
+  color: #007acd;
+}
+
+.submenu-list .nav-link {
+  padding-left: 1.2rem !important;
+}
+
+/* Animasi rotasi panah submenu */
+.nav-link[aria-expanded="true"] i.fa-chevron-right {
+  transform: rotate(90deg);
+  transition: transform 0.3s ease;
+}
+
+/* ====== Highlight Menu Aktif di Sidebar ====== */
+.nav-link.active {
+  background-color: #f5f9ff !important; /* Warna latar belakang menu aktif */
+  border-radius: 8px;
+  font-weight: 600;
+  color: #2b3674 !important;
+}
+
+.nav-link.active .icon i {
+  color: #2b3674 !important; /* Warna ikon saat aktif */
+}
+
+/* Styling sidebar */
+#sidenav-main {
+  width: 270px !important; /* Lebarkan sidebar */
+  border-radius: 1rem !important; /* Rounded atas dan bawah */
+  height: 95vh; /* Biar sedikit jarak dari atas & bawah */
+  margin-top: 1rem; /* Jarak kecil dari atas */
+  margin-bottom: 1rem; /* Jarak kecil dari bawah */
+  background-color: #fff;
+  overflow-y: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+/* Scrollbar halus */
+#sidenav-main::-webkit-scrollbar {
+  width: 6px;
+}
+
+#sidenav-main::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+/* Supaya konten utama bergeser ke kanan */
+.main-content {
+  margin-left: 270px !important;
+}
+
+/* ===================== */
+/* 🌟 Custom Sidebar 🌟 */
+/* ===================== */
+
+#sidenav-main {
+  width: 270px !important; /* Lebar diperlebar */
+  border-radius: 1rem !important; /* Rounded atas dan bawah */
+  height: 95vh !important; /* Jarak kecil dari atas & bawah */
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important;
+  background-color: #fff !important;
+  overflow-y: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+/* Scrollbar */
+#sidenav-main::-webkit-scrollbar {
+  width: 6px;
+}
+
+#sidenav-main::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+/* Konten utama bergeser sesuai lebar sidebar */
+.main-content {
+  margin-left: 270px !important;
+}
+
