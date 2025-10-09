@@ -83,10 +83,21 @@
 
         <div class="collapse <?= ($this->uri->segment(1) == 'assets') ? 'show' : '' ?>" id="menuAsset">
           <ul class="nav flex-column submenu-list">
+            <li class="nav-item">
+              <a class="nav-link <?= ($this->uri->segment(3) == 'up3') ? 'active' : '' ?>" href="<?= base_url('assets/table/up3'); ?>">
+                <i class="fas fa-layer-group me-2 text-primary"></i>UP3
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link <?= ($this->uri->segment(3) == 'ulp') ? 'active' : '' ?>" href="<?= base_url('assets/table/ulp'); ?>">
+                <i class="fas fa-sitemap me-2 text-success"></i>ULP
+              </a>
+            </li>
+
             <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(2) == 'table' && $this->uri->segment(3) == 'unit') ? 'active' : '' ?>" href="<?= base_url('assets/table/unit'); ?>"><i class="fas fa-building me-2 text-success"></i>Unit</a></li>
-            <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(3) == 'gi') ? 'active' : '' ?>" href="<?= base_url('assets/table/gi'); ?>"><i class="fas fa-bolt me-2 text-warning"></i>GI</a></li>
+            <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(3) == 'gi') ? 'active' : '' ?>" href="<?= base_url('assets/table/gi'); ?>"><i class="fas fa-bolt me-2 text-warning"></i>Gardu Induk</a></li>
             <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(3) == 'gi_cell') ? 'active' : '' ?>" href="<?= base_url('assets/table/gi_cell'); ?>"><i class="fas fa-wave-square me-2 text-info"></i>GI Cell</a></li>
-            <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(3) == 'gh') ? 'active' : '' ?>" href="<?= base_url('assets/table/gh'); ?>"><i class="fas fa-network-wired me-2 text-primary"></i>GH</a></li>
+            <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(3) == 'gh') ? 'active' : '' ?>" href="<?= base_url('assets/table/gh'); ?>"><i class="fas fa-network-wired me-2 text-primary"></i>Gardu Hubung</a></li>
             <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(3) == 'gh_cell') ? 'active' : '' ?>" href="<?= base_url('assets/table/gh_cell'); ?>"><i class="fas fa-square me-2 text-secondary"></i>GH Cell</a></li>
             <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(3) == 'pembangkit') ? 'active' : '' ?>" href="<?= base_url('assets/table/pembangkit'); ?>"><i class="fas fa-industry me-2 text-danger"></i>Pembangkit</a></li>
             <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(3) == 'kit_cell') ? 'active' : '' ?>" href="<?= base_url('assets/table/kit_cell'); ?>"><i class="fas fa-microchip me-2 text-primary"></i>KIT Cell</a></li>
@@ -163,4 +174,4 @@
       </ul>
     </div>
   </aside>
-<!-- header ends; footer view will close the document -->
+  <!-- header ends; footer view will close the document -->
