@@ -177,17 +177,17 @@
                   <div class="card card-carousel overflow-hidden h-100 p-0">
                       <div id="carouselExampleCaptions" class="carousel slide h-100" data-bs-ride="carousel">
                           <div class="carousel-inner border-radius-lg h-100">
-                              <div class="carousel-item h-100 active" style="background-image: url('assets/assets/img/carousel-1.jpg'); background-size: cover;">
+                              <div class="carousel-item h-100 active" style="background-image: url('assets/assets/img/p2tl_pln.png'); background-size: cover;">
                                   <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
                                       <div class="icon icon-shape icon-sm bg-white text-center border-radius-md mb-3" style="width:25px; height:25px; line-height:25px;">
                                           <i class="ni ni-camera-compact text-dark opacity-10" style="font-size:12px;"></i>
                                       </div>
-                                      <h5 class="text-white mb-1">Get started with Argon</h5>
-                                      <p>There's nothing I really wanted to do in life that I wasn't able to get good at.</p>
+                                      <!-- <h5 class="text-white mb-1">Get started with Argon</h5>
+                                      <p>There's nothing I really wanted to do in life that I wasn't able to get good at.</p> -->
                                   </div>
                               </div>
 
-                              <div class="carousel-item h-100" style="background-image: url('assets/assets/img/carousel-2.jpg'); background-size: cover;">
+                              <div class="carousel-item h-100" style="background-image: url('assets/assets/img/Pln_stop_listrik_ilegal.png'); background-size: cover;">
                                   <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
                                       <div class="icon icon-shape bg-white border-radius-md mb-3"
                                           style=" width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; line-height: 0; /* penting untuk hilangkan offset bawaan */">
@@ -195,12 +195,12 @@
                                           <i class="ni ni-bulb-61 text-dark opacity-10"
                                               style="font-size: 14px; margin: 0; padding: 0; position: relative; top: -1px;"></i>
                                       </div>
-                                      <h5 class="text-white mb-1">Faster way to create web pages</h5>
-                                      <p>That's my skill. I'm not really specifically talented at anything except for the ability to learn.</p>
+                                      <!-- <h5 class="text-white mb-1">Faster way to create web pages</h5>
+                                      <p>That's my skill. I'm not really specifically talented at anything except for the ability to learn.</p> -->
                                   </div>
                               </div>
 
-                              <div class="carousel-item h-100" style="background-image: url('assets/assets/img/carousel-3.jpg'); background-size: cover;">
+                              <div class="carousel-item h-100" style="background-image: url('assets/assets/img/penertiban.png'); background-size: cover;">
                                   <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
 
                                       <div class="icon icon-shape bg-white border-radius-md mb-3"
@@ -209,8 +209,8 @@
                                               style="font-size: 14px; margin: 0; padding: 0; position: relative; top: -1px;"></i>
                                       </div>
 
-                                      <h5 class="text-white mb-1">Share with us your design tips!</h5>
-                                      <p>Don't be afraid to be wrong because you can't learn anything from a compliment.</p>
+                                      <!-- <h5 class="text-white mb-1">Share with us your design tips!</h5>
+                                      <p>Don't be afraid to be wrong because you can't learn anything from a compliment.</p> -->
 
                                   </div>
                               </div>
