@@ -27,10 +27,13 @@
   <!-- Custom Sidebar CSS -->
   <link rel="stylesheet" href="<?= base_url('assets/assets/css/sidebar.css'); ?>">
 
+  <!-- PLN Theme (palette + overrides) -->
+  <link rel="stylesheet" href="<?= base_url('assets/assets/css/pln-theme.css'); ?>">
+
 </head>
 
 <body class="g-sidenav-show bg-gray-100">
-  <div class="min-height-300 bg-dark position-absolute w-100"></div>
+  <div class="min-height-300 bg-gradient-primary position-absolute w-100"></div>
 
   <!-- Sidebar -->
   <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4" id="sidenav-main">
@@ -65,7 +68,7 @@
         <li class="nav-item">
           <a href="#menuAsset"
             class="nav-link d-flex align-items-center justify-content-between 
-            <?= in_array($this->uri->segment(1), ['Gardu_induk', 'Gardu_hubung', 'Ulp', 'Penyulang', 'Lbs', 'Recloser', 'Rele', 'Up3']) ? 'active text-dark' : 'text-secondary' ?>"
+            <?= ($this->uri->segment(1) == 'assets') ? 'active text-dark' : 'text-secondary' ?>"
             data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="menuAsset"
             style="font-weight: 600; background-color: transparent;">
             <div class="d-flex align-items-center">
@@ -79,59 +82,16 @@
 
 
 
-        <div class="collapse <?= ($this->uri->segment(1) == 'Gardu_induk' || $this->uri->segment(1) == 'Gardu_hubung'
-                                || $this->uri->segment(1) == 'Ulp' || $this->uri->segment(1) == 'Penyulang'
-                                || $this->uri->segment(1) == 'Lbs' || $this->uri->segment(1) == 'Recloser'
-                                || $this->uri->segment(1) == 'Rele' || $this->uri->segment(1) == 'Up3') ? 'show' : '' ?>" id="menuAsset">
+        <div class="collapse <?= ($this->uri->segment(1) == 'assets') ? 'show' : '' ?>" id="menuAsset">
           <ul class="nav flex-column submenu-list">
-
-            <li class="nav-item">
-              <a class="nav-link <?= ($this->uri->segment(1) == 'Up3') ? 'active' : '' ?>" href="<?= base_url('Up3'); ?>">
-                <i class="fas fa-industry me-2 text-primary"></i>UP3
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link <?= ($this->uri->segment(1) == 'Gardu_induk') ? 'active' : '' ?>" href="<?= base_url('Gardu_induk'); ?>">
-                <i class="fas fa-bolt me-2 text-warning"></i>GI
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link <?= ($this->uri->segment(1) == 'Gardu_hubung') ? 'active' : '' ?>" href="<?= base_url('Gardu_hubung'); ?>">
-                <i class="fas fa-network-wired me-2 text-info"></i>GH
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link <?= ($this->uri->segment(1) == 'Ulp') ? 'active' : '' ?>" href="<?= base_url('Ulp'); ?>">
-                <i class="fas fa-building me-2 text-success"></i>ULP
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link <?= ($this->uri->segment(1) == 'Penyulang') ? 'active' : '' ?>" href="<?= base_url('Penyulang'); ?>">
-                <i class="fas fa-plug me-2 text-danger"></i>Penyulang
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link <?= ($this->uri->segment(1) == 'Lbs') ? 'active' : '' ?>" href="<?= base_url('Lbs'); ?>">
-                <i class="fas fa-toggle-on me-2 text-primary"></i>LBS
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link <?= ($this->uri->segment(1) == 'Recloser') ? 'active' : '' ?>" href="<?= base_url('Recloser'); ?>">
-                <i class="fas fa-sync-alt me-2 text-warning"></i>Recloser
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link <?= ($this->uri->segment(1) == 'Rele') ? 'active' : '' ?>" href="<?= base_url('Rele'); ?>">
-                <i class="fas fa-shield-alt me-2 text-secondary"></i>Rele
-              </a>
-            </li>
+            <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(2) == 'table' && $this->uri->segment(3) == 'unit') ? 'active' : '' ?>" href="<?= base_url('assets/table/unit'); ?>"><i class="fas fa-building me-2 text-success"></i>Unit</a></li>
+            <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(3) == 'gi') ? 'active' : '' ?>" href="<?= base_url('assets/table/gi'); ?>"><i class="fas fa-bolt me-2 text-warning"></i>GI</a></li>
+            <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(3) == 'gi_cell') ? 'active' : '' ?>" href="<?= base_url('assets/table/gi_cell'); ?>"><i class="fas fa-wave-square me-2 text-info"></i>GI Cell</a></li>
+            <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(3) == 'gh') ? 'active' : '' ?>" href="<?= base_url('assets/table/gh'); ?>"><i class="fas fa-network-wired me-2 text-primary"></i>GH</a></li>
+            <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(3) == 'gh_cell') ? 'active' : '' ?>" href="<?= base_url('assets/table/gh_cell'); ?>"><i class="fas fa-square me-2 text-secondary"></i>GH Cell</a></li>
+            <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(3) == 'pembangkit') ? 'active' : '' ?>" href="<?= base_url('assets/table/pembangkit'); ?>"><i class="fas fa-industry me-2 text-danger"></i>Pembangkit</a></li>
+            <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(3) == 'kit_cell') ? 'active' : '' ?>" href="<?= base_url('assets/table/kit_cell'); ?>"><i class="fas fa-microchip me-2 text-primary"></i>KIT Cell</a></li>
+            <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(3) == 'lbs_recloser') ? 'active' : '' ?>" href="<?= base_url('assets/table/lbs_recloser'); ?>"><i class="fas fa-toggle-on me-2 text-warning"></i>LBS / Recloser</a></li>
           </ul>
         </div>
         </li>
@@ -204,6 +164,4 @@
       </ul>
     </div>
   </aside>
-</body>
-
-</html>
+<!-- header ends; footer view will close the document -->

@@ -52,3 +52,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+// Asset routes
+$route['assets'] = 'assets/index';
+$route['assets/table/(:any)'] = 'assets/table/$1';
+
+// Import routes (Phase 1: GI)
+$route['import'] = 'import/index';
+$route['import/preview'] = 'import/preview';
+$route['import/process'] = 'import/process';
+$route['import/status/(:num)'] = 'import/status/$1';
+$route['import/download-error/(:num)'] = 'import/download_error/$1';
