@@ -84,7 +84,7 @@
         <div class="collapse <?= ($this->uri->segment(1) == 'assets') ? 'show' : '' ?>" id="menuAsset">
           <ul class="nav flex-column submenu-list">
             <li class="nav-item">
-              <a class="nav-link <?= ($this->uri->segment(3) == 'up3') ? 'active' : '' ?>" href="<?= base_url('assets/table/up3'); ?>">
+              <a class="nav-link <?= ($this->uri->segment(3) == 'up3') ? 'active' : '' ?>" href="<?= base_url('up3'); ?>">
                 <i class="fas fa-layer-group me-2 text-primary"></i>UP3
               </a>
             </li>
