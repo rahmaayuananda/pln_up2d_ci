@@ -1,3 +1,11 @@
+/* Global: prevent horizontal scroll */
+html, body { overflow-x: hidden; }
+
+/* CSS variables for consistent sizing */
+:root {
+  --sidenav-width: 270px;
+  --sidenav-gap: 1.5rem; /* matches .ms-4 */
+}
 /* sidebar.css */
 
 /* Styling submenu agar tidak terlalu menjorok */
@@ -49,13 +57,14 @@
 }
 
 /* Styling sidebar */
+/* Styling sidebar - revert mendekati kondisi awal */
 #sidenav-main {
-  width: 270px !important; /* Lebarkan sidebar */
-  border-radius: 1rem !important; /* Rounded atas dan bawah */
-  height: 95vh; /* Biar sedikit jarak dari atas & bawah */
-  margin-top: 1rem; /* Jarak kecil dari atas */
-  margin-bottom: 1rem; /* Jarak kecil dari bawah */
-  background-color: #fff;
+  width: var(--sidenav-width) !important; /* Lebar sidebar */
+  border-radius: 1rem !important;
+  height: 95vh !important; /* seperti semula */
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important;
+  background-color: #fff !important;
   overflow-y: auto;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
@@ -73,23 +82,22 @@
 
 /* Supaya konten utama bergeser ke kanan */
 .main-content {
-  margin-left: 270px !important;
+  margin-left: calc(var(--sidenav-width) + var(--sidenav-gap)) !important;
 }
 
-/* ===================== */
-/* 🌟 Custom Sidebar 🌟 */
-/* ===================== */
+/* Inner scroll area */
+/* Hapus kontrol scroll internal; gunakan overflow pada #sidenav-main */
 
-#sidenav-main {
-  width: 270px !important; /* Lebar diperlebar */
-  border-radius: 1rem !important; /* Rounded atas dan bawah */
-  height: 95vh !important; /* Jarak kecil dari atas & bawah */
-  margin-top: 1rem !important;
-  margin-bottom: 1rem !important;
-  background-color: #fff !important;
-  overflow-y: auto;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+/* Sembunyikan scrollbar default ketika tidak ada overflow (di sebagian browser tetap muncul tipis) */
+#sidenav-scrollbar:not(.has-overflow)::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Area menu (collapse) harus fleksibel dan bisa menyusut untuk scroll internal */
+#sidenav-main #sidenav-collapse-main {
+  flex: 1 1 auto;
+  min-height: 0; /* penting agar child dengan overflow bisa menghitung tinggi */
 }
 
 /* Scrollbar */
@@ -103,7 +111,15 @@
 }
 
 /* Konten utama bergeser sesuai lebar sidebar */
-.main-content {
-  margin-left: 270px !important;
-}
+.main-content { margin-left: 270px !important; }
+
+/* Pastikan area collapse mengisi lebar sidebar penuh */
+
+/* Hindari overflow teks horizontal pada link */
+
+/* Pastikan list menu memenuhi lebar sidebar dan kolom vertikal */
+
+/* Hilangkan track horizontal dari Smooth Scrollbar jika ada */
+
+/* Pastikan konten scroll tidak melebar melewati container */
 
