@@ -66,10 +66,11 @@
         <!-- Asset -->
         <li class="nav-item">
           <a href="#menuAsset"
-            class="nav-link d-flex align-items-center justify-content-between 
-            <?= ($this->uri->segment(1) == 'assets') ? 'active text-dark' : 'text-secondary' ?>"
-            data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="menuAsset"
-            style="font-weight: 600; background-color: transparent;">
+            class="nav-link d-flex align-items-center justify-content-between <?= ($this->uri->segment(1) == 'up3' || $this->uri->segment(1) == 'assets') ? 'active text-dark bg-light' : 'text-secondary' ?>"
+            data-bs-toggle="collapse" role="button"
+            aria-expanded="<?= ($this->uri->segment(1) == 'up3' || $this->uri->segment(1) == 'assets') ? 'true' : 'false' ?>"
+            aria-controls="menuAsset"
+            style="font-weight: 600;">
             <div class="d-flex align-items-center">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-archive-2 text-dark text-sm opacity-10"></i>
@@ -79,17 +80,19 @@
           </a>
         </li>
 
-
-
-        <div class="collapse <?= ($this->uri->segment(1) == 'assets') ? 'show' : '' ?>" id="menuAsset">
+        <div class="collapse <?= ($this->uri->segment(1) == 'up3' || $this->uri->segment(1) == 'ulp' || $this->uri->segment(1) == 'assets') ? 'show' : '' ?>" id="menuAsset">
           <ul class="nav flex-column submenu-list">
+
+            <!-- Menu UP3 -->
             <li class="nav-item">
-              <a class="nav-link <?= ($this->uri->segment(3) == 'up3') ? 'active' : '' ?>" href="<?= base_url('up3'); ?>">
+              <a class="nav-link <?= ($this->uri->segment(1) == 'up3') ? 'active bg-primary text-white' : '' ?>" href="<?= base_url('up3'); ?>">
                 <i class="fas fa-layer-group me-2 text-primary"></i>UP3
               </a>
             </li>
+
+            <!-- Menu ULP -->
             <li class="nav-item">
-              <a class="nav-link <?= ($this->uri->segment(3) == 'ulp') ? 'active' : '' ?>" href="<?= base_url('assets/table/ulp'); ?>">
+              <a class="nav-link <?= ($this->uri->segment(1) == 'ulp') ? 'active bg-primary text-white' : '' ?>" href="<?= base_url('ulp'); ?>">
                 <i class="fas fa-sitemap me-2 text-success"></i>ULP
               </a>
             </li>
@@ -175,3 +178,49 @@
     </div>
   </aside>
   <!-- header ends; footer view will close the document -->
+  <!-- Github buttons -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const ctx = document.getElementById('chart-line').getContext('2d');
+
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+        datasets: [{
+          label: 'Sales',
+          data: [50, 60, 70, 80, 90, 100, 110],
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 3,
+          tension: 0.4,
+          fill: false,
+          pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+          pointRadius: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: 'rgba(200, 200, 200, 0.2)',
+            }
+          },
+          x: {
+            grid: {
+              display: false
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
