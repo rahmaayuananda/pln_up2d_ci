@@ -24,6 +24,16 @@
                 <?= $this->session->flashdata('success'); ?>
             </div>
         <?php endif; ?>
+        <?php if ($this->session->flashdata('error')): ?>
+            <div class="alert alert-danger text-white">
+                <?= $this->session->flashdata('error'); ?>
+            </div>
+        <?php endif; ?>
+        <?php if (!empty($ulp_table_missing) && $ulp_table_missing === true): ?>
+            <div class="alert alert-warning text-dark">
+                Tabel ULP belum tersedia di database. Silakan buat tabel atau sesuaikan nama tabel pada model.
+            </div>
+        <?php endif; ?>
 
         <div class="card mb-4 shadow border-0 rounded-4">
             <div class="card-header py-2 d-flex justify-content-between align-items-center bg-gradient-primary text-white rounded-top-4">
@@ -44,7 +54,7 @@
                 </div>
 
                 <div class="table-responsive p-0">
-                    <table class="table align-items-center mb-0" id="ulpTable">
+                    <table class="table mb-0" id="ulpTable">
                         <thead class="bg-light">
                             <tr>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
@@ -90,6 +100,7 @@
 </main>
 
 <!-- Script Pencarian -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     function searchTable() {
         const input = document.getElementById("searchInput").value.toLowerCase();
@@ -173,4 +184,14 @@
     .btn-xs i {
         font-size: 12px;
     }
+</style>
+
+<!-- Compact table row styling -->
+<style>
+    #ulpTable td, #ulpTable th {
+        vertical-align: top !important;
+        padding-top: 8px !important;
+        padding-bottom: 8px !important;
+    }
+    #ulpTable tr { align-items: initial !important; }
 </style>

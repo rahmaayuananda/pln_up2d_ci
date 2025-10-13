@@ -44,7 +44,7 @@
                 </div>
 
                 <div class="table-responsive p-0">
-                    <table class="table align-items-center mb-0" id="pemutusTable">
+                    <table class="table mb-0" id="pemutusTable">
                         <thead class="bg-light">
                             <tr>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
@@ -77,22 +77,22 @@
                                 foreach ($pemutus as $row): ?>
                                     <tr class="<?= ($no % 2 == 0) ? 'table-row-even' : 'table-row-odd'; ?>">
                                         <td class="text-sm"><?= $no++; ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['SSOTNUMBER_LBSREC']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['UNIT_LAYANAN']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['PENYULANG']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['KEYPOINT']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['FUNGSI_KP']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['STATUS_SCADA']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['MEDIA_KOMDAT']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['MERK_KOMDAT']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['MERK_KP']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['TGL_INTEGRASI']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['SN_KP']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['LONGITUDEX']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['LATITUDEY']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['ADDRESS']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['STATUS_KP']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['KETERANGAN']); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['SSOTNUMBER_LBSREC'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['UNIT_LAYANAN'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['PENYULANG'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['KEYPOINT'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['FUNGSI_KP'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['STATUS_SCADA'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['MEDIA_KOMDAT'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['MERK_KOMDAT'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['MERK_KP'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['TGL_INTEGRASI'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['SN_KP'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['LONGITUDEX'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['LATITUDEY'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['ADDRESS'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['STATUS_KP'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['KETERANGAN'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
                                         <td class="text-center">
                                             <a href="<?= base_url('Pemutus/detail/' . $row['SSOTNUMBER_LBSREC']); ?>" class="btn btn-info btn-xs text-white me-1" title="Detail">
                                                 <i class="fas fa-info-circle"></i>
@@ -114,6 +114,42 @@
         </div>
     </div>
 </main>
+
+<!-- Script pencarian dan konfirmasi hapus -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function searchTable() {
+        const input = document.getElementById('searchInput').value.toLowerCase();
+        const rows = document.querySelectorAll('#pemutusTable tbody tr');
+        rows.forEach(row => {
+            const text = row.innerText.toLowerCase();
+            row.style.display = text.includes(input) ? '' : 'none';
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.btn-hapus').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const url = btn.getAttribute('href');
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: 'Data ini akan dihapus secara permanen!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = url;
+                    }
+                });
+            });
+        });
+    });
+</script>
 
 <!-- Style tambahan -->
 <style>
@@ -160,4 +196,26 @@
     .btn-xs i {
         font-size: 12px;
     }
+</style>
+
+<!-- Compact table row styling -->
+<style>
+    #pemutusTable thead { display: table-header-group !important; }
+    #pemutusTable tbody { display: table-row-group !important; }
+    /* Override any framework cell paddings/line-heights */
+    #pemutusTable > :not(caption) > * > * {
+        padding-top: 4px !important;
+        padding-bottom: 4px !important;
+        line-height: 1.2 !important;
+    }
+    #pemutusTable td, #pemutusTable th {
+        vertical-align: top !important;
+        line-height: 1.2 !important;
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+    }
+    #pemutusTable { border-collapse: collapse !important; border-spacing: 0 !important; }
+    #pemutusTable tr { display: table-row !important; align-items: initial !important; height: auto !important; }
+    #pemutusTable td, #pemutusTable th { display: table-cell !important; }
+    #pemutusTable td p, #pemutusTable th p { margin: 0 !important; }
 </style>

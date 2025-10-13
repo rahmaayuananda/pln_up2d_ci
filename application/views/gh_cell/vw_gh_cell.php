@@ -10,7 +10,7 @@
                     <li class="breadcrumb-item text-sm text-white active" aria-current="page">Data GH Cell</li>
                 </ol>
                 <h6 class="font-weight-bolder text-white mb-0">
-                    <i class="fas fa-square me-2 text-secondary"></i> Data GH Cell - Penyulang
+                    <i class="fas fa-square me-2 text-secondary"></i> Data GH Penyulang
                 </h6>
             </nav>
         </div>
@@ -27,12 +27,12 @@
 
         <div class="card mb-4 shadow border-0 rounded-4">
             <div class="card-header py-2 d-flex justify-content-between align-items-center bg-gradient-primary text-white rounded-top-4">
-                <h6 class="mb-0">Tabel Data GH Cell</h6>
+                <h6 class="mb-0">Tabel Data GH Penyulang</h6>
                 <div class="d-flex align-items-center">
-                    <a href="<?= base_url('Gardu_hubung/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
+                    <a href="<?= base_url('Gh_cell/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
                         <i class="fas fa-plus me-1"></i> Tambah
                     </a>
-                    <a href="<?= base_url('Gardu_hubung/import') ?>" class="btn btn-sm btn-light text-success">
+                    <a href="javascript:void(0);" class="btn btn-sm btn-light text-success" title="Import (belum tersedia)">
                         <i class="fas fa-file-import me-1"></i> Import
                     </a>
                 </div>
@@ -44,7 +44,7 @@
                 </div>
 
                 <div class="table-responsive p-0">
-                    <table class="table align-items-center mb-0" id="ghCellTable">
+                    <table class="table mb-0" id="ghCellTable">
                         <thead class="bg-light">
                             <tr>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
@@ -88,13 +88,19 @@
                                         <td class="text-sm"><?= htmlentities($row['THN_RELAY']); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['RATIO_CT']); ?></td>
                                         <td class="text-center">
-                                            <a href="<?= base_url('Gardu_hubung/detail/' . $row['SSOTNUMBER_GH_CELL']); ?>" class="btn btn-info btn-xs text-white me-1" title="Detail">
+                                            <a href="<?= base_url('Gh_cell/detail/' . $row['SSOTNUMBER_GH_CELL']); ?>" class="btn btn-info btn-xs text-white me-1" title="Detail">
                                                 <i class="fas fa-info-circle"></i>
                                             </a>
-                                            <a href="<?= base_url('Gardu_hubung/edit/' . $row['SSOTNUMBER_GH_CELL']); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
+                                            <a href="<?= base_url('Gh_cell/edit/' . $row['SSOTNUMBER_GH_CELL']); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
                                                 <i class="fas fa-pen"></i>
                                             </a>
-                                            <a href="<?= base_url('Gardu_hubung/hapus/' . $row['SSOTNUMBER_GH_CELL']); ?>" class="btn btn-danger btn-xs btn-hapus" title="Hapus">
+                                            <a href="<?= base_url('Gh_cell/hapus/' . $row['SSOTNUMBER_GH_CELL']); ?>" class="btn btn-danger btn-xs btn-hapus" title="Hapus">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                            <a href="javascript:void(0);"
+                                                onclick="confirmDelete('<?= base_url('Gardu_induk/hapus/' . $row['ID_GI']); ?>')"
+                                                class="btn btn-danger btn-xs"
+                                                title="Hapus">
                                                 <i class="fas fa-trash"></i>
                                             </a>
                                         </td>
@@ -108,6 +114,37 @@
         </div>
     </div>
 </main>
+
+<!-- Tambahkan SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmDelete(url) {
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: "Data ini akan dihapus secara permanen!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = url;
+            }
+        });
+    }
+
+    // Pencarian sederhana pada tabel
+    function searchTable() {
+        const input = document.getElementById('searchInput').value.toLowerCase();
+        const rows = document.querySelectorAll('#giTable tbody tr');
+        rows.forEach(row => {
+            const text = row.innerText.toLowerCase();
+            row.style.display = text.includes(input) ? '' : 'none';
+        });
+    }
+</script>
 
 <!-- Style tambahan -->
 <style>
@@ -154,4 +191,31 @@
     .btn-xs i {
         font-size: 12px;
     }
+
+    /* Ensure table rows are compact and top-aligned */
+    #ghCellTable {
+        border-collapse: collapse !important;
+        border-spacing: 0 !important;
+    }
+    #ghCellTable thead { display: table-header-group !important; }
+    #ghCellTable tbody { display: table-row-group !important; }
+    /* Override any framework cell paddings/line-heights */
+    #ghCellTable > :not(caption) > * > * {
+        padding-top: 4px !important;
+        padding-bottom: 4px !important;
+        line-height: 1.2 !important;
+    }
+    #ghCellTable td, #ghCellTable th {
+        vertical-align: top !important;
+        line-height: 1.2 !important;
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+    }
+    #ghCellTable tr {
+        display: table-row !important;
+        align-items: initial !important;
+        height: auto !important;
+    }
+    #ghCellTable td, #ghCellTable th { display: table-cell !important; }
+    #ghCellTable td p, #ghCellTable th p { margin: 0 !important; }
 </style>

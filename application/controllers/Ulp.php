@@ -10,10 +10,40 @@ class Ulp extends CI_Controller
         $this->load->library('form_validation');
     }
 
+    // ✏️ Edit data
+    public function edit($cxunit)
+    {
+        $data['judul'] = 'Edit Data ULP';
+        $data['ulp'] = $this->Ulp_model->get_ulp_by_id($cxunit);
+
+        if (empty($data['ulp'])) {
+            show_404();
+        }
+
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('NAMA_ULP', 'Nama ULP', 'required');
+        $this->form_validation->set_rules('UP3_2D', 'Kode UP3', 'required');
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->load->view('layout/header', $data);
+            $this->load->view('ulp/vw_edit_ulp', $data);
+            $this->load->view('layout/footer');
+        } else {
+            $payload = [
+                'NAMA_ULP' => $this->input->post('NAMA_ULP'),
+                'UP3_2D'   => $this->input->post('UP3_2D'),
+            ];
+            $this->Ulp_model->update_ulp($cxunit, $payload);
+            $this->session->set_flashdata('success', 'Data ULP berhasil diperbarui!');
+            redirect('Ulp');
+        }
+    }
+
     // 🟢 Halaman utama (list data)
     public function index()
     {
         $data['judul'] = 'Data ULP';
+        $data['ulp_table_missing'] = !$this->db->table_exists('ulp');
         $data['ulp'] = $this->Ulp_model->get_all_ulp();
 
         $this->load->view('layout/header', $data);
@@ -45,8 +75,11 @@ class Ulp extends CI_Controller
             ];
 
             // Simpan ke database
-            $this->Ulp_model->insert_ulp($data);
-            $this->session->set_flashdata('success', 'Data ULP berhasil ditambahkan!');
+            if (!$this->Ulp_model->insert_ulp($data)) {
+                $this->session->set_flashdata('error', 'Gagal menambahkan data ULP. Pastikan tabel ULP tersedia.');
+            } else {
+                $this->session->set_flashdata('success', 'Data ULP berhasil ditambahkan!');
+            }
             redirect('Ulp');
         }
     }
