@@ -80,25 +80,25 @@
                                 foreach ($gardu_induk as $row): ?>
                                     <tr class="<?= ($no % 2 == 0) ? 'table-row-even' : 'table-row-odd'; ?>">
                                         <td class="text-sm"><?= $no++; ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['UNIT_LAYANAN']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['GARDU_INDUK']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['LONGITUDEX']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['LATITUDEY']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['STATUS_OPERASI']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['JML_TD']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['INC']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['OGF']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['SPARE']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['COUPLE']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['BUS_RISER']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['BBVT']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['PS']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['STATUS_SCADA']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['IP_GATEWAY']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['IP_RTU']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['MERK_RTU']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['SN_RTU']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['THN_INTEGRASI']); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['UNIT_LAYANAN'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['GARDU_INDUK'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['LONGITUDEX'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['LATITUDEY'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['STATUS_OPERASI'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['JML_TD'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['INC'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['OGF'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['SPARE'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['COUPLE'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['BUS_RISER'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['BBVT'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['PS'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['STATUS_SCADA'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['IP_GATEWAY'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['IP_RTU'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['MERK_RTU'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['SN_RTU'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['THN_INTEGRASI'] ?? ''); ?></td>
                                         <td class="text-center">
                                             <a href="<?= base_url('Gardu_induk/detail/' . $row['ID_GI']); ?>" class="btn btn-info btn-xs text-white me-1" title="Detail">
                                                 <i class="fas fa-info-circle"></i>
@@ -106,7 +106,10 @@
                                             <a href="<?= base_url('Gardu_induk/edit/' . $row['ID_GI']); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
                                                 <i class="fas fa-pen"></i>
                                             </a>
-                                            <a href="<?= base_url('Gardu_induk/hapus/' . $row['ID_GI']); ?>" class="btn btn-danger btn-xs btn-hapus" title="Hapus">
+                                            <a href="javascript:void(0);"
+                                                onclick="confirmDelete('<?= base_url('Gardu_induk/hapus/' . $row['ID_GI']); ?>')"
+                                                class="btn btn-danger btn-xs"
+                                                title="Hapus">
                                                 <i class="fas fa-trash"></i>
                                             </a>
                                         </td>
@@ -121,34 +124,50 @@
     </div>
 </main>
 
+<!-- Tambahkan SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmDelete(url) {
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: "Data ini akan dihapus secara permanen!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = url;
+            }
+        });
+    }
+</script>
+
 <!-- Style tambahan -->
 <style>
     .card-header {
         display: flex;
         justify-content: space-between;
         align-items: baseline;
-        /* ✅ sejajarkan berdasarkan garis bawah teks */
         padding: 0.75rem 1rem;
     }
 
-    /* Pastikan teks putih dan rapi */
     .card-header h6 {
         color: #fff;
         margin: 0;
         font-weight: 600;
     }
 
-    /* Gradasi warna biru ala PLN */
     .bg-gradient-primary {
         background: linear-gradient(90deg, #005C99, #0099CC);
     }
 
     .card-header .d-flex.align-items-center a {
         transform: translateY(10px);
-        /* menggeser tombol ke bawah tanpa menambah tinggi card */
     }
 
-    /* Warna selang-seling baris */
     .table-row-odd {
         background-color: #ffffff;
     }
@@ -157,13 +176,11 @@
         background-color: #f5f7fa;
     }
 
-    /* Efek hover */
-    #up3Table tbody tr:hover {
+    #giTable tbody tr:hover {
         background-color: #e9ecef !important;
         transition: 0.2s ease-in-out;
     }
 
-    /* Tombol kecil */
     .btn-xs {
         padding: 2px 6px;
         font-size: 11px;

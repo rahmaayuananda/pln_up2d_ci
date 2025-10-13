@@ -77,20 +77,20 @@
                                     <tr class="<?= ($no % 2 == 0) ? 'table-row-even' : 'table-row-odd'; ?>">
                                         <td class="text-sm"><?= $no++; ?></td>
                                         <td class="text-sm"><?= htmlentities($row['UNIT_LAYANAN']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['PEMBANGKIT']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['LONGITUDEX']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['LATITUDEY']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['STATUS_OPERASI']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['INC']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['OGF']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['SPARE']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['COUPLE']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['STATUS_SCADA']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['IP_GATEWAY']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['IP_RTU']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['MERK_RTU']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['SN_RTU']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['THN_INTEGRASI']); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['PEMBANGKIT'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['LONGITUDEX'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['LATITUDEY'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['STATUS_OPERASI'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['INC'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['OGF'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['SPARE'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['COUPLE'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['STATUS_SCADA'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['IP_GATEWAY'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['IP_RTU'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['MERK_RTU'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['SN_RTU'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['THN_INTEGRASI'] ?? ''); ?></td>
                                         <td class="text-center">
                                             <a href="<?= base_url('Pembangkit/detail/' . $row['ID_PEMBANGKIT']); ?>" class="btn btn-info btn-xs text-white me-1" title="Detail">
                                                 <i class="fas fa-info-circle"></i>
