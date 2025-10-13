@@ -57,6 +57,11 @@ $route['translate_uri_dashes'] = FALSE;
 $route['assets'] = 'assets/index';
 $route['assets/table/(:any)'] = 'assets/table/$1';
 
+// Auth routes
+$route['login'] = 'login/index';
+$route['login/authenticate'] = 'login/authenticate';
+$route['logout'] = 'login/logout';
+
 // Import routes (Phase 1: GI)
 $route['import'] = 'import/index';
 $route['import/preview'] = 'import/preview';
