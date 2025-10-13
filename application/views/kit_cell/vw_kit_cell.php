@@ -7,10 +7,10 @@
                     <li class="breadcrumb-item text-sm">
                         <a class="opacity-5 text-white" href="<?= base_url('dashboard'); ?>">Dashboard</a>
                     </li>
-                    <li class="breadcrumb-item text-sm text-white active" aria-current="page">Data GH Cell</li>
+                    <li class="breadcrumb-item text-sm text-white active" aria-current="page">Data KIT Cell</li>
                 </ol>
                 <h6 class="font-weight-bolder text-white mb-0">
-                    <i class="fas fa-square me-2 text-secondary"></i> Data GH Cell - Penyulang
+                    <i class="fas fa-microchip me-2 text-primary"></i> Data KIT Cell - Pembangkit
                 </h6>
             </nav>
         </div>
@@ -27,12 +27,12 @@
 
         <div class="card mb-4 shadow border-0 rounded-4">
             <div class="card-header py-2 d-flex justify-content-between align-items-center bg-gradient-primary text-white rounded-top-4">
-                <h6 class="mb-0">Tabel Data GH Cell</h6>
+                <h6 class="mb-0">Tabel Data KIT Cell</h6>
                 <div class="d-flex align-items-center">
-                    <a href="<?= base_url('Gardu_hubung/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
+                    <a href="<?= base_url('Kit_cell/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
                         <i class="fas fa-plus me-1"></i> Tambah
                     </a>
-                    <a href="<?= base_url('Gardu_hubung/import') ?>" class="btn btn-sm btn-light text-success">
+                    <a href="<?= base_url('Kit_cell/import') ?>" class="btn btn-sm btn-light text-success">
                         <i class="fas fa-file-import me-1"></i> Import
                     </a>
                 </div>
@@ -40,16 +40,16 @@
 
             <div class="card-body px-0 pt-0 pb-2 bg-white">
                 <div class="px-3 mt-3 mb-3">
-                    <input type="text" id="searchInput" onkeyup="searchTable()" class="form-control form-control-sm rounded-3" placeholder="Cari data GH Cell...">
+                    <input type="text" id="searchInput" onkeyup="searchTable()" class="form-control form-control-sm rounded-3" placeholder="Cari data KIT Cell...">
                 </div>
 
                 <div class="table-responsive p-0">
-                    <table class="table align-items-center mb-0" id="ghCellTable">
+                    <table class="table align-items-center mb-0" id="kitCellTable">
                         <thead class="bg-light">
                             <tr>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SSOT Number</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Gardu Hubung</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Pembangkit</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama Cell</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jenis Cell</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status Operasi</th>
@@ -65,17 +65,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if (empty($gh_cell)): ?>
+                            <?php if (empty($kit_cell)): ?>
                                 <tr>
                                     <td colspan="15" class="text-center text-secondary py-4">Belum ada data</td>
                                 </tr>
                             <?php else: ?>
                                 <?php $no = 1;
-                                foreach ($gh_cell as $row): ?>
+                                foreach ($kit_cell as $row): ?>
                                     <tr class="<?= ($no % 2 == 0) ? 'table-row-even' : 'table-row-odd'; ?>">
                                         <td class="text-sm"><?= $no++; ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['SSOTNUMBER_GH_CELL']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['GARDU_HUBUNG']); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['SSOTNUMBER_KIT_CELL']); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['PEMBANGKIT']); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['NAMA_CELL']); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['JENIS_CELL']); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['STATUS_OPERASI']); ?></td>
@@ -88,13 +88,13 @@
                                         <td class="text-sm"><?= htmlentities($row['THN_RELAY']); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['RATIO_CT']); ?></td>
                                         <td class="text-center">
-                                            <a href="<?= base_url('Gardu_hubung/detail/' . $row['SSOTNUMBER_GH_CELL']); ?>" class="btn btn-info btn-xs text-white me-1" title="Detail">
+                                            <a href="<?= base_url('Kit_cell/detail/' . $row['SSOTNUMBER_KIT_CELL']); ?>" class="btn btn-info btn-xs text-white me-1" title="Detail">
                                                 <i class="fas fa-info-circle"></i>
                                             </a>
-                                            <a href="<?= base_url('Gardu_hubung/edit/' . $row['SSOTNUMBER_GH_CELL']); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
+                                            <a href="<?= base_url('Kit_cell/edit/' . $row['SSOTNUMBER_KIT_CELL']); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
                                                 <i class="fas fa-pen"></i>
                                             </a>
-                                            <a href="<?= base_url('Gardu_hubung/hapus/' . $row['SSOTNUMBER_GH_CELL']); ?>" class="btn btn-danger btn-xs btn-hapus" title="Hapus">
+                                            <a href="<?= base_url('Kit_cell/hapus/' . $row['SSOTNUMBER_KIT_CELL']); ?>" class="btn btn-danger btn-xs btn-hapus" title="Hapus">
                                                 <i class="fas fa-trash"></i>
                                             </a>
                                         </td>
@@ -140,7 +140,7 @@
         background-color: #f5f7fa;
     }
 
-    #ghCellTable tbody tr:hover {
+    #kitCellTable tbody tr:hover {
         background-color: #e9ecef !important;
         transition: 0.2s ease-in-out;
     }

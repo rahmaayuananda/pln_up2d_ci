@@ -34,6 +34,7 @@
 
 <body class="g-sidenav-show bg-gray-100">
   <div class="min-height-300 bg-dark position-absolute w-100"></div>
+
   <!-- Sidebar -->
   <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4" id="sidenav-main">
     <div class="sidenav-header">
@@ -80,20 +81,23 @@
           </a>
         </li>
 
-        <div class="collapse <?= ($this->uri->segment(1) == 'up3'
-                                || $this->uri->segment(1) == 'ulp'
+        <div class="collapse <?= ($this->uri->segment(1) == 'ulp'
                                 || $this->uri->segment(1) == 'unit'
                                 || $this->uri->segment(1) == 'gardu_induk'
                                 || $this->uri->segment(1) == 'gi_cell'
                                 || $this->uri->segment(1) == 'gardu_hubung'
+                                || $this->uri->segment(1) == 'gh_cell'
+                                || $this->uri->segment(1) == 'Pembangkit'
+                                || $this->uri->segment(1) == 'Kit_cell'
                                 || $this->uri->segment(1) == 'assets') ? 'show' : '' ?>" id="menuAsset">
 
           <ul class="nav flex-column submenu-list">
 
-            <!-- Menu UP3 -->
+            <!-- <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(2) == 'table' && $this->uri->segment(3) == 'unit') ? 'active' : '' ?>" href="<?= base_url('assets/table/unit'); ?>"><i class="fas fa-building me-2 text-success"></i>Unit</a></li> -->
+            <!-- Menu Unit -->
             <li class="nav-item">
-              <a class="nav-link <?= ($this->uri->segment(1) == 'up3') ? 'active bg-primary text-white' : '' ?>" href="<?= base_url('up3'); ?>">
-                <i class="fas fa-layer-group me-2 text-primary"></i>UP3
+              <a class="nav-link <?= ($this->uri->segment(1) == 'unit') ? 'active bg-primary text-white' : '' ?>" href="<?= base_url('unit'); ?>">
+                <i class="fas fa-building me-2 text-success"></i>Unit
               </a>
             </li>
 
@@ -101,14 +105,6 @@
             <li class="nav-item">
               <a class="nav-link <?= ($this->uri->segment(1) == 'ulp') ? 'active bg-primary text-white' : '' ?>" href="<?= base_url('ulp'); ?>">
                 <i class="fas fa-sitemap me-2 text-success"></i>ULP
-              </a>
-            </li>
-
-            <!-- <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(2) == 'table' && $this->uri->segment(3) == 'unit') ? 'active' : '' ?>" href="<?= base_url('assets/table/unit'); ?>"><i class="fas fa-building me-2 text-success"></i>Unit</a></li> -->
-            <!-- Menu Unit -->
-            <li class="nav-item">
-              <a class="nav-link <?= ($this->uri->segment(1) == 'unit') ? 'active bg-primary text-white' : '' ?>" href="<?= base_url('unit'); ?>">
-                <i class="fas fa-building me-2 text-success"></i>Unit
               </a>
             </li>
 
@@ -121,10 +117,10 @@
             </li>
 
             <!-- <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(3) == 'gi_cell') ? 'active' : '' ?>" href="<?= base_url('assets/table/gi_cell'); ?>"><i class="fas fa-wave-square me-2 text-info"></i>GI Cell</a></li> -->
-            <!-- Menu GI Cell -->
+            <!-- Menu GI Cell - Penyulang -->
             <li class="nav-item">
               <a class="nav-link <?= ($this->uri->segment(1) == 'gi_cell') ? 'active bg-primary text-white' : '' ?>" href="<?= base_url('gi_cell'); ?>">
-                <i class="fas fa-wave-square me-2 text-info"></i>GI Cell
+                <i class="fas fa-wave-square me-2 text-info"></i>GI Penyulang
               </a>
             </li>
 
@@ -137,16 +133,36 @@
             </li>
 
             <!-- <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(3) == 'gh_cell') ? 'active' : '' ?>" href="<?= base_url('assets/table/gh_cell'); ?>"><i class="fas fa-square me-2 text-secondary"></i>GH Cell</a></li> -->
-            <!-- Menu GH Cell -->
+            <!-- Menu GH Cell - Penyulang -->
             <li class="nav-item">
               <a class="nav-link <?= ($this->uri->segment(1) == 'gh_cell') ? 'active bg-primary text-white' : '' ?>" href="<?= base_url('gh_cell'); ?>">
-                <i class="fas fa-square me-2 text-secondary"></i>GH Cell
+                <i class="fas fa-square me-2 text-secondary"></i>GH Penyulang
               </a>
             </li>
 
-            <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(3) == 'pembangkit') ? 'active' : '' ?>" href="<?= base_url('assets/table/pembangkit'); ?>"><i class="fas fa-industry me-2 text-danger"></i>Pembangkit</a></li>
-            <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(3) == 'kit_cell') ? 'active' : '' ?>" href="<?= base_url('assets/table/kit_cell'); ?>"><i class="fas fa-microchip me-2 text-primary"></i>KIT Cell</a></li>
-            <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(3) == 'lbs_recloser') ? 'active' : '' ?>" href="<?= base_url('assets/table/lbs_recloser'); ?>"><i class="fas fa-toggle-on me-2 text-warning"></i>LBS / Recloser</a></li>
+            <!-- <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(3) == 'pembangkit') ? 'active' : '' ?>" href="<?= base_url('assets/table/pembangkit'); ?>"><i class="fas fa-industry me-2 text-danger"></i>Pembangkit</a></li> -->
+            <!-- Menu Pembangkit -->
+            <li class="nav-item">
+              <a class="nav-link <?= ($this->uri->segment(1) == 'Pembangkit') ? 'active bg-primary text-white' : '' ?>" href="<?= base_url('Pembangkit'); ?>">
+                <i class="fas fa-industry me-2 text-danger"></i>Pembangkit
+              </a>
+            </li>
+
+            <!-- <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(3) == 'kit_cell') ? 'active' : '' ?>" href="<?= base_url('assets/table/kit_cell'); ?>"><i class="fas fa-microchip me-2 text-primary"></i>KIT Cell</a></li> -->
+            <!-- Menu KIT Cell -->
+            <li class="nav-item">
+              <a class="nav-link <?= ($this->uri->segment(1) == 'Kit_cell') ? 'active bg-primary text-white' : '' ?>" href="<?= base_url('Kit_cell'); ?>">
+                <i class="fas fa-microchip me-2 text-primary"></i>KIT Cell
+              </a>
+            </li>
+
+            <!-- <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(3) == 'lbs_recloser') ? 'active' : '' ?>" href="<?= base_url('assets/table/lbs_recloser'); ?>"><i class="fas fa-toggle-on me-2 text-warning"></i>Pemutus</a></li> -->
+            <!-- Menu Pemutus -->
+            <li class="nav-item">
+              <a class="nav-link <?= ($this->uri->segment(1) == 'Pemutus') ? 'active bg-primary text-white' : '' ?>" href="<?= base_url('Pemutus'); ?>">
+                <i class="fas fa-toggle-on me-2 text-warning"></i>Pemutus
+              </a>
+            </li>
           </ul>
         </div>
         </li>
@@ -223,46 +239,5 @@
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    const ctx = document.getElementById('chart-line').getContext('2d');
 
-    new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-        datasets: [{
-          label: 'Sales',
-          data: [50, 60, 70, 80, 90, 100, 110],
-          borderColor: 'rgba(75, 192, 192, 1)',
-          borderWidth: 3,
-          tension: 0.4,
-          fill: false,
-          pointBackgroundColor: 'rgba(75, 192, 192, 1)',
-          pointRadius: 4
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: false
-          }
-        },
-        scales: {
-          y: {
-            beginAtZero: true,
-            grid: {
-              color: 'rgba(200, 200, 200, 0.2)',
-            }
-          },
-          x: {
-            grid: {
-              display: false
-            }
-          }
-        }
-      }
-    });
-  </script>
 </body>

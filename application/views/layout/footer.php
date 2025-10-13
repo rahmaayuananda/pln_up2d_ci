@@ -2,14 +2,14 @@
     <div class="container-fluid">
         <div class="row align-items-center justify-content-lg-between">
             <div class="col-lg-6 mb-lg-0 mb-4">
-                <div class="copyright text-center text-sm text-muted text-lg-start">
+                <!-- <div class="copyright text-center text-sm text-muted text-lg-start">
                     © <script>
                         document.write(new Date().getFullYear())
                     </script>,
                     made with <i class="fa fa-heart"></i> by
                     <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative Tim</a>
                     for a better web.
-                </div>
+                </div> -->
             </div>
             <div class="col-lg-6">
                 <ul class="nav nav-footer justify-content-center justify-content-lg-end">
@@ -49,5 +49,47 @@
         }
         Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
     }
+</script>
+<script>
+    const ctx = document.getElementById('chart-line').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+            datasets: [{
+                label: 'Sales',
+                data: [50, 60, 70, 80, 90, 100, 110],
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 3,
+                tension: 0.4,
+                fill: false,
+                pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+                pointRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(200, 200, 200, 0.2)',
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        }
+    });
 </script>
 </html>

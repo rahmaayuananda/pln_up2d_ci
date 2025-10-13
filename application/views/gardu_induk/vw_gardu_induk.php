@@ -10,7 +10,7 @@
                     <li class="breadcrumb-item text-sm text-white active" aria-current="page">Data Gardu Induk</li>
                 </ol>
                 <h6 class="font-weight-bolder text-white mb-0">
-                    <i class="fas fa-bolt me-2"></i> Data Gardu Induk
+                    <i class="fas fa-bolt me-2 text-warning"></i> Data Gardu Induk
                 </h6>
             </nav>
         </div>

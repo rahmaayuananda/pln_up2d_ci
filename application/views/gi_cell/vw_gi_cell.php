@@ -10,7 +10,7 @@
                     <li class="breadcrumb-item text-sm text-white active" aria-current="page">Data GI Cell</li>
                 </ol>
                 <h6 class="font-weight-bolder text-white mb-0">
-                    <i class="fas fa-bolt me-2"></i> Data GI Cell
+                    <i class="fas fa-wave-square me-2 text-info"></i> Data GI Cell - Penyulang
                 </h6>
             </nav>
         </div>

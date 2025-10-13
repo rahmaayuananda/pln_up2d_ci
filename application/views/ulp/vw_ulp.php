@@ -10,7 +10,7 @@
                     <li class="breadcrumb-item text-sm text-white active" aria-current="page">Data ULP</li>
                 </ol>
                 <h6 class="font-weight-bolder text-white mb-0">
-                    <i class="fas fa-database me-2"></i> Data ULP
+                    <i class="fas fa-sitemap me-2 text-success"></i> Data ULP
                 </h6>
             </nav>
         </div>

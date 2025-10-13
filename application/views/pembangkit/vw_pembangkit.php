@@ -7,10 +7,10 @@
                     <li class="breadcrumb-item text-sm">
                         <a class="opacity-5 text-white" href="<?= base_url('dashboard'); ?>">Dashboard</a>
                     </li>
-                    <li class="breadcrumb-item text-sm text-white active" aria-current="page">Data GH Cell</li>
+                    <li class="breadcrumb-item text-sm text-white active" aria-current="page">Data Pembangkit</li>
                 </ol>
                 <h6 class="font-weight-bolder text-white mb-0">
-                    <i class="fas fa-square me-2 text-secondary"></i> Data GH Cell - Penyulang
+                    <i class="fas fa-industry me-2 text-danger"></i> Data Pembangkit
                 </h6>
             </nav>
         </div>
@@ -27,12 +27,12 @@
 
         <div class="card mb-4 shadow border-0 rounded-4">
             <div class="card-header py-2 d-flex justify-content-between align-items-center bg-gradient-primary text-white rounded-top-4">
-                <h6 class="mb-0">Tabel Data GH Cell</h6>
+                <h6 class="mb-0">Tabel Data Pembangkit</h6>
                 <div class="d-flex align-items-center">
-                    <a href="<?= base_url('Gardu_hubung/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
+                    <a href="<?= base_url('Pembangkit/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
                         <i class="fas fa-plus me-1"></i> Tambah
                     </a>
-                    <a href="<?= base_url('Gardu_hubung/import') ?>" class="btn btn-sm btn-light text-success">
+                    <a href="<?= base_url('Pembangkit/import') ?>" class="btn btn-sm btn-light text-success">
                         <i class="fas fa-file-import me-1"></i> Import
                     </a>
                 </div>
@@ -40,61 +40,65 @@
 
             <div class="card-body px-0 pt-0 pb-2 bg-white">
                 <div class="px-3 mt-3 mb-3">
-                    <input type="text" id="searchInput" onkeyup="searchTable()" class="form-control form-control-sm rounded-3" placeholder="Cari data GH Cell...">
+                    <input type="text" id="searchInput" onkeyup="searchTable()" class="form-control form-control-sm rounded-3" placeholder="Cari data pembangkit...">
                 </div>
 
                 <div class="table-responsive p-0">
-                    <table class="table align-items-center mb-0" id="ghCellTable">
+                    <table class="table align-items-center mb-0" id="pembangkitTable">
                         <thead class="bg-light">
                             <tr>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SSOT Number</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Gardu Hubung</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama Cell</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jenis Cell</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Unit Layanan</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Pembangkit</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Longitude (X)</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Latitude (Y)</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status Operasi</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Merk Cell</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Type Cell</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tahun Cell</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">INC</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">OGF</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Spare</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Couple</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status SCADA</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Merk Relay</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Type Relay</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tahun Relay</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ratio CT</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">IP Gateway</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">IP RTU</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Merk RTU</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SN RTU</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tahun Integrasi</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if (empty($gh_cell)): ?>
+                            <?php if (empty($pembangkit)): ?>
                                 <tr>
-                                    <td colspan="15" class="text-center text-secondary py-4">Belum ada data</td>
+                                    <td colspan="17" class="text-center text-secondary py-4">Belum ada data</td>
                                 </tr>
                             <?php else: ?>
                                 <?php $no = 1;
-                                foreach ($gh_cell as $row): ?>
+                                foreach ($pembangkit as $row): ?>
                                     <tr class="<?= ($no % 2 == 0) ? 'table-row-even' : 'table-row-odd'; ?>">
                                         <td class="text-sm"><?= $no++; ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['SSOTNUMBER_GH_CELL']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['GARDU_HUBUNG']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['NAMA_CELL']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['JENIS_CELL']); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['UNIT_LAYANAN']); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['PEMBANGKIT']); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['LONGITUDEX']); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['LATITUDEY']); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['STATUS_OPERASI']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['MERK_CELL']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['TYPE_CELL']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['THN_CELL']); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['INC']); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['OGF']); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['SPARE']); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['COUPLE']); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['STATUS_SCADA']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['MERK_RELAY']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['TYPE_RELAY']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['THN_RELAY']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['RATIO_CT']); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['IP_GATEWAY']); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['IP_RTU']); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['MERK_RTU']); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['SN_RTU']); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['THN_INTEGRASI']); ?></td>
                                         <td class="text-center">
-                                            <a href="<?= base_url('Gardu_hubung/detail/' . $row['SSOTNUMBER_GH_CELL']); ?>" class="btn btn-info btn-xs text-white me-1" title="Detail">
+                                            <a href="<?= base_url('Pembangkit/detail/' . $row['ID_PEMBANGKIT']); ?>" class="btn btn-info btn-xs text-white me-1" title="Detail">
                                                 <i class="fas fa-info-circle"></i>
                                             </a>
-                                            <a href="<?= base_url('Gardu_hubung/edit/' . $row['SSOTNUMBER_GH_CELL']); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
+                                            <a href="<?= base_url('Pembangkit/edit/' . $row['ID_PEMBANGKIT']); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
                                                 <i class="fas fa-pen"></i>
                                             </a>
-                                            <a href="<?= base_url('Gardu_hubung/hapus/' . $row['SSOTNUMBER_GH_CELL']); ?>" class="btn btn-danger btn-xs btn-hapus" title="Hapus">
+                                            <a href="<?= base_url('Pembangkit/hapus/' . $row['ID_PEMBANGKIT']); ?>" class="btn btn-danger btn-xs btn-hapus" title="Hapus">
                                                 <i class="fas fa-trash"></i>
                                             </a>
                                         </td>
@@ -140,7 +144,7 @@
         background-color: #f5f7fa;
     }
 
-    #ghCellTable tbody tr:hover {
+    #pembangkitTable tbody tr:hover {
         background-color: #e9ecef !important;
         transition: 0.2s ease-in-out;
     }
