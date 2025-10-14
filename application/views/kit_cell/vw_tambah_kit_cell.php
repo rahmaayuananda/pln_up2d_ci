@@ -10,6 +10,11 @@
 		<div class="card shadow border-0 rounded-4">
 			<div class="card-header bg-gradient-primary text-white"><strong>Form Tambah KIT Cell</strong></div>
 			<div class="card-body">
+				<?php if ($this->session->flashdata('error')): ?>
+					<div class="alert alert-danger text-white">
+						<?= $this->session->flashdata('error'); ?>
+					</div>
+				<?php endif; ?>
 				<form action="<?= base_url('Kit_cell/tambah'); ?>" method="post">
 					<div class="row g-3">
 						<div class="col-md-6">
@@ -17,8 +22,8 @@
 							<input type="text" class="form-control" name="SSOTNUMBER_KIT_CELL" required>
 						</div>
 						<div class="col-md-6">
-							<label class="form-label">Pembangkit</label>
-							<input type="text" class="form-control" name="PEMBANGKIT" required>
+							<label class="form-label">Nama Pembangkit (Teks)</label>
+							<input type="text" class="form-control" name="PEMBANGKIT" placeholder="Nama pembangkit (opsional jika pakai relasi)">
 						</div>
 						<div class="col-md-6">
 							<label class="form-label">Nama Cell</label>
@@ -65,8 +70,16 @@
 							<input type="text" class="form-control" name="THN_RELAY">
 						</div>
 						<div class="col-md-8">
-							<label class="form-label">ID Pembangkit (Relasi, opsional)</label>
-							<input type="text" class="form-control" name="ID_PEMBANGKIT">
+							<label class="form-label">Relasi ke Pembangkit (opsional)</label>
+							<select class="form-select" name="ID_PEMBANGKIT">
+								<option value="">-- Pilih Pembangkit --</option>
+								<?php if (!empty($pembangkit_list)) : ?>
+									<?php foreach ($pembangkit_list as $p) : ?>
+										<option value="<?= htmlentities($p['ID_PEMBANGKIT']); ?>">[<?= htmlentities($p['ID_PEMBANGKIT']); ?>] <?= htmlentities($p['NAMA_PEMBANGKIT'] ?? ($p['PEMBANGKIT'] ?? '')); ?></option>
+									<?php endforeach; ?>
+								<?php endif; ?>
+							</select>
+							<small class="text-muted">Kosongkan jika tidak ingin mengikat ke data Pembangkit.</small>
 						</div>
 					</div>
 					<div class="mt-4">

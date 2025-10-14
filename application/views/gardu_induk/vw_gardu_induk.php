@@ -106,10 +106,7 @@
                                             <a href="<?= base_url('Gardu_induk/edit/' . $row['ID_GI']); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
                                                 <i class="fas fa-pen"></i>
                                             </a>
-                                            <a href="javascript:void(0);"
-                                                onclick="confirmDelete('<?= base_url('Gardu_induk/hapus/' . $row['ID_GI']); ?>')"
-                                                class="btn btn-danger btn-xs"
-                                                title="Hapus">
+                                            <a href="<?= base_url('Gardu_induk/hapus/' . $row['ID_GI']); ?>" class="btn btn-danger btn-xs btn-hapus" title="Hapus">
                                                 <i class="fas fa-trash"></i>
                                             </a>
                                         </td>
@@ -124,26 +121,7 @@
     </div>
 </main>
 
-<!-- Tambahkan SweetAlert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    function confirmDelete(url) {
-        Swal.fire({
-            title: 'Apakah Anda yakin?',
-            text: "Data ini akan dihapus secara permanen!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Ya, hapus!',
-            cancelButtonText: 'Batal'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = url;
-            }
-        });
-    }
-</script>
+<!-- SweetAlert handled globally in layout/footer.php -->
 
 <!-- Style tambahan -->
 <style>
