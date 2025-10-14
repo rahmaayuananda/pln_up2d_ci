@@ -32,7 +32,7 @@
                     <a href="<?= base_url('Kit_cell/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
                         <i class="fas fa-plus me-1"></i> Tambah
                     </a>
-                    <a href="<?= base_url('Kit_cell/import') ?>" class="btn btn-sm btn-light text-success">
+                    <a href="<?= base_url('import/kit_cell') ?>" class="btn btn-sm btn-light text-success">
                         <i class="fas fa-file-import me-1"></i> Import
                     </a>
                 </div>
@@ -74,19 +74,19 @@
                                 foreach ($kit_cell as $row): ?>
                                     <tr class="<?= ($no % 2 == 0) ? 'table-row-even' : 'table-row-odd'; ?>">
                                         <td class="text-sm"><?= $no++; ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['SSOTNUMBER_KIT_CELL']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['PEMBANGKIT']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['NAMA_CELL']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['JENIS_CELL']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['STATUS_OPERASI']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['MERK_CELL']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['TYPE_CELL']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['THN_CELL']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['STATUS_SCADA']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['MERK_RELAY']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['TYPE_RELAY']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['THN_RELAY']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['RATIO_CT']); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['SSOTNUMBER_KIT_CELL'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['PEMBANGKIT'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['NAMA_CELL'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['JENIS_CELL'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['STATUS_OPERASI'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['MERK_CELL'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['TYPE_CELL'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['THN_CELL'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['STATUS_SCADA'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['MERK_RELAY'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['TYPE_RELAY'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['THN_RELAY'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['RATIO_CT'] ?? ''); ?></td>
                                         <td class="text-center">
                                             <a href="<?= base_url('Kit_cell/detail/' . $row['SSOTNUMBER_KIT_CELL']); ?>" class="btn btn-info btn-xs text-white me-1" title="Detail">
                                                 <i class="fas fa-info-circle"></i>
@@ -108,42 +108,6 @@
         </div>
     </div>
 </main>
-
-<!-- Script pencarian dan konfirmasi hapus -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    function searchTable() {
-        const input = document.getElementById('searchInput').value.toLowerCase();
-        const rows = document.querySelectorAll('#kitCellTable tbody tr');
-        rows.forEach(row => {
-            const text = row.innerText.toLowerCase();
-            row.style.display = text.includes(input) ? '' : 'none';
-        });
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('.btn-hapus').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const url = btn.getAttribute('href');
-                Swal.fire({
-                    title: 'Apakah Anda yakin?',
-                    text: 'Data ini akan dihapus secara permanen!',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Ya, hapus!',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = url;
-                    }
-                });
-            });
-        });
-    });
-</script>
 
 <!-- Style tambahan -->
 <style>

@@ -2,6 +2,18 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Import extends CI_Controller {
+    private $entityMap = [
+        'gi'           => 'gi',
+        'gardu_induk'  => 'gi',
+        'gardu_hubung' => 'gh',
+        'gh_cell'      => 'gh_cell',
+        'gi_cell'      => 'gi_cell',
+        'kit_cell'     => 'kit_cell',
+        'pembangkit'   => 'pembangkit',
+        'pemutus'      => 'lbs_recloser',
+        'unit'         => 'unit',
+        'ulp'          => 'ulp',
+    ];
     public function __construct()
     {
         parent::__construct();
@@ -11,18 +23,26 @@ class Import extends CI_Controller {
         $this->load->model(['ImportJob_model']);
     }
 
-    // Upload form
-    public function index()
+    // Upload form (default GI)
+    public function index($entity = 'gi')
     {
+        $entity = strtolower($entity);
+        if (!isset($this->entityMap[$entity])) { $entity = 'gi'; }
+        $targetTable = $this->entityMap[$entity];
         $data = [
-            'title' => 'Import GI - Phase 1',
+            'title' => 'Import '.strtoupper($targetTable).' - Phase 1',
+            'entity' => $entity,
+            'target_table' => $targetTable,
         ];
         $this->load->view('import/form', $data);
     }
 
     // Preview first 100 rows
-    public function preview()
+    public function preview($entity = 'gi')
     {
+        $entity = strtolower($entity);
+        if (!isset($this->entityMap[$entity])) { $entity = 'gi'; }
+        $targetTable = $this->entityMap[$entity];
         // Accept CSV or XLSX (for now CSV fallback; XLSX in next step)
         $config = [
             'upload_path'   => FCPATH . 'uploads/imports/',
@@ -37,7 +57,7 @@ class Import extends CI_Controller {
 
         if (!$this->upload->do_upload('file')) {
             $this->session->set_flashdata('error', $this->upload->display_errors('', ''));
-            return redirect('import');
+            return redirect('import/'.$entity);
         }
 
         $fileData = $this->upload->data();
@@ -45,8 +65,11 @@ class Import extends CI_Controller {
 
     // Ensure job schema exists then log job shell
     $this->ImportJob_model->ensure_schema();
+        // Determine if this entity uses staging (only GI for now)
+        $stagingTable = ($targetTable === 'gi') ? 'gi_import_raw' : null;
         $job_id = $this->ImportJob_model->create_job([
-            'target_table' => 'gi',
+            'target_table' => $targetTable,
+            'staging_table' => $stagingTable,
             'original_filename' => $fileData['client_name'],
             'stored_path' => 'uploads/imports/' . $fileData['file_name'],
             'file_size' => (int)$fileData['file_size'],
@@ -84,8 +107,9 @@ class Import extends CI_Controller {
         }
 
         $data = [
-            'title' => 'Preview Import GI',
+            'title' => 'Preview Import '.strtoupper($targetTable),
             'job_id' => $job_id,
+            'entity' => $entity,
             'headers' => $headers,
             'rows' => $rows,
         ];
@@ -93,19 +117,16 @@ class Import extends CI_Controller {
     }
 
     // Process chunks into staging table
-    public function process()
+    public function process($entity = 'gi')
     {
         $job_id = (int)$this->input->post('job_id');
+        $entity = strtolower($entity);
         $policy = $this->input->post('duplicate_policy'); // abort|skip|merge|replace (phase1 not used yet)
         $job = $this->ImportJob_model->get_job($job_id);
         if (!$job) return show_error('Job not found', 404);
 
         $stored_path = FCPATH . $job->stored_path;
         if (!is_file($stored_path)) return show_error('File not found', 404);
-
-        // Ensure staging table exists
-        $this->ImportJob_model->ensure_staging_for_gi();
-
         // Process CSV only for phase 1
         $inserted = 0; $failed = 0; $total = 0; $errors = [];
         $fp = fopen($stored_path, 'r');
@@ -139,34 +160,71 @@ class Import extends CI_Controller {
             }
         }
 
-        // Rewind and process
+        // If entity uses staging (gi), ensure staging and insert into staging
+        if ($job->target_table === 'gi') {
+            $this->ImportJob_model->ensure_staging_for_gi();
+            rewind($fp);
+            $lineNo = 0; $batch = []; $chunkSize = 500;
+            while (($row = fgetcsv($fp, 0, $sep)) !== false) {
+                $lineNo++; if ($lineNo === 1) continue; $total++;
+                $assoc = [];
+                foreach ($row as $i => $val) {
+                    $col = isset($map[$i]) ? $map[$i] : ('COL'.$i);
+                    $assoc[$col] = is_string($val) ? trim($val) : $val;
+                }
+                $assoc['import_id'] = $job_id; $assoc['row_no'] = $lineNo - 1; $batch[] = $assoc;
+                if (count($batch) >= $chunkSize) {
+                    $ok = $this->ImportJob_model->insert_staging_batch('gi', $batch);
+                    if (!$ok) { $failed += count($batch); } else { $inserted += count($batch); }
+                    $batch = [];
+                }
+            }
+            if (count($batch) > 0) {
+                $ok = $this->ImportJob_model->insert_staging_batch('gi', $batch);
+                if (!$ok) { $failed += count($batch); } else { $inserted += count($batch); }
+            }
+            fclose($fp);
+            $this->ImportJob_model->finish_job($job_id, [
+                'total_rows' => $total,
+                'inserted' => $inserted,
+                'failed' => $failed,
+                'status' => 'done'
+            ]);
+            $this->session->set_flashdata('success', 'Import selesai: total '.$total.', masuk '.$inserted.', gagal '.$failed);
+            return redirect('import/status/'.$job_id);
+        }
+
+        // For other entities: direct append to target table using column intersection
+        $target_table = $job->target_table;
+        if (!$this->db->table_exists($target_table)) {
+            $this->session->set_flashdata('error', 'Tabel target tidak ditemukan: '.$target_table);
+            return redirect('import/status/'.$job_id);
+        }
+        $target_fields = $this->db->list_fields($target_table);
         rewind($fp);
-        $lineNo = 0;
-        $batch = [];
-        $chunkSize = 500;
+        $lineNo = 0; $batch = []; $chunkSize = 500;
         while (($row = fgetcsv($fp, 0, $sep)) !== false) {
-            $lineNo++;
-            if ($lineNo === 1) continue; // header
-            $total++;
-            // Build assoc row
+            $lineNo++; if ($lineNo === 1) continue; $total++;
             $assoc = [];
             foreach ($row as $i => $val) {
                 $col = isset($map[$i]) ? $map[$i] : ('COL'.$i);
-                $assoc[$col] = is_string($val) ? trim($val) : $val;
+                $col = strtoupper($col);
+                if (in_array($col, $target_fields, true)) {
+                    $assoc[$col] = is_string($val) ? trim($val) : $val;
+                }
             }
-            $assoc['import_id'] = $job_id;
-            $assoc['row_no'] = $lineNo - 1;
-            $batch[] = $assoc;
-
+            if (!empty($assoc)) $batch[] = $assoc;
             if (count($batch) >= $chunkSize) {
-                $ok = $this->ImportJob_model->insert_staging_batch('gi', $batch);
-                if (!$ok) { $failed += count($batch); } else { $inserted += count($batch); }
+                $this->db->insert_batch($target_table, $batch);
+                $aff = $this->db->affected_rows();
+                if ($aff > 0) $inserted += $aff; else $failed += count($batch);
                 $batch = [];
             }
         }
         if (count($batch) > 0) {
-            $ok = $this->ImportJob_model->insert_staging_batch('gi', $batch);
-            if (!$ok) { $failed += count($batch); } else { $inserted += count($batch); }
+            $this->db->insert_batch($target_table, $batch);
+            $aff = $this->db->affected_rows();
+            if ($aff > 0) $inserted += $aff; else $failed += count($batch);
         }
         fclose($fp);
 
@@ -174,9 +232,8 @@ class Import extends CI_Controller {
             'total_rows' => $total,
             'inserted' => $inserted,
             'failed' => $failed,
-            'status' => 'done'
+            'status' => 'committed' // direct commit
         ]);
-
         $this->session->set_flashdata('success', 'Import selesai: total '.$total.', masuk '.$inserted.', gagal '.$failed);
         return redirect('import/status/'.$job_id);
     }
@@ -200,7 +257,10 @@ class Import extends CI_Controller {
     {
         $job = $this->ImportJob_model->get_job((int)$job_id);
         if (!$job) return show_404();
-
+        if (empty($job->staging_table)) {
+            $this->session->set_flashdata('error', 'Commit tidak diperlukan untuk import ini. Data sudah dimasukkan.');
+            return redirect('import/status/'.$job->id);
+        }
         // Append-only to target table
         $inserted = $this->ImportJob_model->commit_staging_to_target($job->id, $job->target_table);
         if ($inserted === -1) {

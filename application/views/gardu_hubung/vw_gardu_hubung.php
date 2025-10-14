@@ -31,7 +31,7 @@
                     <a href="<?= base_url('Gardu_hubung/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
                         <i class="fas fa-plus me-1"></i> Tambah
                     </a>
-                    <a href="<?= base_url('Gardu_hubung/import') ?>" class="btn btn-sm btn-light text-success">
+                    <a href="<?= base_url('import/gardu_hubung') ?>" class="btn btn-sm btn-light text-success">
                         <i class="fas fa-file-import me-1"></i> Import
                     </a>
                 </div>
@@ -82,20 +82,20 @@
                                 foreach ($gardu_hubung as $row): ?>
                                     <tr class="<?= ($no % 2 == 0) ? 'table-row-even' : 'table-row-odd'; ?>">
                                         <td class="text-sm"><?= $no++; ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['SSOTNUMBER_GH']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['UNIT_LAYANAN']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['GARDU_HUBUNG']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['LONGITUDEX']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['LATITUDEY']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['ADDRESS']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['STATUS_OPERASI']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['STATUS_SCADA']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['IP_GATEWAY']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['IP_RTU']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['MERK_RTU']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['KOMUNIKASI']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['TGL_INTEGRASI']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['TGL_PASANG_BATT']); ?></td>
+                                               <td class="text-sm"><?= htmlentities($row['SSOTNUMBER_GH'] ?? ''); ?></td>
+                                               <td class="text-sm"><?= htmlentities($row['UNIT_LAYANAN'] ?? ''); ?></td>
+                                               <td class="text-sm"><?= htmlentities($row['GARDU_HUBUNG'] ?? ''); ?></td>
+                                               <td class="text-sm"><?= htmlentities($row['LONGITUDEX'] ?? ''); ?></td>
+                                               <td class="text-sm"><?= htmlentities($row['LATITUDEY'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['ADDRESS'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['STATUS_OPERASI'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['STATUS_SCADA'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['IP_GATEWAY'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['IP_RTU'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['MERK_RTU'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['KOMUNIKASI'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['TGL_INTEGRASI'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['TGL_PASANG_BATT'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
 
                                         <!-- FOTO -->
                                         <td class="text-center">
@@ -119,15 +119,15 @@
                                             <?php endif; ?>
                                         </td>
 
-                                        <td class="text-sm"><?= htmlentities($row['MERK_RECTI']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['THN_RECTI']); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['MERK_RECTI'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['THN_RECTI'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
 
                                         <td class="text-center">
                                             <?php if (!empty($row['FOTO_GROUNDING'])): ?>
                                                 <a href="<?= base_url('uploads/foto/' . $row['FOTO_GROUNDING']); ?>" target="_blank" class="badge bg-primary text-white">Grounding</a>
                                             <?php endif; ?>
                                         </td>
-                                        <td class="text-sm"><?= htmlentities($row['GROUNDING_OHM']); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['GROUNDING_OHM'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
 
                                         <!-- Aksi -->
                                         <td class="text-center">
@@ -151,42 +151,6 @@
         </div>
     </div>
 </main>
-
-<!-- Script pencarian dan konfirmasi hapus -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    function searchTable() {
-        const input = document.getElementById('searchInput').value.toLowerCase();
-        const rows = document.querySelectorAll('#ghTable tbody tr');
-        rows.forEach(row => {
-            const text = row.innerText.toLowerCase();
-            row.style.display = text.includes(input) ? '' : 'none';
-        });
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('.btn-hapus').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const url = btn.getAttribute('href');
-                Swal.fire({
-                    title: 'Apakah Anda yakin?',
-                    text: 'Data ini akan dihapus secara permanen!',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Ya, hapus!',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = url;
-                    }
-                });
-            });
-        });
-    });
-</script>
 
 <!-- Style tambahan -->
 <style>

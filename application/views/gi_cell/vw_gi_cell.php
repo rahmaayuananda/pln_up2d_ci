@@ -32,7 +32,7 @@
                     <a href="<?= base_url('Pengaduan/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
                         <i class="fas fa-plus me-1"></i> Tambah
                     </a>
-                    <a href="<?= base_url('Pengaduan/import') ?>" class="btn btn-sm btn-light text-success">
+                    <a href="<?= base_url('import/gi_cell') ?>" class="btn btn-sm btn-light text-success">
                         <i class="fas fa-file-import me-1"></i> Import
                     </a>
                 </div>
@@ -70,40 +70,29 @@
                                 foreach ($pengaduan as $row): ?>
                                     <tr class="<?= ($no % 2 == 0) ? 'table-row-even' : 'table-row-odd'; ?>">
                                         <td class="text-sm"><?= $no++; ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['NAMA_UP3'] ?? '-'); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['TANGGAL_PENGADUAN'] ?? '-'); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['JENIS_PENGADUAN'] ?? '-'); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['LAPORAN'] ?? '-'); ?></td>
-                                        <td>
-                                            <?php if (!empty($row['FOTO_PENGADUAN'])): ?>
-                                                <img src="<?= base_url('assets/img/pengaduan/' . $row['FOTO_PENGADUAN']); ?>" width="60" class="rounded-3 border">
-                                            <?php else: ?>
-                                                <span class="text-muted">Tidak ada</span>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td class="text-sm"><?= htmlentities($row['TANGGAL_PROSES'] ?? '-'); ?></td>
-                                        <td>
-                                            <?php if (!empty($row['FOTO_PROSES'])): ?>
-                                                <img src="<?= base_url('assets/img/proses/' . $row['FOTO_PROSES']); ?>" width="60" class="rounded-3 border">
-                                            <?php else: ?>
-                                                <span class="text-muted">Tidak ada</span>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td class="text-sm">
-                                            <span class="badge 
-                                                <?= ($row['STATUS'] ?? '') == 'Selesai' ? 'bg-success' : (($row['STATUS'] ?? '') == 'Diproses' ? 'bg-warning text-dark' : 'bg-secondary'); ?>">
-                                                <?= htmlentities($row['STATUS'] ?? '-'); ?>
-                                            </span>
-                                        </td>
-                                        <td class="text-sm"><?= htmlentities($row['PIC'] ?? '-'); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['SSOTNUMBER_GI_CELL'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['GARDU_INDUK'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['TD'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['KAP_TD_MVA'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['NAMA_CELL'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['JENIS_CELL'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['STATUS_OPERASI'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['MERK_CELL'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['TYPE_CELL'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['THN_CELL'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['STATUS_SCADA'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['MERK_RELAY'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['TYPE_RELAY'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['THN_RELAY'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['RATIO_CT'] ?? ''); ?></td>
                                         <td class="text-center">
-                                            <a href="<?= base_url('Pengaduan/detail/' . ($row['ID_PENGADUAN'] ?? '')); ?>" class="btn btn-info btn-xs text-white me-1" title="Detail">
+                                            <a href="<?= base_url('Gi_cell/detail/' . $row['SSOTNUMBER_GI_CELL']); ?>" class="btn btn-info btn-xs text-white me-1" title="Detail">
                                                 <i class="fas fa-info-circle"></i>
                                             </a>
-                                            <a href="<?= base_url('Pengaduan/edit/' . ($row['ID_PENGADUAN'] ?? '')); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
+                                            <a href="<?= base_url('Gi_cell/edit/' . $row['SSOTNUMBER_GI_CELL']); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
                                                 <i class="fas fa-pen"></i>
                                             </a>
-                                            <a href="<?= base_url('Pengaduan/hapus/' . ($row['ID_PENGADUAN'] ?? '')); ?>" class="btn btn-danger btn-xs btn-hapus" title="Hapus">
+                                            <a href="<?= base_url('Gi_cell/hapus/' . $row['SSOTNUMBER_GI_CELL']); ?>" class="btn btn-danger btn-xs btn-hapus" title="Hapus">
                                                 <i class="fas fa-trash"></i>
                                             </a>
                                         </td>
@@ -117,42 +106,6 @@
         </div>
     </div>
 </main>
-
-<!-- Script pencarian dan konfirmasi hapus -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    function searchTable() {
-        const input = document.getElementById('searchInput').value.toLowerCase();
-        const rows = document.querySelectorAll('#pengaduanTable tbody tr');
-        rows.forEach(row => {
-            const text = row.innerText.toLowerCase();
-            row.style.display = text.includes(input) ? '' : 'none';
-        });
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('.btn-hapus').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const url = btn.getAttribute('href');
-                Swal.fire({
-                    title: 'Apakah Anda yakin?',
-                    text: 'Data ini akan dihapus secara permanen!',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Ya, hapus!',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = url;
-                    }
-                });
-            });
-        });
-    });
-</script>
 
 <!-- Style tambahan -->
 <style>

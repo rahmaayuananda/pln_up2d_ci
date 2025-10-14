@@ -1,6 +1,12 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+/**
+ * @property Kit_cell_model $Kit_cell_model
+ * @property Pembangkit_model $Pembangkit_model
+ * @property CI_Input $input
+ * @property CI_Session $session
+ */
 class Kit_cell extends CI_Controller
 {
     public function __construct()
@@ -8,6 +14,7 @@ class Kit_cell extends CI_Controller
         parent::__construct();
         // Load model
         $this->load->model('Kit_cell_model');
+        $this->load->model('Pembangkit_model');
         // Load helper dan library
         $this->load->helper(['url', 'form']);
         $this->load->library('session');
@@ -28,6 +35,19 @@ class Kit_cell extends CI_Controller
     public function tambah()
     {
         if ($this->input->post()) {
+            // Normalisasi dan validasi FK ID_PEMBANGKIT
+            $id_pembangkit = trim((string)$this->input->post('ID_PEMBANGKIT'));
+            if ($id_pembangkit === '') {
+                $id_pembangkit = null; // izinkan kosong
+            } else {
+                $cek = $this->Pembangkit_model->get_pembangkit_by_id($id_pembangkit);
+                if (!$cek) {
+                    $this->session->set_flashdata('error', 'ID Pembangkit tidak valid. Silakan pilih dari daftar yang tersedia.');
+                    redirect('Kit_cell/tambah');
+                    return;
+                }
+            }
+
             $insertData = [
                 'SSOTNUMBER_KIT_CELL' => $this->input->post('SSOTNUMBER_KIT_CELL'),
                 'PEMBANGKIT'          => $this->input->post('PEMBANGKIT'),
@@ -42,7 +62,7 @@ class Kit_cell extends CI_Controller
                 'TYPE_RELAY'          => $this->input->post('TYPE_RELAY'),
                 'THN_RELAY'           => $this->input->post('THN_RELAY'),
                 'RATIO_CT'            => $this->input->post('RATIO_CT'),
-                'ID_PEMBANGKIT'       => $this->input->post('ID_PEMBANGKIT')
+                'ID_PEMBANGKIT'       => $id_pembangkit
             ];
 
             $this->Kit_cell_model->insert_kit_cell($insertData);
@@ -50,6 +70,8 @@ class Kit_cell extends CI_Controller
             redirect('Kit_cell');
         } else {
             $data['title'] = 'Tambah Data KIT Cell';
+            // daftar pembangkit untuk dropdown
+            $data['pembangkit_list'] = $this->Pembangkit_model->get_all_pembangkit();
             $this->load->view('layout/header');
             $this->load->view('kit_cell/vw_tambah_kit_cell', $data);
             $this->load->view('layout/footer');
@@ -65,6 +87,19 @@ class Kit_cell extends CI_Controller
         }
 
         if ($this->input->post()) {
+            // Normalisasi dan validasi FK ID_PEMBANGKIT
+            $id_pembangkit = trim((string)$this->input->post('ID_PEMBANGKIT'));
+            if ($id_pembangkit === '') {
+                $id_pembangkit = null; // izinkan kosong
+            } else {
+                $cek = $this->Pembangkit_model->get_pembangkit_by_id($id_pembangkit);
+                if (!$cek) {
+                    $this->session->set_flashdata('error', 'ID Pembangkit tidak valid. Silakan pilih dari daftar yang tersedia.');
+                    redirect('Kit_cell/edit/' . $id);
+                    return;
+                }
+            }
+
             $updateData = [
                 'PEMBANGKIT'     => $this->input->post('PEMBANGKIT'),
                 'NAMA_CELL'      => $this->input->post('NAMA_CELL'),
@@ -78,7 +113,7 @@ class Kit_cell extends CI_Controller
                 'TYPE_RELAY'     => $this->input->post('TYPE_RELAY'),
                 'THN_RELAY'      => $this->input->post('THN_RELAY'),
                 'RATIO_CT'       => $this->input->post('RATIO_CT'),
-                'ID_PEMBANGKIT'  => $this->input->post('ID_PEMBANGKIT')
+                'ID_PEMBANGKIT'  => $id_pembangkit
             ];
 
             $this->Kit_cell_model->update_kit_cell($id, $updateData);
@@ -86,6 +121,8 @@ class Kit_cell extends CI_Controller
             redirect('Kit_cell');
         } else {
             $data['title'] = 'Edit Data KIT Cell';
+            // daftar pembangkit untuk dropdown
+            $data['pembangkit_list'] = $this->Pembangkit_model->get_all_pembangkit();
             $this->load->view('layout/header');
             $this->load->view('kit_cell/vw_edit_kit_cell', $data);
             $this->load->view('layout/footer');
