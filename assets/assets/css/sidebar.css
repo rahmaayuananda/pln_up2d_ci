@@ -61,13 +61,23 @@ html, body { overflow-x: hidden; }
 #sidenav-main {
   width: var(--sidenav-width) !important; /* Lebar sidebar */
   border-radius: 1rem !important;
-  height: 95vh !important; /* seperti semula */
+  /* Isi penuh tinggi viewport, dikurangi margin Y (.my-3 = 1rem + 1rem) */
+  height: calc(100vh - 2rem) !important;
+  min-height: calc(100vh - 2rem) !important;
   margin-top: 1rem !important;
   margin-bottom: 1rem !important;
   background-color: #fff !important;
-  overflow-y: auto;
+  overflow-y: auto; /* biar sidebar yang scroll kalau konten panjang */
+  box-sizing: border-box;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+}
+
+/* Override aturan Argon yang membatasi tinggi collapse area sidebar */
+#sidenav-main.navbar-vertical.navbar-expand-xs .navbar-collapse {
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
 }
 
 /* Scrollbar halus */
