@@ -4,9 +4,10 @@
     <div class="card">
       <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="mb-0">Preview 100 Baris Pertama</h5>
-        <form action="<?= base_url('import/process'); ?>" method="post" class="mb-0">
+        <form action="<?= base_url('import/process/' . ($entity ?? 'gi')); ?>" method="post" class="mb-0">
           <input type="hidden" name="job_id" value="<?= (int)$job_id; ?>">
-          <button class="btn btn-success">Mulai Import ke Staging</button>
+          <?php $isGi = (($entity ?? 'gi') === 'gi'); ?>
+          <button class="btn btn-success"><?= $isGi ? 'Mulai Import ke Staging' : 'Mulai Import (Direct Append)'; ?></button>
         </form>
       </div>
       <div class="card-body p-0">

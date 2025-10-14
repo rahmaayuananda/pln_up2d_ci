@@ -59,7 +59,11 @@ $route['assets/table/(:any)'] = 'assets/table/$1';
 
 // Import routes (Phase 1: GI)
 $route['import'] = 'import/index';
+$route['import/(:any)'] = 'import/index/$1';
 $route['import/preview'] = 'import/preview';
+$route['import/preview/(:any)'] = 'import/preview/$1';
 $route['import/process'] = 'import/process';
+$route['import/process/(:any)'] = 'import/process/$1';
 $route['import/status/(:num)'] = 'import/status/$1';
 $route['import/download-error/(:num)'] = 'import/download_error/$1';
+$route['import/commit/(:num)'] = 'import/commit/$1';

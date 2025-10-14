@@ -1,95 +1,80 @@
-<div class="main-content">
-    <section class="section">
-        <div class="section-body">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="container mt-3">
-                        <h1 class="h3 mb-4 text-gray-800">Tambah Data KIT Cell</h1>
-                        <div class="row justify-content-center">
-                            <div class="col-md-12">
-                                <div class="card">
-                                    <div class="card-header bg-primary text-white font-weight-bold">Form Tambah KIT Cell</div>
-                                    <div class="card-body">
-                                        <form action="<?= base_url('Kit_cell/tambah'); ?>" method="POST">
-                                            <div class="form-row mb-3">
-                                                <div class="col">
-                                                    <label for="SSOTNUMBER_KIT_CELL">SSOT Number</label>
-                                                    <input type="text" name="SSOTNUMBER_KIT_CELL" id="SSOTNUMBER_KIT_CELL" class="form-control" required>
-                                                </div>
-                                                <div class="col">
-                                                    <label for="PEMBANGKIT">Pembangkit</label>
-                                                    <input type="text" name="PEMBANGKIT" id="PEMBANGKIT" class="form-control" required>
-                                                </div>
-                                                <div class="col">
-                                                    <label for="NAMA_CELL">Nama Cell</label>
-                                                    <input type="text" name="NAMA_CELL" id="NAMA_CELL" class="form-control" required>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-row mb-3">
-                                                <div class="col">
-                                                    <label for="JENIS_CELL">Jenis Cell</label>
-                                                    <input type="text" name="JENIS_CELL" id="JENIS_CELL" class="form-control">
-                                                </div>
-                                                <div class="col">
-                                                    <label for="STATUS_OPERASI">Status Operasi</label>
-                                                    <input type="text" name="STATUS_OPERASI" id="STATUS_OPERASI" class="form-control">
-                                                </div>
-                                                <div class="col">
-                                                    <label for="MERK_CELL">Merk Cell</label>
-                                                    <input type="text" name="MERK_CELL" id="MERK_CELL" class="form-control">
-                                                </div>
-                                            </div>
-
-                                            <div class="form-row mb-3">
-                                                <div class="col">
-                                                    <label for="TYPE_CELL">Type Cell</label>
-                                                    <input type="text" name="TYPE_CELL" id="TYPE_CELL" class="form-control">
-                                                </div>
-                                                <div class="col">
-                                                    <label for="THN_CELL">Tahun Cell</label>
-                                                    <input type="text" name="THN_CELL" id="THN_CELL" class="form-control">
-                                                </div>
-                                                <div class="col">
-                                                    <label for="STATUS_SCADA">Status SCADA</label>
-                                                    <input type="text" name="STATUS_SCADA" id="STATUS_SCADA" class="form-control">
-                                                </div>
-                                            </div>
-
-                                            <div class="form-row mb-3">
-                                                <div class="col">
-                                                    <label for="MERK_RELAY">Merk Relay</label>
-                                                    <input type="text" name="MERK_RELAY" id="MERK_RELAY" class="form-control">
-                                                </div>
-                                                <div class="col">
-                                                    <label for="TYPE_RELAY">Type Relay</label>
-                                                    <input type="text" name="TYPE_RELAY" id="TYPE_RELAY" class="form-control">
-                                                </div>
-                                                <div class="col">
-                                                    <label for="THN_RELAY">Tahun Relay</label>
-                                                    <input type="text" name="THN_RELAY" id="THN_RELAY" class="form-control">
-                                                </div>
-                                                <div class="col">
-                                                    <label for="RATIO_CT">Ratio CT</label>
-                                                    <input type="text" name="RATIO_CT" id="RATIO_CT" class="form-control">
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group mb-3">
-                                                <label for="ID_PEMBANGKIT">ID Pembangkit</label>
-                                                <input type="text" name="ID_PEMBANGKIT" id="ID_PEMBANGKIT" class="form-control">
-                                            </div>
-
-                                            <a href="<?= base_url('Kit_cell') ?>" class="btn btn-danger">Batal</a>
-                                            <button type="submit" class="btn btn-primary float-right">Simpan</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-</div>
+<main class="main-content position-relative border-radius-lg ">
+	<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="false">
+		<div class="container-fluid py-1 px-3">
+			<h6 class="font-weight-bolder text-white mb-0">
+				<i class="fas fa-microchip me-2 text-primary"></i> Tambah KIT Cell
+			</h6>
+		</div>
+	</nav>
+	<div class="container-fluid py-4">
+		<div class="card shadow border-0 rounded-4">
+			<div class="card-header bg-gradient-primary text-white"><strong>Form Tambah KIT Cell</strong></div>
+			<div class="card-body">
+				<form action="<?= base_url('Kit_cell/tambah'); ?>" method="post">
+					<div class="row g-3">
+						<div class="col-md-6">
+							<label class="form-label">SSOT Number</label>
+							<input type="text" class="form-control" name="SSOTNUMBER_KIT_CELL" required>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">Pembangkit</label>
+							<input type="text" class="form-control" name="PEMBANGKIT" required>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">Nama Cell</label>
+							<input type="text" class="form-control" name="NAMA_CELL" required>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">Jenis Cell</label>
+							<input type="text" class="form-control" name="JENIS_CELL">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">Status Operasi</label>
+							<input type="text" class="form-control" name="STATUS_OPERASI">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">Status SCADA</label>
+							<input type="text" class="form-control" name="STATUS_SCADA">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">Ratio CT</label>
+							<input type="text" class="form-control" name="RATIO_CT">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">Merk Cell</label>
+							<input type="text" class="form-control" name="MERK_CELL">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">Type Cell</label>
+							<input type="text" class="form-control" name="TYPE_CELL">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">Tahun Cell</label>
+							<input type="text" class="form-control" name="THN_CELL">
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">Merk Relay</label>
+							<input type="text" class="form-control" name="MERK_RELAY">
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">Type Relay</label>
+							<input type="text" class="form-control" name="TYPE_RELAY">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">Tahun Relay</label>
+							<input type="text" class="form-control" name="THN_RELAY">
+						</div>
+						<div class="col-md-8">
+							<label class="form-label">ID Pembangkit (Relasi, opsional)</label>
+							<input type="text" class="form-control" name="ID_PEMBANGKIT">
+						</div>
+					</div>
+					<div class="mt-4">
+						<a href="<?= base_url('Kit_cell'); ?>" class="btn btn-secondary">Batal</a>
+						<button type="submit" class="btn btn-primary">Simpan</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</main>

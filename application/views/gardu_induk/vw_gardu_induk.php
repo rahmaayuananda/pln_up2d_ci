@@ -32,7 +32,7 @@
                     <a href="<?= base_url('Gardu_induk/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
                         <i class="fas fa-plus me-1"></i> Tambah
                     </a>
-                    <a href="<?= base_url('import') ?>" class="btn btn-sm btn-light text-success">
+                    <a href="<?= base_url('import/gi') ?>" class="btn btn-sm btn-light text-success">
                         <i class="fas fa-file-import me-1"></i> Import
                     </a>
                 </div>
@@ -141,16 +141,6 @@
             if (result.isConfirmed) {
                 window.location.href = url;
             }
-        });
-    }
-
-    // Pencarian sederhana pada tabel
-    function searchTable() {
-        const input = document.getElementById('searchInput').value.toLowerCase();
-        const rows = document.querySelectorAll('#giTable tbody tr');
-        rows.forEach(row => {
-            const text = row.innerText.toLowerCase();
-            row.style.display = text.includes(input) ? '' : 'none';
         });
     }
 </script>

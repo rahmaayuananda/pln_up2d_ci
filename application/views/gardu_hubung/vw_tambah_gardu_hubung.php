@@ -1,116 +1,80 @@
-<div class="main-content">
-    <section class="section">
-        <div class="section-body">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="container mt-3">
-                        <h1 class="h3 mb-4 text-gray-800">Tambah Data Gardu Hubung</h1>
-                        <div class="row justify-content-center">
-                            <div class="col-md-12">
-                                <div class="card">
-                                    <div class="card-header bg-primary text-white font-weight-bold">
-                                        Form Tambah Data Gardu Hubung
-                                    </div>
-                                    <div class="card-body">
-                                        <form action="<?= base_url('Gardu_hubung/tambah'); ?>" method="POST">
-                                            <div class="form-row mb-3">
-                                                <div class="col">
-                                                    <label for="SSOTNUMBER_GH">SSOT Number</label>
-                                                    <input type="text" name="SSOTNUMBER_GH" id="SSOTNUMBER_GH" class="form-control" required>
-                                                </div>
-                                                <div class="col">
-                                                    <label for="UNIT_LAYANAN">Unit Layanan</label>
-                                                    <input type="text" name="UNIT_LAYANAN" id="UNIT_LAYANAN" class="form-control" required>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group mb-3">
-                                                <label for="GARDU_HUBUNG">Nama Gardu Hubung</label>
-                                                <input type="text" name="GARDU_HUBUNG" id="GARDU_HUBUNG" class="form-control" required>
-                                            </div>
-
-                                            <div class="form-row mb-3">
-                                                <div class="col">
-                                                    <label for="LONGITUDEX">Longitude (X)</label>
-                                                    <input type="text" name="LONGITUDEX" id="LONGITUDEX" class="form-control">
-                                                </div>
-                                                <div class="col">
-                                                    <label for="LATITUDEY">Latitude (Y)</label>
-                                                    <input type="text" name="LATITUDEY" id="LATITUDEY" class="form-control">
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group mb-3">
-                                                <label for="ADDRESS">Alamat</label>
-                                                <input type="text" name="ADDRESS" id="ADDRESS" class="form-control">
-                                            </div>
-
-                                            <div class="form-row mb-3">
-                                                <div class="col">
-                                                    <label for="STATUS_OPERASI">Status Operasi</label>
-                                                    <input type="text" name="STATUS_OPERASI" id="STATUS_OPERASI" class="form-control">
-                                                </div>
-                                                <div class="col">
-                                                    <label for="STATUS_SCADA">Status SCADA</label>
-                                                    <input type="text" name="STATUS_SCADA" id="STATUS_SCADA" class="form-control">
-                                                </div>
-                                            </div>
-
-                                            <div class="form-row mb-3">
-                                                <div class="col">
-                                                    <label for="IP_GATEWAY">IP Gateway</label>
-                                                    <input type="text" name="IP_GATEWAY" id="IP_GATEWAY" class="form-control">
-                                                </div>
-                                                <div class="col">
-                                                    <label for="IP_RTU">IP RTU</label>
-                                                    <input type="text" name="IP_RTU" id="IP_RTU" class="form-control">
-                                                </div>
-                                                <div class="col">
-                                                    <label for="MERK_RTU">Merk RTU</label>
-                                                    <input type="text" name="MERK_RTU" id="MERK_RTU" class="form-control">
-                                                </div>
-                                            </div>
-
-                                            <div class="form-row mb-3">
-                                                <div class="col">
-                                                    <label for="KOMUNIKASI">Komunikasi</label>
-                                                    <input type="text" name="KOMUNIKASI" id="KOMUNIKASI" class="form-control">
-                                                </div>
-                                                <div class="col">
-                                                    <label for="TGL_INTEGRASI">Tgl Integrasi</label>
-                                                    <input type="date" name="TGL_INTEGRASI" id="TGL_INTEGRASI" class="form-control">
-                                                </div>
-                                                <div class="col">
-                                                    <label for="TGL_PASANG_BATT">Tgl Pasang Batt</label>
-                                                    <input type="date" name="TGL_PASANG_BATT" id="TGL_PASANG_BATT" class="form-control">
-                                                </div>
-                                            </div>
-
-                                            <div class="form-row mb-3">
-                                                <div class="col">
-                                                    <label for="MERK_RECTI">Merk Recti</label>
-                                                    <input type="text" name="MERK_RECTI" id="MERK_RECTI" class="form-control">
-                                                </div>
-                                                <div class="col">
-                                                    <label for="THN_RECTI">Tahun Recti</label>
-                                                    <input type="text" name="THN_RECTI" id="THN_RECTI" class="form-control">
-                                                </div>
-                                                <div class="col">
-                                                    <label for="GROUNDING_OHM">Grounding Ohm</label>
-                                                    <input type="text" name="GROUNDING_OHM" id="GROUNDING_OHM" class="form-control">
-                                                </div>
-                                            </div>
-
-                                            <a href="<?= base_url('Gardu_hubung') ?>" class="btn btn-danger">Batal</a>
-                                            <button type="submit" class="btn btn-primary float-right">Simpan</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-</div>
+<main class="main-content position-relative border-radius-lg ">
+	<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="false">
+		<div class="container-fluid py-1 px-3">
+			<h6 class="font-weight-bolder text-white mb-0">
+				<i class="fas fa-network-wired me-2"></i> Tambah Gardu Hubung
+			</h6>
+		</div>
+	</nav>
+	<div class="container-fluid py-4">
+		<div class="card shadow border-0 rounded-4">
+			<div class="card-header bg-gradient-primary text-white"><strong>Form Tambah Gardu Hubung</strong></div>
+			<div class="card-body">
+				<form action="<?= base_url('Gardu_hubung/tambah'); ?>" method="post">
+					<div class="row g-3">
+						<div class="col-md-6">
+							<label class="form-label">SSOT Number</label>
+							<input type="text" class="form-control" name="SSOTNUMBER_GH" required>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">Unit Layanan</label>
+							<input type="text" class="form-control" name="UNIT_LAYANAN" required>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">Gardu Hubung</label>
+							<input type="text" class="form-control" name="GARDU_HUBUNG" required>
+						</div>
+						<div class="col-md-3">
+							<label class="form-label">Longitude (X)</label>
+							<input type="text" class="form-control" name="LONGITUDEX">
+						</div>
+						<div class="col-md-3">
+							<label class="form-label">Latitude (Y)</label>
+							<input type="text" class="form-control" name="LATITUDEY">
+						</div>
+						<div class="col-md-12">
+							<label class="form-label">Alamat</label>
+							<input type="text" class="form-control" name="ADDRESS">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">Status Operasi</label>
+							<input type="text" class="form-control" name="STATUS_OPERASI">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">Status SCADA</label>
+							<input type="text" class="form-control" name="STATUS_SCADA">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">IP Gateway</label>
+							<input type="text" class="form-control" name="IP_GATEWAY">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">IP RTU</label>
+							<input type="text" class="form-control" name="IP_RTU">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">Merk RTU</label>
+							<input type="text" class="form-control" name="MERK_RTU">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">Komunikasi</label>
+							<input type="text" class="form-control" name="KOMUNIKASI">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">Tgl Integrasi</label>
+							<input type="text" class="form-control" name="TGL_INTEGRASI">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">Tgl Pasang Batt</label>
+							<input type="text" class="form-control" name="TGL_PASANG_BATT">
+						</div>
+					</div>
+					<div class="mt-4">
+						<a href="<?= base_url('Gardu_hubung'); ?>" class="btn btn-secondary">Batal</a>
+						<button type="submit" class="btn btn-primary">Simpan</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</main>

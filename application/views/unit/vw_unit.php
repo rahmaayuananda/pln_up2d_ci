@@ -32,7 +32,7 @@
                     <a href="<?= base_url('Unit/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
                         <i class="fas fa-plus me-1"></i> Tambah
                     </a>
-                    <a href="<?= base_url('Unit/import') ?>" class="btn btn-sm btn-light text-success">
+                    <a href="<?= base_url('import/unit') ?>" class="btn btn-sm btn-light text-success">
                         <i class="fas fa-file-import me-1"></i> Import
                     </a>
                 </div>
