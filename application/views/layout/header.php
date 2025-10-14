@@ -180,14 +180,51 @@
 
         <!-- Pustaka -->
         <li class="nav-item">
-          <a class="nav-link <?= ($this->uri->segment(2) == 'virtual-reality') ? 'active' : '' ?>"
-            href="<?= base_url('pages/virtual-reality'); ?>">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-app text-dark text-sm opacity-10"></i>
+          <a href="#menuPustaka"
+            class="nav-link d-flex align-items-center justify-content-between"
+            data-bs-toggle="collapse"
+            role="button"
+            aria-expanded="false"
+            aria-controls="menuPustaka">
+            <div class="d-flex align-items-center">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-app text-dark text-sm opacity-10"></i>
+              </div>
+              <span class="nav-link-text ms-1">Pustaka</span>
             </div>
-            <span class="nav-link-text ms-1">Pustaka</span>
           </a>
         </li>
+
+        <!-- Submenu Pustaka -->
+        <div class="collapse" id="menuPustaka">
+          <ul class="nav flex-column submenu-list">
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                SOP
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                BPM
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                IK
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                Road Map
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                SPLN
+              </a>
+            </li>
+          </ul>
+        </div>
 
         <!-- RTL -->
         <li class="nav-item">
