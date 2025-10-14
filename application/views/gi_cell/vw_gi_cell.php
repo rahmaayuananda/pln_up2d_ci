@@ -7,10 +7,10 @@
                     <li class="breadcrumb-item text-sm">
                         <a class="opacity-5 text-white" href="<?= base_url('dashboard'); ?>">Dashboard</a>
                     </li>
-                    <li class="breadcrumb-item text-sm text-white active" aria-current="page">Data Pengaduan</li>
+                    <li class="breadcrumb-item text-sm text-white active" aria-current="page">Data GI Cell</li>
                 </ol>
                 <h6 class="font-weight-bolder text-white mb-0">
-                    <i class="fas fa-exclamation-triangle me-2 text-warning"></i> Data Pengaduan
+                    <i class="fas fa-wave-square me-2 text-info"></i> Data GI Cell
                 </h6>
             </nav>
         </div>
@@ -27,9 +27,9 @@
 
         <div class="card mb-4 shadow border-0 rounded-4">
             <div class="card-header py-2 d-flex justify-content-between align-items-center bg-gradient-primary text-white rounded-top-4">
-                <h6 class="mb-0">Tabel Data Pengaduan</h6>
+                <h6 class="mb-0">Tabel Data GI Cell</h6>
                 <div class="d-flex align-items-center">
-                    <a href="<?= base_url('Pengaduan/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
+                    <a href="<?= base_url('Gi_cell/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
                         <i class="fas fa-plus me-1"></i> Tambah
                     </a>
                     <a href="<?= base_url('import/gi_cell') ?>" class="btn btn-sm btn-light text-success">
@@ -40,34 +40,41 @@
 
             <div class="card-body px-0 pt-0 pb-2 bg-white">
                 <div class="px-3 mt-3 mb-3">
-                    <input type="text" id="searchInput" onkeyup="searchTable()" class="form-control form-control-sm rounded-3" placeholder="Cari data pengaduan...">
+                    <input type="text" id="searchInput" onkeyup="searchTable()" class="form-control form-control-sm rounded-3" placeholder="Cari data GI Cell...">
                 </div>
 
                 <div class="table-responsive p-0">
-                    <table class="table align-items-center mb-0" id="pengaduanTable">
+                    <table class="table align-items-center mb-0" id="giCellTable">
                         <thead class="bg-light">
                             <tr>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama UP3</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Pengaduan</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jenis Pengaduan</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Laporan</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Foto Pengaduan</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Proses</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Foto Proses</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PIC</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SSOT Number</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Gardu Induk</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">TD</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Kapasitas TD (MVA)</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama Cell</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jenis Cell</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status Operasi</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Merk Cell</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Type Cell</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tahun Cell</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status SCADA</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Merk Relay</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Type Relay</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tahun Relay</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ratio CT</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID GI</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if (empty($pengaduan)): ?>
+                            <?php if (empty($gi_cell)): ?>
                                 <tr>
-                                    <td colspan="11" class="text-center text-secondary py-4">Belum ada data</td>
+                                    <td colspan="18" class="text-center text-secondary py-4">Belum ada data</td>
                                 </tr>
                             <?php else: ?>
                                 <?php $no = 1;
-                                foreach ($pengaduan as $row): ?>
+                                foreach ($gi_cell as $row): ?>
                                     <tr class="<?= ($no % 2 == 0) ? 'table-row-even' : 'table-row-odd'; ?>">
                                         <td class="text-sm"><?= $no++; ?></td>
                                         <td class="text-sm"><?= htmlentities($row['SSOTNUMBER_GI_CELL'] ?? ''); ?></td>
@@ -85,6 +92,7 @@
                                         <td class="text-sm"><?= htmlentities($row['TYPE_RELAY'] ?? ''); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['THN_RELAY'] ?? ''); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['RATIO_CT'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['ID_GI'] ?? ''); ?></td>
                                         <td class="text-center">
                                             <a href="<?= base_url('Gi_cell/detail/' . $row['SSOTNUMBER_GI_CELL']); ?>" class="btn btn-info btn-xs text-white me-1" title="Detail">
                                                 <i class="fas fa-info-circle"></i>
@@ -138,7 +146,7 @@
         background-color: #f5f7fa;
     }
 
-    #pengaduanTable tbody tr:hover {
+    #giCellTable tbody tr:hover {
         background-color: #e9ecef !important;
         transition: 0.2s ease-in-out;
     }
