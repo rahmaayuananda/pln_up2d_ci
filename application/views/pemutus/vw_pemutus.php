@@ -10,7 +10,7 @@
                     <li class="breadcrumb-item text-sm text-white active" aria-current="page">Data Pemutus</li>
                 </ol>
                 <h6 class="font-weight-bolder text-white mb-0">
-                    <i class="fas fa-bolt me-2 text-warning"></i> Data Pemutus (LBS - RECLOSER)
+                    <i class="fas fa-toggle-on me-2 text-warning"></i> Data Pemutus (LBS - RECLOSER)
                 </h6>
             </nav>
         </div>

@@ -81,15 +81,16 @@
           </a>
         </li>
 
-        <div class="collapse <?= ($this->uri->segment(1) == 'ulp'
-                                || $this->uri->segment(1) == 'unit'
-                                || $this->uri->segment(1) == 'gardu_induk'
-                                || $this->uri->segment(1) == 'gi_cell'
-                                || $this->uri->segment(1) == 'gardu_hubung'
-                                || $this->uri->segment(1) == 'gh_cell'
-                                || $this->uri->segment(1) == 'Pembangkit'
-                                || $this->uri->segment(1) == 'Kit_cell'
-                                || $this->uri->segment(1) == 'assets') ? 'show' : '' ?>" id="menuAsset">
+  <div class="collapse <?= ($this->uri->segment(1) == 'ulp'
+        || $this->uri->segment(1) == 'unit'
+        || $this->uri->segment(1) == 'gardu_induk'
+        || $this->uri->segment(1) == 'gi_cell'
+        || $this->uri->segment(1) == 'gardu_hubung'
+        || $this->uri->segment(1) == 'gh_cell'
+        || $this->uri->segment(1) == 'Pembangkit'
+        || $this->uri->segment(1) == 'Kit_cell'
+        || $this->uri->segment(1) == 'Pemutus'
+        || $this->uri->segment(1) == 'assets') ? 'show' : '' ?>" id="menuAsset">
 
           <ul class="nav flex-column submenu-list">
 
