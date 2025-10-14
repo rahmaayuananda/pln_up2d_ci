@@ -67,9 +67,33 @@
         <!-- Asset -->
         <li class="nav-item">
           <a href="#menuAsset"
-            class="nav-link d-flex align-items-center justify-content-between <?= ($this->uri->segment(1) == 'up3' || $this->uri->segment(1) == 'assets') ? 'active text-dark bg-light' : 'text-secondary' ?>"
-            data-bs-toggle="collapse" role="button"
-            aria-expanded="<?= ($this->uri->segment(1) == 'up3' || $this->uri->segment(1) == 'assets') ? 'true' : 'false' ?>"
+            class="nav-link d-flex align-items-center justify-content-between 
+            <?= (
+              $this->uri->segment(1) == 'unit' ||
+              $this->uri->segment(1) == 'ulp' ||
+              $this->uri->segment(1) == 'gardu_induk' ||
+              $this->uri->segment(1) == 'gi_cell' ||
+              $this->uri->segment(1) == 'gardu_hubung' ||
+              $this->uri->segment(1) == 'gh_cell' ||
+              $this->uri->segment(1) == 'Pembangkit' ||
+              $this->uri->segment(1) == 'Kit_cell' ||
+              $this->uri->segment(1) == 'Pemutus' ||
+              $this->uri->segment(1) == 'assets'
+            ) ? 'active text-dark bg-light' : 'text-secondary' ?>"
+            data-bs-toggle="collapse"
+            role="button"
+            aria-expanded="<?= (
+                              $this->uri->segment(1) == 'unit' ||
+                              $this->uri->segment(1) == 'ulp' ||
+                              $this->uri->segment(1) == 'gardu_induk' ||
+                              $this->uri->segment(1) == 'gi_cell' ||
+                              $this->uri->segment(1) == 'gardu_hubung' ||
+                              $this->uri->segment(1) == 'gh_cell' ||
+                              $this->uri->segment(1) == 'Pembangkit' ||
+                              $this->uri->segment(1) == 'Kit_cell' ||
+                              $this->uri->segment(1) == 'Pemutus' ||
+                              $this->uri->segment(1) == 'assets'
+                            ) ? 'true' : 'false' ?>"
             aria-controls="menuAsset"
             style="font-weight: 600;">
             <div class="d-flex align-items-center">
@@ -81,83 +105,61 @@
           </a>
         </li>
 
-        <div class="collapse <?= ($this->uri->segment(1) == 'ulp'
-                                || $this->uri->segment(1) == 'unit'
-                                || $this->uri->segment(1) == 'gardu_induk'
-                                || $this->uri->segment(1) == 'gi_cell'
-                                || $this->uri->segment(1) == 'gardu_hubung'
-                                || $this->uri->segment(1) == 'gh_cell'
-                                || $this->uri->segment(1) == 'Pembangkit'
-                                || $this->uri->segment(1) == 'Kit_cell'
-                                || $this->uri->segment(1) == 'assets') ? 'show' : '' ?>" id="menuAsset">
+        <!-- Submenu -->
+        <div class="collapse <?= (
+                                $this->uri->segment(1) == 'unit' ||
+                                $this->uri->segment(1) == 'ulp' ||
+                                $this->uri->segment(1) == 'gardu_induk' ||
+                                $this->uri->segment(1) == 'gi_cell' ||
+                                $this->uri->segment(1) == 'gardu_hubung' ||
+                                $this->uri->segment(1) == 'gh_cell' ||
+                                $this->uri->segment(1) == 'Pembangkit' ||
+                                $this->uri->segment(1) == 'Kit_cell' ||
+                                $this->uri->segment(1) == 'Pemutus' ||
+                                $this->uri->segment(1) == 'assets'
+                              ) ? 'show' : '' ?>" id="menuAsset">
 
           <ul class="nav flex-column submenu-list">
-
-            <!-- <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(2) == 'table' && $this->uri->segment(3) == 'unit') ? 'active' : '' ?>" href="<?= base_url('assets/table/unit'); ?>"><i class="fas fa-building me-2 text-success"></i>Unit</a></li> -->
-            <!-- Menu Unit -->
             <li class="nav-item">
               <a class="nav-link <?= ($this->uri->segment(1) == 'unit') ? 'active bg-primary text-white' : '' ?>" href="<?= base_url('unit'); ?>">
                 <i class="fas fa-building me-2 text-success"></i>Unit
               </a>
             </li>
-
-            <!-- Menu ULP -->
             <li class="nav-item">
               <a class="nav-link <?= ($this->uri->segment(1) == 'ulp') ? 'active bg-primary text-white' : '' ?>" href="<?= base_url('ulp'); ?>">
                 <i class="fas fa-sitemap me-2 text-success"></i>ULP
               </a>
             </li>
-
-            <!-- <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(3) == 'gi') ? 'active' : '' ?>" href="<?= base_url('assets/table/gi'); ?>"><i class="fas fa-bolt me-2 text-warning"></i>Gardu Induk</a></li> -->
-            <!-- Menu Gardu Induk -->
             <li class="nav-item">
               <a class="nav-link <?= ($this->uri->segment(1) == 'gardu_induk') ? 'active bg-primary text-white' : '' ?>" href="<?= base_url('gardu_induk'); ?>">
                 <i class="fas fa-bolt me-2 text-warning"></i>Gardu Induk
               </a>
             </li>
-
-            <!-- <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(3) == 'gi_cell') ? 'active' : '' ?>" href="<?= base_url('assets/table/gi_cell'); ?>"><i class="fas fa-wave-square me-2 text-info"></i>GI Cell</a></li> -->
-            <!-- Menu GI Cell - Penyulang -->
             <li class="nav-item">
               <a class="nav-link <?= ($this->uri->segment(1) == 'gi_cell') ? 'active bg-primary text-white' : '' ?>" href="<?= base_url('gi_cell'); ?>">
                 <i class="fas fa-wave-square me-2 text-info"></i>GI Penyulang
               </a>
             </li>
-
-            <!-- <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(3) == 'gh') ? 'active' : '' ?>" href="<?= base_url('assets/table/gh'); ?>"><i class="fas fa-network-wired me-2 text-primary"></i>Gardu Hubung</a></li> -->
-            <!-- Menu Gardu Hubung -->
             <li class="nav-item">
               <a class="nav-link <?= ($this->uri->segment(1) == 'gardu_hubung') ? 'active bg-primary text-white' : '' ?>" href="<?= base_url('gardu_hubung'); ?>">
                 <i class="fas fa-network-wired me-2 text-primary"></i>Gardu Hubung
               </a>
             </li>
-
-            <!-- <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(3) == 'gh_cell') ? 'active' : '' ?>" href="<?= base_url('assets/table/gh_cell'); ?>"><i class="fas fa-square me-2 text-secondary"></i>GH Cell</a></li> -->
-            <!-- Menu GH Cell - Penyulang -->
             <li class="nav-item">
               <a class="nav-link <?= ($this->uri->segment(1) == 'gh_cell') ? 'active bg-primary text-white' : '' ?>" href="<?= base_url('gh_cell'); ?>">
                 <i class="fas fa-square me-2 text-secondary"></i>GH Penyulang
               </a>
             </li>
-
-            <!-- <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(3) == 'pembangkit') ? 'active' : '' ?>" href="<?= base_url('assets/table/pembangkit'); ?>"><i class="fas fa-industry me-2 text-danger"></i>Pembangkit</a></li> -->
-            <!-- Menu Pembangkit -->
             <li class="nav-item">
               <a class="nav-link <?= ($this->uri->segment(1) == 'Pembangkit') ? 'active bg-primary text-white' : '' ?>" href="<?= base_url('Pembangkit'); ?>">
                 <i class="fas fa-industry me-2 text-danger"></i>Pembangkit
               </a>
             </li>
-
-            <!-- <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(3) == 'kit_cell') ? 'active' : '' ?>" href="<?= base_url('assets/table/kit_cell'); ?>"><i class="fas fa-microchip me-2 text-primary"></i>KIT Cell</a></li> -->
-            <!-- Menu KIT Cell -->
             <li class="nav-item">
               <a class="nav-link <?= ($this->uri->segment(1) == 'Kit_cell') ? 'active bg-primary text-white' : '' ?>" href="<?= base_url('Kit_cell'); ?>">
                 <i class="fas fa-microchip me-2 text-primary"></i>KIT Cell
               </a>
             </li>
-
-            <!-- <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(3) == 'lbs_recloser') ? 'active' : '' ?>" href="<?= base_url('assets/table/lbs_recloser'); ?>"><i class="fas fa-toggle-on me-2 text-warning"></i>Pemutus</a></li> -->
-            <!-- Menu Pemutus -->
             <li class="nav-item">
               <a class="nav-link <?= ($this->uri->segment(1) == 'Pemutus') ? 'active bg-primary text-white' : '' ?>" href="<?= base_url('Pemutus'); ?>">
                 <i class="fas fa-toggle-on me-2 text-warning"></i>Pemutus
@@ -165,21 +167,22 @@
             </li>
           </ul>
         </div>
-        </li>
 
-        <!-- Billing -->
+        <!-- Pengaduan -->
         <li class="nav-item">
-          <a class="nav-link" href="<?= base_url('pages/billing'); ?>">
+          <a class="nav-link <?= ($this->uri->segment(1) == 'pengaduan') ? 'active' : '' ?>"
+            href="<?= base_url('pengaduan'); ?>">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
             </div>
-            <span class="nav-link-text ms-1">Billing</span>
+            <span class="nav-link-text ms-1">Pengaduan</span>
           </a>
         </li>
 
         <!-- Virtual Reality -->
         <li class="nav-item">
-          <a class="nav-link" href="<?= base_url('pages/virtual-reality'); ?>">
+          <a class="nav-link <?= ($this->uri->segment(2) == 'virtual-reality') ? 'active' : '' ?>"
+            href="<?= base_url('pages/virtual-reality'); ?>">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-app text-dark text-sm opacity-10"></i>
             </div>
@@ -189,7 +192,8 @@
 
         <!-- RTL -->
         <li class="nav-item">
-          <a class="nav-link" href="<?= base_url('pages/rtl'); ?>">
+          <a class="nav-link <?= ($this->uri->segment(2) == 'rtl') ? 'active' : '' ?>"
+            href="<?= base_url('pages/rtl'); ?>">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-world-2 text-dark text-sm opacity-10"></i>
             </div>
