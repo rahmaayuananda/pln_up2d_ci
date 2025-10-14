@@ -101,13 +101,6 @@
               </a>
             </li>
 
-            <!-- Menu ULP -->
-            <li class="nav-item">
-              <a class="nav-link <?= ($this->uri->segment(1) == 'ulp') ? 'active bg-primary text-white' : '' ?>" href="<?= base_url('ulp'); ?>">
-                <i class="fas fa-sitemap me-2 text-success"></i>ULP
-              </a>
-            </li>
-
             <!-- <li class="nav-item"><a class="nav-link <?= ($this->uri->segment(3) == 'gi') ? 'active' : '' ?>" href="<?= base_url('assets/table/gi'); ?>"><i class="fas fa-bolt me-2 text-warning"></i>Gardu Induk</a></li> -->
             <!-- Menu Gardu Induk -->
             <li class="nav-item">
