@@ -32,9 +32,6 @@
                     <a href="<?= base_url('Pengaduan/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
                         <i class="fas fa-plus me-1"></i> Tambah
                     </a>
-                    <a href="<?= base_url('Pengaduan/import') ?>" class="btn btn-sm btn-light text-success">
-                        <i class="fas fa-file-import me-1"></i> Import
-                    </a>
                 </div>
             </div>
 
@@ -55,53 +52,55 @@
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Foto Pengaduan</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Proses</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Foto Proses</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PIC</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php
-                            // contoh data dummy sementara
-                            $pengaduan = [
-                                [
-                                    'NAMA_UP3' => 'UP3 Bukittinggi',
-                                    'TGL_PENGADUAN' => '2025-10-14',
-                                    'JENIS' => 'Gangguan Listrik',
-                                    'LAPORAN' => 'Pemadaman di daerah X sejak pagi',
-                                    'FOTO_PENGADUAN' => 'foto_pengaduan1.jpg',
-                                    'TGL_PROSES' => '2025-10-15',
-                                    'FOTO_PROSES' => 'foto_proses1.jpg'
-                                ]
-                            ];
-                            ?>
-
                             <?php if (empty($pengaduan)): ?>
                                 <tr>
-                                    <td colspan="9" class="text-center text-secondary py-4">Belum ada data pengaduan</td>
+                                    <td colspan="11" class="text-center text-secondary py-4">Belum ada data pengaduan</td>
                                 </tr>
                             <?php else: ?>
                                 <?php $no = 1;
                                 foreach ($pengaduan as $row): ?>
                                     <tr class="<?= ($no % 2 == 0) ? 'table-row-even' : 'table-row-odd'; ?>">
                                         <td class="text-sm"><?= $no++; ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['NAMA_UP3']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['TGL_PENGADUAN']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['JENIS']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['LAPORAN']); ?></td>
-                                        <td class="text-sm">
-                                            <img src="<?= base_url('assets/img/pengaduan/' . $row['FOTO_PENGADUAN']); ?>" width="60" class="rounded-3 border">
+                                        <td class="text-sm"><?= htmlentities($row['NAMA_UP3'] ?? '-'); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['TANGGAL_PENGADUAN'] ?? '-'); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['JENIS_PENGADUAN'] ?? '-'); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['LAPORAN'] ?? '-'); ?></td>
+                                        <td>
+                                            <?php if (!empty($row['FOTO_PENGADUAN'])): ?>
+                                                <img src="<?= base_url('assets/img/pengaduan/' . $row['FOTO_PENGADUAN']); ?>" width="60" class="rounded-3 border">
+                                            <?php else: ?>
+                                                <span class="text-muted">Tidak ada</span>
+                                            <?php endif; ?>
                                         </td>
-                                        <td class="text-sm"><?= htmlentities($row['TGL_PROSES']); ?></td>
-                                        <td class="text-sm">
-                                            <img src="<?= base_url('assets/img/proses/' . $row['FOTO_PROSES']); ?>" width="60" class="rounded-3 border">
+                                        <td class="text-sm"><?= htmlentities($row['TANGGAL_PROSES'] ?? '-'); ?></td>
+                                        <td>
+                                            <?php if (!empty($row['FOTO_PROSES'])): ?>
+                                                <img src="<?= base_url('assets/img/proses/' . $row['FOTO_PROSES']); ?>" width="60" class="rounded-3 border">
+                                            <?php else: ?>
+                                                <span class="text-muted">Tidak ada</span>
+                                            <?php endif; ?>
                                         </td>
+                                        <td>
+                                            <span class="badge 
+                                                <?= ($row['STATUS'] ?? '') == 'Selesai' ? 'bg-success' : (($row['STATUS'] ?? '') == 'Diproses' ? 'bg-warning text-dark' : 'bg-secondary'); ?>">
+                                                <?= htmlentities($row['STATUS'] ?? '-'); ?>
+                                            </span>
+                                        </td>
+                                        <td class="text-sm"><?= htmlentities($row['PIC'] ?? '-'); ?></td>
                                         <td class="text-center">
-                                            <a href="#" class="btn btn-info btn-xs text-white me-1" title="Detail">
+                                            <a href="<?= base_url('Pengaduan/detail/' . ($row['ID_PENGADUAN'] ?? '')); ?>" class="btn btn-info btn-xs text-white me-1" title="Detail">
                                                 <i class="fas fa-info-circle"></i>
                                             </a>
-                                            <a href="#" class="btn btn-warning btn-xs text-white me-1" title="Edit">
+                                            <a href="<?= base_url('Pengaduan/edit/' . ($row['ID_PENGADUAN'] ?? '')); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
                                                 <i class="fas fa-pen"></i>
                                             </a>
-                                            <a href="javascript:void(0);" onclick="confirmDelete('#')" class="btn btn-danger btn-xs" title="Hapus">
+                                            <a href="javascript:void(0);" onclick="confirmDelete('<?= base_url('Pengaduan/hapus/' . ($row['ID_PENGADUAN'] ?? '')); ?>')" class="btn btn-danger btn-xs" title="Hapus">
                                                 <i class="fas fa-trash"></i>
                                             </a>
                                         </td>
@@ -116,7 +115,7 @@
     </div>
 </main>
 
-<!-- SweetAlert & Script Pencarian -->
+<!-- SweetAlert -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     function confirmDelete(url) {

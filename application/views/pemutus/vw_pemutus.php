@@ -10,7 +10,7 @@
                     <li class="breadcrumb-item text-sm text-white active" aria-current="page">Data Pemutus</li>
                 </ol>
                 <h6 class="font-weight-bolder text-white mb-0">
-                    <i class="fas fa-bolt me-2 text-warning"></i> Data Pemutus (LBS - RECLOSER)
+                    <i class="fas fa-bolt me-2 text-warning"></i> Data Pemutus - LBS / RECLOSER
                 </h6>
             </nav>
         </div>
@@ -27,7 +27,7 @@
 
         <div class="card mb-4 shadow border-0 rounded-4">
             <div class="card-header py-2 d-flex justify-content-between align-items-center bg-gradient-primary text-white rounded-top-4">
-                <h6 class="mb-0">Tabel Data Pemutus (LBS - RECLOSER)</h6>
+                <h6 class="mb-0">Tabel Data Pemutus</h6>
                 <div class="d-flex align-items-center">
                     <a href="<?= base_url('Pemutus/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
                         <i class="fas fa-plus me-1"></i> Tambah
@@ -40,11 +40,11 @@
 
             <div class="card-body px-0 pt-0 pb-2 bg-white">
                 <div class="px-3 mt-3 mb-3">
-                    <input type="text" id="searchInput" onkeyup="searchTable()" class="form-control form-control-sm rounded-3" placeholder="Cari data pemutus...">
+                    <input type="text" id="searchInput" onkeyup="searchTable()" class="form-control form-control-sm rounded-3" placeholder="Cari data Pemutus...">
                 </div>
 
                 <div class="table-responsive p-0">
-                    <table class="table mb-0" id="pemutusTable">
+                    <table class="table align-items-center mb-0" id="pemutusTable">
                         <thead class="bg-light">
                             <tr>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
@@ -196,26 +196,4 @@
     .btn-xs i {
         font-size: 12px;
     }
-</style>
-
-<!-- Compact table row styling -->
-<style>
-    #pemutusTable thead { display: table-header-group !important; }
-    #pemutusTable tbody { display: table-row-group !important; }
-    /* Override any framework cell paddings/line-heights */
-    #pemutusTable > :not(caption) > * > * {
-        padding-top: 4px !important;
-        padding-bottom: 4px !important;
-        line-height: 1.2 !important;
-    }
-    #pemutusTable td, #pemutusTable th {
-        vertical-align: top !important;
-        line-height: 1.2 !important;
-        padding-left: 8px !important;
-        padding-right: 8px !important;
-    }
-    #pemutusTable { border-collapse: collapse !important; border-spacing: 0 !important; }
-    #pemutusTable tr { display: table-row !important; align-items: initial !important; height: auto !important; }
-    #pemutusTable td, #pemutusTable th { display: table-cell !important; }
-    #pemutusTable td p, #pemutusTable th p { margin: 0 !important; }
 </style>

@@ -179,14 +179,14 @@
           </a>
         </li>
 
-        <!-- Virtual Reality -->
+        <!-- Pustaka -->
         <li class="nav-item">
           <a class="nav-link <?= ($this->uri->segment(2) == 'virtual-reality') ? 'active' : '' ?>"
             href="<?= base_url('pages/virtual-reality'); ?>">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-app text-dark text-sm opacity-10"></i>
             </div>
-            <span class="nav-link-text ms-1">Virtual Reality</span>
+            <span class="nav-link-text ms-1">Pustaka</span>
           </a>
         </li>
 
