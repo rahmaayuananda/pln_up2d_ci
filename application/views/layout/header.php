@@ -200,27 +200,27 @@
           <ul class="nav flex-column submenu-list">
             <li class="nav-item">
               <a class="nav-link" href="#">
-                SOP
+                <i class="fas fa-file-alt me-2"></i> SOP
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">
-                BPM
+                <i class="fas fa-project-diagram me-2"></i> BPM
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">
-                IK
+                <i class="fas fa-info-circle me-2"></i> IK
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">
-                Road Map
+                <i class="fas fa-road me-2"></i> Road Map
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">
-                SPLN
+                <i class="fas fa-bolt me-2"></i> SPLN
               </a>
             </li>
           </ul>

@@ -5,10 +5,17 @@ class Unit_model extends CI_Model
 {
     private $table = 'unit';
 
-    // Ambil semua data
-    public function get_all_unit()
+    // Ambil semua data dengan paginasi
+    public function get_unit($limit, $offset)
     {
+        $this->db->limit($limit, $offset);
         return $this->db->get($this->table)->result_array();
+    }
+
+    // Hitung semua data
+    public function count_all_unit()
+    {
+        return $this->db->count_all($this->table);
     }
 
     // Ambil data berdasarkan ID

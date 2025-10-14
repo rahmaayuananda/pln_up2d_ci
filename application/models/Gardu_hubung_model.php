@@ -11,6 +11,17 @@ class Gardu_hubung_model extends CI_Model
         return $this->db->get($this->table)->result_array();
     }
 
+    public function get_gardu_hubung($limit, $offset)
+    {
+        $this->db->limit($limit, $offset);
+        return $this->db->get($this->table)->result_array();
+    }
+
+    public function count_all_gardu_hubung()
+    {
+        return $this->db->count_all($this->table);
+    }
+
     // Ambil data Gardu Hubung berdasarkan SSOTNUMBER_GH
     public function get_gardu_hubung_by_id($id)
     {

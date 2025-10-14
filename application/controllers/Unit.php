@@ -10,15 +10,59 @@ class Unit extends CI_Controller
         $this->load->model('Unit_model');
         // Load helper untuk URL
         $this->load->helper(['url', 'form']);
-        // Load library session (untuk flashdata)
-        $this->load->library('session');
+        // Load library session (untuk flashdata) dan pagination
+        $this->load->library(['session', 'pagination']);
     }
 
-    // Halaman utama - tampilkan semua data
+    // Halaman utama - tampilkan semua data dengan paginasi
     public function index()
     {
         $data['title'] = 'Data Unit';
-        $data['unit'] = $this->Unit_model->get_all_unit();
+
+        // Konfigurasi paginasi
+        $config['base_url'] = site_url('unit/index');
+        $config['total_rows'] = $this->Unit_model->count_all_unit();
+        $config['per_page'] = 5;
+        $config["uri_segment"] = 3;
+        $config['use_page_numbers'] = TRUE;
+
+        // Customizing pagination links
+        $config['full_tag_open'] = '<nav><ul class="pagination justify-content-end">';
+        $config['full_tag_close'] = '</ul></nav>';
+        $config['first_link'] = 'First';
+        $config['first_tag_open'] = '<li class="page-item">';
+        $config['first_tag_close'] = '</li>';
+        $config['last_link'] = 'Last';
+        $config['last_tag_open'] = '<li class="page-item">';
+        $config['last_tag_close'] = '</li>';
+        $config['next_link'] = '&raquo';
+        $config['next_tag_open'] = '<li class="page-item">';
+        $config['next_tag_close'] = '</li>';
+        $config['prev_link'] = '&laquo';
+        $config['prev_tag_open'] = '<li class="page-item">';
+        $config['prev_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="page-item active"><a class="page-link" href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['num_tag_open'] = '<li class="page-item">';
+        $config['num_tag_close'] = '</li>';
+        $config['attributes'] = array('class' => 'page-link');
+
+        // Ambil nomor halaman dari URI, default ke 1 jika tidak ada
+        $page = ($this->uri->segment(3)) ? (int)$this->uri->segment(3) : 1;
+        if ($page <= 0) {
+            $page = 1;
+        }
+
+        // Hitung offset
+        $offset = ($page - 1) * $config['per_page'];
+
+        // Inisialisasi paginasi
+        $this->pagination->initialize($config);
+
+        // Ambil data untuk halaman saat ini
+        $data['unit'] = $this->Unit_model->get_unit($config['per_page'], $offset);
+        $data['pagination'] = $this->pagination->create_links();
+        $data['start_no'] = $offset + 1;
 
         $this->load->view('layout/header');
         $this->load->view('unit/vw_unit', $data);

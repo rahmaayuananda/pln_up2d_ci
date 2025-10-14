@@ -11,6 +11,17 @@ class Gi_cell_model extends CI_Model
         return $this->db->get($this->table)->result_array();
     }
 
+    public function get_gi_cell($limit, $offset)
+    {
+        $this->db->limit($limit, $offset);
+        return $this->db->get($this->table)->result_array();
+    }
+
+    public function count_all_gi_cell()
+    {
+        return $this->db->count_all($this->table);
+    }
+
     // Mengambil data gi_cell berdasarkan SSOTNUMBER_GI_CELL (primary key business)
     public function get_gi_cell_by_id($ssotnumber)
     {

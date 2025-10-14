@@ -10,6 +10,17 @@ class Gardu_induk_model extends CI_Model
         return $this->db->get($this->table)->result_array();
     }
 
+    public function get_gardu_induk($limit, $offset)
+    {
+        $this->db->limit($limit, $offset);
+        return $this->db->get($this->table)->result_array();
+    }
+
+    public function count_all_gardu_induk()
+    {
+        return $this->db->count_all($this->table);
+    }
+
     public function get_gardu_induk_by_id($id)
     {
     return $this->db->get_where($this->table, ['ID_GI' => $id])->row_array();

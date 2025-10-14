@@ -17,14 +17,59 @@ class Kit_cell extends CI_Controller
         $this->load->model('Pembangkit_model');
         // Load helper dan library
         $this->load->helper(['url', 'form']);
-        $this->load->library('session');
+        $this->load->library(['session', 'pagination']);
     }
 
     // 🔹 Halaman utama - tampilkan semua data KIT Cell
     public function index()
     {
         $data['title'] = 'Data KIT Cell';
-        $data['kit_cell'] = $this->Kit_cell_model->get_all_kit_cell();
+
+        // Konfigurasi paginasi
+        $config['base_url'] = site_url('kit_cell/index');
+        $config['total_rows'] = $this->Kit_cell_model->count_all_kit_cell();
+        $config['per_page'] = 5;
+        $config["uri_segment"] = 3;
+        $config['use_page_numbers'] = TRUE;
+
+        // Customizing pagination links
+        $config['full_tag_open'] = '<nav><ul class="pagination justify-content-end">';
+        $config['full_tag_close'] = '</ul></nav>';
+        $config['first_link'] = 'First';
+        $config['first_tag_open'] = '<li class="page-item">';
+        $config['first_tag_close'] = '</li>';
+        $config['last_link'] = 'Last';
+        $config['last_tag_open'] = '<li class="page-item">';
+        $config['last_tag_close'] = '</li>';
+        $config['next_link'] = '&raquo';
+        $config['next_tag_open'] = '<li class="page-item">';
+        $config['next_tag_close'] = '</li>';
+        $config['prev_link'] = '&laquo';
+        $config['prev_tag_open'] = '<li class="page-item">';
+        $config['prev_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="page-item active"><a class="page-link" href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['num_tag_open'] = '<li class="page-item">';
+        $config['num_tag_close'] = '</li>';
+        $config['attributes'] = array('class' => 'page-link');
+
+        // Ambil nomor halaman dari URI
+        $page_segment = $this->uri->segment(3);
+        $page = (is_numeric($page_segment) && $page_segment > 0) ? (int)$page_segment : 1;
+        if ($page <= 0) {
+            $page = 1;
+        }
+
+        // Hitung offset
+        $offset = ($page - 1) * $config['per_page'];
+
+        // Inisialisasi paginasi
+        $this->pagination->initialize($config);
+
+        // Ambil data untuk halaman saat ini
+        $data['kit_cell'] = $this->Kit_cell_model->get_kit_cell($config['per_page'], $offset);
+        $data['pagination'] = $this->pagination->create_links();
+        $data['start_no'] = $offset + 1;
 
         $this->load->view('layout/header');
         $this->load->view('kit_cell/vw_kit_cell', $data);

@@ -11,6 +11,17 @@ class Gh_cell_model extends CI_Model
         return $this->db->get($this->table)->result_array();
     }
 
+    public function get_gh_cell($limit, $offset)
+    {
+        $this->db->limit($limit, $offset);
+        return $this->db->get($this->table)->result_array();
+    }
+
+    public function count_all_gh_cell()
+    {
+        return $this->db->count_all($this->table);
+    }
+
     // Mengambil data gh_cell berdasarkan SSOTNUMBER_GH_CELL
     public function get_gh_cell_by_id($ssotnumber)
     {

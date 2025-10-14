@@ -11,6 +11,17 @@ class Pembangkit_model extends CI_Model
         return $this->db->get($this->table)->result_array();
     }
 
+    public function get_pembangkit($limit, $offset)
+    {
+        $this->db->limit($limit, $offset);
+        return $this->db->get($this->table)->result_array();
+    }
+
+    public function count_all_pembangkit()
+    {
+        return $this->db->count_all($this->table);
+    }
+
     // Mengambil data pembangkit berdasarkan ID
     public function get_pembangkit_by_id($id)
     {

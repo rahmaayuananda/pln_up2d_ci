@@ -70,7 +70,8 @@
                                     <td colspan="15" class="text-center text-secondary py-4">Belum ada data</td>
                                 </tr>
                             <?php else: ?>
-                                <?php $no = 1;
+                                <?php
+                                $no = $start_no;
                                 foreach ($gh_cell as $row): ?>
                                     <tr class="<?= ($no % 2 == 0) ? 'table-row-even' : 'table-row-odd'; ?>">
                                         <td class="text-sm"><?= $no++; ?></td>
@@ -103,6 +104,9 @@
                             <?php endif; ?>
                         </tbody>
                     </table>
+                </div>
+                <div class="card-footer d-flex justify-content-end">
+                    <?= $pagination; ?>
                 </div>
             </div>
         </div>

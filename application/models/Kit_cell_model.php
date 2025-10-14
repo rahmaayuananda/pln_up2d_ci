@@ -11,6 +11,17 @@ class Kit_cell_model extends CI_Model
         return $this->db->get($this->table)->result_array();
     }
 
+    public function get_kit_cell($limit, $offset)
+    {
+        $this->db->limit($limit, $offset);
+        return $this->db->get($this->table)->result_array();
+    }
+
+    public function count_all_kit_cell()
+    {
+        return $this->db->count_all($this->table);
+    }
+
     // 🔹 Mengambil data kit_cell berdasarkan SSOTNUMBER_KIT_CELL (Primary Key)
     public function get_kit_cell_by_id($ssotnumber)
     {

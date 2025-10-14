@@ -11,6 +11,17 @@ class Pemutus_model extends CI_Model
         return $this->db->get($this->table)->result_array();
     }
 
+    public function get_pemutus($limit, $offset)
+    {
+        $this->db->limit($limit, $offset);
+        return $this->db->get($this->table)->result_array();
+    }
+
+    public function count_all_pemutus()
+    {
+        return $this->db->count_all($this->table);
+    }
+
     // 🔹 Mengambil data pemutus berdasarkan SSOTNUMBER_LBSREC (Primary Key)
     public function get_pemutus_by_id($ssotnumber)
     {
