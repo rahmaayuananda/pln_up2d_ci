@@ -76,7 +76,7 @@
                                 foreach ($pembangkit as $row): ?>
                                     <tr class="<?= ($no % 2 == 0) ? 'table-row-even' : 'table-row-odd'; ?>">
                                         <td class="text-sm"><?= $no++; ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['UNIT_LAYANAN']); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['UNIT_LAYANAN'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['PEMBANGKIT'] ?? ''); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['LONGITUDEX'] ?? ''); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['LATITUDEY'] ?? ''); ?></td>

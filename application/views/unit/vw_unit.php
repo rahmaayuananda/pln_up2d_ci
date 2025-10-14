@@ -106,30 +106,7 @@
         });
     }
 
-    // SweetAlert konfirmasi hapus
-    document.addEventListener("DOMContentLoaded", () => {
-        const deleteButtons = document.querySelectorAll(".btn-hapus");
-        deleteButtons.forEach(btn => {
-            btn.addEventListener("click", e => {
-                e.preventDefault();
-                const url = btn.getAttribute("href");
-                Swal.fire({
-                    title: 'Yakin ingin menghapus?',
-                    text: "Data yang dihapus tidak dapat dikembalikan!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Ya, hapus!',
-                    cancelButtonText: 'Batal'
-                }).then(result => {
-                    if (result.isConfirmed) {
-                        window.location.href = url;
-                    }
-                });
-            });
-        });
-    });
+    // Hapus konfirmasi ditangani global pada layout/footer.php
 </script>
 
 <!-- Style tambahan -->

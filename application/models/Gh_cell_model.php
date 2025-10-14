@@ -11,10 +11,10 @@ class Gh_cell_model extends CI_Model
         return $this->db->get($this->table)->result_array();
     }
 
-    // Mengambil data gh_cell berdasarkan ID (misalnya kolom ID_CELL sebagai primary key)
-    public function get_gh_cell_by_id($id)
+    // Mengambil data gh_cell berdasarkan SSOTNUMBER_GH_CELL
+    public function get_gh_cell_by_id($ssotnumber)
     {
-        return $this->db->get_where($this->table, ['ID_CELL' => $id])->row_array();
+        return $this->db->get_where($this->table, ['SSOTNUMBER_GH_CELL' => $ssotnumber])->row_array();
     }
 
     // Menambahkan data baru ke tabel gh_cell
@@ -23,17 +23,17 @@ class Gh_cell_model extends CI_Model
         return $this->db->insert($this->table, $data);
     }
 
-    // Memperbarui data gh_cell berdasarkan ID
-    public function update_gh_cell($id, $data)
+    // Memperbarui data gh_cell berdasarkan SSOTNUMBER_GH_CELL
+    public function update_gh_cell($ssotnumber, $data)
     {
-        $this->db->where('ID_CELL', $id);
+        $this->db->where('SSOTNUMBER_GH_CELL', $ssotnumber);
         return $this->db->update($this->table, $data);
     }
 
-    // Menghapus data gh_cell berdasarkan ID
-    public function delete_gh_cell($id)
+    // Menghapus data gh_cell berdasarkan SSOTNUMBER_GH_CELL
+    public function delete_gh_cell($ssotnumber)
     {
-        $this->db->where('ID_CELL', $id);
+        $this->db->where('SSOTNUMBER_GH_CELL', $ssotnumber);
         return $this->db->delete($this->table);
     }
 }

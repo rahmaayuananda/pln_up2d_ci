@@ -40,6 +40,38 @@
 <!-- Argon Dashboard JS -->
 <script src="<?= base_url('assets/assets/js/argon-dashboard.min.js?v=2.1.0'); ?>"></script>
 
+<!-- SweetAlert2 (global) -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    // Global SweetAlert delete confirm for any link with .btn-hapus
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('a.btn-hapus').forEach(function (btn) {
+            if (btn.dataset.boundSwal === '1') return; // avoid duplicate binding
+            btn.dataset.boundSwal = '1';
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                const url = btn.getAttribute('href');
+                if (!url) return;
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: 'Data ini akan dihapus secara permanen!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = url;
+                    }
+                });
+            });
+        });
+    });
+</script>
+
 <script>
     // Scrollbar untuk Windows
     var win = navigator.platform.indexOf('Win') > -1;

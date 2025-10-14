@@ -76,21 +76,21 @@
                                 foreach ($gi_cell as $row): ?>
                                     <tr class="<?= ($no % 2 == 0) ? 'table-row-even' : 'table-row-odd'; ?>">
                                         <td class="text-sm"><?= $no++; ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['SSOTNUMBER_GI_CELL']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['GARDU_INDUK']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['TD']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['KAP_TD_MVA']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['NAMA_CELL']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['JENIS_CELL']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['STATUS_OPERASI']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['MERK_CELL']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['TYPE_CELL']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['THN_CELL']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['STATUS_SCADA']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['MERK_RELAY']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['TYPE_RELAY']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['THN_RELAY']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['RATIO_CT']); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['SSOTNUMBER_GI_CELL'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['GARDU_INDUK'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['TD'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['KAP_TD_MVA'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['NAMA_CELL'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['JENIS_CELL'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['STATUS_OPERASI'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['MERK_CELL'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['TYPE_CELL'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['THN_CELL'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['STATUS_SCADA'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['MERK_RELAY'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['TYPE_RELAY'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['THN_RELAY'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['RATIO_CT'] ?? ''); ?></td>
                                         <td class="text-center">
                                             <a href="<?= base_url('Gi_cell/detail/' . $row['SSOTNUMBER_GI_CELL']); ?>" class="btn btn-info btn-xs text-white me-1" title="Detail">
                                                 <i class="fas fa-info-circle"></i>

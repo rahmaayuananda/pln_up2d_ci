@@ -115,8 +115,7 @@
     </div>
 </main>
 
-<!-- Script pencarian dan konfirmasi hapus -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- Script pencarian -->
 <script>
     function searchTable() {
         const input = document.getElementById('searchInput').value.toLowerCase();
@@ -127,28 +126,7 @@
         });
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('.btn-hapus').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const url = btn.getAttribute('href');
-                Swal.fire({
-                    title: 'Apakah Anda yakin?',
-                    text: 'Data ini akan dihapus secara permanen!',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Ya, hapus!',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = url;
-                    }
-                });
-            });
-        });
-    });
+    // Konfirmasi hapus ditangani global di layout/footer.php
 </script>
 
 <!-- Style tambahan -->

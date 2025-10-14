@@ -64,9 +64,9 @@
                                 foreach ($ulp as $row): ?>
                                     <tr class="<?= ($no % 2 == 0) ? 'table-row-even' : 'table-row-odd'; ?>">
                                         <td class="text-sm"><?= $no++; ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['CXUNIT']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['NAMA_ULP']); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['UP3_2D']); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['CXUNIT'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['NAMA_ULP'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['UP3_2D'] ?? ''); ?></td>
                                         <td class="text-center">
                                             <a href="<?= base_url('Ulp/detail/' . $row['CXUNIT']); ?>" class="btn btn-info btn-xs text-white me-1" title="Detail">
                                                 <i class="fas fa-info-circle"></i>
@@ -102,30 +102,7 @@
         });
     }
 
-    // SweetAlert konfirmasi hapus
-    document.addEventListener("DOMContentLoaded", () => {
-        const deleteButtons = document.querySelectorAll(".btn-hapus");
-        deleteButtons.forEach(btn => {
-            btn.addEventListener("click", e => {
-                e.preventDefault();
-                const url = btn.getAttribute("href");
-                Swal.fire({
-                    title: 'Yakin ingin menghapus?',
-                    text: "Data yang dihapus tidak dapat dikembalikan!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Ya, hapus!',
-                    cancelButtonText: 'Batal'
-                }).then(result => {
-                    if (result.isConfirmed) {
-                        window.location.href = url;
-                    }
-                });
-            });
-        });
-    });
+    // Hapus konfirmasi ditangani global pada layout/footer.php
 </script>
 
 <!-- Style tambahan -->
