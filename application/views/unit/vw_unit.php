@@ -110,7 +110,7 @@
         });
     }
 
-    // Hapus konfirmasi ditangani global pada layout/footer.php
+    // Hapus konfirmasi dan horizontal scroll ditangani global pada layout/footer.php
 </script>
 
 <!-- Style tambahan -->

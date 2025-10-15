@@ -69,6 +69,19 @@
                 });
             });
         });
+
+        // Global Horizontal Scroll dengan Alt + Scroll untuk semua tabel
+        document.querySelectorAll('.table-responsive').forEach(function(tableContainer) {
+            tableContainer.addEventListener('wheel', function(e) {
+                // Jika tombol Alt ditekan
+                if (e.altKey) {
+                    e.preventDefault(); // Mencegah scroll vertikal default
+                    
+                    // Scroll horizontal
+                    this.scrollLeft += e.deltaY;
+                }
+            }, { passive: false });
+        });
     });
 </script>
 
