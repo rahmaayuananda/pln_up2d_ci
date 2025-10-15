@@ -45,11 +45,11 @@
 
 <script>
     // Global SweetAlert delete confirm for any link with .btn-hapus
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('a.btn-hapus').forEach(function (btn) {
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('a.btn-hapus').forEach(function(btn) {
             if (btn.dataset.boundSwal === '1') return; // avoid duplicate binding
             btn.dataset.boundSwal = '1';
-            btn.addEventListener('click', function (e) {
+            btn.addEventListener('click', function(e) {
                 e.preventDefault();
                 const url = btn.getAttribute('href');
                 if (!url) return;
@@ -76,11 +76,13 @@
                 // Jika tombol Alt ditekan
                 if (e.altKey) {
                     e.preventDefault(); // Mencegah scroll vertikal default
-                    
+
                     // Scroll horizontal
                     this.scrollLeft += e.deltaY;
                 }
-            }, { passive: false });
+            }, {
+                passive: false
+            });
         });
     });
 </script>
@@ -137,4 +139,44 @@
         }
     });
 </script>
+
+<script>
+    $(document).ready(function() {
+        $('.select2-modern').select2({
+            placeholder: "-- Pilih atau Ketik Jenis Pengaduan --",
+            allowClear: true,
+            width: '100%'
+        });
+
+        // Hilangkan border kotak default dari select2
+        $('.select2-container--default .select2-selection--single').css({
+            'height': '43px',
+            'border': '1px solid #d2d6da',
+            'border-radius': '8px',
+            'padding': '6px 12px',
+            'display': 'flex',
+            'align-items': 'center',
+            'font-size': '0.875rem'
+        });
+
+        // Placeholder abu seperti input PIC
+        $('.select2-container--default .select2-selection__placeholder').css({
+            'color': '#adb5bd'
+        });
+
+        // Warna saat fokus
+        $('.select2-container--default .select2-selection--single:focus').css({
+            'border-color': '#5e72e4',
+            'box-shadow': '0 0 0 0.2rem rgba(94,114,228,.25)'
+        });
+
+        // Panah dropdown biar lebih kecil dan elegan
+        $('.select2-container--default .select2-selection__arrow').css({
+            'height': '38px',
+            'right': '10px'
+        });
+    });
+</script>
+
+
 </html>

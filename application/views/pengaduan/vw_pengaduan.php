@@ -73,19 +73,23 @@
                                         <td class="text-sm"><?= htmlentities($row['LAPORAN'] ?? '-'); ?></td>
                                         <td>
                                             <?php if (!empty($row['FOTO_PENGADUAN'])): ?>
-                                                <img src="<?= base_url('assets/img/pengaduan/' . $row['FOTO_PENGADUAN']); ?>" width="60" class="rounded-3 border">
+                                                <!-- <img src="<?= base_url('assets/img/pengaduan/' . $row['FOTO_PENGADUAN']); ?>" width="60" class="rounded-3 border"> -->
+                                                <img src="<?= base_url('uploads/pengaduan/' . $row['FOTO_PENGADUAN']); ?>" width="60" class="rounded-3 border">
                                             <?php else: ?>
                                                 <span class="text-muted">Tidak ada</span>
                                             <?php endif; ?>
                                         </td>
                                         <td class="text-sm"><?= htmlentities($row['TANGGAL_PROSES'] ?? '-'); ?></td>
+                                        
                                         <td>
                                             <?php if (!empty($row['FOTO_PROSES'])): ?>
-                                                <img src="<?= base_url('assets/img/proses/' . $row['FOTO_PROSES']); ?>" width="60" class="rounded-3 border">
+                                                <!-- <img src="<?= base_url('assets/img/proses/' . $row['FOTO_PROSES']); ?>" width="60" class="rounded-3 border"> -->
+                                                <img src="<?= base_url('uploads/proses/' . $row['FOTO_PROSES']); ?>" width="60" class="rounded-3 border">
                                             <?php else: ?>
                                                 <span class="text-muted">Tidak ada</span>
                                             <?php endif; ?>
                                         </td>
+                                        
                                         <td>
                                             <span class="badge 
                                                 <?= ($row['STATUS'] ?? '') == 'Selesai' ? 'bg-success' : (($row['STATUS'] ?? '') == 'Diproses' ? 'bg-warning text-dark' : 'bg-secondary'); ?>">

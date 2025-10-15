@@ -226,16 +226,76 @@
           </ul>
         </div>
 
-        <!-- RTL -->
+        <!-- Operasi -->
         <li class="nav-item">
-          <a class="nav-link <?= ($this->uri->segment(2) == 'rtl') ? 'active' : '' ?>"
-            href="<?= base_url('pages/rtl'); ?>">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-world-2 text-dark text-sm opacity-10"></i>
+          <a href="#menuOperasi"
+            class="nav-link d-flex align-items-center justify-content-between"
+            data-bs-toggle="collapse"
+            role="button"
+            aria-expanded="false"
+            aria-controls="menuOperasi">
+            <div class="d-flex align-items-center">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-world text-dark text-sm opacity-10"></i>
+              </div>
+              <span class="nav-link-text ms-1">Operasi</span>
             </div>
-            <span class="nav-link-text ms-1">RTL</span>
           </a>
         </li>
+
+        <!-- Submenu Operasi -->
+        <div class="collapse" id="menuOperasi">
+          <ul class="nav flex-column submenu-list">
+            <li class="nav-item">
+              <a class="nav-link <?= ($this->uri->segment(1) == 'operasi' && $this->uri->segment(2) == 'data_operasi') ? 'active' : '' ?>"
+                href="<?= base_url('operasi/data_operasi'); ?>">
+                <i class="fas fa-cogs me-2"></i> Data Operasi
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link <?= ($this->uri->segment(1) == 'operasi' && $this->uri->segment(2) == 'single_line_diagram') ? 'active' : '' ?>"
+                href="<?= base_url('operasi/single_line_diagram'); ?>">
+                <i class="fas fa-project-diagram me-2"></i> Single Line Diagram
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Anggaran -->
+        <li class="nav-item">
+          <a href="#menuAnggaran"
+            class="nav-link d-flex align-items-center justify-content-between"
+            data-bs-toggle="collapse"
+            role="button"
+            aria-expanded="false"
+            aria-controls="menuAnggaran">
+            <div class="d-flex align-items-center">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+              </div>
+              <span class="nav-link-text ms-1">Anggaran</span>
+            </div>
+          </a>
+        </li>
+
+        <!-- Submenu Anggaran -->
+        <div class="collapse" id="menuAnggaran">
+          <ul class="nav flex-column submenu-list">
+            <li class="nav-item">
+              <a class="nav-link <?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'instansi') ? 'active' : '' ?>"
+                href="<?= base_url('anggaran/instansi'); ?>">
+                <i class="fas fa-building me-2"></i> Anggaran Instansi
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link <?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'operasi') ? 'active' : '' ?>"
+                href="<?= base_url('anggaran/operasi'); ?>">
+                <i class="fas fa-cogs me-2"></i> Anggaran Operasi
+              </a>
+            </li>
+          </ul>
+        </div>
+
 
         <!-- Account Pages -->
         <li class="nav-item mt-3">
@@ -279,5 +339,12 @@
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Select2 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+  <!-- Select2 JS + jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 </body>

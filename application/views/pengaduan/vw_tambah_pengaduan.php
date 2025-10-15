@@ -18,30 +18,45 @@
                     <div class="row g-3">
 
                         <!-- Nama UP3 -->
-                        <div class="col-md-6">
-                            <label class="form-label">Unit Pelaksana</label>
-                            <select name="NAMA_UP3" class="form-control" required>
-                                <option value="">-- Pilih UP --</option>
-                                <option value="PEKANBARU">PEKANBARU</option>
-                                <option value="DUMAI">DUMAI</option>
-                                <option value="TANJUNG PINANG">TANJUNG PINANG</option>
-                                <option value="RENGAT">RENGAT</option>
-                                <option value="BANGKINANG">BANGKINANG</option>
-                                <option value="UP2D_Riau">UP2D Riau</option>
-                            </select>
+                        <!-- Unit Pelaksana + Tanggal Pengaduan + Tanggal Proses -->
+                        <div class="col-md-12">
+                            <div class="row align-items-end">
+
+                                <!-- Unit Pelaksana -->
+                                <div class="col-md-4">
+                                    <label class="form-label">Unit Pelaksana</label>
+                                    <select name="NAMA_UP3" class="form-control" required>
+                                        <option value="">-- Pilih UP --</option>
+                                        <option value="PEKANBARU">PEKANBARU</option>
+                                        <option value="DUMAI">DUMAI</option>
+                                        <option value="TANJUNG PINANG">TANJUNG PINANG</option>
+                                        <option value="RENGAT">RENGAT</option>
+                                        <option value="BANGKINANG">BANGKINANG</option>
+                                        <option value="UP2D_Riau">UP2D Riau</option>
+                                    </select>
+                                </div>
+
+                                <!-- Tanggal Pengaduan -->
+                                <div class="col-md-4">
+                                    <label class="form-label">Tanggal Pengaduan</label>
+                                    <input type="date" class="form-control" name="TANGGAL_PENGADUAN" required>
+                                </div>
+
+                                <!-- Tanggal Proses -->
+                                <div class="col-md-4">
+                                    <label class="form-label">Tanggal Proses</label>
+                                    <input type="date" name="TANGGAL_PROSES" class="form-control">
+                                </div>
+
+                            </div>
                         </div>
 
-                        <!-- Tanggal Pengaduan -->
-                        <div class="col-md-6">
-                            <label class="form-label">Tanggal Pengaduan</label>
-                            <input type="date" class="form-control" name="TANGGAL_PENGADUAN" required>
-                        </div>
 
                         <!-- Jenis Pengaduan -->
                         <div class="col-md-6">
                             <label class="form-label">Jenis Pengaduan</label>
-                            <select name="JENIS_PENGADUAN" class="form-control" required>
-                                <option value="">-- Pilih Jenis Pengaduan --</option>
+                            <select name="JENIS_PENGADUAN" class="form-control select2-modern" required>
+                                <option value="">-- Pilih atau Ketik Jenis Pengaduan --</option>
                                 <option value="Gagal Control">Gagal Control</option>
                                 <option value="Filed">Filed</option>
                                 <option value="Keypoint Mati">Keypoint Mati</option>
@@ -81,21 +96,21 @@
                         <!-- Foto Pengaduan -->
                         <div class="col-md-6">
                             <label class="form-label">Foto Pengaduan</label>
-                            <input type="file" name="FOTO_PENGADUAN" class="form-control" accept="image/*">
+                            <input type="file" name="FOTO_PENGADUAN" id="foto_pengaduan" class="form-control" accept="image/*" onchange="previewImage(event, 'preview_pengaduan')">
                             <small class="text-muted">Format: JPG, PNG, maksimal 2MB</small>
-                        </div>
-
-                        <!-- Tanggal Proses -->
-                        <div class="col-md-6">
-                            <label class="form-label">Tanggal Proses</label>
-                            <input type="date" name="TANGGAL_PROSES" class="form-control">
+                            <div class="mt-2">
+                                <img id="preview_pengaduan" src="#" alt="Preview Foto Pengaduan" class="img-thumbnail rounded" style="max-width: 200px; display: none;">
+                            </div>
                         </div>
 
                         <!-- Foto Proses -->
                         <div class="col-md-6">
                             <label class="form-label">Foto Proses</label>
-                            <input type="file" name="FOTO_PROSES" class="form-control" accept="image/*">
+                            <input type="file" name="FOTO_PROSES" id="foto_proses" class="form-control" accept="image/*" onchange="previewImage(event, 'preview_proses')">
                             <small class="text-muted">Format: JPG, PNG, maksimal 2MB</small>
+                            <div class="mt-2">
+                                <img id="preview_proses" src="#" alt="Preview Foto Proses" class="img-thumbnail rounded" style="max-width: 200px; display: none;">
+                            </div>
                         </div>
 
                         <!-- Status -->
@@ -119,4 +134,67 @@
             </div>
         </div>
     </div>
+
+    <!-- Script Preview Gambar -->
+    <script>
+        function previewImage(event, previewId) {
+            const input = event.target;
+            const preview = document.getElementById(previewId);
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                preview.src = "#";
+                preview.style.display = 'none';
+            }
+        }
+    </script>
+
+    <style>
+        .img-thumbnail {
+            border: 1px solid #dee2e6;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .img-thumbnail:hover {
+            transform: scale(1.05);
+        }
+    </style>
+
+    <style>
+        /* Terapkan tinggi hanya untuk input dan select */
+        input.form-control,
+        select.form-control,
+        .select2-container .select2-selection--single {
+            height: 40px !important;
+            font-size: 0.9rem;
+        }
+
+        /* Jangan ubah ukuran textarea */
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* Tampilan label lebih rapi */
+        .form-label {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        /* Tampilan Select2 biar konsisten */
+        .select2-container--default .select2-selection--single {
+            border: 1px solid #ced4da;
+            border-radius: 0.375rem;
+            padding: 6px 12px;
+        }
+    </style>
 </main>

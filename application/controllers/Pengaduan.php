@@ -53,6 +53,16 @@ class Pengaduan extends CI_Controller
 
             // Upload FOTO_PENGADUAN
             if (!empty($_FILES['FOTO_PENGADUAN']['name'])) {
+                $config['upload_path'] = './uploads/pengaduan/';
+                $config['allowed_types'] = 'jpg|jpeg|png';
+                $config['max_size'] = 2048;
+                $config['encrypt_name'] = TRUE;
+
+                if (!is_dir($config['upload_path'])) {
+                    mkdir($config['upload_path'], 0777, TRUE);
+                }
+
+                $this->upload->initialize($config);
                 if ($this->upload->do_upload('FOTO_PENGADUAN')) {
                     $foto_pengaduan = $this->upload->data('file_name');
                 } else {
@@ -66,6 +76,16 @@ class Pengaduan extends CI_Controller
 
             // Upload FOTO_PROSES
             if (!empty($_FILES['FOTO_PROSES']['name'])) {
+                $config['upload_path'] = './uploads/proses/'; // ✅ folder berbeda
+                $config['allowed_types'] = 'jpg|jpeg|png';
+                $config['max_size'] = 2048;
+                $config['encrypt_name'] = TRUE;
+
+                if (!is_dir($config['upload_path'])) {
+                    mkdir($config['upload_path'], 0777, TRUE);
+                }
+
+                $this->upload->initialize($config);
                 if ($this->upload->do_upload('FOTO_PROSES')) {
                     $foto_proses = $this->upload->data('file_name');
                 } else {
