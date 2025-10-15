@@ -11,7 +11,7 @@ class Pengaduan extends CI_Controller
         $this->load->library(['form_validation', 'upload', 'session']);
     }
 
-    // 🔹 Halaman utama - menampilkan semua data pengaduan
+    // 🔹 Halaman utama
     public function index()
     {
         $data['judul'] = 'Data Pengaduan';
@@ -53,16 +53,6 @@ class Pengaduan extends CI_Controller
 
             // Upload FOTO_PENGADUAN
             if (!empty($_FILES['FOTO_PENGADUAN']['name'])) {
-                $config['upload_path'] = './uploads/pengaduan/';
-                $config['allowed_types'] = 'jpg|jpeg|png';
-                $config['max_size'] = 2048;
-                $config['encrypt_name'] = TRUE;
-
-                if (!is_dir($config['upload_path'])) {
-                    mkdir($config['upload_path'], 0777, TRUE);
-                }
-
-                $this->upload->initialize($config);
                 if ($this->upload->do_upload('FOTO_PENGADUAN')) {
                     $foto_pengaduan = $this->upload->data('file_name');
                 } else {
@@ -76,15 +66,10 @@ class Pengaduan extends CI_Controller
 
             // Upload FOTO_PROSES
             if (!empty($_FILES['FOTO_PROSES']['name'])) {
-                $config['upload_path'] = './uploads/proses/'; // ✅ folder berbeda
-                $config['allowed_types'] = 'jpg|jpeg|png';
-                $config['max_size'] = 2048;
-                $config['encrypt_name'] = TRUE;
-
+                $config['upload_path'] = './uploads/proses/';
                 if (!is_dir($config['upload_path'])) {
                     mkdir($config['upload_path'], 0777, TRUE);
                 }
-
                 $this->upload->initialize($config);
                 if ($this->upload->do_upload('FOTO_PROSES')) {
                     $foto_proses = $this->upload->data('file_name');
@@ -97,11 +82,12 @@ class Pengaduan extends CI_Controller
                 }
             }
 
-            // Data yang disimpan
+            // ✅ Tambahkan ITEM_PENGADUAN
             $insert_data = [
                 'NAMA_UP3'          => $this->input->post('NAMA_UP3', true),
                 'TANGGAL_PENGADUAN' => $this->input->post('TANGGAL_PENGADUAN', true),
                 'JENIS_PENGADUAN'   => $this->input->post('JENIS_PENGADUAN', true),
+                'ITEM_PENGADUAN'    => $this->input->post('ITEM_PENGADUAN', true),
                 'LAPORAN'           => $this->input->post('LAPORAN', true),
                 'FOTO_PENGADUAN'    => $foto_pengaduan,
                 'TANGGAL_PROSES'    => $this->input->post('TANGGAL_PROSES', true),
@@ -116,14 +102,14 @@ class Pengaduan extends CI_Controller
         }
     }
 
-    // 🔹 Fungsi Detail Pengaduan
+    // 🔹 Fungsi Detail
     public function detail($id)
     {
         $data['judul'] = 'Detail Pengaduan';
         $data['pengaduan'] = $this->Pengaduan_model->get_pengaduan_by_id($id);
 
         if (!$data['pengaduan']) {
-            show_404(); // Jika ID tidak ditemukan
+            show_404();
         }
 
         $this->load->view('layout/header', $data);
@@ -131,7 +117,7 @@ class Pengaduan extends CI_Controller
         $this->load->view('layout/footer');
     }
 
-    // 🔹 Fungsi Edit Pengaduan
+    // 🔹 Fungsi Edit
     public function edit($id)
     {
         $data['judul'] = 'Edit Pengaduan';
@@ -151,12 +137,11 @@ class Pengaduan extends CI_Controller
             $this->load->view('pengaduan/vw_edit_pengaduan', $data);
             $this->load->view('layout/footer');
         } else {
-            // Konfigurasi upload foto
+            // Upload FOTO_PENGADUAN
             $config['allowed_types'] = 'jpg|jpeg|png';
             $config['max_size']      = 2048;
             $config['encrypt_name']  = TRUE;
 
-            // Folder upload FOTO_PENGADUAN
             $config['upload_path'] = './uploads/pengaduan/';
             if (!is_dir($config['upload_path'])) {
                 mkdir($config['upload_path'], 0777, TRUE);
@@ -166,10 +151,8 @@ class Pengaduan extends CI_Controller
             $foto_pengaduan = $data['pengaduan']['FOTO_PENGADUAN'];
             $foto_proses = $data['pengaduan']['FOTO_PROSES'];
 
-            // Upload FOTO_PENGADUAN (jika diubah)
             if (!empty($_FILES['FOTO_PENGADUAN']['name'])) {
                 if ($this->upload->do_upload('FOTO_PENGADUAN')) {
-                    // Hapus file lama
                     if ($foto_pengaduan && file_exists('./uploads/pengaduan/' . $foto_pengaduan)) {
                         unlink('./uploads/pengaduan/' . $foto_pengaduan);
                     }
@@ -177,17 +160,15 @@ class Pengaduan extends CI_Controller
                 }
             }
 
-            // Folder upload FOTO_PROSES
+            // Upload FOTO_PROSES
             $config['upload_path'] = './uploads/proses/';
             if (!is_dir($config['upload_path'])) {
                 mkdir($config['upload_path'], 0777, TRUE);
             }
             $this->upload->initialize($config);
 
-            // Upload FOTO_PROSES (jika diubah)
             if (!empty($_FILES['FOTO_PROSES']['name'])) {
                 if ($this->upload->do_upload('FOTO_PROSES')) {
-                    // Hapus file lama
                     if ($foto_proses && file_exists('./uploads/proses/' . $foto_proses)) {
                         unlink('./uploads/proses/' . $foto_proses);
                     }
@@ -195,11 +176,12 @@ class Pengaduan extends CI_Controller
                 }
             }
 
-            // Data yang diperbarui
+            // ✅ Tambahkan ITEM_PENGADUAN
             $update_data = [
                 'NAMA_UP3'          => $this->input->post('NAMA_UP3', true),
                 'TANGGAL_PENGADUAN' => $this->input->post('TANGGAL_PENGADUAN', true),
                 'JENIS_PENGADUAN'   => $this->input->post('JENIS_PENGADUAN', true),
+                'ITEM_PENGADUAN'    => $this->input->post('ITEM_PENGADUAN', true),
                 'LAPORAN'           => $this->input->post('LAPORAN', true),
                 'FOTO_PENGADUAN'    => $foto_pengaduan,
                 'TANGGAL_PROSES'    => $this->input->post('TANGGAL_PROSES', true),
@@ -214,13 +196,12 @@ class Pengaduan extends CI_Controller
         }
     }
 
-    // 🔹 Fungsi Hapus Pengaduan
+    // 🔹 Fungsi Hapus
     public function hapus($id)
     {
         $pengaduan = $this->Pengaduan_model->get_pengaduan_by_id($id);
 
         if ($pengaduan) {
-            // Hapus file foto jika ada
             if (!empty($pengaduan['FOTO_PENGADUAN']) && file_exists('./uploads/pengaduan/' . $pengaduan['FOTO_PENGADUAN'])) {
                 unlink('./uploads/pengaduan/' . $pengaduan['FOTO_PENGADUAN']);
             }

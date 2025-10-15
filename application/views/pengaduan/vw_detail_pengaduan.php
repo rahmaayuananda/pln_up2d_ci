@@ -20,6 +20,7 @@
                                     'NAMA_UP3'          => 'Nama UP3',
                                     'TANGGAL_PENGADUAN' => 'Tanggal Pengaduan',
                                     'JENIS_PENGADUAN'   => 'Jenis Pengaduan',
+                                    'ITEM_PENGADUAN'    => 'Item Pengaduan',
                                     'LAPORAN'           => 'Laporan',
                                     'FOTO_PENGADUAN'    => 'Foto Pengaduan',
                                     'TANGGAL_PROSES'    => 'Tanggal Proses',
@@ -33,7 +34,10 @@
                                         <div class="col-md-4 fw-bold"><?= $label; ?></div>
                                         <div class="col-md-8">
                                             <?php if (strpos($key, 'FOTO_') === 0 && !empty($pengaduan[$key])): ?>
-                                                <img src="<?= base_url('uploads/pengaduan/' . $pengaduan[$key]); ?>"
+                                                <?php
+                                                $folder = ($key === 'FOTO_PROSES') ? 'proses' : 'pengaduan';
+                                                ?>
+                                                <img src="<?= base_url('uploads/' . $folder . '/' . $pengaduan[$key]); ?>"
                                                     alt="<?= $label; ?>"
                                                     class="img-thumbnail"
                                                     style="max-width: 200px;">
