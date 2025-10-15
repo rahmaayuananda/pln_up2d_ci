@@ -7,10 +7,10 @@
                     <li class="breadcrumb-item text-sm">
                         <a class="opacity-5 text-white" href="<?= base_url('dashboard'); ?>">Dashboard</a>
                     </li>
-                    <li class="breadcrumb-item text-sm text-white active" aria-current="page">Data KIT Cell</li>
+                    <li class="breadcrumb-item text-sm text-white active" aria-current="page">Data Penyulang</li>
                 </ol>
                 <h6 class="font-weight-bolder text-white mb-0">
-                    <i class="fas fa-microchip me-2 text-primary"></i> Data KIT Cell - Pembangkit
+                    <i class="fas fa-microchip me-2 text-primary"></i> Data Penyulang
                 </h6>
             </nav>
         </div>

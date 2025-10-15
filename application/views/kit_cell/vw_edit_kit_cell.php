@@ -2,7 +2,7 @@
 	<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="false">
 		<div class="container-fluid py-1 px-3">
 			<h6 class="font-weight-bolder text-white mb-0">
-				<i class="fas fa-microchip me-2 text-primary"></i> Edit KIT Cell
+				<i class="fas fa-microchip me-2 text-primary"></i> Edit Penyulang
 			</h6>
 		</div>
 	</nav>

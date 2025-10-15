@@ -19,14 +19,15 @@
 
                         <!-- Nama UP3 -->
                         <div class="col-md-6">
-                            <label class="form-label">Nama UP3</label>
+                            <label class="form-label">Unit Pelaksana</label>
                             <select name="NAMA_UP3" class="form-control" required>
-                                <option value="">-- Pilih UP3 --</option>
+                                <option value="">-- Pilih UP --</option>
                                 <option value="PEKANBARU">PEKANBARU</option>
                                 <option value="DUMAI">DUMAI</option>
                                 <option value="TANJUNG PINANG">TANJUNG PINANG</option>
                                 <option value="RENGAT">RENGAT</option>
                                 <option value="BANGKINANG">BANGKINANG</option>
+                                <option value="UP2D_Riau">UP2D Riau</option>
                             </select>
                         </div>
 

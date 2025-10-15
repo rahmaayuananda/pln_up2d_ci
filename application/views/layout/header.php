@@ -155,7 +155,7 @@
             </li>
             <li class="nav-item">
               <a class="nav-link <?= ($this->uri->segment(1) == 'Kit_cell') ? 'active bg-primary text-white' : '' ?>" href="<?= base_url('Kit_cell'); ?>">
-                <i class="fas fa-microchip me-2 text-primary"></i>KIT Cell
+                <i class="fas fa-microchip me-2 text-primary"></i>Kit Penyulang
               </a>
             </li>
             <li class="nav-item">

@@ -7,7 +7,7 @@
                         <div class="card shadow-lg custom-card">
                             <div class="card-header bg-gradient-primary text-white text-center">
                                 <h6 class="mb-0">
-                                    <i class="fas fa-microchip me-2 text-primary"></i> Detail KIT Cell
+                                    <i class="fas fa-microchip me-2 text-primary"></i> Detail Penyulang
                                 </h6>
                             </div>
 
