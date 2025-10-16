@@ -10,11 +10,11 @@
 		<div class="card shadow border-0 rounded-4">
 			<div class="card-header bg-gradient-primary text-white"><strong>Form Edit GH Cell</strong></div>
 			<div class="card-body">
-				<form action="<?= base_url('Gh_cell/edit/' . urlencode($gh_cell['SSOTNUMBER_GH_CELL'])); ?>" method="post">
+				<form action="<?= base_url('Gh_cell/edit/' . urlencode($gh_cell['SSOTNUMBER'])); ?>" method="post">
 					<div class="row g-3">
 						<div class="col-md-6">
 							<label class="form-label">SSOT Number</label>
-							<input type="text" class="form-control" value="<?= htmlentities($gh_cell['SSOTNUMBER_GH_CELL']); ?>" disabled>
+							<input type="text" class="form-control" value="<?= htmlentities($gh_cell['SSOTNUMBER']); ?>" disabled>
 						</div>
 						<div class="col-md-6">
 							<label class="form-label">Gardu Hubung</label>

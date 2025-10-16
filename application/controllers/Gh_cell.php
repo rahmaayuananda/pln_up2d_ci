@@ -21,7 +21,13 @@ class Gh_cell extends CI_Controller
         // Konfigurasi paginasi
         $config['base_url'] = site_url('gh_cell/index');
         $config['total_rows'] = $this->Gh_cell_model->count_all_gh_cell();
-        $config['per_page'] = 5;
+        // per_page can be overridden via query string ?per_page=10
+        $allowed = [5,10,25,50,100,500];
+        $per_page = (int) $this->input->get('per_page') ?: 5;
+        if (!in_array($per_page, $allowed)) {
+            $per_page = 5;
+        }
+        $config['per_page'] = $per_page;
         $config["uri_segment"] = 3;
         $config['use_page_numbers'] = TRUE;
 
@@ -59,10 +65,12 @@ class Gh_cell extends CI_Controller
         // Inisialisasi paginasi
         $this->pagination->initialize($config);
 
-        // Ambil data untuk halaman saat ini
-        $data['gh_cell'] = $this->Gh_cell_model->get_gh_cell($config['per_page'], $offset);
+    // Ambil data untuk halaman saat ini
+    $data['gh_cell'] = $this->Gh_cell_model->get_gh_cell($config['per_page'], $offset);
         $data['pagination'] = $this->pagination->create_links();
         $data['start_no'] = $offset + 1;
+    $data['per_page'] = $config['per_page'];
+    $data['total_rows'] = $config['total_rows'];
 
         $this->load->view('layout/header');
         $this->load->view('gh_cell/vw_gh_cell', $data);
@@ -74,7 +82,7 @@ class Gh_cell extends CI_Controller
     {
         if ($this->input->post()) {
             $insertData = [
-                'SSOTNUMBER_GH_CELL' => $this->input->post('SSOTNUMBER_GH_CELL'),
+                'SSOTNUMBER' => $this->input->post('SSOTNUMBER'),
                 'GARDU_HUBUNG'       => $this->input->post('GARDU_HUBUNG'),
                 'NAMA_CELL'          => $this->input->post('NAMA_CELL'),
                 'JENIS_CELL'         => $this->input->post('JENIS_CELL'),

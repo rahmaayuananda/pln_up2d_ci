@@ -18,12 +18,17 @@ class Gardu_induk extends CI_Controller
     {
         $data['judul'] = 'Data Gardu Induk';
 
+        // Handle per_page dari query string
+        $per_page = $this->input->get('per_page');
+        $per_page = in_array($per_page, [5, 10, 25, 50, 100, 500]) ? (int)$per_page : 10;
+
         // Konfigurasi paginasi
         $config['base_url'] = site_url('gardu_induk/index');
         $config['total_rows'] = $this->garduModel->count_all_gardu_induk();
-        $config['per_page'] = 5;
+        $config['per_page'] = $per_page;
         $config["uri_segment"] = 3;
         $config['use_page_numbers'] = TRUE;
+        $config['reuse_query_string'] = TRUE; // Untuk mempertahankan parameter per_page
 
         // Customizing pagination links
         $config['full_tag_open'] = '<nav><ul class="pagination justify-content-end">';
@@ -63,6 +68,8 @@ class Gardu_induk extends CI_Controller
         $data['gardu_induk'] = $this->garduModel->get_gardu_induk($config['per_page'], $offset);
         $data['pagination'] = $this->pagination->create_links();
         $data['start_no'] = $offset + 1;
+        $data['per_page'] = $per_page;
+        $data['total_rows'] = $config['total_rows'];
 
         $this->load->view('layout/header', $data);
         $this->load->view('gardu_induk/vw_gardu_induk', $data);

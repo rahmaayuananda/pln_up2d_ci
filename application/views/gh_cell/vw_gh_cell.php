@@ -75,7 +75,7 @@
                                 foreach ($gh_cell as $row): ?>
                                     <tr class="<?= ($no % 2 == 0) ? 'table-row-even' : 'table-row-odd'; ?>">
                                         <td class="text-sm"><?= $no++; ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['SSOTNUMBER_GH_CELL'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['SSOTNUMBER'] ?? ''); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['GARDU_HUBUNG'] ?? ''); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['NAMA_CELL'] ?? ''); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['JENIS_CELL'] ?? ''); ?></td>
@@ -89,13 +89,13 @@
                                         <td class="text-sm"><?= htmlentities($row['THN_RELAY'] ?? ''); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['RATIO_CT'] ?? ''); ?></td>
                                         <td class="text-center">
-                                            <a href="<?= base_url('Gh_cell/detail/' . $row['SSOTNUMBER_GH_CELL']); ?>" class="btn btn-info btn-xs text-white me-1" title="Detail">
+                                            <a href="<?= base_url('Gh_cell/detail/' . urlencode($row['SSOTNUMBER'])); ?>" class="btn btn-info btn-xs text-white me-1" title="Detail">
                                                 <i class="fas fa-info-circle"></i>
                                             </a>
-                                            <a href="<?= base_url('Gh_cell/edit/' . $row['SSOTNUMBER_GH_CELL']); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
+                                            <a href="<?= base_url('Gh_cell/edit/' . urlencode($row['SSOTNUMBER'])); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
                                                 <i class="fas fa-pen"></i>
                                             </a>
-                                            <a href="<?= base_url('Gh_cell/hapus/' . $row['SSOTNUMBER_GH_CELL']); ?>" class="btn btn-danger btn-xs btn-hapus" title="Hapus">
+                                            <a href="<?= base_url('Gh_cell/hapus/' . urlencode($row['SSOTNUMBER'])); ?>" class="btn btn-danger btn-xs btn-hapus" title="Hapus">
                                                 <i class="fas fa-trash"></i>
                                             </a>
                                         </td>

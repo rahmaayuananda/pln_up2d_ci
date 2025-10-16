@@ -93,15 +93,15 @@
                                         <td class="text-sm"><?= htmlentities($row['TYPE_RELAY'] ?? ''); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['THN_RELAY'] ?? ''); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['RATIO_CT'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['ID_GI'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['LOCATION'] ?? ''); ?></td>
                                         <td class="text-center">
-                                            <a href="<?= base_url('Gi_cell/detail/' . $row['SSOTNUMBER_GI_CELL']); ?>" class="btn btn-info btn-xs text-white me-1" title="Detail">
+                                            <a href="<?= base_url('Gi_cell/detail/' . urlencode($row['SSOTNUMBER'] ?? '')); ?>" class="btn btn-info btn-xs text-white me-1" title="Detail">
                                                 <i class="fas fa-info-circle"></i>
                                             </a>
-                                            <a href="<?= base_url('Gi_cell/edit/' . $row['SSOTNUMBER_GI_CELL']); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
+                                            <a href="<?= base_url('Gi_cell/edit/' . urlencode($row['SSOTNUMBER'] ?? '')); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
                                                 <i class="fas fa-pen"></i>
                                             </a>
-                                            <a href="<?= base_url('Gi_cell/hapus/' . $row['SSOTNUMBER_GI_CELL']); ?>" class="btn btn-danger btn-xs btn-hapus" title="Hapus">
+                                            <a href="<?= base_url('Gi_cell/hapus/' . urlencode($row['SSOTNUMBER'] ?? '')); ?>" class="btn btn-danger btn-xs btn-hapus" title="Hapus">
                                                 <i class="fas fa-trash"></i>
                                             </a>
                                         </td>

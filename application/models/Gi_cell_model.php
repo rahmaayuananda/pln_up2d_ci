@@ -22,10 +22,10 @@ class Gi_cell_model extends CI_Model
         return $this->db->count_all($this->table);
     }
 
-    // Mengambil data gi_cell berdasarkan SSOTNUMBER_GI_CELL (primary key business)
+    // Mengambil data gi_cell berdasarkan SSOTNUMBER (primary key business)
     public function get_gi_cell_by_id($ssotnumber)
     {
-        return $this->db->get_where($this->table, ['SSOTNUMBER_GI_CELL' => $ssotnumber])->row_array();
+        return $this->db->get_where($this->table, ['SSOTNUMBER' => $ssotnumber])->row_array();
     }
 
     // Menambahkan data baru ke tabel gi_cell
@@ -34,17 +34,17 @@ class Gi_cell_model extends CI_Model
         return $this->db->insert($this->table, $data);
     }
 
-    // Memperbarui data gi_cell berdasarkan SSOTNUMBER_GI_CELL
+    // Memperbarui data gi_cell berdasarkan SSOTNUMBER
     public function update_gi_cell($ssotnumber, $data)
     {
-        $this->db->where('SSOTNUMBER_GI_CELL', $ssotnumber);
+        $this->db->where('SSOTNUMBER', $ssotnumber);
         return $this->db->update($this->table, $data);
     }
 
-    // Menghapus data gi_cell berdasarkan SSOTNUMBER_GI_CELL
+    // Menghapus data gi_cell berdasarkan SSOTNUMBER
     public function delete_gi_cell($ssotnumber)
     {
-        $this->db->where('SSOTNUMBER_GI_CELL', $ssotnumber);
+        $this->db->where('SSOTNUMBER', $ssotnumber);
         return $this->db->delete($this->table);
     }
 }

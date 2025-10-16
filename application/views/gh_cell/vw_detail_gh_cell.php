@@ -14,7 +14,7 @@
 							<div class="card-body">
 								<?php
 								$fields = [
-									'SSOTNUMBER_GH_CELL' => 'SSOT Number',
+									'SSOTNUMBER' => 'SSOT Number',
 									'GARDU_HUBUNG'       => 'Gardu Hubung',
 									'NAMA_CELL'          => 'Nama Cell',
 									'JENIS_CELL'         => 'Jenis Cell',

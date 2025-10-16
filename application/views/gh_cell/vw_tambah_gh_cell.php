@@ -14,7 +14,7 @@
 					<div class="row g-3">
 						<div class="col-md-6">
 							<label class="form-label">SSOT Number</label>
-							<input type="text" class="form-control" name="SSOTNUMBER_GH_CELL" required>
+							<input type="text" class="form-control" name="SSOTNUMBER" required>
 						</div>
 						<div class="col-md-6">
 							<label class="form-label">Gardu Hubung</label>

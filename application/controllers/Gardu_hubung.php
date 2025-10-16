@@ -15,10 +15,14 @@ class Gardu_hubung extends CI_Controller
     {
         $data['title'] = 'Data Gardu Hubung';
 
+        // Handle per_page dari query string
+        $per_page = $this->input->get('per_page');
+        $per_page = in_array($per_page, [5,10,25,50,100,500]) ? (int)$per_page : 10;
+
         // Konfigurasi paginasi
         $config['base_url'] = site_url('gardu_hubung/index');
         $config['total_rows'] = $this->Gardu_hubung_model->count_all_gardu_hubung();
-        $config['per_page'] = 5;
+        $config['per_page'] = $per_page;
         $config["uri_segment"] = 3;
         $config['use_page_numbers'] = TRUE;
 
@@ -57,9 +61,11 @@ class Gardu_hubung extends CI_Controller
         $this->pagination->initialize($config);
 
         // Ambil data untuk halaman saat ini
-        $data['gardu_hubung'] = $this->Gardu_hubung_model->get_gardu_hubung($config['per_page'], $offset);
+    $data['gardu_hubung'] = $this->Gardu_hubung_model->get_gardu_hubung($config['per_page'], $offset);
         $data['pagination'] = $this->pagination->create_links();
         $data['start_no'] = $offset + 1;
+    $data['per_page'] = $per_page;
+    $data['total_rows'] = $config['total_rows'];
 
         $this->load->view('layout/header');
         $this->load->view('gardu_hubung/vw_gardu_hubung', $data);
