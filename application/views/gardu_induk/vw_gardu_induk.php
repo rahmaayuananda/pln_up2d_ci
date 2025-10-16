@@ -101,13 +101,13 @@
                                         <td class="text-sm"><?= htmlentities($row['SN_RTU'] ?? ''); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['THN_INTEGRASI'] ?? ''); ?></td>
                                         <td class="text-center">
-                                            <a href="<?= base_url('Gardu_induk/detail/' . urlencode($row['GARDU_INDUK'] ?? '')); ?>" class="btn btn-info btn-xs text-white me-1" title="Detail">
+                                            <a href="<?= base_url('Gardu_induk/detail/' . urlencode($row['SSOTNUMBER'] ?? '')); ?>" class="btn btn-info btn-xs text-white me-1" title="Detail">
                                                 <i class="fas fa-info-circle"></i>
                                             </a>
-                                            <a href="<?= base_url('Gardu_induk/edit/' . urlencode($row['GARDU_INDUK'] ?? '')); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
+                                            <a href="<?= base_url('Gardu_induk/edit/' . urlencode($row['SSOTNUMBER'] ?? '')); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
                                                 <i class="fas fa-pen"></i>
                                             </a>
-                                            <a href="<?= base_url('Gardu_induk/hapus/' . urlencode($row['GARDU_INDUK'] ?? '')); ?>" class="btn btn-danger btn-xs btn-hapus" title="Hapus">
+                                            <a href="<?= base_url('Gardu_induk/hapus/' . urlencode($row['SSOTNUMBER'] ?? '')); ?>" class="btn btn-danger btn-xs btn-hapus" title="Hapus">
                                                 <i class="fas fa-trash"></i>
                                             </a>
                                         </td>
