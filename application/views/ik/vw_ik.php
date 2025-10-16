@@ -11,7 +11,7 @@
                     <li class="breadcrumb-item text-sm text-white active" aria-current="page">Data IK</li>
                 </ol>
                 <h6 class="font-weight-bolder text-white mb-0">
-                    <i class="fas fa-file-alt me-2"></i> Data IK
+                    <i class="fas fa-info-circle me-2"></i> Data IK
                 </h6>
             </nav>
         </div>

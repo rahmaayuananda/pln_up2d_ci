@@ -17,7 +17,7 @@
 
         <div class="card shadow border-0 rounded-4">
             <div class="card-header bg-gradient-primary text-white rounded-top-4 py-3">
-                <h6 class="mb-0 text-white"><i class="fas fa-file-alt me-2"></i> Form Tambah IK</h6>
+                <h6 class="mb-0 text-white"><i class="fas fa-info-circle me-2"></i> Form Tambah IK</h6>
             </div>
 
             <div class="card-body bg-white px-4 py-4">

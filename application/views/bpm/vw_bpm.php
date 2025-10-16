@@ -11,7 +11,7 @@
                     <li class="breadcrumb-item text-sm text-white active" aria-current="page">Data BPM</li>
                 </ol>
                 <h6 class="font-weight-bolder text-white mb-0">
-                    <i class="fas fa-file-alt me-2 "></i> Data BPM
+                    <i class="fas fa-project-diagram me-2 "></i> Data BPM
                 </h6>
             </nav>
         </div>
