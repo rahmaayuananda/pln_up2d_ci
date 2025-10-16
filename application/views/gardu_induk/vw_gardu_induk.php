@@ -44,36 +44,27 @@
                 </div>
 
                 <div class="table-responsive p-0">
+                    <!-- UPDATED BY AI: Struktur kolom disesuaikan dengan tabel gi database -->
                     <table class="table align-items-center mb-0" id="giTable">
                         <thead class="bg-light">
                             <tr>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Unit Layanan</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Gardu Induk</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SSOT Number</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Location</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Unit Name</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Longitude (X)</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Latitude (Y)</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status Operasi</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jml TD</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">INC</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">OGF</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Spare</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Couple</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Bus Riser</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">BBVT</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PS</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status SCADA</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">IP Gateway</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">IP RTU</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Merk RTU</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SN RTU</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tahun Integrasi</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Street Address</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">City</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php if (empty($gardu_induk)): ?>
                                 <tr>
-                                    <td colspan="21" class="text-center text-secondary py-4">Belum ada data</td>
+                                    <td colspan="11" class="text-center text-secondary py-4">Belum ada data</td>
                                 </tr>
                             <?php else: ?>
                                 <?php
@@ -81,33 +72,23 @@
                                 foreach ($gardu_induk as $row): ?>
                                     <tr class="<?= ($no % 2 == 0) ? 'table-row-even' : 'table-row-odd'; ?>">
                                         <td class="text-sm"><?= $no++; ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['UNIT_LAYANAN'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['GARDU_INDUK'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['SSOTNUMBER'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['LOCATION'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['DESCRIPTION'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['UNITNAME'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['STATUS'] ?? ''); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['LONGITUDEX'] ?? ''); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['LATITUDEY'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['STATUS_OPERASI'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['JML_TD'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['INC'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['OGF'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['SPARE'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['COUPLE'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['BUS_RISER'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['BBVT'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['PS'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['STATUS_SCADA'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['IP_GATEWAY'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['IP_RTU'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['MERK_RTU'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['SN_RTU'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['THN_INTEGRASI'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['STREETADDRESS'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['CITY'] ?? ''); ?></td>
                                         <td class="text-center">
-                                            <a href="<?= base_url('Gardu_induk/detail/' . urlencode($row['GARDU_INDUK'] ?? '')); ?>" class="btn btn-info btn-xs text-white me-1" title="Detail">
+                                            <a href="<?= base_url('Gardu_induk/detail/' . urlencode($row['SSOTNUMBER'] ?? '')); ?>" class="btn btn-info btn-xs text-white me-1" title="Detail">
                                                 <i class="fas fa-info-circle"></i>
                                             </a>
-                                            <a href="<?= base_url('Gardu_induk/edit/' . urlencode($row['GARDU_INDUK'] ?? '')); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
+                                            <a href="<?= base_url('Gardu_induk/edit/' . urlencode($row['SSOTNUMBER'] ?? '')); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
                                                 <i class="fas fa-pen"></i>
                                             </a>
-                                            <a href="<?= base_url('Gardu_induk/hapus/' . urlencode($row['GARDU_INDUK'] ?? '')); ?>" class="btn btn-danger btn-xs btn-hapus" title="Hapus">
+                                            <a href="<?= base_url('Gardu_induk/hapus/' . urlencode($row['SSOTNUMBER'] ?? '')); ?>" class="btn btn-danger btn-xs btn-hapus" title="Hapus">
                                                 <i class="fas fa-trash"></i>
                                             </a>
                                         </td>
