@@ -18,10 +18,17 @@ class Gi_cell extends CI_Controller
     {
         $data['title'] = 'Data GI Cell';
 
+        // Get per_page from query string, default 5
+        $per_page = $this->input->get('per_page');
+        $allowed_per_page = [5, 10, 25, 50, 100, 500];
+        if (!in_array($per_page, $allowed_per_page)) {
+            $per_page = 5;
+        }
+
         // Konfigurasi paginasi
         $config['base_url'] = site_url('gi_cell/index');
         $config['total_rows'] = $this->Gi_cell_model->count_all_gi_cell();
-        $config['per_page'] = 5;
+        $config['per_page'] = $per_page;
         $config["uri_segment"] = 3;
         $config['use_page_numbers'] = TRUE;
 
@@ -63,6 +70,8 @@ class Gi_cell extends CI_Controller
         $data['gi_cell'] = $this->Gi_cell_model->get_gi_cell($config['per_page'], $offset);
         $data['pagination'] = $this->pagination->create_links();
         $data['start_no'] = $offset + 1;
+        $data['per_page'] = $per_page;
+        $data['total_rows'] = $config['total_rows'];
 
         $this->load->view('layout/header');
         $this->load->view('gi_cell/vw_gi_cell', $data);
@@ -74,22 +83,34 @@ class Gi_cell extends CI_Controller
     {
         if ($this->input->post()) {
             $insertData = [
-                'SSOTNUMBER_GI_CELL' => $this->input->post('SSOTNUMBER_GI_CELL'),
-                'GARDU_INDUK'        => $this->input->post('GARDU_INDUK'),
-                'TD'                 => $this->input->post('TD'),
-                'KAP_TD_MVA'         => $this->input->post('KAP_TD_MVA'),
-                'NAMA_CELL'          => $this->input->post('NAMA_CELL'),
-                'JENIS_CELL'         => $this->input->post('JENIS_CELL'),
-                'STATUS_OPERASI'     => $this->input->post('STATUS_OPERASI'),
-                'MERK_CELL'          => $this->input->post('MERK_CELL'),
-                'TYPE_CELL'          => $this->input->post('TYPE_CELL'),
-                'THN_CELL'           => $this->input->post('THN_CELL'),
-                'STATUS_SCADA'       => $this->input->post('STATUS_SCADA'),
-                'MERK_RELAY'         => $this->input->post('MERK_RELAY'),
-                'TYPE_RELAY'         => $this->input->post('TYPE_RELAY'),
-                'THN_RELAY'          => $this->input->post('THN_RELAY'),
-                'RATIO_CT'           => $this->input->post('RATIO_CT'),
-                'ID_GI'              => $this->input->post('ID_GI')
+                'CXUNIT'                 => $this->input->post('CXUNIT'),
+                'UNITNAME'               => $this->input->post('UNITNAME'),
+                'ASSETNUM'               => $this->input->post('ASSETNUM'),
+                'SSOTNUMBER'             => $this->input->post('SSOTNUMBER'),
+                'LOCATION'               => $this->input->post('LOCATION'),
+                'DESCRIPTION'            => $this->input->post('DESCRIPTION'),
+                'VENDOR'                 => $this->input->post('VENDOR'),
+                'MANUFACTURER'           => $this->input->post('MANUFACTURER'),
+                'INSTALLDATE'            => $this->input->post('INSTALLDATE'),
+                'PRIORITY'               => $this->input->post('PRIORITY'),
+                'STATUS'                 => $this->input->post('STATUS'),
+                'TUJDNUMBER'             => $this->input->post('TUJDNUMBER'),
+                'CHANGEBY'               => $this->input->post('CHANGEBY'),
+                'CHANGEDATE'             => $this->input->post('CHANGEDATE'),
+                'CXCLASSIFICATIONDESC'   => $this->input->post('CXCLASSIFICATIONDESC'),
+                'CXPENYULANG'            => $this->input->post('CXPENYULANG'),
+                'NAMA_LOCATION'          => $this->input->post('NAMA_LOCATION'),
+                'LONGITUDEX'             => $this->input->post('LONGITUDEX'),
+                'LATITUDEY'              => $this->input->post('LATITUDEY'),
+                'BURDEN'                 => $this->input->post('BURDEN'),
+                'FAKTOR_KALI'            => $this->input->post('FAKTOR_KALI'),
+                'ISASSET'                => $this->input->post('ISASSET'),
+                'JENIS_CT'               => $this->input->post('JENIS_CT'),
+                'KELAS_CT'               => $this->input->post('KELAS_CT'),
+                'KELAS_PROTEKSI'         => $this->input->post('KELAS_PROTEKSI'),
+                'PRIMER_SEKUNDER'        => $this->input->post('PRIMER_SEKUNDER'),
+                'STATUS_KEPEMILIKAN'     => $this->input->post('STATUS_KEPEMILIKAN'),
+                'TIPE_CT'                => $this->input->post('TIPE_CT')
             ];
 
             $this->Gi_cell_model->insert_gi_cell($insertData);
@@ -113,21 +134,33 @@ class Gi_cell extends CI_Controller
 
         if ($this->input->post()) {
             $updateData = [
-                'GARDU_INDUK'    => $this->input->post('GARDU_INDUK'),
-                'TD'             => $this->input->post('TD'),
-                'KAP_TD_MVA'     => $this->input->post('KAP_TD_MVA'),
-                'NAMA_CELL'      => $this->input->post('NAMA_CELL'),
-                'JENIS_CELL'     => $this->input->post('JENIS_CELL'),
-                'STATUS_OPERASI' => $this->input->post('STATUS_OPERASI'),
-                'MERK_CELL'      => $this->input->post('MERK_CELL'),
-                'TYPE_CELL'      => $this->input->post('TYPE_CELL'),
-                'THN_CELL'       => $this->input->post('THN_CELL'),
-                'STATUS_SCADA'   => $this->input->post('STATUS_SCADA'),
-                'MERK_RELAY'     => $this->input->post('MERK_RELAY'),
-                'TYPE_RELAY'     => $this->input->post('TYPE_RELAY'),
-                'THN_RELAY'      => $this->input->post('THN_RELAY'),
-                'RATIO_CT'       => $this->input->post('RATIO_CT'),
-                'ID_GI'          => $this->input->post('ID_GI')
+                'CXUNIT'                 => $this->input->post('CXUNIT'),
+                'UNITNAME'               => $this->input->post('UNITNAME'),
+                'ASSETNUM'               => $this->input->post('ASSETNUM'),
+                'LOCATION'               => $this->input->post('LOCATION'),
+                'DESCRIPTION'            => $this->input->post('DESCRIPTION'),
+                'VENDOR'                 => $this->input->post('VENDOR'),
+                'MANUFACTURER'           => $this->input->post('MANUFACTURER'),
+                'INSTALLDATE'            => $this->input->post('INSTALLDATE'),
+                'PRIORITY'               => $this->input->post('PRIORITY'),
+                'STATUS'                 => $this->input->post('STATUS'),
+                'TUJDNUMBER'             => $this->input->post('TUJDNUMBER'),
+                'CHANGEBY'               => $this->input->post('CHANGEBY'),
+                'CHANGEDATE'             => $this->input->post('CHANGEDATE'),
+                'CXCLASSIFICATIONDESC'   => $this->input->post('CXCLASSIFICATIONDESC'),
+                'CXPENYULANG'            => $this->input->post('CXPENYULANG'),
+                'NAMA_LOCATION'          => $this->input->post('NAMA_LOCATION'),
+                'LONGITUDEX'             => $this->input->post('LONGITUDEX'),
+                'LATITUDEY'              => $this->input->post('LATITUDEY'),
+                'BURDEN'                 => $this->input->post('BURDEN'),
+                'FAKTOR_KALI'            => $this->input->post('FAKTOR_KALI'),
+                'ISASSET'                => $this->input->post('ISASSET'),
+                'JENIS_CT'               => $this->input->post('JENIS_CT'),
+                'KELAS_CT'               => $this->input->post('KELAS_CT'),
+                'KELAS_PROTEKSI'         => $this->input->post('KELAS_PROTEKSI'),
+                'PRIMER_SEKUNDER'        => $this->input->post('PRIMER_SEKUNDER'),
+                'STATUS_KEPEMILIKAN'     => $this->input->post('STATUS_KEPEMILIKAN'),
+                'TIPE_CT'                => $this->input->post('TIPE_CT')
             ];
 
             $this->Gi_cell_model->update_gi_cell($id, $updateData);

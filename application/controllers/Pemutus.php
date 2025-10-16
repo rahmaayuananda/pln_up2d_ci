@@ -18,12 +18,17 @@ class Pemutus extends CI_Controller
     {
         $data['title'] = 'Data Pemutus (LBS Recloser)';
 
+        // Get per_page from query string, default to 10
+        $per_page = $this->input->get('per_page');
+        $per_page = in_array($per_page, [10, 25, 50, 100]) ? (int)$per_page : 10;
+
         // Konfigurasi paginasi
         $config['base_url'] = site_url('pemutus/index');
         $config['total_rows'] = $this->Pemutus_model->count_all_pemutus();
-        $config['per_page'] = 5;
+        $config['per_page'] = $per_page;
         $config["uri_segment"] = 3;
         $config['use_page_numbers'] = TRUE;
+        $config['reuse_query_string'] = TRUE;
 
         // Customizing pagination links
         $config['full_tag_open'] = '<nav><ul class="pagination justify-content-end">';
@@ -63,6 +68,8 @@ class Pemutus extends CI_Controller
         $data['pemutus'] = $this->Pemutus_model->get_pemutus($config['per_page'], $offset);
         $data['pagination'] = $this->pagination->create_links();
         $data['start_no'] = $offset + 1;
+        $data['per_page'] = $per_page;
+        $data['total_rows'] = $config['total_rows'];
 
         $this->load->view('layout/header');
         $this->load->view('pemutus/vw_pemutus', $data);

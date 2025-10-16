@@ -19,9 +19,25 @@
           <li class="list-group-item d-flex justify-content-between"><span>Status</span><span class="badge bg-primary"><?= htmlspecialchars($job->status); ?></span></li>
         </ul>
         <div class="mt-3 d-flex gap-2">
-          <a href="<?= base_url('import'); ?>" class="btn btn-secondary">Kembali</a>
+          <?php
+            // Map target_table to controller URL
+            $controllerMap = [
+              'gi' => 'gardu_induk',
+              'gh' => 'gardu_hubung',
+              'gi_cell' => 'gi_cell',
+              'gh_cell' => 'gh_cell',
+              'kit_cell' => 'kit_cell',
+              'lbs_recloser' => 'Pemutus',
+              'pembangkit' => 'Pembangkit',
+              'unit' => 'unit',
+              'ulp' => 'ulp'
+            ];
+            $backUrl = isset($controllerMap[$job->target_table]) ? $controllerMap[$job->target_table] : 'dashboard';
+            $tableLabel = strtoupper(str_replace('_', ' ', $job->target_table));
+          ?>
+          <a href="<?= base_url($backUrl); ?>" class="btn btn-secondary">Kembali ke Tabel <?= htmlspecialchars($tableLabel); ?></a>
           <?php if ($job->status === 'done'): ?>
-            <a href="<?= base_url('import/commit/'.$job->id); ?>" class="btn btn-success" onclick="return confirm('Pindahkan data dari staging ke tabel <?= htmlspecialchars($job->target_table); ?>?');">Commit ke Tabel <?= htmlspecialchars(strtoupper($job->target_table)); ?></a>
+            <a href="<?= base_url('import/commit/'.$job->id); ?>" class="btn btn-success" onclick="return confirm('Pindahkan data dari staging ke tabel <?= htmlspecialchars($job->target_table); ?>?');">Commit ke Tabel <?= htmlspecialchars($tableLabel); ?></a>
           <?php endif; ?>
         </div>
       </div>

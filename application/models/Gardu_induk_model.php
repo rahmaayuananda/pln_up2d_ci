@@ -23,7 +23,7 @@ class Gardu_induk_model extends CI_Model
 
     public function get_gardu_induk_by_id($id)
     {
-    return $this->db->get_where($this->table, ['ID_GI' => $id])->row_array();
+    return $this->db->get_where($this->table, ['SSOTNUMBER' => $id])->row_array();
     }
 
     public function insert_gardu_induk($data)
@@ -33,13 +33,13 @@ class Gardu_induk_model extends CI_Model
 
     public function update_gardu_induk($id, $data)
     {
-    $this->db->where('ID_GI', $id);
+    $this->db->where('SSOTNUMBER', $id);
         return $this->db->update($this->table, $data);
     }
 
     public function delete_gardu_induk($id)
     {
-    $this->db->where('ID_GI', $id);
+    $this->db->where('SSOTNUMBER', $id);
         return $this->db->delete($this->table);
     }
 }

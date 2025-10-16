@@ -18,12 +18,20 @@ class Gardu_induk extends CI_Controller
     {
         $data['judul'] = 'Data Gardu Induk';
 
+        // Get per_page from query string or default to 5
+        $per_page = $this->input->get('per_page');
+        $allowed_per_page = [5, 10, 25, 50, 100, 500];
+        if (!in_array($per_page, $allowed_per_page)) {
+            $per_page = 5; // default
+        }
+
         // Konfigurasi paginasi
         $config['base_url'] = site_url('gardu_induk/index');
         $config['total_rows'] = $this->garduModel->count_all_gardu_induk();
-        $config['per_page'] = 5;
+        $config['per_page'] = $per_page;
         $config["uri_segment"] = 3;
         $config['use_page_numbers'] = TRUE;
+        $config['reuse_query_string'] = TRUE; // Maintain per_page parameter
 
         // Customizing pagination links
         $config['full_tag_open'] = '<nav><ul class="pagination justify-content-end">';
@@ -63,6 +71,8 @@ class Gardu_induk extends CI_Controller
         $data['gardu_induk'] = $this->garduModel->get_gardu_induk($config['per_page'], $offset);
         $data['pagination'] = $this->pagination->create_links();
         $data['start_no'] = $offset + 1;
+        $data['per_page'] = $per_page;
+        $data['total_rows'] = $config['total_rows'];
 
         $this->load->view('layout/header', $data);
         $this->load->view('gardu_induk/vw_gardu_induk', $data);
@@ -78,25 +88,32 @@ class Gardu_induk extends CI_Controller
 
         if ($this->input->post()) {
             $dataInput = [
-                'UNIT_LAYANAN'   => $this->input->post('UNIT_LAYANAN'),
-                'GARDU_INDUK'    => $this->input->post('GARDU_INDUK'),
-                'LONGITUDEX'     => $this->input->post('LONGITUDEX'),
-                'LATITUDEY'      => $this->input->post('LATITUDEY'),
-                'STATUS_OPERASI' => $this->input->post('STATUS_OPERASI'),
-                'JML_TD'         => $this->input->post('JML_TD'),
-                'INC'            => $this->input->post('INC'),
-                'OGF'            => $this->input->post('OGF'),
-                'SPARE'          => $this->input->post('SPARE'),
-                'COUPLE'         => $this->input->post('COUPLE'),
-                'BUS_RISER'      => $this->input->post('BUS_RISER'),
-                'BBVT'           => $this->input->post('BBVT'),
-                'PS'             => $this->input->post('PS'),
-                'STATUS_SCADA'   => $this->input->post('STATUS_SCADA'),
-                'IP_GATEWAY'     => $this->input->post('IP_GATEWAY'),
-                'IP_RTU'         => $this->input->post('IP_RTU'),
-                'MERK_RTU'       => $this->input->post('MERK_RTU'),
-                'SN_RTU'         => $this->input->post('SN_RTU'),
-                'THN_INTEGRASI'  => $this->input->post('THN_INTEGRASI'),
+                'UP3_2D' => $this->input->post('UP3_2D'),
+                'UNITNAME_UP3' => $this->input->post('UNITNAME_UP3'),
+                'CXUNIT' => $this->input->post('CXUNIT'),
+                'UNITNAME' => $this->input->post('UNITNAME'),
+                'LOCATION' => $this->input->post('LOCATION'),
+                'SSOTNUMBER' => $this->input->post('SSOTNUMBER'),
+                'DESCRIPTION' => $this->input->post('DESCRIPTION'),
+                'STATUS' => $this->input->post('STATUS'),
+                'TUJDNUMBER' => $this->input->post('TUJDNUMBER'),
+                'ASSETCLASSHI' => $this->input->post('ASSETCLASSHI'),
+                'SADDRESSCODE' => $this->input->post('SADDRESSCODE'),
+                'CXCLASSIFICATIONDESC' => $this->input->post('CXCLASSIFICATIONDESC'),
+                'PENYULANG' => $this->input->post('PENYULANG'),
+                'PARENT' => $this->input->post('PARENT'),
+                'PARENT_DESCRIPTION' => $this->input->post('PARENT_DESCRIPTION'),
+                'INSTALLDATE' => $this->input->post('INSTALLDATE'),
+                'ACTUALOPRDATE' => $this->input->post('ACTUALOPRDATE'),
+                'CHANGEDATE' => $this->input->post('CHANGEDATE'),
+                'CHANGEBY' => $this->input->post('CHANGEBY'),
+                'LATITUDEY' => $this->input->post('LATITUDEY'),
+                'LONGITUDEX' => $this->input->post('LONGITUDEX'),
+                'FORMATTEDADDRESS' => $this->input->post('FORMATTEDADDRESS'),
+                'STREETADDRESS' => $this->input->post('STREETADDRESS'),
+                'CITY' => $this->input->post('CITY'),
+                'ISASSET' => $this->input->post('ISASSET'),
+                'STATUS_KEPEMILIKAN' => $this->input->post('STATUS_KEPEMILIKAN'),
             ];
 
             $this->garduModel->insert_gardu_induk($dataInput);
@@ -155,25 +172,32 @@ class Gardu_induk extends CI_Controller
 
         if ($this->input->post()) {
             $dataUpdate = [
-                'UNIT_LAYANAN'   => $this->input->post('UNIT_LAYANAN'),
-                'GARDU_INDUK'    => $this->input->post('GARDU_INDUK'),
-                'LONGITUDEX'     => $this->input->post('LONGITUDEX'),
-                'LATITUDEY'      => $this->input->post('LATITUDEY'),
-                'STATUS_OPERASI' => $this->input->post('STATUS_OPERASI'),
-                'JML_TD'         => $this->input->post('JML_TD'),
-                'INC'            => $this->input->post('INC'),
-                'OGF'            => $this->input->post('OGF'),
-                'SPARE'          => $this->input->post('SPARE'),
-                'COUPLE'         => $this->input->post('COUPLE'),
-                'BUS_RISER'      => $this->input->post('BUS_RISER'),
-                'BBVT'           => $this->input->post('BBVT'),
-                'PS'             => $this->input->post('PS'),
-                'STATUS_SCADA'   => $this->input->post('STATUS_SCADA'),
-                'IP_GATEWAY'     => $this->input->post('IP_GATEWAY'),
-                'IP_RTU'         => $this->input->post('IP_RTU'),
-                'MERK_RTU'       => $this->input->post('MERK_RTU'),
-                'SN_RTU'         => $this->input->post('SN_RTU'),
-                'THN_INTEGRASI'  => $this->input->post('THN_INTEGRASI'),
+                'UP3_2D' => $this->input->post('UP3_2D'),
+                'UNITNAME_UP3' => $this->input->post('UNITNAME_UP3'),
+                'CXUNIT' => $this->input->post('CXUNIT'),
+                'UNITNAME' => $this->input->post('UNITNAME'),
+                'LOCATION' => $this->input->post('LOCATION'),
+                'SSOTNUMBER' => $this->input->post('SSOTNUMBER'),
+                'DESCRIPTION' => $this->input->post('DESCRIPTION'),
+                'STATUS' => $this->input->post('STATUS'),
+                'TUJDNUMBER' => $this->input->post('TUJDNUMBER'),
+                'ASSETCLASSHI' => $this->input->post('ASSETCLASSHI'),
+                'SADDRESSCODE' => $this->input->post('SADDRESSCODE'),
+                'CXCLASSIFICATIONDESC' => $this->input->post('CXCLASSIFICATIONDESC'),
+                'PENYULANG' => $this->input->post('PENYULANG'),
+                'PARENT' => $this->input->post('PARENT'),
+                'PARENT_DESCRIPTION' => $this->input->post('PARENT_DESCRIPTION'),
+                'INSTALLDATE' => $this->input->post('INSTALLDATE'),
+                'ACTUALOPRDATE' => $this->input->post('ACTUALOPRDATE'),
+                'CHANGEDATE' => $this->input->post('CHANGEDATE'),
+                'CHANGEBY' => $this->input->post('CHANGEBY'),
+                'LATITUDEY' => $this->input->post('LATITUDEY'),
+                'LONGITUDEX' => $this->input->post('LONGITUDEX'),
+                'FORMATTEDADDRESS' => $this->input->post('FORMATTEDADDRESS'),
+                'STREETADDRESS' => $this->input->post('STREETADDRESS'),
+                'CITY' => $this->input->post('CITY'),
+                'ISASSET' => $this->input->post('ISASSET'),
+                'STATUS_KEPEMILIKAN' => $this->input->post('STATUS_KEPEMILIKAN'),
             ];
 
             $this->garduModel->update_gardu_induk($id, $dataUpdate);
@@ -188,27 +212,34 @@ class Gardu_induk extends CI_Controller
 
     public function update()
     {
-        $id = $this->input->post('ID_GI');
+        $id = $this->input->post('SSOTNUMBER');
         $dataUpdate = [
-            'UNIT_LAYANAN'   => $this->input->post('UNIT_LAYANAN'),
-            'GARDU_INDUK'    => $this->input->post('GARDU_INDUK'),
-            'LONGITUDEX'     => $this->input->post('LONGITUDEX'),
-            'LATITUDEY'      => $this->input->post('LATITUDEY'),
-            'STATUS_OPERASI' => $this->input->post('STATUS_OPERASI'),
-            'JML_TD'         => $this->input->post('JML_TD'),
-            'INC'            => $this->input->post('INC'),
-            'OGF'            => $this->input->post('OGF'),
-            'SPARE'          => $this->input->post('SPARE'),
-            'COUPLE'         => $this->input->post('COUPLE'),
-            'BUS_RISER'      => $this->input->post('BUS_RISER'),
-            'BBVT'           => $this->input->post('BBVT'),
-            'PS'             => $this->input->post('PS'),
-            'STATUS_SCADA'   => $this->input->post('STATUS_SCADA'),
-            'IP_GATEWAY'     => $this->input->post('IP_GATEWAY'),
-            'IP_RTU'         => $this->input->post('IP_RTU'),
-            'MERK_RTU'       => $this->input->post('MERK_RTU'),
-            'SN_RTU'         => $this->input->post('SN_RTU'),
-            'THN_INTEGRASI'  => $this->input->post('THN_INTEGRASI'),
+            'UP3_2D' => $this->input->post('UP3_2D'),
+            'UNITNAME_UP3' => $this->input->post('UNITNAME_UP3'),
+            'CXUNIT' => $this->input->post('CXUNIT'),
+            'UNITNAME' => $this->input->post('UNITNAME'),
+            'LOCATION' => $this->input->post('LOCATION'),
+            'SSOTNUMBER' => $this->input->post('SSOTNUMBER'),
+            'DESCRIPTION' => $this->input->post('DESCRIPTION'),
+            'STATUS' => $this->input->post('STATUS'),
+            'TUJDNUMBER' => $this->input->post('TUJDNUMBER'),
+            'ASSETCLASSHI' => $this->input->post('ASSETCLASSHI'),
+            'SADDRESSCODE' => $this->input->post('SADDRESSCODE'),
+            'CXCLASSIFICATIONDESC' => $this->input->post('CXCLASSIFICATIONDESC'),
+            'PENYULANG' => $this->input->post('PENYULANG'),
+            'PARENT' => $this->input->post('PARENT'),
+            'PARENT_DESCRIPTION' => $this->input->post('PARENT_DESCRIPTION'),
+            'INSTALLDATE' => $this->input->post('INSTALLDATE'),
+            'ACTUALOPRDATE' => $this->input->post('ACTUALOPRDATE'),
+            'CHANGEDATE' => $this->input->post('CHANGEDATE'),
+            'CHANGEBY' => $this->input->post('CHANGEBY'),
+            'LATITUDEY' => $this->input->post('LATITUDEY'),
+            'LONGITUDEX' => $this->input->post('LONGITUDEX'),
+            'FORMATTEDADDRESS' => $this->input->post('FORMATTEDADDRESS'),
+            'STREETADDRESS' => $this->input->post('STREETADDRESS'),
+            'CITY' => $this->input->post('CITY'),
+            'ISASSET' => $this->input->post('ISASSET'),
+            'STATUS_KEPEMILIKAN' => $this->input->post('STATUS_KEPEMILIKAN'),
         ];
 
         $this->garduModel->update_gardu_induk($id, $dataUpdate);
