@@ -181,13 +181,16 @@
         <!-- Pustaka -->
         <li class="nav-item">
           <a href="#menuPustaka"
-            class="nav-link d-flex align-items-center justify-content-between"
+            class="nav-link d-flex align-items-center justify-content-between <?= (
+                                                                                in_array($this->uri->segment(1), ['sop', 'bpm', 'ik', 'road_map', 'spln'])
+                                                                              ) ? 'active' : '' ?>"
             data-bs-toggle="collapse"
             role="button"
-            aria-expanded="false"
+            aria-expanded="<?= in_array($this->uri->segment(1), ['sop', 'bpm', 'ik', 'road_map', 'spln']) ? 'true' : 'false' ?>"
             aria-controls="menuPustaka">
             <div class="d-flex align-items-center">
-              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <div
+                class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-app text-dark text-sm opacity-10"></i>
               </div>
               <span class="nav-link-text ms-1">Pustaka</span>
@@ -196,31 +199,67 @@
         </li>
 
         <!-- Submenu Pustaka -->
-        <div class="collapse" id="menuPustaka">
+        <div class="collapse <?= in_array($this->uri->segment(1), ['sop', 'bpm', 'ik', 'road_map', 'spln']) ? 'show' : '' ?>"
+          id="menuPustaka">
           <ul class="nav flex-column submenu-list">
+
+            <!-- Submenu SOP -->
             <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="fas fa-file-alt me-2"></i> SOP
+              <a class="nav-link <?= ($this->uri->segment(1) == 'sop') ? 'active' : '' ?>"
+                href="<?= base_url('sop'); ?>">
+                <div
+                  class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                  <i class="fas fa-file-alt text-dark text-sm opacity-10"></i>
+                </div>
+                <span class="nav-link-text ms-1">SOP</span>
               </a>
             </li>
+
+            <!-- Submenu BPM -->
             <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="fas fa-project-diagram me-2"></i> BPM
+              <a class="nav-link <?= ($this->uri->segment(1) == 'bpm') ? 'active' : '' ?>"
+                href="<?= base_url('bpm'); ?>">
+                <div
+                  class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                  <i class="fas fa-project-diagram text-dark text-sm opacity-10"></i>
+                </div>
+                <span class="nav-link-text ms-1">BPM</span>
               </a>
             </li>
+
+            <!-- Submenu IK -->
             <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="fas fa-info-circle me-2"></i> IK
+              <a class="nav-link <?= ($this->uri->segment(1) == 'ik') ? 'active' : '' ?>"
+                href="<?= base_url('ik'); ?>">
+                <div
+                  class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                  <i class="fas fa-info-circle text-dark text-sm opacity-10"></i>
+                </div>
+                <span class="nav-link-text ms-1">IK</span>
               </a>
             </li>
+
+            <!-- Submenu Road Map -->
             <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="fas fa-road me-2"></i> Road Map
+              <a class="nav-link <?= ($this->uri->segment(1) == 'road_map') ? 'active' : '' ?>"
+                href="<?= base_url('road_map'); ?>">
+                <div
+                  class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                  <i class="fas fa-road text-dark text-sm opacity-10"></i>
+                </div>
+                <span class="nav-link-text ms-1">Road Map</span>
               </a>
             </li>
+
+            <!-- Submenu SPLN -->
             <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="fas fa-bolt me-2"></i> SPLN
+              <a class="nav-link <?= ($this->uri->segment(1) == 'spln') ? 'active' : '' ?>"
+                href="<?= base_url('spln'); ?>">
+                <div
+                  class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                  <i class="fas fa-bolt text-dark text-sm opacity-10"></i>
+                </div>
+                <span class="nav-link-text ms-1">SPLN</span>
               </a>
             </li>
           </ul>
