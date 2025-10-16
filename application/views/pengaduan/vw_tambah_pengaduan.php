@@ -50,7 +50,7 @@
                             </select>
                         </div>
 
-                        <!-- Item Induk -->
+                        <!-- Item Pengaduan -->
                         <div class="col-md-6">
                             <label class="form-label">Pilih Item Pengaduan</label>
                             <select id="item_pengaduan" name="ITEM_PENGADUAN" class="form-control" required>
@@ -58,35 +58,53 @@
                             </select>
                         </div>
 
-                        <!-- PIC -->
+                        <!-- PIC (dropdown manual) -->
                         <div class="col-md-6">
                             <label class="form-label">PIC</label>
-                            <input type="text" id="pic" class="form-control" name="PIC" placeholder="Otomatis terisi setelah pilih item..." readonly>
+                            <select name="PIC" id="pic" class="form-control" required>
+                                <option value="">-- Pilih PIC --</option>
+                                <option value="Operasi Sistem Distribusi">Operasi Sistem Distribusi</option>
+                                <option value="Fasilitas Operasi">Fasilitas Operasi</option>
+                                <option value="Pemeliharaan">Pemeliharaan</option>
+                                <option value="K3L & KAM">K3L & KAM</option>
+                                <option value="Perencanaan">Perencanaan</option>
+                            </select>
                         </div>
 
-                        <!-- Laporan -->
+                        <!-- Laporan dan Tindak Lanjut dalam satu baris -->
                         <div class="col-md-12">
-                            <label class="form-label">Laporan</label>
-                            <textarea name="LAPORAN" rows="4" class="form-control" placeholder="Masukkan laporan pengaduan..." required></textarea>
-                        </div>
-
-                        <!-- Foto Pengaduan -->
-                        <div class="col-md-6">
-                            <label class="form-label">Foto Pengaduan</label>
-                            <input type="file" name="FOTO_PENGADUAN" id="foto_pengaduan" class="form-control" accept="image/*" onchange="previewImage(event, 'preview_pengaduan')">
-                            <small class="text-muted">Format: JPG, PNG, maksimal 2MB</small>
-                            <div class="mt-2">
-                                <img id="preview_pengaduan" src="#" alt="Preview Foto Pengaduan" class="img-thumbnail rounded" style="max-width: 200px; display: none;">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="form-label">Laporan</label>
+                                    <textarea name="LAPORAN" rows="6" class="form-control" placeholder="Masukkan laporan pengaduan..." required></textarea>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Tindak Lanjut</label>
+                                    <textarea name="TINDAK_LANJUT" rows="6" class="form-control" placeholder="Masukkan tindak lanjut..."></textarea>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Foto Proses -->
-                        <div class="col-md-6">
-                            <label class="form-label">Foto Proses</label>
-                            <input type="file" name="FOTO_PROSES" id="foto_proses" class="form-control" accept="image/*" onchange="previewImage(event, 'preview_proses')">
-                            <small class="text-muted">Format: JPG, PNG, maksimal 2MB</small>
-                            <div class="mt-2">
-                                <img id="preview_proses" src="#" alt="Preview Foto Proses" class="img-thumbnail rounded" style="max-width: 200px; display: none;">
+                        <!-- Foto Pengaduan dan Foto Proses sejajar -->
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="form-label">Foto Pengaduan</label>
+                                    <input type="file" name="FOTO_PENGADUAN" id="foto_pengaduan" class="form-control" accept="image/*" onchange="previewImage(event, 'preview_pengaduan')">
+                                    <small class="text-muted">Format: JPG, PNG, maksimal 2MB</small>
+                                    <div class="mt-2">
+                                        <img id="preview_pengaduan" src="#" alt="Preview Foto Pengaduan" class="img-thumbnail rounded" style="max-width: 200px; display: none;">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">Foto Proses</label>
+                                    <input type="file" name="FOTO_PROSES" id="foto_proses" class="form-control" accept="image/*" onchange="previewImage(event, 'preview_proses')">
+                                    <small class="text-muted">Format: JPG, PNG, maksimal 2MB</small>
+                                    <div class="mt-2">
+                                        <img id="preview_proses" src="#" alt="Preview Foto Proses" class="img-thumbnail rounded" style="max-width: 200px; display: none;">
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -120,32 +138,13 @@
             "Radio Komunikasi": ["Failed", "Antenna", "Base Station", "HT", "lain-lain.."]
         };
 
-        // PIC sesuai item
-        const picMapping = {
-            "Failed": "Operasi Sistem Distribusi",
-            "PMT": "Pemeliharaan",
-            "Proteksi": "Fasilitas Operasi",
-            "Kabel": "Perencanaan",
-            "Kubikel": "Pemeliharaan",
-            "Rectifier": "Fasilitas Operasi",
-            "Baterai": "K3L & KAM",
-            "VT": "Fasilitas Operasi",
-            "Panel": "Pemeliharaan",
-            "Antenna": "Operasi Sistem Distribusi",
-            "Base Station": "Fasilitas Operasi",
-            "HT": "K3L & KAM",
-            "lain-lain..": "Perencanaan"
-        };
-
         const jenisSelect = document.getElementById("jenis_pengaduan");
         const itemSelect = document.getElementById("item_pengaduan");
-        const picInput = document.getElementById("pic");
 
         // Saat jenis pengaduan berubah, isi item
         jenisSelect.addEventListener("change", function() {
             const selectedJenis = this.value;
             itemSelect.innerHTML = "<option value=''>-- Pilih Item Pengaduan --</option>";
-            picInput.value = "";
 
             if (dataPengaduan[selectedJenis]) {
                 dataPengaduan[selectedJenis].forEach(item => {
@@ -154,16 +153,6 @@
                     opt.textContent = item;
                     itemSelect.appendChild(opt);
                 });
-            }
-        });
-
-        // Saat item dipilih → PIC otomatis
-        itemSelect.addEventListener("change", function() {
-            const selectedItem = this.value;
-            if (picMapping[selectedItem]) {
-                picInput.value = picMapping[selectedItem];
-            } else {
-                picInput.value = "";
             }
         });
 
@@ -201,6 +190,11 @@
         input.form-control {
             height: 40px !important;
             font-size: 0.9rem;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            height: 150px;
         }
     </style>
 </main>
