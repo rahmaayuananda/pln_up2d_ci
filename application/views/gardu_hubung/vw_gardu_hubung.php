@@ -59,15 +59,39 @@
                         <thead class="bg-light">
                             <tr>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SSOT Number</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Location</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Unit Name</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Longitude (X)</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Latitude (Y)</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Street Address</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">City</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">UP3_2D</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">UNITNAME_UP3</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">CXUNIT</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">UNITNAME</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">LOCATION</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SSOTNUMBER</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">DESCRIPTION</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">STATUS</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">TUJDNUMBER</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ASSETCLASSHI</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SADDRESSCODE</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">CXCLASSIFICATIONDESC</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PENYULANG</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PARENT</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PARENT_DESCRIPTION</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">INSTALLDATE</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ACTUALOPRDATE</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">CHANGEDATE</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">CHANGEBY</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">LATITUDEY</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">LONGITUDEX</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">FORMATTEDADDRESS</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">STREETADDRESS</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">CITY</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ISASSET</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">STATUS_KEPEMILIKAN</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">EXTERNALREFID</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">JENIS_PELAYANAN</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">NO_SLO</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">OWNERSYSID</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SLOACTIVEDATE</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">STATUS_RC</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">TYPE_GARDU</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Aksi</th>
                             </tr>
                         </thead>
@@ -82,15 +106,39 @@
                                 foreach ($gardu_hubung as $row): ?>
                                     <tr class="<?= ($no % 2 == 0) ? 'table-row-even' : 'table-row-odd'; ?>">
                                         <td class="text-sm"><?= $no++; ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['SSOTNUMBER'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['LOCATION'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['DESCRIPTION'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['UP3_2D'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['UNITNAME_UP3'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['CXUNIT'] ?? ''); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['UNITNAME'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['LOCATION'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['SSOTNUMBER'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['DESCRIPTION'] ?? ''); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['STATUS'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['LONGITUDEX'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['TUJDNUMBER'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['ASSETCLASSHI'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['SADDRESSCODE'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['CXCLASSIFICATIONDESC'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['PENYULANG'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['PARENT'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['PARENT_DESCRIPTION'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['INSTALLDATE'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['ACTUALOPRDATE'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['CHANGEDATE'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['CHANGEBY'] ?? ''); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['LATITUDEY'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['LONGITUDEX'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['FORMATTEDADDRESS'] ?? ''); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['STREETADDRESS'] ?? ''); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['CITY'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['ISASSET'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['STATUS_KEPEMILIKAN'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['EXTERNALREFID'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['JENIS_PELAYANAN'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['NO_SLO'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['OWNERSYSID'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['SLOACTIVEDATE'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['STATUS_RC'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['TYPE_GARDU'] ?? ''); ?></td>
                                         <td class="text-center">
                                             <a href="<?= base_url('Gardu_hubung/detail/' . urlencode($row['SSOTNUMBER'] ?? '')); ?>" class="btn btn-info btn-xs text-white me-1" title="Detail">
                                                 <i class="fas fa-info-circle"></i>
