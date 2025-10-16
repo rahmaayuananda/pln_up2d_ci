@@ -22,10 +22,10 @@ class Gardu_hubung_model extends CI_Model
         return $this->db->count_all($this->table);
     }
 
-    // Ambil data Gardu Hubung berdasarkan SSOTNUMBER
+    // Ambil data Gardu Hubung berdasarkan SSOTNUMBER_GH
     public function get_gardu_hubung_by_id($id)
     {
-        return $this->db->get_where($this->table, ['SSOTNUMBER' => $id])->row_array();
+        return $this->db->get_where($this->table, ['SSOTNUMBER_GH' => $id])->row_array();
     }
 
     // Tambah data baru
@@ -34,17 +34,17 @@ class Gardu_hubung_model extends CI_Model
         return $this->db->insert($this->table, $data);
     }
 
-    // Update data berdasarkan SSOTNUMBER
+    // Update data berdasarkan SSOTNUMBER_GH
     public function update_gardu_hubung($id, $data)
     {
-        $this->db->where('SSOTNUMBER', $id);
+        $this->db->where('SSOTNUMBER_GH', $id);
         return $this->db->update($this->table, $data);
     }
 
-    // Hapus data berdasarkan SSOTNUMBER
+    // Hapus data berdasarkan SSOTNUMBER_GH
     public function delete_gardu_hubung($id)
     {
-        $this->db->where('SSOTNUMBER', $id);
+        $this->db->where('SSOTNUMBER_GH', $id);
         return $this->db->delete($this->table);
     }
 }

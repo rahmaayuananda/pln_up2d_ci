@@ -25,17 +25,10 @@ class Kit_cell extends CI_Controller
     {
         $data['title'] = 'Data KIT Cell';
 
-        // Get per_page from query string, default 5
-        $per_page = $this->input->get('per_page');
-        $allowed_per_page = [5, 10, 25, 50, 100, 500];
-        if (!in_array($per_page, $allowed_per_page)) {
-            $per_page = 5;
-        }
-
         // Konfigurasi paginasi
         $config['base_url'] = site_url('kit_cell/index');
         $config['total_rows'] = $this->Kit_cell_model->count_all_kit_cell();
-        $config['per_page'] = $per_page;
+        $config['per_page'] = 5;
         $config["uri_segment"] = 3;
         $config['use_page_numbers'] = TRUE;
 
@@ -77,8 +70,6 @@ class Kit_cell extends CI_Controller
         $data['kit_cell'] = $this->Kit_cell_model->get_kit_cell($config['per_page'], $offset);
         $data['pagination'] = $this->pagination->create_links();
         $data['start_no'] = $offset + 1;
-        $data['per_page'] = $per_page;
-        $data['total_rows'] = $config['total_rows'];
 
         $this->load->view('layout/header');
         $this->load->view('kit_cell/vw_kit_cell', $data);
@@ -89,35 +80,34 @@ class Kit_cell extends CI_Controller
     public function tambah()
     {
         if ($this->input->post()) {
+            // Normalisasi dan validasi FK ID_PEMBANGKIT
+            $id_pembangkit = trim((string)$this->input->post('ID_PEMBANGKIT'));
+            if ($id_pembangkit === '') {
+                $id_pembangkit = null; // izinkan kosong
+            } else {
+                $cek = $this->Pembangkit_model->get_pembangkit_by_id($id_pembangkit);
+                if (!$cek) {
+                    $this->session->set_flashdata('error', 'ID Pembangkit tidak valid. Silakan pilih dari daftar yang tersedia.');
+                    redirect('Kit_cell/tambah');
+                    return;
+                }
+            }
+
             $insertData = [
-                'CXUNIT'                 => $this->input->post('CXUNIT'),
-                'UNITNAME'               => $this->input->post('UNITNAME'),
-                'ASSETNUM'               => $this->input->post('ASSETNUM'),
-                'SSOTNUMBER'             => $this->input->post('SSOTNUMBER'),
-                'LOCATION'               => $this->input->post('LOCATION'),
-                'DESCRIPTION'            => $this->input->post('DESCRIPTION'),
-                'VENDOR'                 => $this->input->post('VENDOR'),
-                'MANUFACTURER'           => $this->input->post('MANUFACTURER'),
-                'INSTALLDATE'            => $this->input->post('INSTALLDATE'),
-                'PRIORITY'               => $this->input->post('PRIORITY'),
-                'STATUS'                 => $this->input->post('STATUS'),
-                'TUJDNUMBER'             => $this->input->post('TUJDNUMBER'),
-                'CHANGEBY'               => $this->input->post('CHANGEBY'),
-                'CHANGEDATE'             => $this->input->post('CHANGEDATE'),
-                'CXCLASSIFICATIONDESC'   => $this->input->post('CXCLASSIFICATIONDESC'),
-                'CXPENYULANG'            => $this->input->post('CXPENYULANG'),
-                'NAMA_LOCATION'          => $this->input->post('NAMA_LOCATION'),
-                'LONGITUDEX'             => $this->input->post('LONGITUDEX'),
-                'LATITUDEY'              => $this->input->post('LATITUDEY'),
-                'BURDEN'                 => $this->input->post('BURDEN'),
-                'FAKTOR_KALI'            => $this->input->post('FAKTOR_KALI'),
-                'ISASSET'                => $this->input->post('ISASSET'),
-                'JENIS_CT'               => $this->input->post('JENIS_CT'),
-                'KELAS_CT'               => $this->input->post('KELAS_CT'),
-                'KELAS_PROTEKSI'         => $this->input->post('KELAS_PROTEKSI'),
-                'PRIMER_SEKUNDER'        => $this->input->post('PRIMER_SEKUNDER'),
-                'STATUS_KEPEMILIKAN'     => $this->input->post('STATUS_KEPEMILIKAN'),
-                'TIPE_CT'                => $this->input->post('TIPE_CT')
+                'SSOTNUMBER_KIT_CELL' => $this->input->post('SSOTNUMBER_KIT_CELL'),
+                'PEMBANGKIT'          => $this->input->post('PEMBANGKIT'),
+                'NAMA_CELL'           => $this->input->post('NAMA_CELL'),
+                'JENIS_CELL'          => $this->input->post('JENIS_CELL'),
+                'STATUS_OPERASI'      => $this->input->post('STATUS_OPERASI'),
+                'MERK_CELL'           => $this->input->post('MERK_CELL'),
+                'TYPE_CELL'           => $this->input->post('TYPE_CELL'),
+                'THN_CELL'            => $this->input->post('THN_CELL'),
+                'STATUS_SCADA'        => $this->input->post('STATUS_SCADA'),
+                'MERK_RELAY'          => $this->input->post('MERK_RELAY'),
+                'TYPE_RELAY'          => $this->input->post('TYPE_RELAY'),
+                'THN_RELAY'           => $this->input->post('THN_RELAY'),
+                'RATIO_CT'            => $this->input->post('RATIO_CT'),
+                'ID_PEMBANGKIT'       => $id_pembangkit
             ];
 
             $this->Kit_cell_model->insert_kit_cell($insertData);
@@ -125,6 +115,8 @@ class Kit_cell extends CI_Controller
             redirect('Kit_cell');
         } else {
             $data['title'] = 'Tambah Data KIT Cell';
+            // daftar pembangkit untuk dropdown
+            $data['pembangkit_list'] = $this->Pembangkit_model->get_all_pembangkit();
             $this->load->view('layout/header');
             $this->load->view('kit_cell/vw_tambah_kit_cell', $data);
             $this->load->view('layout/footer');
@@ -140,34 +132,33 @@ class Kit_cell extends CI_Controller
         }
 
         if ($this->input->post()) {
+            // Normalisasi dan validasi FK ID_PEMBANGKIT
+            $id_pembangkit = trim((string)$this->input->post('ID_PEMBANGKIT'));
+            if ($id_pembangkit === '') {
+                $id_pembangkit = null; // izinkan kosong
+            } else {
+                $cek = $this->Pembangkit_model->get_pembangkit_by_id($id_pembangkit);
+                if (!$cek) {
+                    $this->session->set_flashdata('error', 'ID Pembangkit tidak valid. Silakan pilih dari daftar yang tersedia.');
+                    redirect('Kit_cell/edit/' . $id);
+                    return;
+                }
+            }
+
             $updateData = [
-                'CXUNIT'                 => $this->input->post('CXUNIT'),
-                'UNITNAME'               => $this->input->post('UNITNAME'),
-                'ASSETNUM'               => $this->input->post('ASSETNUM'),
-                'LOCATION'               => $this->input->post('LOCATION'),
-                'DESCRIPTION'            => $this->input->post('DESCRIPTION'),
-                'VENDOR'                 => $this->input->post('VENDOR'),
-                'MANUFACTURER'           => $this->input->post('MANUFACTURER'),
-                'INSTALLDATE'            => $this->input->post('INSTALLDATE'),
-                'PRIORITY'               => $this->input->post('PRIORITY'),
-                'STATUS'                 => $this->input->post('STATUS'),
-                'TUJDNUMBER'             => $this->input->post('TUJDNUMBER'),
-                'CHANGEBY'               => $this->input->post('CHANGEBY'),
-                'CHANGEDATE'             => $this->input->post('CHANGEDATE'),
-                'CXCLASSIFICATIONDESC'   => $this->input->post('CXCLASSIFICATIONDESC'),
-                'CXPENYULANG'            => $this->input->post('CXPENYULANG'),
-                'NAMA_LOCATION'          => $this->input->post('NAMA_LOCATION'),
-                'LONGITUDEX'             => $this->input->post('LONGITUDEX'),
-                'LATITUDEY'              => $this->input->post('LATITUDEY'),
-                'BURDEN'                 => $this->input->post('BURDEN'),
-                'FAKTOR_KALI'            => $this->input->post('FAKTOR_KALI'),
-                'ISASSET'                => $this->input->post('ISASSET'),
-                'JENIS_CT'               => $this->input->post('JENIS_CT'),
-                'KELAS_CT'               => $this->input->post('KELAS_CT'),
-                'KELAS_PROTEKSI'         => $this->input->post('KELAS_PROTEKSI'),
-                'PRIMER_SEKUNDER'        => $this->input->post('PRIMER_SEKUNDER'),
-                'STATUS_KEPEMILIKAN'     => $this->input->post('STATUS_KEPEMILIKAN'),
-                'TIPE_CT'                => $this->input->post('TIPE_CT')
+                'PEMBANGKIT'     => $this->input->post('PEMBANGKIT'),
+                'NAMA_CELL'      => $this->input->post('NAMA_CELL'),
+                'JENIS_CELL'     => $this->input->post('JENIS_CELL'),
+                'STATUS_OPERASI' => $this->input->post('STATUS_OPERASI'),
+                'MERK_CELL'      => $this->input->post('MERK_CELL'),
+                'TYPE_CELL'      => $this->input->post('TYPE_CELL'),
+                'THN_CELL'       => $this->input->post('THN_CELL'),
+                'STATUS_SCADA'   => $this->input->post('STATUS_SCADA'),
+                'MERK_RELAY'     => $this->input->post('MERK_RELAY'),
+                'TYPE_RELAY'     => $this->input->post('TYPE_RELAY'),
+                'THN_RELAY'      => $this->input->post('THN_RELAY'),
+                'RATIO_CT'       => $this->input->post('RATIO_CT'),
+                'ID_PEMBANGKIT'  => $id_pembangkit
             ];
 
             $this->Kit_cell_model->update_kit_cell($id, $updateData);
@@ -175,6 +166,8 @@ class Kit_cell extends CI_Controller
             redirect('Kit_cell');
         } else {
             $data['title'] = 'Edit Data KIT Cell';
+            // daftar pembangkit untuk dropdown
+            $data['pembangkit_list'] = $this->Pembangkit_model->get_all_pembangkit();
             $this->load->view('layout/header');
             $this->load->view('kit_cell/vw_edit_kit_cell', $data);
             $this->load->view('layout/footer');

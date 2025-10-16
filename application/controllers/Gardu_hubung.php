@@ -15,20 +15,12 @@ class Gardu_hubung extends CI_Controller
     {
         $data['title'] = 'Data Gardu Hubung';
 
-        // Get per_page from query string or default to 5
-        $per_page = $this->input->get('per_page');
-        $allowed_per_page = [5, 10, 25, 50, 100, 500];
-        if (!in_array($per_page, $allowed_per_page)) {
-            $per_page = 5; // default
-        }
-
         // Konfigurasi paginasi
         $config['base_url'] = site_url('gardu_hubung/index');
         $config['total_rows'] = $this->Gardu_hubung_model->count_all_gardu_hubung();
-        $config['per_page'] = $per_page;
+        $config['per_page'] = 5;
         $config["uri_segment"] = 3;
         $config['use_page_numbers'] = TRUE;
-        $config['reuse_query_string'] = TRUE; // Maintain per_page parameter
 
         // Customizing pagination links
         $config['full_tag_open'] = '<nav><ul class="pagination justify-content-end">';
@@ -68,8 +60,6 @@ class Gardu_hubung extends CI_Controller
         $data['gardu_hubung'] = $this->Gardu_hubung_model->get_gardu_hubung($config['per_page'], $offset);
         $data['pagination'] = $this->pagination->create_links();
         $data['start_no'] = $offset + 1;
-        $data['per_page'] = $per_page;
-        $data['total_rows'] = $config['total_rows'];
 
         $this->load->view('layout/header');
         $this->load->view('gardu_hubung/vw_gardu_hubung', $data);
@@ -80,32 +70,20 @@ class Gardu_hubung extends CI_Controller
     {
         if ($this->input->post()) {
             $insertData = [
-                'UP3_2D' => $this->input->post('UP3_2D'),
-                'UNITNAME_UP3' => $this->input->post('UNITNAME_UP3'),
-                'CXUNIT' => $this->input->post('CXUNIT'),
-                'UNITNAME' => $this->input->post('UNITNAME'),
-                'LOCATION' => $this->input->post('LOCATION'),
-                'SSOTNUMBER' => $this->input->post('SSOTNUMBER'),
-                'DESCRIPTION' => $this->input->post('DESCRIPTION'),
-                'STATUS' => $this->input->post('STATUS'),
-                'TUJDNUMBER' => $this->input->post('TUJDNUMBER'),
-                'ASSETCLASSHI' => $this->input->post('ASSETCLASSHI'),
-                'SADDRESSCODE' => $this->input->post('SADDRESSCODE'),
-                'CXCLASSIFICATIONDESC' => $this->input->post('CXCLASSIFICATIONDESC'),
-                'PENYULANG' => $this->input->post('PENYULANG'),
-                'PARENT' => $this->input->post('PARENT'),
-                'PARENT_DESCRIPTION' => $this->input->post('PARENT_DESCRIPTION'),
-                'INSTALLDATE' => $this->input->post('INSTALLDATE'),
-                'ACTUALOPRDATE' => $this->input->post('ACTUALOPRDATE'),
-                'CHANGEDATE' => $this->input->post('CHANGEDATE'),
-                'CHANGEBY' => $this->input->post('CHANGEBY'),
-                'LATITUDEY' => $this->input->post('LATITUDEY'),
-                'LONGITUDEX' => $this->input->post('LONGITUDEX'),
-                'FORMATTEDADDRESS' => $this->input->post('FORMATTEDADDRESS'),
-                'STREETADDRESS' => $this->input->post('STREETADDRESS'),
-                'CITY' => $this->input->post('CITY'),
-                'ISASSET' => $this->input->post('ISASSET'),
-                'STATUS_KEPEMILIKAN' => $this->input->post('STATUS_KEPEMILIKAN'),
+                'SSOTNUMBER_GH'  => $this->input->post('SSOTNUMBER_GH'),
+                'UNIT_LAYANAN'   => $this->input->post('UNIT_LAYANAN'),
+                'GARDU_HUBUNG'   => $this->input->post('GARDU_HUBUNG'),
+                'LONGITUDEX'     => $this->input->post('LONGITUDEX'),
+                'LATITUDEY'      => $this->input->post('LATITUDEY'),
+                'ADDRESS'        => $this->input->post('ADDRESS'),
+                'STATUS_OPERASI' => $this->input->post('STATUS_OPERASI'),
+                'STATUS_SCADA'   => $this->input->post('STATUS_SCADA'),
+                'IP_GATEWAY'     => $this->input->post('IP_GATEWAY'),
+                'IP_RTU'         => $this->input->post('IP_RTU'),
+                'MERK_RTU'       => $this->input->post('MERK_RTU'),
+                'KOMUNIKASI'     => $this->input->post('KOMUNIKASI'),
+                'TGL_INTEGRASI'  => $this->input->post('TGL_INTEGRASI'),
+                'TGL_PASANG_BATT'=> $this->input->post('TGL_PASANG_BATT'),
             ];
             $this->Gardu_hubung_model->insert_gardu_hubung($insertData);
             $this->session->set_flashdata('success', 'Data Gardu Hubung berhasil ditambahkan!');
@@ -124,32 +102,19 @@ class Gardu_hubung extends CI_Controller
         if (empty($data['gardu_hubung'])) { show_404(); }
         if ($this->input->post()) {
             $updateData = [
-                'UP3_2D' => $this->input->post('UP3_2D'),
-                'UNITNAME_UP3' => $this->input->post('UNITNAME_UP3'),
-                'CXUNIT' => $this->input->post('CXUNIT'),
-                'UNITNAME' => $this->input->post('UNITNAME'),
-                'LOCATION' => $this->input->post('LOCATION'),
-                'SSOTNUMBER' => $this->input->post('SSOTNUMBER'),
-                'DESCRIPTION' => $this->input->post('DESCRIPTION'),
-                'STATUS' => $this->input->post('STATUS'),
-                'TUJDNUMBER' => $this->input->post('TUJDNUMBER'),
-                'ASSETCLASSHI' => $this->input->post('ASSETCLASSHI'),
-                'SADDRESSCODE' => $this->input->post('SADDRESSCODE'),
-                'CXCLASSIFICATIONDESC' => $this->input->post('CXCLASSIFICATIONDESC'),
-                'PENYULANG' => $this->input->post('PENYULANG'),
-                'PARENT' => $this->input->post('PARENT'),
-                'PARENT_DESCRIPTION' => $this->input->post('PARENT_DESCRIPTION'),
-                'INSTALLDATE' => $this->input->post('INSTALLDATE'),
-                'ACTUALOPRDATE' => $this->input->post('ACTUALOPRDATE'),
-                'CHANGEDATE' => $this->input->post('CHANGEDATE'),
-                'CHANGEBY' => $this->input->post('CHANGEBY'),
-                'LATITUDEY' => $this->input->post('LATITUDEY'),
-                'LONGITUDEX' => $this->input->post('LONGITUDEX'),
-                'FORMATTEDADDRESS' => $this->input->post('FORMATTEDADDRESS'),
-                'STREETADDRESS' => $this->input->post('STREETADDRESS'),
-                'CITY' => $this->input->post('CITY'),
-                'ISASSET' => $this->input->post('ISASSET'),
-                'STATUS_KEPEMILIKAN' => $this->input->post('STATUS_KEPEMILIKAN'),
+                'UNIT_LAYANAN'   => $this->input->post('UNIT_LAYANAN'),
+                'GARDU_HUBUNG'   => $this->input->post('GARDU_HUBUNG'),
+                'LONGITUDEX'     => $this->input->post('LONGITUDEX'),
+                'LATITUDEY'      => $this->input->post('LATITUDEY'),
+                'ADDRESS'        => $this->input->post('ADDRESS'),
+                'STATUS_OPERASI' => $this->input->post('STATUS_OPERASI'),
+                'STATUS_SCADA'   => $this->input->post('STATUS_SCADA'),
+                'IP_GATEWAY'     => $this->input->post('IP_GATEWAY'),
+                'IP_RTU'         => $this->input->post('IP_RTU'),
+                'MERK_RTU'       => $this->input->post('MERK_RTU'),
+                'KOMUNIKASI'     => $this->input->post('KOMUNIKASI'),
+                'TGL_INTEGRASI'  => $this->input->post('TGL_INTEGRASI'),
+                'TGL_PASANG_BATT'=> $this->input->post('TGL_PASANG_BATT'),
             ];
             $this->Gardu_hubung_model->update_gardu_hubung($id, $updateData);
             $this->session->set_flashdata('success', 'Data Gardu Hubung berhasil diperbarui!');

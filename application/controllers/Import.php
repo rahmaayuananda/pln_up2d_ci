@@ -65,21 +65,8 @@ class Import extends CI_Controller {
 
     // Ensure job schema exists then log job shell
     $this->ImportJob_model->ensure_schema();
-        // Determine if this entity uses staging (GI, GH, and Cell tables)
-        $stagingTable = null;
-        if ($targetTable === 'gi') {
-            $stagingTable = 'gi_import_raw';
-        } elseif ($targetTable === 'gh') {
-            $stagingTable = 'gh_import_raw';
-        } elseif ($targetTable === 'gi_cell') {
-            $stagingTable = 'gi_cell_import_raw';
-        } elseif ($targetTable === 'gh_cell') {
-            $stagingTable = 'gh_cell_import_raw';
-        } elseif ($targetTable === 'kit_cell') {
-            $stagingTable = 'kit_cell_import_raw';
-        } elseif ($targetTable === 'lbs_recloser') {
-            $stagingTable = 'lbs_recloser_import_raw';
-        }
+        // Determine if this entity uses staging (only GI for now)
+        $stagingTable = ($targetTable === 'gi') ? 'gi_import_raw' : null;
         $job_id = $this->ImportJob_model->create_job([
             'target_table' => $targetTable,
             'staging_table' => $stagingTable,
@@ -173,36 +160,9 @@ class Import extends CI_Controller {
             }
         }
 
-        // If entity uses staging (gi, gh, cell tables, and lbs_recloser), ensure staging and insert into staging
-        $useStaging = in_array($job->target_table, ['gi', 'gh', 'gi_cell', 'gh_cell', 'kit_cell', 'lbs_recloser']);
-        if ($useStaging) {
-            if ($job->target_table === 'gi') {
-                $this->ImportJob_model->ensure_staging_for_gi();
-            } elseif ($job->target_table === 'gh') {
-                $this->ImportJob_model->ensure_staging_for_gh();
-            } elseif ($job->target_table === 'gi_cell') {
-                $this->ImportJob_model->ensure_staging_for_gi_cell();
-            } elseif ($job->target_table === 'gh_cell') {
-                $this->ImportJob_model->ensure_staging_for_gh_cell();
-            } elseif ($job->target_table === 'kit_cell') {
-                $this->ImportJob_model->ensure_staging_for_kit_cell();
-            } elseif ($job->target_table === 'lbs_recloser') {
-                $this->ImportJob_model->ensure_staging_for_lbs_recloser();
-            }
-            
-            // Auto-detect PEMUTUS_TYPE for lbs_recloser based on CSV headers
-            $pemutusType = null;
-            if ($job->target_table === 'lbs_recloser') {
-                $headers = array_map('strtoupper', array_keys($map));
-                if (in_array('TYPE_LBS', $headers)) {
-                    $pemutusType = 'LBS';
-                } elseif (in_array('TYPE_RECLOSER', $headers) || in_array('MODE_OPERASI', $headers)) {
-                    $pemutusType = 'RECLOSER';
-                } elseif (in_array('TYPE_SECTIONALIZER', $headers) || in_array('MODE_OPR', $headers)) {
-                    $pemutusType = 'SECTIONALIZER';
-                }
-            }
-            
+        // If entity uses staging (gi), ensure staging and insert into staging
+        if ($job->target_table === 'gi') {
+            $this->ImportJob_model->ensure_staging_for_gi();
             rewind($fp);
             $lineNo = 0; $batch = []; $chunkSize = 500;
             while (($row = fgetcsv($fp, 0, $sep)) !== false) {
@@ -212,19 +172,15 @@ class Import extends CI_Controller {
                     $col = isset($map[$i]) ? $map[$i] : ('COL'.$i);
                     $assoc[$col] = is_string($val) ? trim($val) : $val;
                 }
-                // Add PEMUTUS_TYPE if importing lbs_recloser
-                if ($job->target_table === 'lbs_recloser' && $pemutusType !== null) {
-                    $assoc['PEMUTUS_TYPE'] = $pemutusType;
-                }
                 $assoc['import_id'] = $job_id; $assoc['row_no'] = $lineNo - 1; $batch[] = $assoc;
                 if (count($batch) >= $chunkSize) {
-                    $ok = $this->ImportJob_model->insert_staging_batch($job->target_table, $batch);
+                    $ok = $this->ImportJob_model->insert_staging_batch('gi', $batch);
                     if (!$ok) { $failed += count($batch); } else { $inserted += count($batch); }
                     $batch = [];
                 }
             }
             if (count($batch) > 0) {
-                $ok = $this->ImportJob_model->insert_staging_batch($job->target_table, $batch);
+                $ok = $this->ImportJob_model->insert_staging_batch('gi', $batch);
                 if (!$ok) { $failed += count($batch); } else { $inserted += count($batch); }
             }
             fclose($fp);

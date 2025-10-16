@@ -22,10 +22,10 @@ class Kit_cell_model extends CI_Model
         return $this->db->count_all($this->table);
     }
 
-    // 🔹 Mengambil data kit_cell berdasarkan SSOTNUMBER (Primary Key)
+    // 🔹 Mengambil data kit_cell berdasarkan SSOTNUMBER_KIT_CELL (Primary Key)
     public function get_kit_cell_by_id($ssotnumber)
     {
-        return $this->db->get_where($this->table, ['SSOTNUMBER' => $ssotnumber])->row_array();
+        return $this->db->get_where($this->table, ['SSOTNUMBER_KIT_CELL' => $ssotnumber])->row_array();
     }
 
     // 🔹 Menambahkan data baru ke tabel kit_cell
@@ -34,17 +34,17 @@ class Kit_cell_model extends CI_Model
         return $this->db->insert($this->table, $data);
     }
 
-    // 🔹 Memperbarui data kit_cell berdasarkan SSOTNUMBER
+    // 🔹 Memperbarui data kit_cell berdasarkan SSOTNUMBER_KIT_CELL
     public function update_kit_cell($ssotnumber, $data)
     {
-        $this->db->where('SSOTNUMBER', $ssotnumber);
+        $this->db->where('SSOTNUMBER_KIT_CELL', $ssotnumber);
         return $this->db->update($this->table, $data);
     }
 
-    // 🔹 Menghapus data kit_cell berdasarkan SSOTNUMBER
+    // 🔹 Menghapus data kit_cell berdasarkan SSOTNUMBER_KIT_CELL
     public function delete_kit_cell($ssotnumber)
     {
-        $this->db->where('SSOTNUMBER', $ssotnumber);
+        $this->db->where('SSOTNUMBER_KIT_CELL', $ssotnumber);
         return $this->db->delete($this->table);
     }
 
