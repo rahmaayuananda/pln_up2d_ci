@@ -21,9 +21,9 @@ class Gardu_induk_model extends CI_Model
         return $this->db->count_all($this->table);
     }
 
-    public function get_gardu_induk_by_id($id)
+    public function get_gardu_induk_by_id($gardu_induk)
     {
-    return $this->db->get_where($this->table, ['ID_GI' => $id])->row_array();
+        return $this->db->get_where($this->table, ['GARDU_INDUK' => $gardu_induk])->row_array();
     }
 
     public function insert_gardu_induk($data)
@@ -31,15 +31,15 @@ class Gardu_induk_model extends CI_Model
         return $this->db->insert($this->table, $data);
     }
 
-    public function update_gardu_induk($id, $data)
+    public function update_gardu_induk($gardu_induk, $data)
     {
-    $this->db->where('ID_GI', $id);
+        $this->db->where('GARDU_INDUK', $gardu_induk);
         return $this->db->update($this->table, $data);
     }
 
-    public function delete_gardu_induk($id)
+    public function delete_gardu_induk($gardu_induk)
     {
-    $this->db->where('ID_GI', $id);
+        $this->db->where('GARDU_INDUK', $gardu_induk);
         return $this->db->delete($this->table);
     }
 }
