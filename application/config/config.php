@@ -431,6 +431,15 @@ $config['standardize_newlines'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
+| Default per-page for asset lists
+|--------------------------------------------------------------------------
+| Centralized default for pagination per-page selector used by asset
+| controllers (Gi_cell, Kit_cell, Pemutus, Pembangkit, Gardu_induk).
+*/
+$config['default_per_page'] = 5;
+
+/*
+|--------------------------------------------------------------------------
 | Global XSS Filtering
 |--------------------------------------------------------------------------
 |

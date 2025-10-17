@@ -21,8 +21,12 @@ class Unit extends CI_Controller
 
         // Konfigurasi paginasi
         $config['base_url'] = site_url('unit/index');
-        $config['total_rows'] = $this->Unit_model->count_all_unit();
-        $config['per_page'] = 5;
+    $config['total_rows'] = $this->Unit_model->count_all_unit();
+    // gunakan default terpusat dari config
+    $allowedPerPage = [5,10,25,50,100,500];
+    $requestedPer = (int) $this->input->get('per_page');
+    $defaultPer = (int) $this->config->item('default_per_page');
+    $config['per_page'] = in_array($requestedPer, $allowedPerPage) ? $requestedPer : $defaultPer;
         $config["uri_segment"] = 3;
         $config['use_page_numbers'] = TRUE;
 
@@ -60,9 +64,11 @@ class Unit extends CI_Controller
         $this->pagination->initialize($config);
 
         // Ambil data untuk halaman saat ini
-        $data['unit'] = $this->Unit_model->get_unit($config['per_page'], $offset);
+    $data['unit'] = $this->Unit_model->get_unit($config['per_page'], $offset);
         $data['pagination'] = $this->pagination->create_links();
         $data['start_no'] = $offset + 1;
+    $data['per_page'] = $config['per_page'];
+    $data['total_rows'] = $config['total_rows'];
 
         $this->load->view('layout/header');
         $this->load->view('unit/vw_unit', $data);

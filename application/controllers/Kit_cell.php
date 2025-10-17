@@ -28,10 +28,11 @@ class Kit_cell extends CI_Controller
         // Konfigurasi paginasi
         $config['base_url'] = site_url('kit_cell/index');
     $config['total_rows'] = $this->kit_cell_model->count_all_kit_cell();
-    // Per-page selector (from ?per_page), default 5
-    $allowedPerPage = [5,10,25,50,100,500];
-    $requestedPer = (int) $this->input->get('per_page');
-    $perPage = in_array($requestedPer, $allowedPerPage) ? $requestedPer : 5;
+        // Per-page selector (from ?per_page), use config default_per_page
+        $allowedPerPage = [5,10,25,50,100,500];
+        $requestedPer = (int) $this->input->get('per_page');
+        $defaultPer = (int) $this->config->item('default_per_page');
+        $perPage = in_array($requestedPer, $allowedPerPage) ? $requestedPer : $defaultPer;
     $config['per_page'] = $perPage;
         $config["uri_segment"] = 3;
         $config['use_page_numbers'] = TRUE;

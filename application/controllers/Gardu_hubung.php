@@ -15,9 +15,11 @@ class Gardu_hubung extends CI_Controller
     {
         $data['title'] = 'Data Gardu Hubung';
 
-        // Handle per_page dari query string
-        $per_page = $this->input->get('per_page');
-        $per_page = in_array($per_page, [5,10,25,50,100,500]) ? (int)$per_page : 10;
+    // Handle per_page dari query string (gunakan config default_per_page)
+    $allowedPerPage = [5,10,25,50,100,500];
+    $requestedPer = (int) $this->input->get('per_page');
+    $defaultPer = (int) $this->config->item('default_per_page');
+    $per_page = in_array($requestedPer, $allowedPerPage) ? $requestedPer : $defaultPer;
 
         // Konfigurasi paginasi
         $config['base_url'] = site_url('gardu_hubung/index');
