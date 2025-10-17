@@ -39,12 +39,48 @@
             </div>
 
             <div class="card-body px-0 pt-0 pb-2 bg-white">
-                <div class="px-3 mt-3 mb-3">
-                    <input type="text" id="searchInput" onkeyup="searchTable()" class="form-control form-control-sm rounded-3" placeholder="Cari data GH Cell...">
+                <div class="px-3 mt-3 mb-3 d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <label class="mb-0 me-2 text-sm">Tampilkan:</label>
+                        <select id="perPageSelect" class="form-select form-select-sm" style="width: 80px; padding-right: 2rem;" onchange="changePerPage(this.value)">
+                            <option value="5" <?= ($per_page == 5) ? 'selected' : ''; ?>>5</option>
+                            <option value="10" <?= ($per_page == 10) ? 'selected' : ''; ?>>10</option>
+                            <option value="25" <?= ($per_page == 25) ? 'selected' : ''; ?>>25</option>
+                            <option value="50" <?= ($per_page == 50) ? 'selected' : ''; ?>>50</option>
+                            <option value="100" <?= ($per_page == 100) ? 'selected' : ''; ?>>100</option>
+                            <option value="500" <?= ($per_page == 500) ? 'selected' : ''; ?>>500</option>
+                        </select>
+                        <span class="ms-3 text-sm">dari <?= $total_rows; ?> data</span>
+                    </div>
+                    <input type="text" id="searchInput" onkeyup="searchTable()" class="form-control form-control-sm rounded-3" style="max-width: 300px;" placeholder="Cari data GH Cell...">
                 </div>
 
                 <div class="table-responsive p-0">
                     <table class="table align-items-center mb-0" id="ghCellTable">
+<script>
+    function changePerPage(perPage) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('per_page', perPage);
+        url.searchParams.set('page', '1'); // Reset ke halaman 1
+        window.location.href = url.toString();
+    }
+
+    function searchTable() {
+        const input = document.getElementById("searchInput");
+        const filter = input.value.toUpperCase();
+        const table = document.getElementById("ghCellTable");
+        const tr = table.getElementsByTagName("tr");
+
+        for (let i = 1; i < tr.length; i++) {
+            let txtValue = tr[i].textContent || tr[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+</script>
                         <thead class="bg-light">
                             <tr>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>

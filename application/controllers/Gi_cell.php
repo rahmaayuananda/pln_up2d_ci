@@ -7,7 +7,7 @@ class Gi_cell extends CI_Controller
     {
         parent::__construct();
         // Load model
-        $this->load->model('Gi_cell_model');
+    $this->load->model('Gi_cell_model', 'gi_cell_model');
         // Load helper dan library
         $this->load->helper(['url', 'form']);
         $this->load->library(['session', 'pagination']);
@@ -20,7 +20,7 @@ class Gi_cell extends CI_Controller
 
         // Konfigurasi paginasi
         $config['base_url'] = site_url('gi_cell/index');
-        $config['total_rows'] = $this->Gi_cell_model->count_all_gi_cell();
+    $config['total_rows'] = $this->gi_cell_model->count_all_gi_cell();
         $config['per_page'] = 5;
         $config["uri_segment"] = 3;
         $config['use_page_numbers'] = TRUE;
@@ -60,9 +60,10 @@ class Gi_cell extends CI_Controller
         $this->pagination->initialize($config);
 
         // Ambil data untuk halaman saat ini
-        $data['gi_cell'] = $this->Gi_cell_model->get_gi_cell($config['per_page'], $offset);
-        $data['pagination'] = $this->pagination->create_links();
-        $data['start_no'] = $offset + 1;
+    $data['gi_cell'] = $this->gi_cell_model->get_gi_cell($config['per_page'], $offset);
+    $data['pagination'] = $this->pagination->create_links();
+    $data['start_no'] = $offset + 1;
+    $data['total_rows'] = $config['total_rows'];
 
         $this->load->view('layout/header');
         $this->load->view('gi_cell/vw_gi_cell', $data);
@@ -92,7 +93,7 @@ class Gi_cell extends CI_Controller
                 'ID_GI'              => $this->input->post('ID_GI')
             ];
 
-            $this->Gi_cell_model->insert_gi_cell($insertData);
+            $this->gi_cell_model->insert_gi_cell($insertData);
             $this->session->set_flashdata('success', 'Data GI Cell berhasil ditambahkan!');
             redirect('Gi_cell');
         } else {
@@ -106,7 +107,7 @@ class Gi_cell extends CI_Controller
     // Edit data
     public function edit($id)
     {
-        $data['gi_cell'] = $this->Gi_cell_model->get_gi_cell_by_id($id);
+    $data['gi_cell'] = $this->gi_cell_model->get_gi_cell_by_id($id);
         if (empty($data['gi_cell'])) {
             show_404();
         }
@@ -130,7 +131,7 @@ class Gi_cell extends CI_Controller
                 'ID_GI'          => $this->input->post('ID_GI')
             ];
 
-            $this->Gi_cell_model->update_gi_cell($id, $updateData);
+            $this->gi_cell_model->update_gi_cell($id, $updateData);
             $this->session->set_flashdata('success', 'Data GI Cell berhasil diperbarui!');
             redirect('Gi_cell');
         } else {
@@ -144,7 +145,7 @@ class Gi_cell extends CI_Controller
     // Detail data
     public function detail($id)
     {
-        $data['gi_cell'] = $this->Gi_cell_model->get_gi_cell_by_id($id);
+    $data['gi_cell'] = $this->gi_cell_model->get_gi_cell_by_id($id);
         if (empty($data['gi_cell'])) {
             show_404();
         }
@@ -158,7 +159,7 @@ class Gi_cell extends CI_Controller
     // Hapus data
     public function hapus($id)
     {
-        $this->Gi_cell_model->delete_gi_cell($id);
+    $this->gi_cell_model->delete_gi_cell($id);
         $this->session->set_flashdata('success', 'Data GI Cell berhasil dihapus!');
         redirect('Gi_cell');
     }

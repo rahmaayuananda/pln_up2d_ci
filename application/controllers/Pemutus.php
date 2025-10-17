@@ -7,7 +7,7 @@ class Pemutus extends CI_Controller
     {
         parent::__construct();
         // Load model Pemutus_model
-        $this->load->model('Pemutus_model');
+    $this->load->model('Pemutus_model', 'pemutus_model');
         // Load helper dan library
         $this->load->helper(['url', 'form']);
         $this->load->library(['session', 'pagination']);
@@ -20,7 +20,7 @@ class Pemutus extends CI_Controller
 
         // Konfigurasi paginasi
         $config['base_url'] = site_url('pemutus/index');
-        $config['total_rows'] = $this->Pemutus_model->count_all_pemutus();
+    $config['total_rows'] = $this->pemutus_model->count_all_pemutus();
         $config['per_page'] = 5;
         $config["uri_segment"] = 3;
         $config['use_page_numbers'] = TRUE;
@@ -60,9 +60,10 @@ class Pemutus extends CI_Controller
         $this->pagination->initialize($config);
 
         // Ambil data untuk halaman saat ini
-        $data['pemutus'] = $this->Pemutus_model->get_pemutus($config['per_page'], $offset);
-        $data['pagination'] = $this->pagination->create_links();
-        $data['start_no'] = $offset + 1;
+    $data['pemutus'] = $this->pemutus_model->get_pemutus($config['per_page'], $offset);
+    $data['pagination'] = $this->pagination->create_links();
+    $data['start_no'] = $offset + 1;
+    $data['total_rows'] = $config['total_rows'];
 
         $this->load->view('layout/header');
         $this->load->view('pemutus/vw_pemutus', $data);
@@ -84,7 +85,7 @@ class Pemutus extends CI_Controller
                 'MERK_KOMDAT'       => $this->input->post('MERK_KOMDAT')
             ];
 
-            $this->Pemutus_model->insert_pemutus($insertData);
+            $this->pemutus_model->insert_pemutus($insertData);
             $this->session->set_flashdata('success', 'Data Pemutus berhasil ditambahkan!');
             redirect('Pemutus');
         } else {
@@ -98,7 +99,7 @@ class Pemutus extends CI_Controller
     // 🔹 Edit data
     public function edit($ssotnumber)
     {
-        $data['pemutus'] = $this->Pemutus_model->get_pemutus_by_id($ssotnumber);
+    $data['pemutus'] = $this->pemutus_model->get_pemutus_by_id($ssotnumber);
         if (empty($data['pemutus'])) {
             show_404();
         }
@@ -114,7 +115,7 @@ class Pemutus extends CI_Controller
                 'MERK_KOMDAT'  => $this->input->post('MERK_KOMDAT')
             ];
 
-            $this->Pemutus_model->update_pemutus($ssotnumber, $updateData);
+            $this->pemutus_model->update_pemutus($ssotnumber, $updateData);
             $this->session->set_flashdata('success', 'Data Pemutus berhasil diperbarui!');
             redirect('Pemutus');
         } else {
@@ -128,7 +129,7 @@ class Pemutus extends CI_Controller
     // 🔹 Detail data
     public function detail($ssotnumber)
     {
-        $data['pemutus'] = $this->Pemutus_model->get_pemutus_by_id($ssotnumber);
+    $data['pemutus'] = $this->pemutus_model->get_pemutus_by_id($ssotnumber);
         if (empty($data['pemutus'])) {
             show_404();
         }
@@ -142,7 +143,7 @@ class Pemutus extends CI_Controller
     // 🔹 Hapus data
     public function hapus($ssotnumber)
     {
-        $this->Pemutus_model->delete_pemutus($ssotnumber);
+    $this->pemutus_model->delete_pemutus($ssotnumber);
         $this->session->set_flashdata('success', 'Data Pemutus berhasil dihapus!');
         redirect('Pemutus');
     }

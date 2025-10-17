@@ -39,8 +39,20 @@
             </div>
 
             <div class="card-body px-0 pt-0 pb-2 bg-white">
-                <div class="px-3 mt-3 mb-3">
-                    <input type="text" id="searchInput" onkeyup="searchTable()" class="form-control form-control-sm rounded-3" placeholder="Cari data Pemutus...">
+                <div class="px-3 mt-3 mb-3 d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <label class="mb-0 me-2 text-sm">Tampilkan:</label>
+                        <select id="perPageSelect" class="form-select form-select-sm" style="width: 80px; padding-right: 2rem;" onchange="changePerPage(this.value)">
+                            <option value="5" <?= ($per_page == 5) ? 'selected' : ''; ?>>5</option>
+                            <option value="10" <?= ($per_page == 10) ? 'selected' : ''; ?>>10</option>
+                            <option value="25" <?= ($per_page == 25) ? 'selected' : ''; ?>>25</option>
+                            <option value="50" <?= ($per_page == 50) ? 'selected' : ''; ?>>50</option>
+                            <option value="100" <?= ($per_page == 100) ? 'selected' : ''; ?>>100</option>
+                            <option value="500" <?= ($per_page == 500) ? 'selected' : ''; ?>>500</option>
+                        </select>
+                        <span class="ms-3 text-sm">dari <?= $total_rows; ?> data</span>
+                    </div>
+                    <input type="text" id="searchInput" onkeyup="searchTable()" class="form-control form-control-sm rounded-3" style="max-width: 300px;" placeholder="Cari data Pemutus...">
                 </div>
 
                 <div class="table-responsive p-0">
@@ -48,22 +60,39 @@
                         <thead class="bg-light">
                             <tr>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SSOT Number</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Unit Layanan</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Penyulang</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Keypoint</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fungsi KP</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status SCADA</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Media Komdat</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Merk Komdat</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Merk KP</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Integrasi</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Serial Number</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Longitude (X)</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Latitude (Y)</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Alamat</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status KP</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Keterangan</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SSOTNUMBER</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">CXUNIT</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">UNITNAME</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">LOCATION</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">DESCRIPTION</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">VENDOR</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">MANUFACTURER</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">INSTALLDATE</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PRIORITY</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">STATUS</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">TUJDNUMBER</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">CHANGEBY</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">CHANGEDATE</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">CXCLASSIFICATIONDESC</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">CXPENYULANG</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">NAMA_LOCATION</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">LONGITUDEX</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">LATITUDEY</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ISASSET</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">STATUS_KEPEMILIKAN</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">BURDEN</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">FAKTOR_KALI</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">JENIS_CT</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">KELAS_CT</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">KELAS_PROTEKSI</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PRIMER_SEKUNDER</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">TIPE_CT</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">OWNERSYSID</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ISOLASI_KUBIKEL</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">JENIS_MVCELL</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">TH_BUAT</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">TYPE_MVCELL</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">CELL_TYPE</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Aksi</th>
                             </tr>
                         </thead>
@@ -78,30 +107,47 @@
                                 foreach ($pemutus as $row): ?>
                                     <tr class="<?= ($no % 2 == 0) ? 'table-row-even' : 'table-row-odd'; ?>">
                                         <td class="text-sm"><?= $no++; ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['SSOTNUMBER_LBSREC'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['UNIT_LAYANAN'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['PENYULANG'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['KEYPOINT'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['FUNGSI_KP'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['STATUS_SCADA'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['MEDIA_KOMDAT'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['MERK_KOMDAT'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['MERK_KP'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['TGL_INTEGRASI'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['SN_KP'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['LONGITUDEX'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['LATITUDEY'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['ADDRESS'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['STATUS_KP'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['KETERANGAN'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['SSOTNUMBER'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['CXUNIT'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['UNITNAME'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['LOCATION'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['DESCRIPTION'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['VENDOR'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['MANUFACTURER'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['INSTALLDATE'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['PRIORITY'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['STATUS'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['TUJDNUMBER'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['CHANGEBY'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['CHANGEDATE'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['CXCLASSIFICATIONDESC'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['CXPENYULANG'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['NAMA_LOCATION'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['LONGITUDEX'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['LATITUDEY'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['ISASSET'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['STATUS_KEPEMILIKAN'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['BURDEN'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['FAKTOR_KALI'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['JENIS_CT'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['KELAS_CT'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['KELAS_PROTEKSI'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['PRIMER_SEKUNDER'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['TIPE_CT'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['OWNERSYSID'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['ISOLASI_KUBIKEL'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['JENIS_MVCELL'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['TH_BUAT'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['TYPE_MVCELL'] ?? ''); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['CELL_TYPE'] ?? ''); ?></td>
                                         <td class="text-center">
-                                            <a href="<?= base_url('Pemutus/detail/' . $row['SSOTNUMBER_LBSREC']); ?>" class="btn btn-info btn-xs text-white me-1" title="Detail">
+                                            <a href="<?= base_url('Pemutus/detail/' . urlencode($row['SSOTNUMBER'])); ?>" class="btn btn-info btn-xs text-white me-1" title="Detail">
                                                 <i class="fas fa-info-circle"></i>
                                             </a>
-                                            <a href="<?= base_url('Pemutus/edit/' . $row['SSOTNUMBER_LBSREC']); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
+                                            <a href="<?= base_url('Pemutus/edit/' . urlencode($row['SSOTNUMBER'])); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
                                                 <i class="fas fa-pen"></i>
                                             </a>
-                                            <a href="<?= base_url('Pemutus/hapus/' . $row['SSOTNUMBER_LBSREC']); ?>" class="btn btn-danger btn-xs btn-hapus" title="Hapus">
+                                            <a href="<?= base_url('Pemutus/hapus/' . urlencode($row['SSOTNUMBER'])); ?>" class="btn btn-danger btn-xs btn-hapus" title="Hapus">
                                                 <i class="fas fa-trash"></i>
                                             </a>
                                         </td>
@@ -121,16 +167,28 @@
 
 <!-- Script pencarian -->
 <script>
-    function searchTable() {
-        const input = document.getElementById('searchInput').value.toLowerCase();
-        const rows = document.querySelectorAll('#pemutusTable tbody tr');
-        rows.forEach(row => {
-            const text = row.innerText.toLowerCase();
-            row.style.display = text.includes(input) ? '' : 'none';
-        });
+    function changePerPage(perPage) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('per_page', perPage);
+        url.searchParams.set('page', '1'); // Reset ke halaman 1
+        window.location.href = url.toString();
     }
 
-    // Konfirmasi hapus ditangani global di layout/footer.php
+    function searchTable() {
+        const input = document.getElementById("searchInput");
+        const filter = input.value.toUpperCase();
+        const table = document.getElementById("pemutusTable");
+        const tr = table.getElementsByTagName("tr");
+
+        for (let i = 1; i < tr.length; i++) {
+            let txtValue = tr[i].textContent || tr[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
 </script>
 
 <!-- Style tambahan -->

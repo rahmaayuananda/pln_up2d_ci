@@ -13,7 +13,7 @@ class Kit_cell extends CI_Controller
     {
         parent::__construct();
         // Load model
-        $this->load->model('Kit_cell_model');
+    $this->load->model('Kit_cell_model', 'kit_cell_model');
         $this->load->model('Pembangkit_model');
         // Load helper dan library
         $this->load->helper(['url', 'form']);
@@ -27,7 +27,7 @@ class Kit_cell extends CI_Controller
 
         // Konfigurasi paginasi
         $config['base_url'] = site_url('kit_cell/index');
-        $config['total_rows'] = $this->Kit_cell_model->count_all_kit_cell();
+    $config['total_rows'] = $this->kit_cell_model->count_all_kit_cell();
         $config['per_page'] = 5;
         $config["uri_segment"] = 3;
         $config['use_page_numbers'] = TRUE;
@@ -67,9 +67,10 @@ class Kit_cell extends CI_Controller
         $this->pagination->initialize($config);
 
         // Ambil data untuk halaman saat ini
-        $data['kit_cell'] = $this->Kit_cell_model->get_kit_cell($config['per_page'], $offset);
-        $data['pagination'] = $this->pagination->create_links();
-        $data['start_no'] = $offset + 1;
+    $data['kit_cell'] = $this->kit_cell_model->get_kit_cell($config['per_page'], $offset);
+    $data['pagination'] = $this->pagination->create_links();
+    $data['start_no'] = $offset + 1;
+    $data['total_rows'] = $config['total_rows'];
 
         $this->load->view('layout/header');
         $this->load->view('kit_cell/vw_kit_cell', $data);
@@ -110,7 +111,7 @@ class Kit_cell extends CI_Controller
                 'ID_PEMBANGKIT'       => $id_pembangkit
             ];
 
-            $this->Kit_cell_model->insert_kit_cell($insertData);
+            $this->kit_cell_model->insert_kit_cell($insertData);
             $this->session->set_flashdata('success', 'Data KIT Cell berhasil ditambahkan!');
             redirect('Kit_cell');
         } else {
@@ -126,7 +127,7 @@ class Kit_cell extends CI_Controller
     // 🔹 Edit data
     public function edit($id)
     {
-        $data['kit_cell'] = $this->Kit_cell_model->get_kit_cell_by_id($id);
+    $data['kit_cell'] = $this->kit_cell_model->get_kit_cell_by_id($id);
         if (empty($data['kit_cell'])) {
             show_404();
         }
@@ -161,7 +162,7 @@ class Kit_cell extends CI_Controller
                 'ID_PEMBANGKIT'  => $id_pembangkit
             ];
 
-            $this->Kit_cell_model->update_kit_cell($id, $updateData);
+            $this->kit_cell_model->update_kit_cell($id, $updateData);
             $this->session->set_flashdata('success', 'Data KIT Cell berhasil diperbarui!');
             redirect('Kit_cell');
         } else {
@@ -177,7 +178,7 @@ class Kit_cell extends CI_Controller
     // 🔹 Detail data
     public function detail($id)
     {
-        $data['kit_cell'] = $this->Kit_cell_model->get_kit_cell_by_id($id);
+    $data['kit_cell'] = $this->kit_cell_model->get_kit_cell_by_id($id);
         if (empty($data['kit_cell'])) {
             show_404();
         }
@@ -191,7 +192,7 @@ class Kit_cell extends CI_Controller
     // 🔹 Hapus data
     public function hapus($id)
     {
-        $this->Kit_cell_model->delete_kit_cell($id);
+    $this->kit_cell_model->delete_kit_cell($id);
         $this->session->set_flashdata('success', 'Data KIT Cell berhasil dihapus!');
         redirect('Kit_cell');
     }
