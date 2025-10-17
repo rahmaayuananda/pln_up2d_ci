@@ -21,7 +21,11 @@ class Pemutus extends CI_Controller
         // Konfigurasi paginasi
         $config['base_url'] = site_url('pemutus/index');
     $config['total_rows'] = $this->pemutus_model->count_all_pemutus();
-        $config['per_page'] = 5;
+    // Per-page selector (from ?per_page), default 5
+    $allowedPerPage = [5,10,25,50,100,500];
+    $requestedPer = (int) $this->input->get('per_page');
+    $perPage = in_array($requestedPer, $allowedPerPage) ? $requestedPer : 5;
+    $config['per_page'] = $perPage;
         $config["uri_segment"] = 3;
         $config['use_page_numbers'] = TRUE;
 
@@ -60,10 +64,11 @@ class Pemutus extends CI_Controller
         $this->pagination->initialize($config);
 
         // Ambil data untuk halaman saat ini
-    $data['pemutus'] = $this->pemutus_model->get_pemutus($config['per_page'], $offset);
-    $data['pagination'] = $this->pagination->create_links();
-    $data['start_no'] = $offset + 1;
-    $data['total_rows'] = $config['total_rows'];
+        $data['pemutus'] = $this->pemutus_model->get_pemutus($config['per_page'], $offset);
+        $data['pagination'] = $this->pagination->create_links();
+        $data['start_no'] = $offset + 1;
+        $data['total_rows'] = $config['total_rows'];
+        $data['per_page'] = $perPage;
 
         $this->load->view('layout/header');
         $this->load->view('pemutus/vw_pemutus', $data);

@@ -28,7 +28,11 @@ class Kit_cell extends CI_Controller
         // Konfigurasi paginasi
         $config['base_url'] = site_url('kit_cell/index');
     $config['total_rows'] = $this->kit_cell_model->count_all_kit_cell();
-        $config['per_page'] = 5;
+    // Per-page selector (from ?per_page), default 5
+    $allowedPerPage = [5,10,25,50,100,500];
+    $requestedPer = (int) $this->input->get('per_page');
+    $perPage = in_array($requestedPer, $allowedPerPage) ? $requestedPer : 5;
+    $config['per_page'] = $perPage;
         $config["uri_segment"] = 3;
         $config['use_page_numbers'] = TRUE;
 
@@ -67,10 +71,11 @@ class Kit_cell extends CI_Controller
         $this->pagination->initialize($config);
 
         // Ambil data untuk halaman saat ini
-    $data['kit_cell'] = $this->kit_cell_model->get_kit_cell($config['per_page'], $offset);
-    $data['pagination'] = $this->pagination->create_links();
-    $data['start_no'] = $offset + 1;
-    $data['total_rows'] = $config['total_rows'];
+        $data['kit_cell'] = $this->kit_cell_model->get_kit_cell($config['per_page'], $offset);
+        $data['pagination'] = $this->pagination->create_links();
+        $data['start_no'] = $offset + 1;
+        $data['total_rows'] = $config['total_rows'];
+        $data['per_page'] = $perPage;
 
         $this->load->view('layout/header');
         $this->load->view('kit_cell/vw_kit_cell', $data);
