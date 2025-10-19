@@ -281,18 +281,69 @@
         <!-- Submenu Anggaran -->
         <div class="collapse" id="menuAnggaran">
           <ul class="nav flex-column submenu-list">
+            <!-- Anggaran Instansi (collapsible subgroup) -->
             <li class="nav-item">
-              <a class="nav-link <?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'instansi') ? 'active' : '' ?>"
-                href="<?= base_url('anggaran/instansi'); ?>">
-                <i class="fas fa-building me-2"></i> Anggaran Instansi
+              <a href="#anggaranInstansi"
+                class="nav-link d-flex align-items-center justify-content-between <?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'instansi') ? 'active' : '' ?>"
+                data-bs-toggle="collapse"
+                role="button"
+                aria-expanded="<?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'instansi') ? 'true' : 'false' ?>"
+                aria-controls="anggaranInstansi">
+                <div><i class="fas fa-building me-2"></i> Anggaran Instansi</div>
               </a>
             </li>
+
+            <div class="collapse <?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'instansi') ? 'show' : '' ?>" id="anggaranInstansi">
+              <ul class="nav flex-column submenu-list ps-3">
+                <li class="nav-item">
+                  <a class="nav-link <?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'instansi' && $this->uri->segment(3) == 'progress_kontrak') ? 'active' : '' ?>" href="<?= base_url('anggaran/instansi/progress_kontrak'); ?>">
+                    <span style="font-size:9px; line-height:1; display:inline-block; width:8px; text-align:center; color:#6c757d;" class="me-2">&bull;</span> Progress Kontrak
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link <?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'instansi' && $this->uri->segment(3) == 'rekomposisi') ? 'active' : '' ?>" href="<?= base_url('anggaran/instansi/rekomposisi'); ?>">
+                    <span style="font-size:9px; line-height:1; display:inline-block; width:8px; text-align:center; color:#6c757d;" class="me-2">&bull;</span> Rekomposisi
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link <?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'instansi' && $this->uri->segment(3) == 'monitoring') ? 'active' : '' ?>" href="<?= base_url('anggaran/instansi/monitoring'); ?>">
+                    <span style="font-size:9px; line-height:1; display:inline-block; width:8px; text-align:center; color:#6c757d;" class="me-2">&bull;</span> Monitoring
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Anggaran Operasi (collapsible subgroup) -->
             <li class="nav-item">
-              <a class="nav-link <?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'operasi') ? 'active' : '' ?>"
-                href="<?= base_url('anggaran/operasi'); ?>">
-                <i class="fas fa-cogs me-2"></i> Anggaran Operasi
+              <a href="#anggaranOperasi"
+                class="nav-link d-flex align-items-center justify-content-between <?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'operasi') ? 'active' : '' ?>"
+                data-bs-toggle="collapse"
+                role="button"
+                aria-expanded="<?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'operasi') ? 'true' : 'false' ?>"
+                aria-controls="anggaranOperasi">
+                <div><i class="fas fa-cogs me-2"></i> Anggaran Operasi</div>
               </a>
             </li>
+
+            <div class="collapse <?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'operasi') ? 'show' : '' ?>" id="anggaranOperasi">
+              <ul class="nav flex-column submenu-list ps-3">
+                <li class="nav-item">
+                  <a class="nav-link <?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'operasi' && $this->uri->segment(3) == 'progress_kontrak') ? 'active' : '' ?>" href="<?= base_url('anggaran/operasi/progress_kontrak'); ?>">
+                    <span style="font-size:9px; line-height:1; display:inline-block; width:8px; text-align:center; color:#6c757d;" class="me-2">&bull;</span> Progress Kontrak
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link <?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'operasi' && $this->uri->segment(3) == 'rekomposisi') ? 'active' : '' ?>" href="<?= base_url('anggaran/operasi/rekomposisi'); ?>">
+                    <span style="font-size:9px; line-height:1; display:inline-block; width:8px; text-align:center; color:#6c757d;" class="me-2">&bull;</span> Rekomposisi
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link <?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'operasi' && $this->uri->segment(3) == 'monitoring') ? 'active' : '' ?>" href="<?= base_url('anggaran/operasi/monitoring'); ?>">
+                    <span style="font-size:9px; line-height:1; display:inline-block; width:8px; text-align:center; color:#6c757d;" class="me-2">&bull;</span> Monitoring
+                  </a>
+                </li>
+              </ul>
+            </div>
           </ul>
         </div>
 
