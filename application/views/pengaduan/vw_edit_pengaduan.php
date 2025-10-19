@@ -1,4 +1,5 @@
 <main class="main-content position-relative border-radius-lg ">
+    <!-- Navbar -->
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="false">
         <div class="container-fluid py-1 px-3"></div>
     </nav>
@@ -62,25 +63,46 @@
                             <select id="item_pengaduan" name="ITEM_PENGADUAN" class="form-control" required>
                                 <option value="">-- Pilih Item Pengaduan --</option>
                                 <?php if (!empty($pengaduan['ITEM_PENGADUAN'])): ?>
-                                    <option value="<?= htmlentities($pengaduan['ITEM_PENGADUAN'] ?? ''); ?>" selected>
-                                        <?= htmlentities($pengaduan['ITEM_PENGADUAN'] ?? ''); ?>
+                                    <option value="<?= htmlentities($pengaduan['ITEM_PENGADUAN']); ?>" selected>
+                                        <?= htmlentities($pengaduan['ITEM_PENGADUAN']); ?>
                                     </option>
                                 <?php endif; ?>
                             </select>
                         </div>
 
-                        <!-- PIC -->
+                        <!-- PIC (Dropdown Manual) -->
                         <div class="col-md-6">
                             <label class="form-label">PIC</label>
-                            <input type="text" id="pic" class="form-control" name="PIC"
-                                value="<?= htmlentities($pengaduan['PIC'] ?? ''); ?>"
-                                placeholder="Otomatis terisi setelah pilih item..." readonly>
+                            <select name="PIC" id="pic" class="form-control" required>
+                                <option value="">-- Pilih PIC --</option>
+                                <?php
+                                $picList = [
+                                    "Operasi Sistem Distribusi",
+                                    "Fasilitas Operasi",
+                                    "Pemeliharaan",
+                                    "K3L & KAM",
+                                    "Perencanaan"
+                                ];
+                                foreach ($picList as $pic) {
+                                    $selected = ($pengaduan['PIC'] == $pic) ? 'selected' : '';
+                                    echo "<option value='$pic' $selected>$pic</option>";
+                                }
+                                ?>
+                            </select>
                         </div>
 
-                        <!-- Laporan -->
+                        <!-- Laporan & Tindak Lanjut (Sejajar) -->
                         <div class="col-md-12">
-                            <label class="form-label">Laporan</label>
-                            <textarea name="LAPORAN" rows="4" class="form-control" required><?= htmlentities($pengaduan['LAPORAN'] ?? ''); ?></textarea>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="form-label">Laporan</label>
+                                    <textarea name="LAPORAN" rows="6" class="form-control" required><?= htmlentities($pengaduan['LAPORAN'] ?? ''); ?></textarea>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Tindak Lanjut</label>
+                                    <textarea name="TINDAK_LANJUT" rows="6" class="form-control"><?= htmlentities($pengaduan['TINDAK_LANJUT'] ?? ''); ?></textarea>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Foto Pengaduan -->
@@ -139,7 +161,7 @@
         </div>
     </div>
 
-    <!-- SCRIPT DINAMIS -->
+    <!-- SCRIPT -->
     <script>
         const dataPengaduan = {
             "Gardu Induk": ["Failed", "PMT", "Proteksi", "Kabel", "Kubikel", "lain-lain.."],
@@ -149,32 +171,12 @@
             "Radio Komunikasi": ["Failed", "Antenna", "Base Station", "HT", "lain-lain.."]
         };
 
-        const picMapping = {
-            "Failed": "Operasi Sistem Distribusi",
-            "PMT": "Pemeliharaan",
-            "Proteksi": "Fasilitas Operasi",
-            "Kabel": "Perencanaan",
-            "Kubikel": "Pemeliharaan",
-            "Rectifier": "Fasilitas Operasi",
-            "Baterai": "K3L & KAM",
-            "VT": "Fasilitas Operasi",
-            "Panel": "Pemeliharaan",
-            "Antenna": "Operasi Sistem Distribusi",
-            "Base Station": "Fasilitas Operasi",
-            "HT": "K3L & KAM",
-            "lain-lain..": "Perencanaan"
-        };
-
         const jenisSelect = document.getElementById("jenis_pengaduan");
         const itemSelect = document.getElementById("item_pengaduan");
-        const picInput = document.getElementById("pic");
 
-        // Saat jenis pengaduan berubah
         jenisSelect.addEventListener("change", function() {
             const selectedJenis = this.value;
             itemSelect.innerHTML = "<option value=''>-- Pilih Item Pengaduan --</option>";
-            picInput.value = "";
-
             if (dataPengaduan[selectedJenis]) {
                 dataPengaduan[selectedJenis].forEach(item => {
                     const opt = document.createElement("option");
@@ -185,13 +187,6 @@
             }
         });
 
-        // Saat item dipilih → PIC otomatis
-        itemSelect.addEventListener("change", function() {
-            const selectedItem = this.value;
-            picInput.value = picMapping[selectedItem] || "";
-        });
-
-        // Preview gambar
         function previewImage(event, previewId) {
             const input = event.target;
             const preview = document.getElementById(previewId);
@@ -208,12 +203,9 @@
             }
         }
 
-        // === Saat halaman edit pertama kali dimuat ===
         document.addEventListener("DOMContentLoaded", function() {
             const currentJenis = jenisSelect.value;
             const currentItem = "<?= $pengaduan['ITEM_PENGADUAN'] ?? ''; ?>";
-
-            // Tampilkan daftar item sesuai jenis saat ini
             if (dataPengaduan[currentJenis]) {
                 itemSelect.innerHTML = "<option value=''>-- Pilih Item Pengaduan --</option>";
                 dataPengaduan[currentJenis].forEach(item => {
@@ -223,11 +215,6 @@
                     if (item === currentItem) opt.selected = true;
                     itemSelect.appendChild(opt);
                 });
-
-                // Set PIC sesuai item yang tersimpan
-                if (picMapping[currentItem]) {
-                    picInput.value = picMapping[currentItem];
-                }
             }
         });
     </script>
@@ -247,6 +234,11 @@
         input.form-control {
             height: 40px !important;
             font-size: 0.9rem;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            height: 150px;
         }
     </style>
 </main>

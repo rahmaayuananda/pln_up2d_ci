@@ -49,10 +49,6 @@
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Pengaduan</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jenis Pengaduan</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Item Pengaduan</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Laporan</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Foto Pengaduan</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Proses</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Foto Proses</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PIC</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Aksi</th>
@@ -61,7 +57,7 @@
                         <tbody>
                             <?php if (empty($pengaduan)): ?>
                                 <tr>
-                                    <td colspan="12" class="text-center text-secondary py-4">Belum ada data pengaduan</td>
+                                    <td colspan="8" class="text-center text-secondary py-4">Belum ada data pengaduan</td>
                                 </tr>
                             <?php else: ?>
                                 <?php $no = 1;
@@ -72,22 +68,6 @@
                                         <td class="text-sm"><?= htmlentities($row['TANGGAL_PENGADUAN'] ?? '-'); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['JENIS_PENGADUAN'] ?? '-'); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['ITEM_PENGADUAN'] ?? '-'); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['LAPORAN'] ?? '-'); ?></td>
-                                        <td>
-                                            <?php if (!empty($row['FOTO_PENGADUAN'])): ?>
-                                                <img src="<?= base_url('uploads/pengaduan/' . $row['FOTO_PENGADUAN']); ?>" width="60" class="rounded-3 border">
-                                            <?php else: ?>
-                                                <span class="text-muted">Tidak ada</span>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td class="text-sm"><?= htmlentities($row['TANGGAL_PROSES'] ?? '-'); ?></td>
-                                        <td>
-                                            <?php if (!empty($row['FOTO_PROSES'])): ?>
-                                                <img src="<?= base_url('uploads/proses/' . $row['FOTO_PROSES']); ?>" width="60" class="rounded-3 border">
-                                            <?php else: ?>
-                                                <span class="text-muted">Tidak ada</span>
-                                            <?php endif; ?>
-                                        </td>
                                         <td>
                                             <span class="badge 
                                                 <?= ($row['STATUS'] ?? '') == 'Selesai' ? 'bg-success' : (($row['STATUS'] ?? '') == 'Diproses' ? 'bg-warning text-dark' : 'bg-secondary'); ?>">
