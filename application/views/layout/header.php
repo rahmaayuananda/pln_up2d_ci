@@ -268,13 +268,16 @@
         <!-- Operasi -->
         <li class="nav-item">
           <a href="#menuOperasi"
-            class="nav-link d-flex align-items-center justify-content-between"
+            class="nav-link d-flex align-items-center justify-content-between <?= (
+                                                                                in_array($this->uri->segment(1), ['operasi', 'single_line_diagram'])
+                                                                              ) ? 'active' : '' ?>"
             data-bs-toggle="collapse"
             role="button"
-            aria-expanded="false"
+            aria-expanded="<?= in_array($this->uri->segment(1), ['operasi', 'single_line_diagram']) ? 'true' : 'false' ?>"
             aria-controls="menuOperasi">
             <div class="d-flex align-items-center">
-              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <div
+                class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-world text-dark text-sm opacity-10"></i>
               </div>
               <span class="nav-link-text ms-1">Operasi</span>
@@ -283,18 +286,19 @@
         </li>
 
         <!-- Submenu Operasi -->
-        <div class="collapse" id="menuOperasi">
+        <div class="collapse <?= in_array($this->uri->segment(1), ['operasi', 'single_line_diagram']) ? 'show' : '' ?>" id="menuOperasi">
           <ul class="nav flex-column submenu-list">
+
             <!-- <li class="nav-item">
-              <a class="nav-link <?= ($this->uri->segment(1) == 'operasi' && $this->uri->segment(2) == 'data_operasi') ? 'active' : '' ?>"
-                href="<?= base_url('operasi/data_operasi'); ?>">
+              <a class="nav-link <?= ($this->uri->segment(1) == 'data_operasi') ? 'active' : '' ?>"
+                href="<?= base_url('data_operasi'); ?>">
                 <i class="fas fa-cogs me-2"></i> Data Operasi
               </a>
             </li> -->
 
             <!-- Submenu Single Line Diagram -->
             <li class="nav-item">
-              <a class="nav-link <?= ($this->uri->segment(1) == 'operasi' && $this->uri->segment(2) == 'single_line_diagram') ? 'active' : '' ?>"
+              <a class="nav-link <?= ($this->uri->segment(1) == 'single_line_diagram') ? 'active' : '' ?>"
                 href="<?= base_url('single_line_diagram'); ?>">
                 <div
                   class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -303,6 +307,7 @@
                 <span class="nav-link-text ms-1">Single Line Diagram</span>
               </a>
             </li>
+
           </ul>
         </div>
 
