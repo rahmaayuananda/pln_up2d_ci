@@ -179,6 +179,10 @@
         font-weight: 600;
     }
 
+    .card-header .d-flex.align-items-center a {
+        transform: translateY(10px);
+    }
+
     .bg-gradient-primary {
         background: linear-gradient(90deg, #005C99, #0099CC);
     }
