@@ -101,7 +101,7 @@ class Kit_cell extends CI_Controller
             }
 
             $insertData = [
-                'SSOTNUMBER_KIT_CELL' => $this->input->post('SSOTNUMBER_KIT_CELL'),
+                'SSOTNUMBER' => $this->input->post('SSOTNUMBER'),
                 'PEMBANGKIT'          => $this->input->post('PEMBANGKIT'),
                 'NAMA_CELL'           => $this->input->post('NAMA_CELL'),
                 'JENIS_CELL'          => $this->input->post('JENIS_CELL'),

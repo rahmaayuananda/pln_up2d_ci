@@ -10,11 +10,11 @@
 		<div class="card shadow border-0 rounded-4">
 			<div class="card-header bg-gradient-primary text-white"><strong>Form Edit Pemutus</strong></div>
 			<div class="card-body">
-				<form action="<?= base_url('Pemutus/edit/' . $pemutus['SSOTNUMBER_LBSREC']); ?>" method="post">
+				<form action="<?= base_url('Pemutus/edit/' . $pemutus['SSOTNUMBER']); ?>" method="post">
 					<div class="row g-3">
 						<div class="col-md-6">
 							<label class="form-label">SSOT Number</label>
-							<input type="text" class="form-control" name="SSOTNUMBER_LBSREC" value="<?= htmlentities($pemutus['SSOTNUMBER_LBSREC'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" readonly>
+							<input type="text" class="form-control" name="SSOTNUMBER" value="<?= htmlentities($pemutus['SSOTNUMBER'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" readonly>
 						</div>
 						<div class="col-md-6">
 							<label class="form-label">Unit Layanan</label>

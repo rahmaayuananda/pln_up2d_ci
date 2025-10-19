@@ -15,11 +15,11 @@
 						<?= $this->session->flashdata('error'); ?>
 					</div>
 				<?php endif; ?>
-				<form action="<?= base_url('Kit_cell/edit/' . urlencode($kit_cell['SSOTNUMBER_KIT_CELL'])); ?>" method="post">
+				<form action="<?= base_url('Kit_cell/edit/' . urlencode($kit_cell['SSOTNUMBER'])); ?>" method="post">
 					<div class="row g-3">
 						<div class="col-md-6">
 							<label class="form-label">SSOT Number</label>
-							<input type="text" class="form-control" value="<?= htmlentities($kit_cell['SSOTNUMBER_KIT_CELL']); ?>" disabled>
+												<input type="text" class="form-control" value="<?= htmlentities($kit_cell['SSOTNUMBER'] ?? ''); ?>" disabled>
 						</div>
 						<div class="col-md-6">
 							<label class="form-label">Nama Pembangkit (Teks)</label>

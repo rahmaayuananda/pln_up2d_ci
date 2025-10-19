@@ -130,6 +130,23 @@ class Gardu_induk extends CI_Controller
             show_404();
         }
 
+        // Pastikan semua key yang dipakai di view detail ada (default ke empty string)
+        $expectedKeys = [
+            'UP3_2D','UNITNAME_UP3','CXUNIT','UNITNAME','LOCATION','SSOTNUMBER','DESCRIPTION','STATUS','TUJDNUMBER',
+            'ASSETCLASSHI','SADDRESSCODE','CXCLASSIFICATIONDESC','PENYULANG','PARENT','PARENT_DESCRIPTION',
+            'INSTALLDATE','ACTUALOPRDATE','CHANGEDATE','CHANGEBY','LATITUDEY','LONGITUDEX','FORMATTEDADDRESS',
+            'STREETADDRESS','CITY','ISASSET','STATUS_KEPEMILIKAN',
+            // also include fields used in other forms/views to be safe
+            'UNIT_LAYANAN','GARDU_INDUK','LONGITUDEX','LATITUDEY','STATUS_OPERASI','JML_TD','INC','OGF','SPARE',
+            'COUPLE','BUS_RISER','BBVT','PS','STATUS_SCADA','IP_GATEWAY','IP_RTU','MERK_RTU','SN_RTU','THN_INTEGRASI'
+        ];
+
+        foreach ($expectedKeys as $k) {
+            if (!array_key_exists($k, $data['gardu_induk'])) {
+                $data['gardu_induk'][$k] = '';
+            }
+        }
+
         $this->load->view('layout/header', $data);
         $this->load->view('gardu_induk/vw_detail_gardu_induk', $data);
         $this->load->view('layout/footer');
@@ -160,6 +177,18 @@ class Gardu_induk extends CI_Controller
 
         if (!$data['gardu_induk']) {
             show_404();
+        }
+
+        // Pastikan key tersedia supaya view edit tidak memicu undefined index
+        $expectedKeys = [
+            'UNIT_LAYANAN','GARDU_INDUK','LONGITUDEX','LATITUDEY','STATUS_OPERASI','JML_TD','INC','OGF','SPARE',
+            'COUPLE','BUS_RISER','BBVT','PS','STATUS_SCADA','IP_GATEWAY','IP_RTU','MERK_RTU','SN_RTU','THN_INTEGRASI',
+            'SSOTNUMBER','UP3_2D','UNITNAME','LOCATION'
+        ];
+        foreach ($expectedKeys as $k) {
+            if (!array_key_exists($k, $data['gardu_induk'])) {
+                $data['gardu_induk'][$k] = '';
+            }
         }
 
         if ($this->input->post()) {

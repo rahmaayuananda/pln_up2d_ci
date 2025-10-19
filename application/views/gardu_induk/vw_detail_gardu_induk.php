@@ -14,32 +14,40 @@
 
                             <div class="card-body">
                                 <?php
+                                // Use the same keys as the list view (`vw_gardu_induk.php`) and render values safely
                                 $fields = [
-                                    'UNIT_LAYANAN' => 'Unit Layanan',
-                                    'GARDU_INDUK' => 'Gardu Induk',
-                                    'LONGITUDEX' => 'Longitude (X)',
+                                    'UP3_2D' => 'UP3 2D',
+                                    'UNITNAME_UP3' => 'Unit UP3',
+                                    'CXUNIT' => 'Kode Unit',
+                                    'UNITNAME' => 'Nama Unit',
+                                    'LOCATION' => 'Lokasi',
+                                    'SSOTNUMBER' => 'Nomor SSOT',
+                                    'DESCRIPTION' => 'Deskripsi',
+                                    'STATUS' => 'Status',
+                                    'TUJDNUMBER' => 'Nomor TUJD',
+                                    'ASSETCLASSHI' => 'Kelas Aset',
+                                    'SADDRESSCODE' => 'Kode Alamat',
+                                    'CXCLASSIFICATIONDESC' => 'Klasifikasi',
+                                    'PENYULANG' => 'Penyulang',
+                                    'PARENT' => 'Induk (Parent)',
+                                    'PARENT_DESCRIPTION' => 'Deskripsi Induk',
+                                    'INSTALLDATE' => 'Tanggal Pasang',
+                                    'ACTUALOPRDATE' => 'Tanggal Operasi',
+                                    'CHANGEDATE' => 'Tanggal Perubahan',
+                                    'CHANGEBY' => 'Diubah Oleh',
                                     'LATITUDEY' => 'Latitude (Y)',
-                                    'STATUS_OPERASI' => 'Status Operasi',
-                                    'JML_TD' => 'Jumlah TD',
-                                    'INC' => 'INC',
-                                    'OGF' => 'OGF',
-                                    'SPARE' => 'Spare',
-                                    'COUPLE' => 'Couple',
-                                    'BUS_RISER' => 'Bus Riser',
-                                    'BBVT' => 'BBVT',
-                                    'PS' => 'PS',
-                                    'STATUS_SCADA' => 'Status SCADA',
-                                    'IP_GATEWAY' => 'IP Gateway',
-                                    'IP_RTU' => 'IP RTU',
-                                    'MERK_RTU' => 'Merk RTU',
-                                    'SN_RTU' => 'SN RTU',
-                                    'THN_INTEGRASI' => 'Tahun Integrasi'
+                                    'LONGITUDEX' => 'Longitude (X)',
+                                    'FORMATTEDADDRESS' => 'Alamat Lengkap',
+                                    'STREETADDRESS' => 'Alamat Jalan',
+                                    'CITY' => 'Kota',
+                                    'ISASSET' => 'Status Aset',
+                                    'STATUS_KEPEMILIKAN' => 'Status Kepemilikan'
                                 ];
 
                                 foreach ($fields as $key => $label): ?>
                                     <div class="row mb-2">
                                         <div class="col-md-4 fw-bold"><?= $label; ?></div>
-                                        <div class="col-md-8"><?= $gardu_induk[$key]; ?></div>
+                                        <div class="col-md-8"><?= htmlentities($gardu_induk[$key] ?? ''); ?></div>
                                     </div>
                                 <?php endforeach; ?>
                             </div>

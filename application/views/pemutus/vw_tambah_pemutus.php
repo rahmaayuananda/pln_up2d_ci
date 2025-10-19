@@ -13,8 +13,8 @@
 				<form action="<?= base_url('Pemutus/tambah'); ?>" method="post">
 					<div class="row g-3">
 						<div class="col-md-6">
-							<label class="form-label">SSOT Number</label>
-							<input type="text" class="form-control" name="SSOTNUMBER_LBSREC" required>
+								<label class="form-label">SSOT Number</label>
+								<input type="text" class="form-control" name="SSOTNUMBER" required>
 						</div>
 						<div class="col-md-6">
 							<label class="form-label">Unit Layanan</label>

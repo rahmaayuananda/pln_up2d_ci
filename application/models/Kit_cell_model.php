@@ -23,10 +23,11 @@ class Kit_cell_model extends CI_Model
     }
 
     // 🔹 Mengambil data kit_cell berdasarkan SSOTNUMBER_KIT_CELL (Primary Key)
-    public function get_kit_cell_by_id($ssotnumber)
-    {
-        return $this->db->get_where($this->table, ['SSOTNUMBER_KIT_CELL' => $ssotnumber])->row_array();
-    }
+        // Mengambil data kit_cell berdasarkan SSOTNUMBER (Primary Key)
+        public function get_kit_cell_by_id($ssotnumber)
+        {
+            return $this->db->get_where($this->table, ['SSOTNUMBER' => $ssotnumber])->row_array();
+        }
 
     // 🔹 Menambahkan data baru ke tabel kit_cell
     public function insert_kit_cell($data)
@@ -35,18 +36,20 @@ class Kit_cell_model extends CI_Model
     }
 
     // 🔹 Memperbarui data kit_cell berdasarkan SSOTNUMBER_KIT_CELL
-    public function update_kit_cell($ssotnumber, $data)
-    {
-        $this->db->where('SSOTNUMBER_KIT_CELL', $ssotnumber);
-        return $this->db->update($this->table, $data);
-    }
+        // Memperbarui data kit_cell berdasarkan SSOTNUMBER
+        public function update_kit_cell($ssotnumber, $data)
+        {
+            $this->db->where('SSOTNUMBER', $ssotnumber);
+            return $this->db->update($this->table, $data);
+        }
 
     // 🔹 Menghapus data kit_cell berdasarkan SSOTNUMBER_KIT_CELL
-    public function delete_kit_cell($ssotnumber)
-    {
-        $this->db->where('SSOTNUMBER_KIT_CELL', $ssotnumber);
-        return $this->db->delete($this->table);
-    }
+        // Menghapus data kit_cell berdasarkan SSOTNUMBER
+        public function delete_kit_cell($ssotnumber)
+        {
+            $this->db->where('SSOTNUMBER', $ssotnumber);
+            return $this->db->delete($this->table);
+        }
 
     // 🔹 (Opsional) Mengambil data dengan join ke tabel pembangkit (Foreign Key)
     public function get_kit_cell_with_pembangkit()
@@ -58,11 +61,11 @@ class Kit_cell_model extends CI_Model
     }
 
     // 🔹 (Opsional) Untuk pencarian berdasarkan nama cell
-    public function search_kit_cell($keyword)
-    {
-        $this->db->like('NAMA_CELL', $keyword);
-        $this->db->or_like('SSOTNUMBER_KIT_CELL', $keyword);
-        $this->db->or_like('PEMBANGKIT', $keyword);
-        return $this->db->get($this->table)->result_array();
-    }
+        public function search_kit_cell($keyword)
+        {
+            $this->db->like('NAMA_CELL', $keyword);
+            $this->db->or_like('SSOTNUMBER', $keyword);
+            $this->db->or_like('PEMBANGKIT', $keyword);
+            return $this->db->get($this->table)->result_array();
+        }
 }

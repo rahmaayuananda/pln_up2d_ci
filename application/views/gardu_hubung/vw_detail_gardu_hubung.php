@@ -13,13 +13,42 @@
 
 							<div class="card-body">
 								<?php
+								// Gunakan keys yang sama seperti di tabel (vw_gardu_hubung.php)
 								$fields = [
-									'SSOTNUMBER_GH' => 'SSOT Number',
-									'UNIT_LAYANAN' => 'Unit Layanan',
-									'GARDU_HUBUNG' => 'Gardu Hubung',
-									'LONGITUDEX' => 'Longitude (X)',
+									'UP3_2D' => 'UP3 2D',
+									'UNITNAME_UP3' => 'Unit UP3',
+									'CXUNIT' => 'Kode Unit',
+									'UNITNAME' => 'Nama Unit',
+									'LOCATION' => 'Lokasi',
+									'SSOTNUMBER' => 'SSOT Number',
+									'DESCRIPTION' => 'Deskripsi / Nama Gardu',
+									'STATUS' => 'Status',
+									'TUJDNUMBER' => 'Nomor TUJD',
+									'ASSETCLASSHI' => 'Kelas Aset',
+									'SADDRESSCODE' => 'Kode Alamat',
+									'CXCLASSIFICATIONDESC' => 'Klasifikasi',
+									'PENYULANG' => 'Penyulang',
+									'PARENT' => 'Induk (Parent)',
+									'PARENT_DESCRIPTION' => 'Deskripsi Induk',
+									'INSTALLDATE' => 'Tanggal Pasang',
+									'ACTUALOPRDATE' => 'Tanggal Operasi',
+									'CHANGEDATE' => 'Tanggal Perubahan',
+									'CHANGEBY' => 'Diubah Oleh',
 									'LATITUDEY' => 'Latitude (Y)',
-									'ADDRESS' => 'Alamat',
+									'LONGITUDEX' => 'Longitude (X)',
+									'FORMATTEDADDRESS' => 'Alamat Lengkap',
+									'STREETADDRESS' => 'Alamat Jalan',
+									'CITY' => 'Kota',
+									'ISASSET' => 'Status Aset',
+									'STATUS_KEPEMILIKAN' => 'Status Kepemilikan',
+									'EXTERNALREFID' => 'External Ref ID',
+									'JENIS_PELAYANAN' => 'Jenis Pelayanan',
+									'NO_SLO' => 'No SLO',
+									'OWNERSYSID' => 'Owner Sys ID',
+									'SLOACTIVEDATE' => 'SLO Active Date',
+									'STATUS_RC' => 'Status RC',
+									'TYPE_GARDU' => 'Tipe Gardu',
+									// tambahan teknis jika ada
 									'STATUS_OPERASI' => 'Status Operasi',
 									'STATUS_SCADA' => 'Status SCADA',
 									'IP_GATEWAY' => 'IP Gateway',
@@ -30,7 +59,7 @@
 									'TGL_PASANG_BATT' => 'Tgl Pasang Batt',
 									'MERK_RECTI' => 'Merk Recti',
 									'THN_RECTI' => 'Tahun Recti',
-									'GROUNDING_OHM' => 'Grounding Ohm',
+									'GROUNDING_OHM' => 'Grounding Ohm'
 								];
 
 								foreach ($fields as $key => $label): ?>

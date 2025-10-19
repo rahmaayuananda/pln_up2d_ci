@@ -22,10 +22,10 @@ class Pemutus_model extends CI_Model
         return $this->db->count_all($this->table);
     }
 
-    // 🔹 Mengambil data pemutus berdasarkan SSOTNUMBER_LBSREC (Primary Key)
+    // 🔹 Mengambil data pemutus berdasarkan SSOTNUMBER (Primary Key)
     public function get_pemutus_by_id($ssotnumber)
     {
-        return $this->db->get_where($this->table, ['SSOTNUMBER_LBSREC' => $ssotnumber])->row_array();
+        return $this->db->get_where($this->table, ['SSOTNUMBER' => $ssotnumber])->row_array();
     }
 
     // 🔹 Menambahkan data baru ke tabel lbs_recloser
@@ -34,17 +34,17 @@ class Pemutus_model extends CI_Model
         return $this->db->insert($this->table, $data);
     }
 
-    // 🔹 Memperbarui data pemutus berdasarkan SSOTNUMBER_LBSREC
+    // 🔹 Memperbarui data pemutus berdasarkan SSOTNUMBER
     public function update_pemutus($ssotnumber, $data)
     {
-        $this->db->where('SSOTNUMBER_LBSREC', $ssotnumber);
+        $this->db->where('SSOTNUMBER', $ssotnumber);
         return $this->db->update($this->table, $data);
     }
 
-    // 🔹 Menghapus data pemutus berdasarkan SSOTNUMBER_LBSREC
+    // 🔹 Menghapus data pemutus berdasarkan SSOTNUMBER
     public function delete_pemutus($ssotnumber)
     {
-        $this->db->where('SSOTNUMBER_LBSREC', $ssotnumber);
+        $this->db->where('SSOTNUMBER', $ssotnumber);
         return $this->db->delete($this->table);
     }
 
@@ -62,7 +62,7 @@ class Pemutus_model extends CI_Model
     {
         $this->db->like('KEYPOINT', $keyword);
         $this->db->or_like('PENYULANG', $keyword);
-        $this->db->or_like('SSOTNUMBER_LBSREC', $keyword);
+    $this->db->or_like('SSOTNUMBER', $keyword);
         return $this->db->get($this->table)->result_array();
     }
 }

@@ -81,7 +81,7 @@ class Pemutus extends CI_Controller
     {
         if ($this->input->post()) {
             $insertData = [
-                'SSOTNUMBER_LBSREC' => $this->input->post('SSOTNUMBER_LBSREC'),
+                'SSOTNUMBER' => $this->input->post('SSOTNUMBER'),
                 'UNIT_LAYANAN'      => $this->input->post('UNIT_LAYANAN'),
                 'PENYULANG'         => $this->input->post('PENYULANG'),
                 'KEYPOINT'          => $this->input->post('KEYPOINT'),
@@ -138,6 +138,21 @@ class Pemutus extends CI_Controller
     $data['pemutus'] = $this->pemutus_model->get_pemutus_by_id($ssotnumber);
         if (empty($data['pemutus'])) {
             show_404();
+        }
+
+        // Ensure detail view has the same keys as the list view to avoid undefined index notices
+        $expectedKeys = [
+            'SSOTNUMBER','CXUNIT','UNITNAME','LOCATION','DESCRIPTION','VENDOR','MANUFACTURER',
+            'INSTALLDATE','PRIORITY','STATUS','TUJDNUMBER','CHANGEBY','CHANGEDATE','CXCLASSIFICATIONDESC',
+            'CXPENYULANG','NAMA_LOCATION','LONGITUDEX','LATITUDEY','ISASSET','STATUS_KEPEMILIKAN',
+            'BURDEN','FAKTOR_KALI','JENIS_CT','KELAS_CT','KELAS_PROTEKSI','PRIMER_SEKUNDER',
+            'TIPE_CT','OWNERSYSID','ISOLASI_KUBIKEL','JENIS_MVCELL','TH_BUAT','TYPE_MVCELL','CELL_TYPE'
+        ];
+
+        foreach ($expectedKeys as $k) {
+            if (!array_key_exists($k, $data['pemutus'])) {
+                $data['pemutus'][$k] = '';
+            }
         }
 
         $data['title'] = 'Detail Data Pemutus';
