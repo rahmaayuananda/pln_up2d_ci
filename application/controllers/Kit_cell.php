@@ -2,10 +2,13 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
- * @property Kit_cell_model $Kit_cell_model
+ * @property Kit_cell_model $kit_cell_model
  * @property Pembangkit_model $Pembangkit_model
  * @property CI_Input $input
  * @property CI_Session $session
+ * @property CI_Pagination $pagination
+ * @property CI_URI $uri
+ * @property CI_Config $config
  */
 class Kit_cell extends CI_Controller
 {
@@ -152,7 +155,10 @@ class Kit_cell extends CI_Controller
                 }
             }
 
+            $original = $this->input->post('original_SSOTNUMBER') ?: $id;
+
             $updateData = [
+                'SSOTNUMBER' => $this->input->post('SSOTNUMBER') ?: $this->input->post('original_SSOTNUMBER'),
                 'PEMBANGKIT'     => $this->input->post('PEMBANGKIT'),
                 'NAMA_CELL'      => $this->input->post('NAMA_CELL'),
                 'JENIS_CELL'     => $this->input->post('JENIS_CELL'),
@@ -165,10 +171,43 @@ class Kit_cell extends CI_Controller
                 'TYPE_RELAY'     => $this->input->post('TYPE_RELAY'),
                 'THN_RELAY'      => $this->input->post('THN_RELAY'),
                 'RATIO_CT'       => $this->input->post('RATIO_CT'),
-                'ID_PEMBANGKIT'  => $id_pembangkit
+                'ID_PEMBANGKIT'  => $id_pembangkit,
+                // additional list-view fields
+                'CXUNIT' => $this->input->post('CXUNIT'),
+                'UNITNAME' => $this->input->post('UNITNAME'),
+                'LOCATION' => $this->input->post('LOCATION'),
+                'DESCRIPTION' => $this->input->post('DESCRIPTION'),
+                'VENDOR' => $this->input->post('VENDOR'),
+                'MANUFACTURER' => $this->input->post('MANUFACTURER'),
+                'INSTALLDATE' => $this->input->post('INSTALLDATE'),
+                'PRIORITY' => $this->input->post('PRIORITY'),
+                'STATUS' => $this->input->post('STATUS'),
+                'TUJDNUMBER' => $this->input->post('TUJDNUMBER'),
+                'CHANGEBY' => $this->input->post('CHANGEBY'),
+                'CHANGEDATE' => $this->input->post('CHANGEDATE'),
+                'CXCLASSIFICATIONDESC' => $this->input->post('CXCLASSIFICATIONDESC'),
+                'CXPENYULANG' => $this->input->post('CXPENYULANG'),
+                'NAMA_LOCATION' => $this->input->post('NAMA_LOCATION'),
+                'LONGITUDEX' => $this->input->post('LONGITUDEX'),
+                'LATITUDEY' => $this->input->post('LATITUDEY'),
+                'ISASSET' => $this->input->post('ISASSET'),
+                'STATUS_KEPEMILIKAN' => $this->input->post('STATUS_KEPEMILIKAN'),
+                'BURDEN' => $this->input->post('BURDEN'),
+                'FAKTOR_KALI' => $this->input->post('FAKTOR_KALI'),
+                'JENIS_CT' => $this->input->post('JENIS_CT'),
+                'KELAS_CT' => $this->input->post('KELAS_CT'),
+                'KELAS_PROTEKSI' => $this->input->post('KELAS_PROTEKSI'),
+                'PRIMER_SEKUNDER' => $this->input->post('PRIMER_SEKUNDER'),
+                'TIPE_CT' => $this->input->post('TIPE_CT'),
+                'OWNERSYSID' => $this->input->post('OWNERSYSID'),
+                'ISOLASI_KUBIKEL' => $this->input->post('ISOLASI_KUBIKEL'),
+                'JENIS_MVCELL' => $this->input->post('JENIS_MVCELL'),
+                'TH_BUAT' => $this->input->post('TH_BUAT'),
+                'TYPE_MVCELL' => $this->input->post('TYPE_MVCELL'),
+                'CELL_TYPE' => $this->input->post('CELL_TYPE'),
             ];
 
-            $this->kit_cell_model->update_kit_cell($id, $updateData);
+            $this->kit_cell_model->update_kit_cell($original, $updateData);
             $this->session->set_flashdata('success', 'Data KIT Cell berhasil diperbarui!');
             redirect('Kit_cell');
         } else {

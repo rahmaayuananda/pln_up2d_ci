@@ -1,6 +1,16 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+/**
+ * Controller for GI Cell
+ *
+ * @property CI_Input $input
+ * @property CI_Session $session
+ * @property Gi_cell_model $gi_cell_model
+ * @property CI_Pagination $pagination
+ * @property CI_URI $uri
+ * @property CI_Config $config
+ */
 class Gi_cell extends CI_Controller
 {
     public function __construct()
@@ -81,7 +91,8 @@ class Gi_cell extends CI_Controller
     {
         if ($this->input->post()) {
             $insertData = [
-                'SSOTNUMBER_GI_CELL' => $this->input->post('SSOTNUMBER_GI_CELL'),
+                // Accept SSOTNUMBER from form; fallback to legacy field name if present
+                'SSOTNUMBER' => $this->input->post('SSOTNUMBER') ? $this->input->post('SSOTNUMBER') : $this->input->post('SSOTNUMBER_GI_CELL'),
                 'GARDU_INDUK'        => $this->input->post('GARDU_INDUK'),
                 'TD'                 => $this->input->post('TD'),
                 'KAP_TD_MVA'         => $this->input->post('KAP_TD_MVA'),
@@ -118,8 +129,51 @@ class Gi_cell extends CI_Controller
             show_404();
         }
 
+        // Ensure all expected keys exist to avoid undefined index notices in the view
+    $expected = ['SSOTNUMBER','SSOTNUMBER_GI_CELL','CXUNIT','UNITNAME','ASSETNUM','LOCATION','DESCRIPTION','VENDOR','MANUFACTURER','INSTALLDATE','PRIORITY','STATUS','TUJDNUMBER','CHANGEBY','CHANGEDATE','CXCLASSIFICATIONDESC','CXPENYULANG','NAMA_LOCATION','LONGITUDEX','LATITUDEY','ISASSET','STATUS_KEPEMILIKAN','BURDEN','FAKTOR_KALI','JENIS_CT','KELAS_CT','KELAS_PROTEKSI','PRIMER_SEKUNDER','TIPE_CT','OWNERSYSID','ISOLASI_KUBIKEL','JENIS_MVCELL','TH_BUAT','TYPE_MVCELL','CELL_TYPE','GARDU_INDUK','TD','KAP_TD_MVA','NAMA_CELL','JENIS_CELL','STATUS_OPERASI','MERK_CELL','TYPE_CELL','THN_CELL','STATUS_SCADA','MERK_RELAY','TYPE_RELAY','THN_RELAY','RATIO_CT','ID_GI'];
+        foreach ($expected as $k) {
+            if (!array_key_exists($k, $data['gi_cell'])) {
+                $data['gi_cell'][$k] = '';
+            }
+        }
+
         if ($this->input->post()) {
+            $original = $this->input->post('original_SSOTNUMBER') ? $this->input->post('original_SSOTNUMBER') : $id;
             $updateData = [
+                'SSOTNUMBER'     => $this->input->post('SSOTNUMBER'),
+                'CXUNIT' => $this->input->post('CXUNIT'),
+                'UNITNAME' => $this->input->post('UNITNAME'),
+                'ASSETNUM' => $this->input->post('ASSETNUM'),
+                'LOCATION' => $this->input->post('LOCATION'),
+                'DESCRIPTION' => $this->input->post('DESCRIPTION'),
+                'VENDOR' => $this->input->post('VENDOR'),
+                'MANUFACTURER' => $this->input->post('MANUFACTURER'),
+                'INSTALLDATE' => $this->input->post('INSTALLDATE'),
+                'PRIORITY' => $this->input->post('PRIORITY'),
+                'STATUS' => $this->input->post('STATUS'),
+                'TUJDNUMBER' => $this->input->post('TUJDNUMBER'),
+                'CHANGEBY' => $this->input->post('CHANGEBY'),
+                'CHANGEDATE' => $this->input->post('CHANGEDATE'),
+                'CXCLASSIFICATIONDESC' => $this->input->post('CXCLASSIFICATIONDESC'),
+                'CXPENYULANG' => $this->input->post('CXPENYULANG'),
+                'NAMA_LOCATION' => $this->input->post('NAMA_LOCATION'),
+                'LONGITUDEX' => $this->input->post('LONGITUDEX'),
+                'LATITUDEY' => $this->input->post('LATITUDEY'),
+                'ISASSET' => $this->input->post('ISASSET'),
+                'STATUS_KEPEMILIKAN' => $this->input->post('STATUS_KEPEMILIKAN'),
+                'BURDEN' => $this->input->post('BURDEN'),
+                'FAKTOR_KALI' => $this->input->post('FAKTOR_KALI'),
+                'JENIS_CT' => $this->input->post('JENIS_CT'),
+                'KELAS_CT' => $this->input->post('KELAS_CT'),
+                'KELAS_PROTEKSI' => $this->input->post('KELAS_PROTEKSI'),
+                'PRIMER_SEKUNDER' => $this->input->post('PRIMER_SEKUNDER'),
+                'TIPE_CT' => $this->input->post('TIPE_CT'),
+                'OWNERSYSID' => $this->input->post('OWNERSYSID'),
+                'ISOLASI_KUBIKEL' => $this->input->post('ISOLASI_KUBIKEL'),
+                'JENIS_MVCELL' => $this->input->post('JENIS_MVCELL'),
+                'TH_BUAT' => $this->input->post('TH_BUAT'),
+                'TYPE_MVCELL' => $this->input->post('TYPE_MVCELL'),
+                'CELL_TYPE' => $this->input->post('CELL_TYPE'),
                 'GARDU_INDUK'    => $this->input->post('GARDU_INDUK'),
                 'TD'             => $this->input->post('TD'),
                 'KAP_TD_MVA'     => $this->input->post('KAP_TD_MVA'),
@@ -137,7 +191,7 @@ class Gi_cell extends CI_Controller
                 'ID_GI'          => $this->input->post('ID_GI')
             ];
 
-            $this->gi_cell_model->update_gi_cell($id, $updateData);
+            $this->gi_cell_model->update_gi_cell($original, $updateData);
             $this->session->set_flashdata('success', 'Data GI Cell berhasil diperbarui!');
             redirect('Gi_cell');
         } else {

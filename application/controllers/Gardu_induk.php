@@ -147,6 +147,16 @@ class Gardu_induk extends CI_Controller
             }
         }
 
+        // Backward-compatible alias: some views expect ID_GI; map it to SSOTNUMBER if available
+        if (empty($data['gardu_induk']['ID_GI']) && !empty($data['gardu_induk']['SSOTNUMBER'])) {
+            $data['gardu_induk']['ID_GI'] = $data['gardu_induk']['SSOTNUMBER'];
+        }
+
+        // Provide backward-compatible alias ID_GI for views that expect it
+        if (empty($data['gardu_induk']['ID_GI']) && !empty($data['gardu_induk']['SSOTNUMBER'])) {
+            $data['gardu_induk']['ID_GI'] = $data['gardu_induk']['SSOTNUMBER'];
+        }
+
         $this->load->view('layout/header', $data);
         $this->load->view('gardu_induk/vw_detail_gardu_induk', $data);
         $this->load->view('layout/footer');
@@ -226,30 +236,43 @@ class Gardu_induk extends CI_Controller
 
     public function update()
     {
-        $id = $this->input->post('ID_GI');
+    // Determine submitted identifier(s)
+    $submittedId = $this->input->post('SSOTNUMBER') ? $this->input->post('SSOTNUMBER') : $this->input->post('ID_GI');
+    // Use the original SSOTNUMBER (hidden field) for WHERE so changing SSOTNUMBER is supported
+    $original = $this->input->post('original_SSOTNUMBER') ? $this->input->post('original_SSOTNUMBER') : null;
         $dataUpdate = [
-            'UNIT_LAYANAN'   => $this->input->post('UNIT_LAYANAN'),
-            'GARDU_INDUK'    => $this->input->post('GARDU_INDUK'),
-            'LONGITUDEX'     => $this->input->post('LONGITUDEX'),
-            'LATITUDEY'      => $this->input->post('LATITUDEY'),
-            'STATUS_OPERASI' => $this->input->post('STATUS_OPERASI'),
-            'JML_TD'         => $this->input->post('JML_TD'),
-            'INC'            => $this->input->post('INC'),
-            'OGF'            => $this->input->post('OGF'),
-            'SPARE'          => $this->input->post('SPARE'),
-            'COUPLE'         => $this->input->post('COUPLE'),
-            'BUS_RISER'      => $this->input->post('BUS_RISER'),
-            'BBVT'           => $this->input->post('BBVT'),
-            'PS'             => $this->input->post('PS'),
-            'STATUS_SCADA'   => $this->input->post('STATUS_SCADA'),
-            'IP_GATEWAY'     => $this->input->post('IP_GATEWAY'),
-            'IP_RTU'         => $this->input->post('IP_RTU'),
-            'MERK_RTU'       => $this->input->post('MERK_RTU'),
-            'SN_RTU'         => $this->input->post('SN_RTU'),
-            'THN_INTEGRASI'  => $this->input->post('THN_INTEGRASI'),
+            'UP3_2D' => $this->input->post('UP3_2D'),
+            'UNITNAME_UP3' => $this->input->post('UNITNAME_UP3'),
+            'CXUNIT' => $this->input->post('CXUNIT'),
+            'UNITNAME' => $this->input->post('UNITNAME'),
+            'LOCATION' => $this->input->post('LOCATION'),
+            'DESCRIPTION' => $this->input->post('DESCRIPTION'),
+            'STATUS' => $this->input->post('STATUS'),
+            'TUJDNUMBER' => $this->input->post('TUJDNUMBER'),
+            'ASSETCLASSHI' => $this->input->post('ASSETCLASSHI'),
+            'SADDRESSCODE' => $this->input->post('SADDRESSCODE'),
+            'CXCLASSIFICATIONDESC' => $this->input->post('CXCLASSIFICATIONDESC'),
+            'PENYULANG' => $this->input->post('PENYULANG'),
+            'PARENT' => $this->input->post('PARENT'),
+            'PARENT_DESCRIPTION' => $this->input->post('PARENT_DESCRIPTION'),
+            'INSTALLDATE' => $this->input->post('INSTALLDATE'),
+            'ACTUALOPRDATE' => $this->input->post('ACTUALOPRDATE'),
+            'CHANGEDATE' => $this->input->post('CHANGEDATE'),
+            'CHANGEBY' => $this->input->post('CHANGEBY'),
+            'LONGITUDEX' => $this->input->post('LONGITUDEX'),
+            'LATITUDEY' => $this->input->post('LATITUDEY'),
+            // allow updating SSOTNUMBER (primary key) if needed
+            'SSOTNUMBER' => $this->input->post('SSOTNUMBER'),
+            'FORMATTEDADDRESS' => $this->input->post('FORMATTEDADDRESS'),
+            'STREETADDRESS' => $this->input->post('STREETADDRESS'),
+            'CITY' => $this->input->post('CITY'),
+            'ISASSET' => $this->input->post('ISASSET'),
+            'STATUS_KEPEMILIKAN' => $this->input->post('STATUS_KEPEMILIKAN')
         ];
 
-        $this->garduModel->update_gardu_induk($id, $dataUpdate);
+    // Save using original identifier if present; otherwise use submittedId
+    $whereId = $original ? $original : $submittedId;
+    $this->garduModel->update_gardu_induk($whereId, $dataUpdate);
         $this->session->set_flashdata('success', 'Data berhasil diperbarui');
         redirect('gardu_induk');
     }

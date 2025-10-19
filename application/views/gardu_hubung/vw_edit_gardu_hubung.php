@@ -10,63 +10,180 @@
 		<div class="card shadow border-0 rounded-4">
 			<div class="card-header bg-gradient-primary text-white"><strong>Form Edit Gardu Hubung</strong></div>
 			<div class="card-body">
-				<form action="<?= base_url('Gardu_hubung/edit/' . urlencode($gardu_hubung['SSOTNUMBER_GH'])); ?>" method="post">
+				<form action="<?= base_url('Gardu_hubung/edit/' . urlencode($gardu_hubung['SSOTNUMBER'] ?? $gardu_hubung['SSOTNUMBER_GH'] ?? '')); ?>" method="post">
+					<input type="hidden" name="original_SSOTNUMBER" value="<?= htmlentities($gardu_hubung['SSOTNUMBER'] ?? $gardu_hubung['SSOTNUMBER_GH'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 					<div class="row g-3">
-						<div class="col-md-6">
+						<div class="col-md-4">
+							<label class="form-label">UP3_2D</label>
+							<input type="text" class="form-control" name="UP3_2D" value="<?= htmlentities($gardu_hubung['UP3_2D'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">UNITNAME_UP3</label>
+							<input type="text" class="form-control" name="UNITNAME_UP3" value="<?= htmlentities($gardu_hubung['UNITNAME_UP3'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">CXUNIT</label>
+							<input type="text" class="form-control" name="CXUNIT" value="<?= htmlentities($gardu_hubung['CXUNIT'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+
+						<div class="col-md-4">
+							<label class="form-label">UNITNAME</label>
+							<input type="text" class="form-control" name="UNITNAME" value="<?= htmlentities($gardu_hubung['UNITNAME'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">LOCATION</label>
+							<input type="text" class="form-control" name="LOCATION" value="<?= htmlentities($gardu_hubung['LOCATION'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-4">
 							<label class="form-label">SSOT Number</label>
-							<input type="text" class="form-control" value="<?= htmlentities($gardu_hubung['SSOTNUMBER_GH']); ?>" disabled>
+							<input type="text" class="form-control" name="SSOTNUMBER" value="<?= htmlentities($gardu_hubung['SSOTNUMBER'] ?? $gardu_hubung['SSOTNUMBER_GH'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+
+						<div class="col-md-6">
+							<label class="form-label">DESCRIPTION</label>
+							<input type="text" class="form-control" name="DESCRIPTION" value="<?= htmlentities($gardu_hubung['DESCRIPTION'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 						</div>
 						<div class="col-md-6">
-							<label class="form-label">Unit Layanan</label>
-							<input type="text" class="form-control" name="UNIT_LAYANAN" value="<?= htmlentities($gardu_hubung['UNIT_LAYANAN']); ?>" required>
+							<label class="form-label">STATUS</label>
+							<input type="text" class="form-control" name="STATUS" value="<?= htmlentities($gardu_hubung['STATUS'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+
+						<div class="col-md-4">
+							<label class="form-label">TUJDNUMBER</label>
+							<input type="text" class="form-control" name="TUJDNUMBER" value="<?= htmlentities($gardu_hubung['TUJDNUMBER'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">ASSETCLASSHI</label>
+							<input type="text" class="form-control" name="ASSETCLASSHI" value="<?= htmlentities($gardu_hubung['ASSETCLASSHI'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">SADDRESSCODE</label>
+							<input type="text" class="form-control" name="SADDRESSCODE" value="<?= htmlentities($gardu_hubung['SADDRESSCODE'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+
+						<div class="col-md-6">
+							<label class="form-label">CXCLASSIFICATIONDESC</label>
+							<input type="text" class="form-control" name="CXCLASSIFICATIONDESC" value="<?= htmlentities($gardu_hubung['CXCLASSIFICATIONDESC'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 						</div>
 						<div class="col-md-6">
-							<label class="form-label">Gardu Hubung</label>
-							<input type="text" class="form-control" name="GARDU_HUBUNG" value="<?= htmlentities($gardu_hubung['GARDU_HUBUNG']); ?>" required>
+							<label class="form-label">PENYULANG</label>
+							<input type="text" class="form-control" name="PENYULANG" value="<?= htmlentities($gardu_hubung['PENYULANG'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 						</div>
-						<div class="col-md-3">
-							<label class="form-label">Longitude (X)</label>
-							<input type="text" class="form-control" name="LONGITUDEX" value="<?= htmlentities($gardu_hubung['LONGITUDEX']); ?>">
+
+						<div class="col-md-6">
+							<label class="form-label">PARENT</label>
+							<input type="text" class="form-control" name="PARENT" value="<?= htmlentities($gardu_hubung['PARENT'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 						</div>
-						<div class="col-md-3">
+						<div class="col-md-6">
+							<label class="form-label">PARENT_DESCRIPTION</label>
+							<input type="text" class="form-control" name="PARENT_DESCRIPTION" value="<?= htmlentities($gardu_hubung['PARENT_DESCRIPTION'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+
+						<div class="col-md-4">
+							<label class="form-label">INSTALLDATE</label>
+							<input type="text" class="form-control" name="INSTALLDATE" value="<?= htmlentities($gardu_hubung['INSTALLDATE'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">ACTUALOPRDATE</label>
+							<input type="text" class="form-control" name="ACTUALOPRDATE" value="<?= htmlentities($gardu_hubung['ACTUALOPRDATE'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">CHANGEDATE</label>
+							<input type="text" class="form-control" name="CHANGEDATE" value="<?= htmlentities($gardu_hubung['CHANGEDATE'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+
+						<div class="col-md-4">
+							<label class="form-label">CHANGEBY</label>
+							<input type="text" class="form-control" name="CHANGEBY" value="<?= htmlentities($gardu_hubung['CHANGEBY'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+
+						<div class="col-md-4">
 							<label class="form-label">Latitude (Y)</label>
-							<input type="text" class="form-control" name="LATITUDEY" value="<?= htmlentities($gardu_hubung['LATITUDEY']); ?>">
-						</div>
-						<div class="col-md-12">
-							<label class="form-label">Alamat</label>
-							<input type="text" class="form-control" name="ADDRESS" value="<?= htmlentities($gardu_hubung['ADDRESS']); ?>">
+							<input type="text" class="form-control" name="LATITUDEY" value="<?= htmlentities($gardu_hubung['LATITUDEY'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 						</div>
 						<div class="col-md-4">
-							<label class="form-label">Status Operasi</label>
-							<input type="text" class="form-control" name="STATUS_OPERASI" value="<?= htmlentities($gardu_hubung['STATUS_OPERASI']); ?>">
+							<label class="form-label">Longitude (X)</label>
+							<input type="text" class="form-control" name="LONGITUDEX" value="<?= htmlentities($gardu_hubung['LONGITUDEX'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+
+						<div class="col-md-6">
+							<label class="form-label">FORMATTEDADDRESS</label>
+							<input type="text" class="form-control" name="FORMATTEDADDRESS" value="<?= htmlentities($gardu_hubung['FORMATTEDADDRESS'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">STREETADDRESS</label>
+							<input type="text" class="form-control" name="STREETADDRESS" value="<?= htmlentities($gardu_hubung['STREETADDRESS'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+
+						<div class="col-md-4">
+							<label class="form-label">CITY</label>
+							<input type="text" class="form-control" name="CITY" value="<?= htmlentities($gardu_hubung['CITY'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 						</div>
 						<div class="col-md-4">
-							<label class="form-label">Status SCADA</label>
-							<input type="text" class="form-control" name="STATUS_SCADA" value="<?= htmlentities($gardu_hubung['STATUS_SCADA']); ?>">
+							<label class="form-label">ISASSET</label>
+							<input type="text" class="form-control" name="ISASSET" value="<?= htmlentities($gardu_hubung['ISASSET'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 						</div>
+						<div class="col-md-4">
+							<label class="form-label">STATUS_KEPEMILIKAN</label>
+							<input type="text" class="form-control" name="STATUS_KEPEMILIKAN" value="<?= htmlentities($gardu_hubung['STATUS_KEPEMILIKAN'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+
+						<div class="col-md-4">
+							<label class="form-label">EXTERNALREFID</label>
+							<input type="text" class="form-control" name="EXTERNALREFID" value="<?= htmlentities($gardu_hubung['EXTERNALREFID'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">JENIS_PELAYANAN</label>
+							<input type="text" class="form-control" name="JENIS_PELAYANAN" value="<?= htmlentities($gardu_hubung['JENIS_PELAYANAN'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">NO_SLO</label>
+							<input type="text" class="form-control" name="NO_SLO" value="<?= htmlentities($gardu_hubung['NO_SLO'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+
+						<div class="col-md-4">
+							<label class="form-label">OWNERSYSID</label>
+							<input type="text" class="form-control" name="OWNERSYSID" value="<?= htmlentities($gardu_hubung['OWNERSYSID'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">SLOACTIVEDATE</label>
+							<input type="text" class="form-control" name="SLOACTIVEDATE" value="<?= htmlentities($gardu_hubung['SLOACTIVEDATE'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">STATUS_RC</label>
+							<input type="text" class="form-control" name="STATUS_RC" value="<?= htmlentities($gardu_hubung['STATUS_RC'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+
+						<div class="col-md-6">
+							<label class="form-label">TYPE_GARDU</label>
+							<input type="text" class="form-control" name="TYPE_GARDU" value="<?= htmlentities($gardu_hubung['TYPE_GARDU'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+
+						<!-- Keep RTU/network-related and integration fields -->
 						<div class="col-md-4">
 							<label class="form-label">IP Gateway</label>
-							<input type="text" class="form-control" name="IP_GATEWAY" value="<?= htmlentities($gardu_hubung['IP_GATEWAY']); ?>">
+							<input type="text" class="form-control" name="IP_GATEWAY" value="<?= htmlentities($gardu_hubung['IP_GATEWAY'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 						</div>
 						<div class="col-md-4">
 							<label class="form-label">IP RTU</label>
-							<input type="text" class="form-control" name="IP_RTU" value="<?= htmlentities($gardu_hubung['IP_RTU']); ?>">
+							<input type="text" class="form-control" name="IP_RTU" value="<?= htmlentities($gardu_hubung['IP_RTU'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 						</div>
 						<div class="col-md-4">
 							<label class="form-label">Merk RTU</label>
-							<input type="text" class="form-control" name="MERK_RTU" value="<?= htmlentities($gardu_hubung['MERK_RTU']); ?>">
+							<input type="text" class="form-control" name="MERK_RTU" value="<?= htmlentities($gardu_hubung['MERK_RTU'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 						</div>
+
 						<div class="col-md-4">
 							<label class="form-label">Komunikasi</label>
-							<input type="text" class="form-control" name="KOMUNIKASI" value="<?= htmlentities($gardu_hubung['KOMUNIKASI']); ?>">
+							<input type="text" class="form-control" name="KOMUNIKASI" value="<?= htmlentities($gardu_hubung['KOMUNIKASI'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 						</div>
 						<div class="col-md-4">
 							<label class="form-label">Tgl Integrasi</label>
-							<input type="text" class="form-control" name="TGL_INTEGRASI" value="<?= htmlentities($gardu_hubung['TGL_INTEGRASI']); ?>">
+							<input type="text" class="form-control" name="TGL_INTEGRASI" value="<?= htmlentities($gardu_hubung['TGL_INTEGRASI'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 						</div>
 						<div class="col-md-4">
 							<label class="form-label">Tgl Pasang Batt</label>
-							<input type="text" class="form-control" name="TGL_PASANG_BATT" value="<?= htmlentities($gardu_hubung['TGL_PASANG_BATT']); ?>">
+							<input type="text" class="form-control" name="TGL_PASANG_BATT" value="<?= htmlentities($gardu_hubung['TGL_PASANG_BATT'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 						</div>
 					</div>
 					<div class="mt-4">

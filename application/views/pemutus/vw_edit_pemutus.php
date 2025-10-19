@@ -10,7 +10,8 @@
 		<div class="card shadow border-0 rounded-4">
 			<div class="card-header bg-gradient-primary text-white"><strong>Form Edit Pemutus</strong></div>
 			<div class="card-body">
-				<form action="<?= base_url('Pemutus/edit/' . $pemutus['SSOTNUMBER']); ?>" method="post">
+				<form action="<?= base_url('Pemutus/edit/' . ($pemutus['SSOTNUMBER'] ?? '')); ?>" method="post">
+					<input type="hidden" name="original_SSOTNUMBER" value="<?= htmlentities($pemutus['SSOTNUMBER'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 					<div class="row g-3">
 						<div class="col-md-6">
 							<label class="form-label">SSOT Number</label>
@@ -44,6 +45,24 @@
 							<label class="form-label">Merk Komdat</label>
 							<input type="text" class="form-control" name="MERK_KOMDAT" value="<?= htmlentities($pemutus['MERK_KOMDAT'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 						</div>
+
+						<!-- Additional list-view fields -->
+						<div class="col-12 mt-3">
+							<h6 class="text-secondary">Additional Attributes</h6>
+						</div>
+						<?php
+						$extra = [
+							'CXUNIT','UNITNAME','LOCATION','DESCRIPTION','VENDOR','MANUFACTURER','INSTALLDATE','PRIORITY','STATUS','TUJDNUMBER',
+							'CHANGEBY','CHANGEDATE','CXCLASSIFICATIONDESC','CXPENYULANG','NAMA_LOCATION','LONGITUDEX','LATITUDEY',
+							'ISASSET','STATUS_KEPEMILIKAN','BURDEN','FAKTOR_KALI','JENIS_CT','KELAS_CT','KELAS_PROTEKSI','PRIMER_SEKUNDER',
+							'TIPE_CT','OWNERSYSID','ISOLASI_KUBIKEL','JENIS_MVCELL','TH_BUAT','TYPE_MVCELL','CELL_TYPE'
+						];
+						foreach ($extra as $f): ?>
+							<div class="col-md-4">
+								<label class="form-label"><?= $f; ?></label>
+								<input type="text" class="form-control" name="<?= $f; ?>" value="<?= htmlentities($pemutus[$f] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+							</div>
+						<?php endforeach; ?>
 					</div>
 					<div class="mt-4">
 						<a href="<?= base_url('Pemutus'); ?>" class="btn btn-secondary">Batal</a>
