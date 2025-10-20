@@ -19,27 +19,52 @@
     <!-- Content -->
     <div class="container-fluid py-4">
 
+        <!-- 🔹 Flash Message -->
         <?php if ($this->session->flashdata('success')): ?>
-            <div class="alert alert-success text-white">
-                <?= $this->session->flashdata('success'); ?>
+            <div class="alert alert-success text-white alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle me-2"></i><?= $this->session->flashdata('success'); ?>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php elseif ($this->session->flashdata('error')): ?>
+            <div class="alert alert-danger text-white alert-dismissible fade show" role="alert">
+                <i class="fas fa-exclamation-circle me-2"></i><?= $this->session->flashdata('error'); ?>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php endif; ?>
 
+        <!-- 🔹 Card -->
         <div class="card mb-4 shadow border-0 rounded-4">
             <div class="card-header py-2 d-flex justify-content-between align-items-center bg-gradient-primary text-white rounded-top-4">
                 <h6 class="mb-0">Tabel Data Pengaduan</h6>
                 <div class="d-flex align-items-center">
-                    <a href="<?= base_url('Pengaduan/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
+                    <a href="<?= base_url('Pengaduan/tambah') ?>"
+                        class="btn btn-sm btn-light text-primary btn-tambah">
                         <i class="fas fa-plus me-1"></i> Tambah
                     </a>
                 </div>
             </div>
 
             <div class="card-body px-0 pt-0 pb-2 bg-white">
-                <div class="px-3 mt-3 mb-3">
-                    <input type="text" id="searchInput" onkeyup="searchTable()" class="form-control form-control-sm rounded-3" placeholder="Cari data pengaduan...">
+                <!-- Filter & Search -->
+                <div class="px-3 mt-3 mb-3 d-flex justify-content-between align-items-center flex-wrap">
+                    <div class="d-flex align-items-center mb-2 mb-md-0">
+                        <label class="mb-0 me-2 text-sm">Tampilkan:</label>
+                        <select id="perPageSelectPengaduan" class="form-select form-select-sm" style="width: 80px;" onchange="changePerPagePengaduan(this.value)">
+                            <?php
+                            $per_page = isset($per_page) ? $per_page : 10;
+                            $options = [5, 10, 25, 50, 100, 500];
+                            foreach ($options as $opt) {
+                                $selected = ($per_page == $opt) ? 'selected' : '';
+                                echo "<option value='$opt' $selected>$opt</option>";
+                            }
+                            ?>
+                        </select>
+                        <span class="ms-3 text-sm">dari <?= isset($total_rows) ? $total_rows : 0; ?> data</span>
+                    </div>
+                    <input type="text" id="searchInputPengaduan" onkeyup="searchTablePengaduan()" class="form-control form-control-sm rounded-3" style="max-width: 300px;" placeholder="Cari data pengaduan...">
                 </div>
 
+                <!-- Table -->
                 <div class="table-responsive p-0">
                     <table class="table align-items-center mb-0" id="pengaduanTable">
                         <thead class="bg-light">
@@ -55,12 +80,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if (empty($pengaduan)): ?>
+                            <?php
+                            $pengaduan = isset($pengaduan) ? $pengaduan : [];
+                            $start_no = isset($start_no) ? $start_no : 1;
+
+                            if (empty($pengaduan)): ?>
                                 <tr>
                                     <td colspan="8" class="text-center text-secondary py-4">Belum ada data pengaduan</td>
                                 </tr>
-                            <?php else: ?>
-                                <?php $no = 1;
+                                <?php else:
+                                $no = $start_no;
                                 foreach ($pengaduan as $row): ?>
                                     <tr class="<?= ($no % 2 == 0) ? 'table-row-even' : 'table-row-odd'; ?>">
                                         <td class="text-sm"><?= $no++; ?></td>
@@ -87,10 +116,15 @@
                                             </a>
                                         </td>
                                     </tr>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
+                            <?php endforeach;
+                            endif; ?>
                         </tbody>
                     </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="card-footer d-flex justify-content-end">
+                    <?= isset($pagination) ? $pagination : ''; ?>
                 </div>
             </div>
         </div>
@@ -117,22 +151,31 @@
         });
     }
 
-    function searchTable() {
-        const input = document.getElementById('searchInput').value.toLowerCase();
-        const rows = document.querySelectorAll('#pengaduanTable tbody tr');
-        rows.forEach(row => {
-            const text = row.innerText.toLowerCase();
-            row.style.display = text.includes(input) ? '' : 'none';
-        });
+    function changePerPagePengaduan(perPage) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('per_page', perPage);
+        url.searchParams.set('page', '1');
+        window.location.href = url.toString();
+    }
+
+    function searchTablePengaduan() {
+        const input = document.getElementById('searchInputPengaduan');
+        const filter = input.value.toUpperCase();
+        const table = document.getElementById('pengaduanTable');
+        const tr = table.getElementsByTagName('tr');
+        for (let i = 1; i < tr.length; i++) {
+            let txtValue = tr[i].textContent || tr[i].innerText;
+            tr[i].style.display = (txtValue.toUpperCase().indexOf(filter) > -1) ? '' : 'none';
+        }
     }
 </script>
 
-<!-- Style tambahan -->
+<!-- Style -->
 <style>
     .card-header {
         display: flex;
         justify-content: space-between;
-        align-items: baseline;
+        align-items: center;
         padding: 0.75rem 1rem;
     }
 
@@ -144,10 +187,6 @@
 
     .bg-gradient-primary {
         background: linear-gradient(90deg, #005C99, #0099CC);
-    }
-
-    .card-header .d-flex.align-items-center a {
-        transform: translateY(10px);
     }
 
     .table-row-odd {
@@ -171,5 +210,11 @@
 
     .btn-xs i {
         font-size: 12px;
+    }
+
+    .btn-tambah {
+        position: relative;
+        top: 10px;
+        /* 👉 ubah nilai ini sesuai kebutuhan kamu (misal 15px, 20px) */
     }
 </style>

@@ -9,7 +9,7 @@
                 <strong>Form Tambah Pengaduan</strong>
             </div>
             <div class="card-body">
-                <form action="<?= base_url('Pengaduan/tambah'); ?>" method="POST" enctype="multipart/form-data">
+                <form id="formPengaduan" action="<?= base_url('Pengaduan/tambah'); ?>" method="POST" enctype="multipart/form-data">
                     <div class="row g-3">
 
                         <!-- Unit Pelaksana -->
@@ -58,7 +58,7 @@
                             </select>
                         </div>
 
-                        <!-- PIC (dropdown manual) -->
+                        <!-- PIC -->
                         <div class="col-md-6">
                             <label class="form-label">PIC</label>
                             <select name="PIC" id="pic" class="form-control" required>
@@ -71,21 +71,21 @@
                             </select>
                         </div>
 
-                        <!-- Laporan dan Tindak Lanjut dalam satu baris -->
+                        <!-- Laporan dan Tindak Lanjut -->
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-6">
                                     <label class="form-label">Laporan</label>
                                     <textarea name="LAPORAN" rows="6" class="form-control" placeholder="Masukkan laporan pengaduan..." required></textarea>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6" id="tindakLanjutContainer" style="display:none;">
                                     <label class="form-label">Tindak Lanjut</label>
-                                    <textarea name="TINDAK_LANJUT" rows="6" class="form-control" placeholder="Masukkan tindak lanjut..."></textarea>
+                                    <textarea name="TINDAK_LANJUT" id="tindakLanjut" rows="6" class="form-control" placeholder="Masukkan tindak lanjut..."></textarea>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Foto Pengaduan dan Foto Proses sejajar -->
+                        <!-- Foto Pengaduan dan Foto Proses -->
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-6">
@@ -97,7 +97,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-6" id="fotoProsesContainer" style="display:none;">
                                     <label class="form-label">Foto Proses</label>
                                     <input type="file" name="FOTO_PROSES" id="foto_proses" class="form-control" accept="image/*" onchange="previewImage(event, 'preview_proses')">
                                     <small class="text-muted">Format: JPG, PNG, maksimal 2MB</small>
@@ -111,7 +111,7 @@
                         <!-- Status -->
                         <div class="col-md-6">
                             <label class="form-label">Status</label>
-                            <select name="STATUS" class="form-control">
+                            <select name="STATUS" id="statusSelect" class="form-control" required>
                                 <option value="Menunggu">Menunggu</option>
                                 <option value="Diproses">Diproses</option>
                                 <option value="Selesai">Selesai</option>
@@ -141,7 +141,6 @@
         const jenisSelect = document.getElementById("jenis_pengaduan");
         const itemSelect = document.getElementById("item_pengaduan");
 
-        // Saat jenis pengaduan berubah, isi item
         jenisSelect.addEventListener("change", function() {
             const selectedJenis = this.value;
             itemSelect.innerHTML = "<option value=''>-- Pilih Item Pengaduan --</option>";
@@ -173,6 +172,46 @@
                 preview.style.display = 'none';
             }
         }
+
+        // Tampilkan input sesuai status
+        const statusSelect = document.getElementById("statusSelect");
+        const fotoProsesContainer = document.getElementById("fotoProsesContainer");
+        const tindakLanjutContainer = document.getElementById("tindakLanjutContainer");
+        const fotoProsesInput = document.getElementById("foto_proses");
+        const tindakLanjutInput = document.getElementById("tindakLanjut");
+        const formPengaduan = document.getElementById("formPengaduan");
+
+        statusSelect.addEventListener("change", function() {
+            if (this.value === "Diproses") {
+                fotoProsesContainer.style.display = "block";
+                tindakLanjutContainer.style.display = "block";
+                fotoProsesInput.setAttribute("required", "required");
+                tindakLanjutInput.setAttribute("required", "required");
+            } else if (this.value === "Selesai") {
+                fotoProsesContainer.style.display = "none";
+                tindakLanjutContainer.style.display = "block";
+                fotoProsesInput.removeAttribute("required");
+                tindakLanjutInput.setAttribute("required", "required");
+            } else { // Menunggu
+                fotoProsesContainer.style.display = "none";
+                tindakLanjutContainer.style.display = "none";
+                fotoProsesInput.removeAttribute("required");
+                tindakLanjutInput.removeAttribute("required");
+                fotoProsesInput.value = "";
+                tindakLanjutInput.value = "";
+            }
+        });
+
+        // Validasi sebelum submit
+        formPengaduan.addEventListener("submit", function(event) {
+            const status = statusSelect.value;
+            const tindakLanjut = tindakLanjutInput.value.trim();
+
+            if (status === "Selesai" && tindakLanjut === "") {
+                alert("Harap isi tindak lanjut sebelum menyimpan data dengan status Selesai!");
+                event.preventDefault();
+            }
+        });
     </script>
 
     <style>
