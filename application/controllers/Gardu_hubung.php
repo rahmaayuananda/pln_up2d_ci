@@ -200,4 +200,38 @@ class Gardu_hubung extends CI_Controller
         $this->session->set_flashdata('success', 'Data Gardu Hubung berhasil dihapus!');
         redirect('Gardu_hubung');
     }
+
+    // Export Gardu Hubung data to CSV
+    public function export_csv()
+    {
+        $all = $this->Gardu_hubung_model->get_all_gardu_hubung();
+        $label = 'Data Gardu Hubung';
+        $filename = $label . ' ' . date('d-m-Y') . '.csv';
+
+        header('Content-Type: text/csv; charset=UTF-8');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+
+        $output = fopen('php://output', 'w');
+        fwrite($output, "\xEF\xBB\xBF");
+
+        if (empty($all)) {
+            fputcsv($output, ['No data']);
+            fclose($output);
+            exit;
+        }
+
+        $headers = array_keys($all[0]);
+        fputcsv($output, $headers);
+
+        foreach ($all as $row) {
+            $line = [];
+            foreach ($headers as $h) {
+                $line[] = isset($row[$h]) ? $row[$h] : '';
+            }
+            fputcsv($output, $line);
+        }
+
+        fclose($output);
+        exit;
+    }
 }

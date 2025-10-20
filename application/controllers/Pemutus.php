@@ -227,4 +227,38 @@ class Pemutus extends CI_Controller
         $this->session->set_flashdata('success', 'Data Pemutus berhasil dihapus!');
         redirect('Pemutus');
     }
+
+    // Export pemutus data to CSV
+    public function export_csv()
+    {
+        $all = $this->pemutus_model->get_all_pemutus();
+        $label = 'Data Pemutus';
+        $filename = $label . ' ' . date('d-m-Y') . '.csv';
+
+        header('Content-Type: text/csv; charset=UTF-8');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+
+        $out = fopen('php://output', 'w');
+        // write UTF-8 BOM for Excel
+        fwrite($out, "\xEF\xBB\xBF");
+
+        if (empty($all)) {
+            fputcsv($out, ['No data']);
+            fclose($out);
+            exit;
+        }
+
+        $headers = array_keys($all[0]);
+        fputcsv($out, $headers);
+        foreach ($all as $row) {
+            $line = [];
+            foreach ($headers as $h) {
+                $line[] = isset($row[$h]) ? $row[$h] : '';
+            }
+            fputcsv($out, $line);
+        }
+
+        fclose($out);
+        exit;
+    }
 }

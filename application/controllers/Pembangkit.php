@@ -168,4 +168,39 @@ class Pembangkit extends CI_Controller
         $this->session->set_flashdata('success', 'Data pembangkit berhasil dihapus!');
         redirect('Pembangkit');
     }
+
+    // Export Pembangkit data to CSV
+    public function export_csv()
+    {
+        $all = $this->Pembangkit_model->get_all_pembangkit();
+        $label = 'Data Pembangkit';
+        $filename = $label . ' ' . date('d-m-Y') . '.csv';
+
+        header('Content-Type: text/csv; charset=UTF-8');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+
+        $output = fopen('php://output', 'w');
+        // UTF-8 BOM for Excel
+        fwrite($output, "\xEF\xBB\xBF");
+
+        if (empty($all)) {
+            fputcsv($output, ['No data']);
+            fclose($output);
+            exit;
+        }
+
+        $headers = array_keys($all[0]);
+        fputcsv($output, $headers);
+
+        foreach ($all as $row) {
+            $line = [];
+            foreach ($headers as $h) {
+                $line[] = isset($row[$h]) ? $row[$h] : '';
+            }
+            fputcsv($output, $line);
+        }
+
+        fclose($output);
+        exit;
+    }
 }

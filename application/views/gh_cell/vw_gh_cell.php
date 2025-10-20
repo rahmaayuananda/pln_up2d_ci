@@ -35,6 +35,9 @@
                     <a href="<?= base_url('import/gh_cell') ?>" class="btn btn-sm btn-light text-success">
                         <i class="fas fa-file-import me-1"></i> Import
                     </a>
+                    <a href="<?= base_url('Gh_cell/export_csv') ?>" class="btn btn-sm btn-light text-secondary ms-2">
+                        <i class="fas fa-file-csv me-1"></i> Download CSV
+                    </a>
                 </div>
             </div>
 
@@ -52,35 +55,100 @@
                         </select>
                         <span class="ms-3 text-sm">dari <?= $total_rows; ?> data</span>
                     </div>
-                    <input type="text" id="searchInput" onkeyup="searchTable()" class="form-control form-control-sm rounded-3" style="max-width: 300px;" placeholder="Cari data GH Cell...">
+                        <input type="text" id="searchInput" onkeyup="searchTable()" class="form-control form-control-sm rounded-3" style="max-width: 300px;" placeholder="Cari data GH Cell...">
                 </div>
+
+                <script>
+                    function changePerPage(perPage) {
+                        const url = new URL(window.location.href);
+                        url.searchParams.set('per_page', perPage);
+                        url.searchParams.set('page', '1'); // Reset ke halaman 1
+                        window.location.href = url.toString();
+                    }
+
+                    function searchTable() {
+                        const input = document.getElementById('searchInput');
+                        const filter = input.value.toUpperCase();
+                        const table = document.getElementById('ghCellTable');
+                        const tr = table.getElementsByTagName('tr');
+
+                        for (let i = 1; i < tr.length; i++) {
+                            let txtValue = tr[i].textContent || tr[i].innerText;
+                            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                tr[i].style.display = '';
+                            } else {
+                                tr[i].style.display = 'none';
+                            }
+                        }
+                    }
+                </script>
+                <style>
+                    /* sort indicator */
+                    #ghCellTable thead th { cursor: pointer; }
+                    .gh-sort-asc::after { content: '\25B2'; font-size: 10px; margin-left:6px; }
+                    .gh-sort-desc::after { content: '\25BC'; font-size: 10px; margin-left:6px; }
+                </style>
+
+                <script>
+                    (function(){
+                        const table = document.getElementById('ghCellTable');
+                        if (!table) return;
+                        let sortState = { index: null, asc: true };
+
+                        function getCellText(row, idx){
+                            return (row.children[idx] && (row.children[idx].textContent || row.children[idx].innerText) || '').trim();
+                        }
+
+                        function updateRowNumbers(){
+                            const tbody = table.tBodies[0];
+                            const rows = Array.from(tbody.querySelectorAll('tr'));
+                            let no = parseInt('<?= $start_no; ?>',10) || 1;
+                            rows.forEach((r,i)=>{
+                                if (r.children[0]) r.children[0].textContent = no + i;
+                                r.classList.remove('table-row-odd','table-row-even');
+                                r.classList.add((i%2===0)?'table-row-odd':'table-row-even');
+                            });
+                        }
+
+                        function updateIndicators(){
+                            const headers = table.querySelectorAll('thead th');
+                            headers.forEach((th, i)=>{
+                                th.classList.remove('gh-sort-asc','gh-sort-desc');
+                                if (sortState.index === i) th.classList.add(sortState.asc ? 'gh-sort-asc' : 'gh-sort-desc');
+                            });
+                        }
+
+                        function sortBy(col){
+                            const tbody = table.tBodies[0];
+                            const rows = Array.from(tbody.querySelectorAll('tr'));
+                            if (sortState.index === col) sortState.asc = !sortState.asc; else { sortState.index = col; sortState.asc = true; }
+                            const numericCols = [0]; // assume No is numeric; other numeric columns can be added
+                            rows.sort((a,b)=>{
+                                const A = getCellText(a,col);
+                                const B = getCellText(b,col);
+                                if (numericCols.includes(col)){
+                                    return sortState.asc ? (parseFloat(A) - parseFloat(B)) : (parseFloat(B) - parseFloat(A));
+                                }
+                                if (A < B) return sortState.asc ? -1 : 1;
+                                if (A > B) return sortState.asc ? 1 : -1;
+                                return 0;
+                            });
+                            rows.forEach(r=>tbody.appendChild(r));
+                            updateRowNumbers(); updateIndicators();
+                        }
+
+                        document.addEventListener('DOMContentLoaded', ()=>{
+                            const headers = table.querySelectorAll('thead th');
+                            headers.forEach((th, idx)=>{
+                                // don't attach to action column if last
+                                th.addEventListener('click', ()=> sortBy(idx));
+                            });
+                        });
+                    })();
+                </script>
 
                 <div class="table-responsive p-0">
                     <table class="table align-items-center mb-0" id="ghCellTable">
-<script>
-    function changePerPage(perPage) {
-        const url = new URL(window.location.href);
-        url.searchParams.set('per_page', perPage);
-        url.searchParams.set('page', '1'); // Reset ke halaman 1
-        window.location.href = url.toString();
-    }
-
-    function searchTable() {
-        const input = document.getElementById("searchInput");
-        const filter = input.value.toUpperCase();
-        const table = document.getElementById("ghCellTable");
-        const tr = table.getElementsByTagName("tr");
-
-        for (let i = 1; i < tr.length; i++) {
-            let txtValue = tr[i].textContent || tr[i].innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = "";
-            } else {
-                tr[i].style.display = "none";
-            }
-        }
-    }
-</script>
                         <thead class="bg-light">
                             <tr>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
@@ -205,6 +273,18 @@
         margin: 0;
         font-weight: 600;
     }
+
+    /* Ensure breadcrumb active/title is visible on dark header */
+    .breadcrumb .breadcrumb-item.active,
+    .breadcrumb .breadcrumb-item a.opacity-5,
+    .breadcrumb .breadcrumb-item.text-white {
+        color: #ffffff !important;
+    }
+
+    /* compact default for ghCellTable (assets dropdown) */
+    #ghCellTable tbody tr td { padding-top: 2px !important; padding-bottom: 2px !important; font-size: 13px !important; }
+    #ghCellTable tbody tr { line-height: 1.15; }
+    #ghCellTable thead th { padding-top: 8px !important; padding-bottom: 8px !important; font-size: 12px !important; }
 
     .bg-gradient-primary {
         background: linear-gradient(90deg, #005C99, #0099CC);
