@@ -10,7 +10,7 @@
                     <li class="breadcrumb-item text-sm text-white active" aria-current="page">Data Pengaduan</li>
                 </ol>
                 <h6 class="font-weight-bolder text-white mb-0">
-                    <i class="fas fa-file-alt me-2"></i> Data Pengaduan
+                    <i class="fas fa-file-alt me-2 text-warning"></i> Data Pengaduan
                 </h6>
             </nav>
         </div>
@@ -32,16 +32,20 @@
             </div>
         <?php endif; ?>
 
+        <!-- 🔹 Card -->
         <div class="card mb-4 shadow border-0 rounded-4">
             <div class="card-header py-2 d-flex justify-content-between align-items-center bg-gradient-primary text-white rounded-top-4">
                 <h6 class="mb-0">Tabel Data Pengaduan</h6>
-                <a href="<?= base_url('Pengaduan/tambah') ?>" class="btn btn-sm btn-light text-primary">
-                    <i class="fas fa-plus me-1"></i> Tambah
-                </a>
+                <div class="d-flex align-items-center">
+                    <a href="<?= base_url('Pengaduan/tambah') ?>"
+                        class="btn btn-sm btn-light text-primary btn-tambah">
+                        <i class="fas fa-plus me-1"></i> Tambah
+                    </a>
+                </div>
             </div>
 
             <div class="card-body px-0 pt-0 pb-2 bg-white">
-                <!-- Filter dan Pencarian -->
+                <!-- Filter & Search -->
                 <div class="px-3 mt-3 mb-3 d-flex justify-content-between align-items-center flex-wrap">
                     <div class="d-flex align-items-center mb-2 mb-md-0">
                         <label class="mb-0 me-2 text-sm">Tampilkan:</label>
@@ -60,7 +64,7 @@
                     <input type="text" id="searchInputPengaduan" onkeyup="searchTablePengaduan()" class="form-control form-control-sm rounded-3" style="max-width: 300px;" placeholder="Cari data pengaduan...">
                 </div>
 
-                <!-- Tabel Data -->
+                <!-- Table -->
                 <div class="table-responsive p-0">
                     <table class="table align-items-center mb-0" id="pengaduanTable">
                         <thead class="bg-light">
@@ -127,7 +131,7 @@
     </div>
 </main>
 
-<!-- Script -->
+<!-- SweetAlert -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     function confirmDelete(url) {
@@ -171,7 +175,7 @@
     .card-header {
         display: flex;
         justify-content: space-between;
-        align-items: baseline;
+        align-items: center;
         padding: 0.75rem 1rem;
     }
 
@@ -179,10 +183,6 @@
         color: #fff;
         margin: 0;
         font-weight: 600;
-    }
-
-    .card-header .d-flex.align-items-center a {
-        transform: translateY(10px);
     }
 
     .bg-gradient-primary {
@@ -210,5 +210,11 @@
 
     .btn-xs i {
         font-size: 12px;
+    }
+
+    .btn-tambah {
+        position: relative;
+        top: 10px;
+        /* 👉 ubah nilai ini sesuai kebutuhan kamu (misal 15px, 20px) */
     }
 </style>
