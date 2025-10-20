@@ -6,10 +6,14 @@ class Pengaduan_model extends CI_Model
     private $table = 'pengaduan'; // Nama tabel di database
 
     // 🔹 Mengambil semua data pengaduan
+
     public function get_all_pengaduan()
     {
+        // Urutkan berdasarkan ID_PENGADUAN terbaru
+        $this->db->order_by('ID_PENGADUAN', 'DESC');
         return $this->db->get($this->table)->result_array();
     }
+
 
     // 🔹 Mengambil data pengaduan berdasarkan ID_PENGADUAN (Primary Key)
     public function get_pengaduan_by_id($id_pengaduan)
@@ -54,5 +58,11 @@ class Pengaduan_model extends CI_Model
         $this->db->or_like('STATUS', $keyword);
         $this->db->or_like('PIC', $keyword);
         return $this->db->get($this->table)->result_array();
+    }
+
+    public function get_pengaduan_paginated($limit, $start)
+    {
+        $this->db->order_by('ID_PENGADUAN', 'DESC'); // urutkan dari terbaru ke lama
+        return $this->db->get('pengaduan', $limit, $start)->result_array();
     }
 }

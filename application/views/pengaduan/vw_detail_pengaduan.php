@@ -1,56 +1,116 @@
-<div class="main-content">
+<div class="main-content position-relative border-radius-lg"><!-- 🔧 Perubahan: ditambah class untuk konsistensi -->
     <section class="section">
         <div class="section-body">
-            <div class="container-fluid">
+            <div class="container-fluid py-4"><!-- 🔧 Perubahan: ditambah py-4 agar jarak sama -->
                 <h1 class="h3 mb-4 text-gray-800"><?= $judul; ?></h1>
 
                 <div class="row justify-content-center">
-                    <div class="col-md-10 col-lg-8">
-                        <div class="card shadow-lg custom-card">
-                            <div class="card-header bg-gradient-primary text-white text-center">
-                                <h6 class="mb-0" style="color: white;">
-                                    <i class="fas fa-file-alt me-2 text-warning"></i> Detail Pengaduan
+                    <div class="col-lg-10">
+                        <div class="card shadow border-0 rounded-4"><!-- 🔧 Perubahan: ubah ke gaya card utama -->
+                            <div class="card-header bg-gradient-primary text-white text-center rounded-top-4"><!-- 🔧 Perubahan warna -->
+                                <h6 class="mb-0 text-white">
+                                    <i class="fas fa-file-alt me-2 text-white"></i> Detail Pengaduan
                                 </h6>
                             </div>
 
                             <div class="card-body">
-                                <?php
-                                $fields = [
-                                    'ID_PENGADUAN'      => 'ID Pengaduan',
-                                    'NAMA_UP3'          => 'Nama UP3',
-                                    'TANGGAL_PENGADUAN' => 'Tanggal Pengaduan',
-                                    'JENIS_PENGADUAN'   => 'Jenis Pengaduan',
-                                    'ITEM_PENGADUAN'    => 'Item Pengaduan',
-                                    'LAPORAN'           => 'Laporan',
-                                    'FOTO_PENGADUAN'    => 'Foto Pengaduan',
-                                    'TANGGAL_PROSES'    => 'Tanggal Proses',
-                                    'FOTO_PROSES'       => 'Foto Proses',
-                                    'STATUS'            => 'Status',
-                                    'PIC'               => 'PIC'
-                                ];
-
-                                foreach ($fields as $key => $label): ?>
-                                    <div class="row mb-3">
-                                        <div class="col-md-4 fw-bold"><?= $label; ?></div>
-                                        <div class="col-md-8">
-                                            <?php if (strpos($key, 'FOTO_') === 0 && !empty($pengaduan[$key])): ?>
-                                                <?php
-                                                $folder = ($key === 'FOTO_PROSES') ? 'proses' : 'pengaduan';
-                                                ?>
-                                                <img src="<?= base_url('uploads/' . $folder . '/' . $pengaduan[$key]); ?>"
-                                                    alt="<?= $label; ?>"
-                                                    class="img-thumbnail"
-                                                    style="max-width: 200px;">
-                                            <?php else: ?>
-                                                <?= !empty($pengaduan[$key]) ? htmlspecialchars($pengaduan[$key]) : '-'; ?>
-                                            <?php endif; ?>
+                                <!-- ID & Nama UP3 -->
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="detail-item">
+                                            <span class="label">ID Pengaduan</span>
+                                            <p class="value"><?= htmlspecialchars($pengaduan['ID_PENGADUAN'] ?? '-'); ?></p>
                                         </div>
                                     </div>
-                                <?php endforeach; ?>
+                                    <div class="col-md-6">
+                                        <div class="detail-item">
+                                            <span class="label">Nama UP3</span>
+                                            <p class="value"><?= htmlspecialchars($pengaduan['NAMA_UP3'] ?? '-'); ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Tanggal Pengaduan & Tanggal Proses -->
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="detail-item">
+                                            <span class="label">Tanggal Pengaduan</span>
+                                            <p class="value"><?= htmlspecialchars($pengaduan['TANGGAL_PENGADUAN'] ?? '-'); ?></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="detail-item">
+                                            <span class="label">Tanggal Proses</span>
+                                            <p class="value"><?= htmlspecialchars($pengaduan['TANGGAL_PROSES'] ?? '-'); ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Jenis & Item Pengaduan -->
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="detail-item">
+                                            <span class="label">Jenis Pengaduan</span>
+                                            <p class="value"><?= htmlspecialchars($pengaduan['JENIS_PENGADUAN'] ?? '-'); ?></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="detail-item">
+                                            <span class="label">Item Pengaduan</span>
+                                            <p class="value"><?= htmlspecialchars($pengaduan['ITEM_PENGADUAN'] ?? '-'); ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Laporan -->
+                                <div class="row mb-3">
+                                    <div class="col-md-12">
+                                        <div class="detail-item">
+                                            <span class="label">Laporan</span>
+                                            <p class="value"><?= nl2br(htmlspecialchars($pengaduan['LAPORAN'] ?? '-')); ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Foto Pengaduan & Foto Proses -->
+                                <div class="row mb-4 text-center">
+                                    <?php if (!empty($pengaduan['FOTO_PENGADUAN'])): ?>
+                                        <div class="col-md-6 mb-3 mb-md-0">
+                                            <span class="label d-block mb-2">Foto Pengaduan</span>
+                                            <img src="<?= base_url('uploads/pengaduan/' . $pengaduan['FOTO_PENGADUAN']); ?>"
+                                                class="img-thumbnail rounded" style="max-width: 90%;"><!-- 🔧 Perubahan: gunakan .img-thumbnail -->
+                                        </div>
+                                    <?php endif; ?>
+
+                                    <?php if (!empty($pengaduan['FOTO_PROSES'])): ?>
+                                        <div class="col-md-6">
+                                            <span class="label d-block mb-2">Foto Proses</span>
+                                            <img src="<?= base_url('uploads/proses/' . $pengaduan['FOTO_PROSES']); ?>"
+                                                class="img-thumbnail rounded" style="max-width: 90%;"><!-- 🔧 Perubahan -->
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+
+                                <!-- Status & PIC -->
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="detail-item">
+                                            <span class="label">Status</span>
+                                            <p class="value"><?= htmlspecialchars($pengaduan['STATUS'] ?? '-'); ?></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="detail-item">
+                                            <span class="label">PIC</span>
+                                            <p class="value"><?= htmlspecialchars($pengaduan['PIC'] ?? '-'); ?></p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
-                            <div class="card-footer text-center bg-light">
-                                <a href="<?= base_url('Pengaduan') ?>" class="btn btn-danger">
+                            <div class="card-footer text-center bg-light border-top">
+                                <!-- 🔧 Perubahan: ganti warna tombol agar konsisten -->
+                                <a href="<?= base_url('Pengaduan') ?>" class="btn btn-secondary px-4 me-2">
                                     <i class="fas fa-arrow-left me-1"></i> Kembali
                                 </a>
                             </div>
@@ -64,42 +124,61 @@
 
 <!-- STYLE TAMBAHAN -->
 <style>
-    .custom-card {
+    /* 🔧 Perubahan: diseragamkan dengan form edit */
+    .img-thumbnail {
+        border: 1px solid #dee2e6;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         border-radius: 12px;
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 5px 0;
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .img-thumbnail:hover {
+        transform: scale(1.03);
+    }
+
+    .form-label,
+    .label {
+        font-weight: 600;
+        color: #2c3e50;
+    }
+
+    .value {
+        color: #333;
+        margin: 0;
+    }
+
+    .detail-item {
+        background: #f8f9fc;
+        border-radius: 10px;
+        padding: 10px 15px;
+        margin-bottom: 10px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     }
 
     .card-header {
-        background: linear-gradient(90deg, #005C99, #0099CC);
+        background: linear-gradient(90deg, #007bff, #0056d2);
+        /* 🔧 Perubahan: sama dengan bg-gradient-primary */
         font-weight: 600;
-        font-size: 16px;
-        border-top-left-radius: 12px;
-        border-top-right-radius: 12px;
-        padding: 12px;
-    }
-
-    .card-body {
-        padding: 20px 25px;
-    }
-
-    .fw-bold {
-        font-weight: 600;
-        color: #003366;
+        font-size: 17px;
+        padding: 14px;
     }
 
     .card-footer {
-        border-top: 1px solid #ddd;
-        padding: 15px;
+        border-top: 1px solid #e0e0e0;
+        padding: 18px;
+        border-radius: 0 0 14px 14px;
     }
 
-    .btn-danger {
-        border-radius: 8px;
-    }
-
-    img.img-thumbnail {
+    .btn {
         border-radius: 10px;
-        box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056d2;
     }
 </style>
