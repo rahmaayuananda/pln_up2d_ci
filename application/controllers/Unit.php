@@ -14,6 +14,52 @@ class Unit extends CI_Controller
         $this->load->library(['session', 'pagination']);
     }
 
+    // Export semua data unit ke CSV yang kompatibel dengan Excel
+    public function export_csv()
+    {
+        // Ambil semua data
+        $all = $this->Unit_model->get_all_units();
+
+        // Set headers untuk download CSV (Excel-friendly)
+    // Human-friendly label for this export
+    $label = 'Data Unit';
+    // Filename format requested: "Data Unit dd-mm-yyyy.csv"
+    $filename = $label . ' ' . date('d-m-Y') . '.csv';
+        header('Content-Type: text/csv; charset=UTF-8');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+
+        $output = fopen('php://output', 'w');
+        // tulis BOM UTF-8 supaya Excel mengenali encoding
+        fwrite($output, "\xEF\xBB\xBF");
+
+        // Jika tidak ada data, kirim header saja
+        if (empty($all)) {
+            fputcsv($output, ['No data']);
+            fclose($output);
+            exit;
+        }
+
+        // header CSV: ambil keys dari baris pertama
+        $first = $all[0];
+        $headers = array_keys($first);
+        // optionally rename ID_UNIT to ID
+        fputcsv($output, $headers);
+
+        // tulis setiap baris
+        $no = 1;
+        foreach ($all as $row) {
+            // convert all values to string, preserve order
+            $line = [];
+            foreach ($headers as $h) {
+                $line[] = isset($row[$h]) ? $row[$h] : '';
+            }
+            fputcsv($output, $line);
+        }
+
+        fclose($output);
+        exit;
+    }
+
     // Halaman utama - tampilkan semua data dengan paginasi
     public function index()
     {

@@ -35,6 +35,9 @@
                     <a href="<?= base_url('import/pemutus') ?>" class="btn btn-sm btn-light text-success">
                         <i class="fas fa-file-import me-1"></i> Import
                     </a>
+                    <a href="<?= base_url('Pemutus/export_csv') ?>" class="btn btn-sm btn-light text-secondary ms-2">
+                        <i class="fas fa-file-csv me-1"></i> Download CSV
+                    </a>
                 </div>
             </div>
 
@@ -175,20 +178,38 @@
     }
 
     function searchTable() {
-        const input = document.getElementById("searchInput");
+        const input = document.getElementById('searchInput');
         const filter = input.value.toUpperCase();
-        const table = document.getElementById("pemutusTable");
-        const tr = table.getElementsByTagName("tr");
+        const table = document.getElementById('pemutusTable');
+        const tr = table.getElementsByTagName('tr');
 
         for (let i = 1; i < tr.length; i++) {
             let txtValue = tr[i].textContent || tr[i].innerText;
             if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = "";
+                tr[i].style.display = '';
             } else {
-                tr[i].style.display = "none";
+                tr[i].style.display = 'none';
             }
         }
     }
+    // global search removed; sorting-only
+</script>
+
+<style>
+    #pemutusTable thead th { cursor: pointer; }
+    .pem-sort-asc::after { content: '\25B2'; font-size: 10px; margin-left:6px; }
+    .pem-sort-desc::after { content: '\25BC'; font-size: 10px; margin-left:6px; }
+</style>
+<script>
+    (function(){
+        const table = document.getElementById('pemutusTable'); if(!table) return; let sortState={index:null,asc:true};
+        function getCellText(r,i){return (r.children[i]&&(r.children[i].textContent||r.children[i].innerText)||'').trim();}
+        function updateNumbers(){const tbody=table.tBodies[0];const rows=Array.from(tbody.querySelectorAll('tr'));let no=parseInt('<?= $start_no; ?>',10)||1;rows.forEach((r,idx)=>{if(r.children[0]) r.children[0].textContent=no+idx;r.classList.remove('table-row-odd','table-row-even');r.classList.add((idx%2===0)?'table-row-odd':'table-row-even');});}
+        function updateIndicators(){const headers=table.querySelectorAll('thead th');headers.forEach((th,i)=>{th.classList.remove('pem-sort-asc','pem-sort-desc');if(sortState.index===i) th.classList.add(sortState.asc?'pem-sort-asc':'pem-sort-desc');});}
+        function sortBy(col){const tbody=table.tBodies[0];const rows=Array.from(tbody.querySelectorAll('tr'));if(sortState.index===col) sortState.asc=!sortState.asc; else {sortState.index=col;sortState.asc=true;} const numeric=[0];rows.sort((a,b)=>{const A=getCellText(a,col);const B=getCellText(b,col);if(numeric.includes(col)){return sortState.asc?(parseFloat(A)||0)-(parseFloat(B)||0):(parseFloat(B)||0)-(parseFloat(A)||0);} if(A<B) return sortState.asc? -1:1; if(A>B) return sortState.asc?1:-1; return 0;});rows.forEach(r=>tbody.appendChild(r));updateNumbers();updateIndicators();}
+        document.addEventListener('DOMContentLoaded',()=>{const headers=table.querySelectorAll('thead th');headers.forEach((th,idx)=>th.addEventListener('click',()=>sortBy(idx)));});
+    })();
+</script>
 </script>
 
 <!-- Style tambahan -->
@@ -205,6 +226,18 @@
         margin: 0;
         font-weight: 600;
     }
+
+    /* Ensure breadcrumb active/title is visible on dark header */
+    .breadcrumb .breadcrumb-item.active,
+    .breadcrumb .breadcrumb-item a.opacity-5,
+    .breadcrumb .breadcrumb-item.text-white {
+        color: #ffffff !important;
+    }
+
+    /* compact default for pemutusTable (assets dropdown) */
+    #pemutusTable tbody tr td { padding-top: 2px !important; padding-bottom: 2px !important; font-size: 13px !important; }
+    #pemutusTable tbody tr { line-height: 1.15; }
+    #pemutusTable thead th { padding-top: 8px !important; padding-bottom: 8px !important; font-size: 12px !important; }
 
     .bg-gradient-primary {
         background: linear-gradient(90deg, #005C99, #0099CC);

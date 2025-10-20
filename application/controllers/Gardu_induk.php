@@ -177,6 +177,42 @@ class Gardu_induk extends CI_Controller
         redirect('gardu_induk');
     }
 
+    // Export semua data gardu induk ke CSV (human-friendly filename)
+    public function export_csv()
+    {
+        $all = $this->garduModel->get_all_gardu_induk();
+
+        $label = 'Data Gardu Induk';
+        $filename = $label . ' ' . date('d-m-Y') . '.csv';
+
+        header('Content-Type: text/csv; charset=UTF-8');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+
+        $output = fopen('php://output', 'w');
+        // BOM
+        fwrite($output, "\xEF\xBB\xBF");
+
+        if (empty($all)) {
+            fputcsv($output, ['No data']);
+            fclose($output);
+            exit;
+        }
+
+        $headers = array_keys($all[0]);
+        fputcsv($output, $headers);
+
+        foreach ($all as $row) {
+            $line = [];
+            foreach ($headers as $h) {
+                $line[] = isset($row[$h]) ? $row[$h] : '';
+            }
+            fputcsv($output, $line);
+        }
+
+        fclose($output);
+        exit;
+    }
+
     // =======================
     // EDIT DATA (UPDATE)
     // =======================

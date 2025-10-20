@@ -43,4 +43,16 @@ class Unit_model extends CI_Model
         $this->db->where('ID_UNIT', $id);
         $this->db->delete($this->table);
     }
+
+    // Ambil semua data tanpa paginasi (untuk export/download)
+    public function get_all_units()
+    {
+        return $this->db->get($this->table)->result_array();
+    }
+
+    // Return the underlying table name (useful for export filenames)
+    public function get_table_name()
+    {
+        return $this->table;
+    }
 }

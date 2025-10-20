@@ -35,6 +35,9 @@
                     <a href="<?= base_url('import/unit') ?>" class="btn btn-sm btn-light text-success">
                         <i class="fas fa-file-import me-1"></i> Import
                     </a>
+                    <a href="<?= base_url('Unit/export_csv') ?>" class="btn btn-sm btn-light text-secondary ms-2">
+                        <i class="fas fa-file-csv me-1"></i> Download CSV
+                    </a>
                 </div>
             </div>
 
@@ -52,21 +55,22 @@
                         </select>
                         <span class="ms-3 text-sm">dari <?= $total_rows ?? 0; ?> data</span>
                     </div>
-                    <input type="text" id="searchInputUnit" onkeyup="searchTableUnit()" class="form-control form-control-sm rounded-3" style="max-width: 300px;" placeholder="Cari data unit...">
+                    <input type="text" id="searchInputUnit" onkeyup="searchTableUnit()" class="form-control form-control-sm rounded-3" style="max-width: 300px;" placeholder="Cari data Unit...">
                 </div>
 
                 <div class="table-responsive p-0">
                     <table class="table align-items-center mb-0" id="unitTable">
                         <thead class="bg-light">
                             <tr>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Unit Pelaksana</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Unit Layanan</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Longitude (X)</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Latitude (Y)</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Alamat</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" data-col="0" onclick="sortTableUnit(0)">No <span class="sort-indicator"></span></th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" data-col="1" onclick="sortTableUnit(1)">Unit Pelaksana <span class="sort-indicator"></span></th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" data-col="2" onclick="sortTableUnit(2)">Unit Layanan <span class="sort-indicator"></span></th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" data-col="3" onclick="sortTableUnit(3)">Longitude (X) <span class="sort-indicator"></span></th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" data-col="4" onclick="sortTableUnit(4)">Latitude (Y) <span class="sort-indicator"></span></th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" data-col="5" onclick="sortTableUnit(5)">Alamat <span class="sort-indicator"></span></th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Aksi</th>
                             </tr>
+                            <!-- filters removed; table supports client-side sorting only -->
                         </thead>
                         <tbody>
                             <?php if (empty($unit)): ?>
@@ -120,15 +124,18 @@
 
     function searchTableUnit() {
         const input = document.getElementById('searchInputUnit');
-        const filter = input.value.toUpperCase();
+        const filter = (input.value || '').toUpperCase();
         const table = document.getElementById('unitTable');
         const tr = table.getElementsByTagName('tr');
+
+        // start from 1 to skip header row(s)
         for (let i = 1; i < tr.length; i++) {
-            let txtValue = tr[i].textContent || tr[i].innerText;
+            const row = tr[i];
+            const txtValue = row.textContent || row.innerText || '';
             if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = '';
+                row.style.display = '';
             } else {
-                tr[i].style.display = 'none';
+                row.style.display = 'none';
             }
         }
     }
@@ -149,6 +156,13 @@
         color: #fff;
         margin: 0;
         font-weight: 600;
+    }
+
+    /* Ensure breadcrumb active/title is visible on dark header */
+    .breadcrumb .breadcrumb-item.active,
+    .breadcrumb .breadcrumb-item a.opacity-5,
+    .breadcrumb .breadcrumb-item.text-white {
+        color: #ffffff !important;
     }
 
     .bg-gradient-primary {
@@ -181,4 +195,113 @@
     .btn-xs i {
         font-size: 12px;
     }
+    .sort-indicator {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        margin-left: 6px;
+        vertical-align: middle;
+    }
+    .sort-asc::after { content: '\25B2'; font-size: 10px; margin-left:4px; }
+    .sort-desc::after { content: '\25BC'; font-size: 10px; margin-left:4px; }
+    /* Make compact padding the default for the table (applies for all per_page values) */
+    #unitTable tbody tr td {
+        padding-top: 2px !important;
+        padding-bottom: 2px !important;
+        font-size: 13px !important;
+    }
+    #unitTable tbody tr {
+        line-height: 1.15;
+    }
+    #unitTable thead th {
+        padding-top: 8px !important;
+        padding-bottom: 8px !important;
+        font-size: 12px !important;
+    }
 </style>
+<script>
+    // Client-side sorting only (no column or global filtering)
+    (function() {
+        let sortState = { index: null, asc: true };
+
+        window.sortTableUnit = function(colIndex) {
+            const table = document.getElementById('unitTable');
+            const tbody = table.tBodies[0];
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+
+            // Determine if column is numeric (cols 0,3,4)
+            const numericCols = [0,3,4];
+
+            if (sortState.index === colIndex) {
+                sortState.asc = !sortState.asc;
+            } else {
+                sortState.index = colIndex;
+                sortState.asc = true;
+            }
+
+            rows.sort((a, b) => {
+                const aCell = getCellText(a, colIndex);
+                const bCell = getCellText(b, colIndex);
+                if (numericCols.includes(colIndex)) {
+                    const aNum = parseFloat(aCell.replace(/,/g, '')) || 0;
+                    const bNum = parseFloat(bCell.replace(/,/g, '')) || 0;
+                    return sortState.asc ? aNum - bNum : bNum - aNum;
+                }
+                if (aCell < bCell) return sortState.asc ? -1 : 1;
+                if (aCell > bCell) return sortState.asc ? 1 : -1;
+                return 0;
+            });
+
+            rows.forEach(r => tbody.appendChild(r));
+            updateRowNumbersAndStripes();
+            updateSortIndicators();
+        };
+
+        function getCellText(row, colIndex) {
+            const cells = row.children;
+            if (colIndex < cells.length) {
+                return (cells[colIndex].textContent || cells[colIndex].innerText).trim();
+            }
+            return '';
+        }
+
+        function updateRowNumbersAndStripes() {
+            const table = document.getElementById('unitTable');
+            const tbody = table.tBodies[0];
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            let no = parseInt('<?= $start_no; ?>', 10) || 1;
+            rows.forEach((r, idx) => {
+                const firstCell = r.children[0];
+                if (firstCell) firstCell.textContent = no + idx;
+                r.classList.remove('table-row-odd','table-row-even');
+                r.classList.add(((idx % 2) === 0) ? 'table-row-odd' : 'table-row-even');
+            });
+        }
+
+        function updateSortIndicators() {
+            const headers = document.querySelectorAll('#unitTable thead tr:first-child th');
+            headers.forEach((th, idx) => {
+                th.classList.remove('sort-asc','sort-desc');
+                if (sortState.index === idx) {
+                    th.classList.add(sortState.asc ? 'sort-asc' : 'sort-desc');
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // initial indicator reset (in case)
+            updateSortIndicators();
+            // apply compact rows if per_page <= 10 (read from URL)
+            try {
+                const params = new URLSearchParams(window.location.search);
+                const per = parseInt(params.get('per_page') || '<?= $per_page ?? 0; ?>', 10) || 0;
+                if (per > 0 && per <= 10) {
+                    const table = document.getElementById('unitTable');
+                    if (table) table.classList.add('compact-rows');
+                }
+            } catch (e) {
+                // ignore
+            }
+        });
+    })();
+</script>
