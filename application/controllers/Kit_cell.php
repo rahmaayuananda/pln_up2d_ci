@@ -241,4 +241,40 @@ class Kit_cell extends CI_Controller
         $this->session->set_flashdata('success', 'Data KIT Cell berhasil dihapus!');
         redirect('Kit_cell');
     }
+
+    // Export semua data KIT Cell ke CSV
+    public function export_csv()
+    {
+        $all = $this->kit_cell_model->get_all_kit_cell();
+
+        $label = 'Data KIT Cell';
+        $filename = $label . ' ' . date('d-m-Y') . '.csv';
+        header('Content-Type: text/csv; charset=UTF-8');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+
+        $output = fopen('php://output', 'w');
+        // tulis BOM UTF-8 supaya Excel mengenali encoding
+        fwrite($output, "\xEF\xBB\xBF");
+
+        if (empty($all)) {
+            fputcsv($output, ['No data']);
+            fclose($output);
+            exit;
+        }
+
+        $first = $all[0];
+        $headers = array_keys($first);
+        fputcsv($output, $headers);
+
+        foreach ($all as $row) {
+            $line = [];
+            foreach ($headers as $h) {
+                $line[] = isset($row[$h]) ? $row[$h] : '';
+            }
+            fputcsv($output, $line);
+        }
+
+        fclose($output);
+        exit;
+    }
 }

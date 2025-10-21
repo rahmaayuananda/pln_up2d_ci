@@ -35,6 +35,9 @@
                     <a href="<?= base_url('import/kit_cell') ?>" class="btn btn-sm btn-light text-success">
                         <i class="fas fa-file-import me-1"></i> Import
                     </a>
+                    <a href="<?= base_url('Kit_cell/export_csv') ?>" class="btn btn-sm btn-light text-secondary ms-2">
+                        <i class="fas fa-file-csv me-1"></i> Download CSV
+                    </a>
                 </div>
             </div>
 
