@@ -339,7 +339,7 @@
                 role="button"
                 aria-expanded="<?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'instansi') ? 'true' : 'false' ?>"
                 aria-controls="anggaranInstansi">
-                <div><i class="fas fa-building me-2"></i> Anggaran Instansi</div>
+                <div><i class="fas fa-building me-2"></i> Anggaran Investasi</div>
               </a>
             </li>
 
