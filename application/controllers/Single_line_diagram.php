@@ -60,6 +60,8 @@ class Single_Line_Diagram extends CI_Controller
     public function tambah()
     {
         $data['judul'] = 'Tambah Single Line Diagram';
+    $this->load->model('Unit_model', 'unitModel');
+    $data['unit'] = $this->unitModel->get_all_units(); // use existing model method
 
         if (!$this->input->post()) {
             $this->load->view('layout/header', $data);
@@ -71,7 +73,7 @@ class Single_Line_Diagram extends CI_Controller
         // Konfigurasi upload file
         $config['upload_path']   = './uploads/sld/';
         $config['allowed_types'] = 'pdf';
-        $config['max_size']      = 0; // Tidak dibatasi
+        $config['max_size']      = 0;
         $config['encrypt_name']  = TRUE;
 
         if (!is_dir($config['upload_path'])) {
@@ -92,6 +94,7 @@ class Single_Line_Diagram extends CI_Controller
         }
 
         $dataInput = [
+            'ID_UNIT'        => $this->input->post('ID_UNIT', TRUE), // ✅ tambahkan field unit
             'NAMA_GI'        => $this->input->post('NAMA_GI', TRUE),
             'NAMA_PENYULANG' => $this->input->post('NAMA_PENYULANG', TRUE),
             'FILE_PDF'       => $file_name,
@@ -119,6 +122,10 @@ class Single_Line_Diagram extends CI_Controller
         if (!$data['sld']) {
             show_404();
         }
+
+        // load unit list for dropdown in edit form
+        $this->load->model('Unit_model', 'unitModel');
+        $data['unit'] = $this->unitModel->get_all_units();
 
         if (!$this->input->post()) {
             $this->load->view('layout/header', $data);
@@ -153,6 +160,7 @@ class Single_Line_Diagram extends CI_Controller
         }
 
         $dataUpdate = [
+            'ID_UNIT'        => $this->input->post('ID_UNIT', TRUE),
             'NAMA_GI'        => $this->input->post('NAMA_GI', TRUE),
             'NAMA_PENYULANG' => $this->input->post('NAMA_PENYULANG', TRUE),
             'FILE_PDF'       => $file_name,

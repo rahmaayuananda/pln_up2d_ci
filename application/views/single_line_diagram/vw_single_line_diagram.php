@@ -14,7 +14,6 @@
                     <i class="fas fa-project-diagram me-2"></i> Single Line Diagram
                 </h6>
             </nav>
-            <!-- ICON kanan -->
             <div class="d-flex align-items-center ms-auto">
                 <ul class="navbar-nav flex-row align-items-center mb-0">
                     <li class="nav-item d-flex align-items-center me-3">
@@ -29,10 +28,12 @@
                         </a>
                     </li>
                     <li class="nav-item dropdown pe-2 d-flex align-items-center">
-                        <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa fa-bell cursor-pointer"></i>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton"></ul>
+                        <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4"
+                            aria-labelledby="dropdownMenuButton"></ul>
                     </li>
                 </ul>
             </div>
@@ -55,7 +56,6 @@
         <?php endif; ?>
 
         <div class="card mb-4 shadow border-0 rounded-4">
-            <!-- Header Card -->
             <div class="card-header py-2 d-flex justify-content-between align-items-center bg-gradient-primary text-white rounded-top-4">
                 <h6 class="mb-0 fw-bold text-white">
                     <i class="fas fa-project-diagram me-2"></i> Tabel Single Line Diagram
@@ -67,7 +67,6 @@
                 </div>
             </div>
 
-            <!-- Body Card -->
             <div class="card-body px-0 pt-0 pb-2 bg-white">
                 <div class="px-3 mt-3 mb-3">
                     <input type="text" id="searchInput" onkeyup="searchTable()" class="form-control form-control-sm rounded-3" placeholder="Cari GI atau Penyulang...">
@@ -78,6 +77,7 @@
                         <thead class="bg-light">
                             <tr>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Unit Pelaksana</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama GI</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama Penyulang</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">File Diagram</th>
@@ -87,17 +87,24 @@
                         <tbody>
                             <?php if (empty($sld)): ?>
                                 <tr>
-                                    <td colspan="5" class="text-center text-secondary py-4">
+                                    <td colspan="6" class="text-center text-secondary py-4">
                                         Belum ada data Single Line Diagram
                                     </td>
                                 </tr>
                             <?php else: ?>
-                                <?php $no = 1;
+                                <?php $no = $start_no;
                                 foreach ($sld as $row): ?>
                                     <tr class="<?= ($no % 2 == 0) ? 'table-row-even' : 'table-row-odd'; ?>">
                                         <td class="text-sm"><?= $no++; ?></td>
+
+                                        <!-- ✅ Kolom baru: Unit Pelaksana -->
+                                        <td class="text-sm fw-bold">
+                                            <?= !empty($row['NAMA_UNIT']) ? htmlentities($row['NAMA_UNIT']) : '<span class="text-muted fst-italic">Tidak ada data</span>'; ?>
+                                        </td>
+
                                         <td class="text-sm fw-bold"><?= htmlentities($row['NAMA_GI']); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['NAMA_PENYULANG']); ?></td>
+
                                         <td class="text-center">
                                             <?php if (!empty($row['FILE_PDF'])): ?>
                                                 <span class="badge bg-gradient-info text-white p-2">PDF Tersedia</span>
@@ -105,22 +112,20 @@
                                                 <span class="text-muted fst-italic">Tidak ada file</span>
                                             <?php endif; ?>
                                         </td>
+
                                         <td class="text-center">
                                             <?php if (!empty($row['FILE_PDF'])): ?>
-                                                <!-- Tombol Lihat PDF -->
                                                 <a href="<?= base_url('uploads/sld/' . $row['FILE_PDF']); ?>" target="_blank"
                                                     class="btn btn-info btn-xs text-white me-1" title="Lihat File PDF">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
                                             <?php endif; ?>
 
-                                            <!-- Tombol Edit -->
                                             <a href="<?= base_url('single_line_diagram/edit/' . $row['ID_SLD']); ?>"
                                                 class="btn btn-warning btn-xs text-white me-1" title="Edit">
                                                 <i class="fas fa-pen"></i>
                                             </a>
 
-                                            <!-- Tombol Hapus -->
                                             <a href="javascript:void(0);"
                                                 onclick="confirmDelete('<?= base_url('single_line_diagram/hapus/' . $row['ID_SLD']); ?>')"
                                                 class="btn btn-danger btn-xs" title="Hapus">
@@ -138,7 +143,7 @@
     </div>
 </main>
 
-<!-- SweetAlert -->
+<!-- Script dan Style tetap -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     function confirmDelete(url) {
@@ -168,7 +173,6 @@
     }
 </script>
 
-<!-- Style tambahan -->
 <style>
     .bg-gradient-primary {
         background: linear-gradient(90deg, #00416A, #0099CC);
