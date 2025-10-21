@@ -437,7 +437,7 @@ $config['standardize_newlines'] = FALSE;
 | Centralized default for pagination per-page selector used by asset
 | controllers (Gi_cell, Kit_cell, Pemutus, Pembangkit, Gardu_induk).
 */
-$config['default_per_page'] = 5;
+$config['default_per_page'] = 10;
 
 /*
 |--------------------------------------------------------------------------

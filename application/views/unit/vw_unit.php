@@ -38,6 +38,12 @@
                     <a href="<?= base_url('Unit/export_csv') ?>" class="btn btn-sm btn-light text-secondary ms-2">
                         <i class="fas fa-file-csv me-1"></i> Download CSV
                     </a>
+                    <!-- Layout mode toggles: Conservative (7 rows), Dense (10 rows, fixed body), Auto-fit -->
+                    <div class="btn-group ms-3" role="group" aria-label="Layout modes">
+                        <button id="modeConservative" type="button" class="btn btn-sm btn-outline-light" title="Conservative (7 rows)">7-row</button>
+                        <button id="modeDense" type="button" class="btn btn-sm btn-outline-light" title="Dense (10 rows)">10-row</button>
+                        <button id="modeAutofit" type="button" class="btn btn-sm btn-outline-light" title="Auto-fit">Auto</button>
+                    </div>
                 </div>
             </div>
 
@@ -148,7 +154,7 @@
     .card-header {
         display: flex;
         justify-content: space-between;
-        align-items: baseline;
+        align-items: center; /* center title and buttons vertically */
         padding: 0.75rem 1rem;
     }
 
@@ -158,6 +164,9 @@
         font-weight: 600;
     }
 
+    /* Hide the top page title (Data Unit) as requested */
+    nav[aria-label="breadcrumb"] .font-weight-bolder.text-white.mb-0 { display: none !important; }
+
     /* Ensure breadcrumb active/title is visible on dark header */
     .breadcrumb .breadcrumb-item.active,
     .breadcrumb .breadcrumb-item a.opacity-5,
@@ -165,12 +174,19 @@
         color: #ffffff !important;
     }
 
+    /* Hide breadcrumb (small path) entirely to keep header area clean */
+    .breadcrumb { display: none !important; }
+
     .bg-gradient-primary {
         background: linear-gradient(90deg, #005C99, #0099CC);
     }
 
     .card-header .d-flex.align-items-center a {
-        transform: translateY(10px);
+        transform: none; /* remove manual offset */
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        vertical-align: middle;
     }
 
     .table-row-odd {
@@ -190,10 +206,17 @@
         padding: 2px 6px;
         font-size: 11px;
         border-radius: 4px;
+        line-height: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: auto;
     }
 
     .btn-xs i {
         font-size: 12px;
+        line-height: 1;
+        display: inline-block;
     }
     .sort-indicator {
         display: inline-block;
@@ -204,20 +227,45 @@
     }
     .sort-asc::after { content: '\25B2'; font-size: 10px; margin-left:4px; }
     .sort-desc::after { content: '\25BC'; font-size: 10px; margin-left:4px; }
-    /* Make compact padding the default for the table (applies for all per_page values) */
+    /* Make compact padding the default for the table (applies for all per_page values)
+       Keep table header and body cells vertically aligned and the same height. */
+    /* Force identical vertical spacing and line-height for header and body cells */
+    #unitTable thead th,
     #unitTable tbody tr td {
-        padding-top: 2px !important;
-        padding-bottom: 2px !important;
-        font-size: 13px !important;
+        padding-top: 6px !important;
+        padding-bottom: 6px !important;
+        line-height: 1 !important;
+        vertical-align: middle !important;
     }
+    #unitTable thead th { font-size: 11px !important; }
+    #unitTable tbody tr td { font-size: 12px !important; }
     #unitTable tbody tr {
         line-height: 1.15;
     }
-    #unitTable thead th {
-        padding-top: 8px !important;
-        padding-bottom: 8px !important;
-        font-size: 12px !important;
-    }
+    /* compact adjustments when showing 10 rows: toned down */
+    /* Keep breadcrumb hidden but restore navbar and moderate paddings */
+    body.asset-compact .breadcrumb { display: none !important; }
+    body.asset-compact .container-fluid.py-4 { padding-top: 6px !important; padding-bottom: 6px !important; }
+    body.asset-compact nav.navbar { display: block !important; padding-top: 4px !important; padding-bottom: 4px !important; }
+    body.asset-compact .main-content { padding-top: 8px !important; margin-top: 0 !important; }
+    body.asset-compact .card { margin-bottom: 2px !important; }
+    body.asset-compact .card-header { padding-top: 6px !important; padding-bottom: 6px !important; }
+    body.asset-compact .card-body { padding-top: 6px !important; padding-bottom: 6px !important; }
+    body.asset-compact .card-header h6 { font-size: 14px !important; margin-bottom: 0 !important; line-height: 1 !important; }
+    body.asset-compact .card-header .d-flex.align-items-center a { transform: none !important; padding: 6px 8px !important; font-size: 12px !important; }
+    /* shrink controls row */
+    body.asset-compact .card-body > .px-3 { padding-top: 4px !important; padding-bottom: 4px !important; }
+    body.asset-compact #perPageSelectUnit, body.asset-compact #searchInputUnit { height: 28px !important; padding-top: 2px !important; padding-bottom: 2px !important; font-size: 13px !important; }
+    /* compact table cells and header - final minimal squeeze */
+    body.asset-compact #unitTable thead th { padding-top: 3px !important; padding-bottom: 3px !important; font-size: 10.5px !important; }
+    body.asset-compact #unitTable tbody tr td { padding-top: 3px !important; padding-bottom: 3px !important; font-size: 11.5px !important; line-height: 1 !important; }
+    /* reduce footer/pagination height */
+    /* show pagination/footer in compact mode */
+    body.asset-compact .card-footer { display: block !important; padding-top: 6px !important; padding-bottom: 6px !important; }
+    /* reduce extra gaps in responsive table wrapper */
+    body.asset-compact .table-responsive { margin-bottom: 0 !important; }
+    /* Slightly reduce action button sizes in compact mode (tiny change) */
+    body.asset-compact .btn-xs { padding: 3px 5px !important; font-size: 10px !important; }
 </style>
 <script>
     // Client-side sorting only (no column or global filtering)
@@ -298,6 +346,7 @@
                 if (per > 0 && per <= 10) {
                     const table = document.getElementById('unitTable');
                     if (table) table.classList.add('compact-rows');
+                    try { document.body.classList.add('asset-compact'); } catch(e) {}
                 }
             } catch (e) {
                 // ignore
@@ -305,3 +354,117 @@
         });
     })();
 </script>
+
+    <!-- Layout mode controller -->
+    <script>
+        (function() {
+            const btnCon = document.getElementById('modeConservative');
+            const btnDense = document.getElementById('modeDense');
+            const btnAuto = document.getElementById('modeAutofit');
+
+            function clearMode() {
+                document.body.classList.remove('layout-conservative','layout-dense','layout-auto');
+                // remove any forced wrapper height
+                const w = document.querySelector('.table-responsive'); if (w) { w.style.height = ''; w.style.overflow = ''; }
+            }
+
+            function applyConservative() {
+                clearMode();
+                document.body.classList.add('layout-conservative');
+                // set wrapper to show exactly 7 rows using fixed row height (compact)
+                const wrapper = document.querySelector('.table-responsive');
+                const headerH = 44; const rowH = 42; const rows = 7;
+                if (wrapper) { wrapper.style.height = (headerH + rowH * rows) + 'px'; wrapper.style.overflow = 'hidden'; }
+            }
+
+            function applyDense() {
+                clearMode();
+                document.body.classList.add('layout-dense');
+                const wrapper = document.querySelector('.table-responsive');
+                const headerH = 44; const rowH = 42; const rows = 10;
+                if (wrapper) { wrapper.style.height = (headerH + rowH * rows) + 'px'; wrapper.style.overflow = 'auto'; }
+            }
+
+            function applyAuto() {
+                clearMode();
+                document.body.classList.add('layout-auto');
+                // run existing fit function if present
+                try { if (typeof fitTableRows === 'function') fitTableRows(); } catch(e){}
+            }
+
+            if (btnCon) btnCon.addEventListener('click', applyConservative);
+            if (btnDense) btnDense.addEventListener('click', applyDense);
+            if (btnAuto) btnAuto.addEventListener('click', applyAuto);
+
+            // default: auto
+            document.addEventListener('DOMContentLoaded', function(){ applyAuto(); });
+        })();
+    </script>
+
+    <style>
+        /* Layout classes for quick preview */
+        body.layout-conservative .card { /* visually emphasize compact */ }
+        body.layout-dense .card { }
+        body.layout-auto .card { }
+    </style>
+
+<!-- Auto-fit table rows into card area so N rows (<=10) are fully visible and footer sits below -->
+<script>
+    (function() {
+        function fitTableRows() {
+            try {
+                const wrapper = document.querySelector('.table-responsive');
+                const table = document.getElementById('unitTable');
+                if (!wrapper || !table) return;
+
+                // count visible rows (skip hidden ones from search)
+                const allRows = Array.from(table.tBodies[0].rows).filter(r => r.style.display !== 'none');
+                const rowsToFit = Math.min(10, allRows.length);
+
+                const thead = table.querySelector('thead');
+                const headRect = thead ? thead.getBoundingClientRect() : {height: 0};
+
+                // sum heights of the first rowsToFit rows
+                let rowsHeight = 0;
+                for (let i = 0; i < rowsToFit; i++) {
+                    const r = allRows[i];
+                    if (!r) break;
+                    const rect = r.getBoundingClientRect();
+                    rowsHeight += rect.height;
+                }
+
+                // small extra padding to account for borders
+                const extra = 8;
+
+                const desired = Math.ceil(headRect.height + rowsHeight + extra);
+
+                // compute available space: distance from wrapper top to viewport bottom minus footer area (~80px)
+                const wrapperTop = wrapper.getBoundingClientRect().top;
+                const avail = Math.max(window.innerHeight - wrapperTop - 120, 0);
+
+                // If desired fits in available viewport space, set wrapper height to desired and disable internal scroll.
+                if (desired <= avail) {
+                    wrapper.style.height = desired + 'px';
+                    wrapper.style.overflow = 'hidden';
+                } else {
+                    // otherwise cap to available and allow internal scrolling
+                    wrapper.style.height = avail + 'px';
+                    wrapper.style.overflow = 'auto';
+                }
+            } catch (e) {
+                // ignore errors
+                console.error(e);
+            }
+        }
+
+        window.addEventListener('resize', fitTableRows);
+        // run after a short delay to ensure fonts and rendering settled
+        window.addEventListener('load', function() { setTimeout(fitTableRows, 80); });
+        document.addEventListener('DOMContentLoaded', function() { setTimeout(fitTableRows, 80); });
+    })();
+</script>
+
+<style>
+    /* ensure table wrapper allows our JS to control height cleanly */
+    .table-responsive { overflow: visible; }
+</style>

@@ -71,7 +71,11 @@ class Unit extends CI_Controller
     // gunakan default terpusat dari config
     $allowedPerPage = [5,10,25,50,100,500];
     $requestedPer = (int) $this->input->get('per_page');
+    // prefer app config if set, otherwise default to 10 rows per page for asset tables
     $defaultPer = (int) $this->config->item('default_per_page');
+    if ($defaultPer <= 0) {
+        $defaultPer = 10;
+    }
     $config['per_page'] = in_array($requestedPer, $allowedPerPage) ? $requestedPer : $defaultPer;
         $config["uri_segment"] = 3;
         $config['use_page_numbers'] = TRUE;
