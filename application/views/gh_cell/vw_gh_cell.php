@@ -13,6 +13,28 @@
                     <i class="fas fa-square me-2 text-secondary"></i> Data GH Cell - Penyulang
                 </h6>
             </nav>
+            <!-- ICON kanan -->
+            <div class="d-flex align-items-center ms-auto">
+                <ul class="navbar-nav flex-row align-items-center mb-0">
+                    <li class="nav-item d-flex align-items-center me-3">
+                        <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
+                            <i class="fa fa-user me-sm-1"></i>
+                            <span class="d-sm-inline d-none">Sign In</span>
+                        </a>
+                    </li>
+                    <li class="nav-item px-2 d-flex align-items-center me-3">
+                        <a href="javascript:;" class="nav-link text-white p-0">
+                            <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown pe-2 d-flex align-items-center">
+                        <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-bell cursor-pointer"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton"></ul>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
 
@@ -55,7 +77,7 @@
                         </select>
                         <span class="ms-3 text-sm">dari <?= $total_rows; ?> data</span>
                     </div>
-                        <input type="text" id="searchInput" onkeyup="searchTable()" class="form-control form-control-sm rounded-3" style="max-width: 300px;" placeholder="Cari data GH Cell...">
+                    <input type="text" id="searchInput" onkeyup="searchTable()" class="form-control form-control-sm rounded-3" style="max-width: 300px;" placeholder="Cari data GH Cell...">
                 </div>
 
                 <script>
@@ -84,64 +106,84 @@
                 </script>
                 <style>
                     /* sort indicator */
-                    #ghCellTable thead th { cursor: pointer; }
-                    .gh-sort-asc::after { content: '\25B2'; font-size: 10px; margin-left:6px; }
-                    .gh-sort-desc::after { content: '\25BC'; font-size: 10px; margin-left:6px; }
+                    #ghCellTable thead th {
+                        cursor: pointer;
+                    }
+
+                    .gh-sort-asc::after {
+                        content: '\25B2';
+                        font-size: 10px;
+                        margin-left: 6px;
+                    }
+
+                    .gh-sort-desc::after {
+                        content: '\25BC';
+                        font-size: 10px;
+                        margin-left: 6px;
+                    }
                 </style>
 
                 <script>
-                    (function(){
+                    (function() {
                         const table = document.getElementById('ghCellTable');
                         if (!table) return;
-                        let sortState = { index: null, asc: true };
+                        let sortState = {
+                            index: null,
+                            asc: true
+                        };
 
-                        function getCellText(row, idx){
+                        function getCellText(row, idx) {
                             return (row.children[idx] && (row.children[idx].textContent || row.children[idx].innerText) || '').trim();
                         }
 
-                        function updateRowNumbers(){
+                        function updateRowNumbers() {
                             const tbody = table.tBodies[0];
                             const rows = Array.from(tbody.querySelectorAll('tr'));
-                            let no = parseInt('<?= $start_no; ?>',10) || 1;
-                            rows.forEach((r,i)=>{
+                            let no = parseInt('<?= $start_no; ?>', 10) || 1;
+                            rows.forEach((r, i) => {
                                 if (r.children[0]) r.children[0].textContent = no + i;
-                                r.classList.remove('table-row-odd','table-row-even');
-                                r.classList.add((i%2===0)?'table-row-odd':'table-row-even');
+                                r.classList.remove('table-row-odd', 'table-row-even');
+                                r.classList.add((i % 2 === 0) ? 'table-row-odd' : 'table-row-even');
                             });
                         }
 
-                        function updateIndicators(){
+                        function updateIndicators() {
                             const headers = table.querySelectorAll('thead th');
-                            headers.forEach((th, i)=>{
-                                th.classList.remove('gh-sort-asc','gh-sort-desc');
+                            headers.forEach((th, i) => {
+                                th.classList.remove('gh-sort-asc', 'gh-sort-desc');
                                 if (sortState.index === i) th.classList.add(sortState.asc ? 'gh-sort-asc' : 'gh-sort-desc');
                             });
                         }
 
-                        function sortBy(col){
+                        function sortBy(col) {
                             const tbody = table.tBodies[0];
                             const rows = Array.from(tbody.querySelectorAll('tr'));
-                            if (sortState.index === col) sortState.asc = !sortState.asc; else { sortState.index = col; sortState.asc = true; }
+                            if (sortState.index === col) sortState.asc = !sortState.asc;
+                            else {
+                                sortState.index = col;
+                                sortState.asc = true;
+                            }
                             const numericCols = [0]; // assume No is numeric; other numeric columns can be added
-                            rows.sort((a,b)=>{
-                                const A = getCellText(a,col);
-                                const B = getCellText(b,col);
-                                if (numericCols.includes(col)){
+                            rows.sort((a, b) => {
+                                const A = getCellText(a, col);
+                                const B = getCellText(b, col);
+                                if (numericCols.includes(col)) {
                                     return sortState.asc ? (parseFloat(A) - parseFloat(B)) : (parseFloat(B) - parseFloat(A));
                                 }
                                 if (A < B) return sortState.asc ? -1 : 1;
                                 if (A > B) return sortState.asc ? 1 : -1;
                                 return 0;
                             });
-                            rows.forEach(r=>tbody.appendChild(r));
-                            updateRowNumbers(); updateIndicators();
+                            rows.forEach(r => tbody.appendChild(r));
+                            updateRowNumbers();
+                            updateIndicators();
                         }
 
-                        document.addEventListener('DOMContentLoaded', ()=>{
+                        document.addEventListener('DOMContentLoaded', () => {
                             const headers = table.querySelectorAll('thead th');
-                            headers.forEach((th, idx)=>{
+                            headers.forEach((th, idx) => {
                                 // don't attach to action column if last
-                                th.addEventListener('click', ()=> sortBy(idx));
+                                th.addEventListener('click', () => sortBy(idx));
                             });
                         });
                     })();
@@ -282,9 +324,21 @@
     }
 
     /* compact default for ghCellTable (assets dropdown) */
-    #ghCellTable tbody tr td { padding-top: 2px !important; padding-bottom: 2px !important; font-size: 13px !important; }
-    #ghCellTable tbody tr { line-height: 1.15; }
-    #ghCellTable thead th { padding-top: 8px !important; padding-bottom: 8px !important; font-size: 12px !important; }
+    #ghCellTable tbody tr td {
+        padding-top: 2px !important;
+        padding-bottom: 2px !important;
+        font-size: 13px !important;
+    }
+
+    #ghCellTable tbody tr {
+        line-height: 1.15;
+    }
+
+    #ghCellTable thead th {
+        padding-top: 8px !important;
+        padding-bottom: 8px !important;
+        font-size: 12px !important;
+    }
 
     .bg-gradient-primary {
         background: linear-gradient(90deg, #005C99, #0099CC);

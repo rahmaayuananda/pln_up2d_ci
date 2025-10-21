@@ -13,6 +13,28 @@
                     <i class="fas fa-industry me-2 text-danger"></i> Data Pembangkit
                 </h6>
             </nav>
+            <!-- ICON kanan -->
+            <div class="d-flex align-items-center ms-auto">
+                <ul class="navbar-nav flex-row align-items-center mb-0">
+                    <li class="nav-item d-flex align-items-center me-3">
+                        <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
+                            <i class="fa fa-user me-sm-1"></i>
+                            <span class="d-sm-inline d-none">Sign In</span>
+                        </a>
+                    </li>
+                    <li class="nav-item px-2 d-flex align-items-center me-3">
+                        <a href="javascript:;" class="nav-link text-white p-0">
+                            <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown pe-2 d-flex align-items-center">
+                        <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-bell cursor-pointer"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton"></ul>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
 
@@ -35,9 +57,9 @@
                     <a href="<?= base_url('import/pembangkit') ?>" class="btn btn-sm btn-light text-success">
                         <i class="fas fa-file-import me-1"></i> Import
                     </a>
-                <a href="<?= base_url('Pembangkit/export_csv') ?>" class="btn btn-sm btn-light text-secondary ms-2">
-                    <i class="fas fa-file-csv me-1"></i> Download CSV
-                </a>
+                    <a href="<?= base_url('Pembangkit/export_csv') ?>" class="btn btn-sm btn-light text-secondary ms-2">
+                        <i class="fas fa-file-csv me-1"></i> Download CSV
+                    </a>
                 </div>
             </div>
 
@@ -155,9 +177,21 @@
     }
 
     /* compact default for pembangkitTable (assets dropdown) */
-    #pembangkitTable tbody tr td { padding-top: 2px !important; padding-bottom: 2px !important; font-size: 13px !important; }
-    #pembangkitTable tbody tr { line-height: 1.15; }
-    #pembangkitTable thead th { padding-top: 8px !important; padding-bottom: 8px !important; font-size: 12px !important; }
+    #pembangkitTable tbody tr td {
+        padding-top: 2px !important;
+        padding-bottom: 2px !important;
+        font-size: 13px !important;
+    }
+
+    #pembangkitTable tbody tr {
+        line-height: 1.15;
+    }
+
+    #pembangkitTable thead th {
+        padding-top: 8px !important;
+        padding-bottom: 8px !important;
+        font-size: 12px !important;
+    }
 
     .bg-gradient-primary {
         background: linear-gradient(90deg, #005C99, #0099CC);
@@ -217,10 +251,80 @@
 </script>
 
 <style>
-    #pembangkitTable thead th{cursor:pointer}
-    .pemg-sort-asc::after{content:'\25B2';font-size:10px;margin-left:6px}
-    .pemg-sort-desc::after{content:'\25BC';font-size:10px;margin-left:6px}
+    #pembangkitTable thead th {
+        cursor: pointer
+    }
+
+    .pemg-sort-asc::after {
+        content: '\25B2';
+        font-size: 10px;
+        margin-left: 6px
+    }
+
+    .pemg-sort-desc::after {
+        content: '\25BC';
+        font-size: 10px;
+        margin-left: 6px
+    }
 </style>
 <script>
-    (function(){const table=document.getElementById('pembangkitTable'); if(!table) return; let s={index:null,asc:true}; function t(r,i){return (r.children[i]&&(r.children[i].textContent||r.children[i].innerText)||'').trim()} function up(){const tbody=table.tBodies[0];const rows=Array.from(tbody.querySelectorAll('tr'));let no=parseInt('<?= $start_no; ?>',10)||1;rows.forEach((r,idx)=>{if(r.children[0]) r.children[0].textContent=no+idx;r.classList.remove('table-row-odd','table-row-even');r.classList.add((idx%2===0)?'table-row-odd':'table-row-even')})} function ind(){const headers=table.querySelectorAll('thead th');headers.forEach((th,i)=>{th.classList.remove('pemg-sort-asc','pemg-sort-desc');if(s.index===i) th.classList.add(s.asc?'pemg-sort-asc':'pemg-sort-desc')})} function sortBy(col){const tbody=table.tBodies[0];const rows=Array.from(tbody.querySelectorAll('tr')); if(s.index===col) s.asc=!s.asc; else {s.index=col;s.asc=true;} const num=[0,3,4]; rows.sort((a,b)=>{const A=t(a,col);const B=t(b,col); if(num.includes(col)){return s.asc?((parseFloat(A)||0)-(parseFloat(B)||0)):((parseFloat(B)||0)-(parseFloat(A)||0));} if(A<B) return s.asc?-1:1; if(A>B) return s.asc?1:-1; return 0}); rows.forEach(r=>tbody.appendChild(r)); up(); ind()} document.addEventListener('DOMContentLoaded',()=>{const headers=table.querySelectorAll('thead th'); headers.forEach((th,idx)=>th.addEventListener('click',()=>sortBy(idx)));});})();
+    (function() {
+        const table = document.getElementById('pembangkitTable');
+        if (!table) return;
+        let s = {
+            index: null,
+            asc: true
+        };
+
+        function t(r, i) {
+            return (r.children[i] && (r.children[i].textContent || r.children[i].innerText) || '').trim()
+        }
+
+        function up() {
+            const tbody = table.tBodies[0];
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            let no = parseInt('<?= $start_no; ?>', 10) || 1;
+            rows.forEach((r, idx) => {
+                if (r.children[0]) r.children[0].textContent = no + idx;
+                r.classList.remove('table-row-odd', 'table-row-even');
+                r.classList.add((idx % 2 === 0) ? 'table-row-odd' : 'table-row-even')
+            })
+        }
+
+        function ind() {
+            const headers = table.querySelectorAll('thead th');
+            headers.forEach((th, i) => {
+                th.classList.remove('pemg-sort-asc', 'pemg-sort-desc');
+                if (s.index === i) th.classList.add(s.asc ? 'pemg-sort-asc' : 'pemg-sort-desc')
+            })
+        }
+
+        function sortBy(col) {
+            const tbody = table.tBodies[0];
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            if (s.index === col) s.asc = !s.asc;
+            else {
+                s.index = col;
+                s.asc = true;
+            }
+            const num = [0, 3, 4];
+            rows.sort((a, b) => {
+                const A = t(a, col);
+                const B = t(b, col);
+                if (num.includes(col)) {
+                    return s.asc ? ((parseFloat(A) || 0) - (parseFloat(B) || 0)) : ((parseFloat(B) || 0) - (parseFloat(A) || 0));
+                }
+                if (A < B) return s.asc ? -1 : 1;
+                if (A > B) return s.asc ? 1 : -1;
+                return 0
+            });
+            rows.forEach(r => tbody.appendChild(r));
+            up();
+            ind()
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const headers = table.querySelectorAll('thead th');
+            headers.forEach((th, idx) => th.addEventListener('click', () => sortBy(idx)));
+        });
+    })();
 </script>

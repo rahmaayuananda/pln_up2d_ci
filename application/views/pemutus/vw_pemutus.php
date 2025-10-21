@@ -13,6 +13,28 @@
                     <i class="fas fa-toggle-on me-2 text-warning"></i> Data Pemutus - LBS / RECLOSER
                 </h6>
             </nav>
+            <!-- ICON kanan -->
+            <div class="d-flex align-items-center ms-auto">
+                <ul class="navbar-nav flex-row align-items-center mb-0">
+                    <li class="nav-item d-flex align-items-center me-3">
+                        <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
+                            <i class="fa fa-user me-sm-1"></i>
+                            <span class="d-sm-inline d-none">Sign In</span>
+                        </a>
+                    </li>
+                    <li class="nav-item px-2 d-flex align-items-center me-3">
+                        <a href="javascript:;" class="nav-link text-white p-0">
+                            <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown pe-2 d-flex align-items-center">
+                        <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-bell cursor-pointer"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton"></ul>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
 
@@ -196,18 +218,81 @@
 </script>
 
 <style>
-    #pemutusTable thead th { cursor: pointer; }
-    .pem-sort-asc::after { content: '\25B2'; font-size: 10px; margin-left:6px; }
-    .pem-sort-desc::after { content: '\25BC'; font-size: 10px; margin-left:6px; }
+    #pemutusTable thead th {
+        cursor: pointer;
+    }
+
+    .pem-sort-asc::after {
+        content: '\25B2';
+        font-size: 10px;
+        margin-left: 6px;
+    }
+
+    .pem-sort-desc::after {
+        content: '\25BC';
+        font-size: 10px;
+        margin-left: 6px;
+    }
 </style>
 <script>
-    (function(){
-        const table = document.getElementById('pemutusTable'); if(!table) return; let sortState={index:null,asc:true};
-        function getCellText(r,i){return (r.children[i]&&(r.children[i].textContent||r.children[i].innerText)||'').trim();}
-        function updateNumbers(){const tbody=table.tBodies[0];const rows=Array.from(tbody.querySelectorAll('tr'));let no=parseInt('<?= $start_no; ?>',10)||1;rows.forEach((r,idx)=>{if(r.children[0]) r.children[0].textContent=no+idx;r.classList.remove('table-row-odd','table-row-even');r.classList.add((idx%2===0)?'table-row-odd':'table-row-even');});}
-        function updateIndicators(){const headers=table.querySelectorAll('thead th');headers.forEach((th,i)=>{th.classList.remove('pem-sort-asc','pem-sort-desc');if(sortState.index===i) th.classList.add(sortState.asc?'pem-sort-asc':'pem-sort-desc');});}
-        function sortBy(col){const tbody=table.tBodies[0];const rows=Array.from(tbody.querySelectorAll('tr'));if(sortState.index===col) sortState.asc=!sortState.asc; else {sortState.index=col;sortState.asc=true;} const numeric=[0];rows.sort((a,b)=>{const A=getCellText(a,col);const B=getCellText(b,col);if(numeric.includes(col)){return sortState.asc?(parseFloat(A)||0)-(parseFloat(B)||0):(parseFloat(B)||0)-(parseFloat(A)||0);} if(A<B) return sortState.asc? -1:1; if(A>B) return sortState.asc?1:-1; return 0;});rows.forEach(r=>tbody.appendChild(r));updateNumbers();updateIndicators();}
-        document.addEventListener('DOMContentLoaded',()=>{const headers=table.querySelectorAll('thead th');headers.forEach((th,idx)=>th.addEventListener('click',()=>sortBy(idx)));});
+    (function() {
+        const table = document.getElementById('pemutusTable');
+        if (!table) return;
+        let sortState = {
+            index: null,
+            asc: true
+        };
+
+        function getCellText(r, i) {
+            return (r.children[i] && (r.children[i].textContent || r.children[i].innerText) || '').trim();
+        }
+
+        function updateNumbers() {
+            const tbody = table.tBodies[0];
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            let no = parseInt('<?= $start_no; ?>', 10) || 1;
+            rows.forEach((r, idx) => {
+                if (r.children[0]) r.children[0].textContent = no + idx;
+                r.classList.remove('table-row-odd', 'table-row-even');
+                r.classList.add((idx % 2 === 0) ? 'table-row-odd' : 'table-row-even');
+            });
+        }
+
+        function updateIndicators() {
+            const headers = table.querySelectorAll('thead th');
+            headers.forEach((th, i) => {
+                th.classList.remove('pem-sort-asc', 'pem-sort-desc');
+                if (sortState.index === i) th.classList.add(sortState.asc ? 'pem-sort-asc' : 'pem-sort-desc');
+            });
+        }
+
+        function sortBy(col) {
+            const tbody = table.tBodies[0];
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            if (sortState.index === col) sortState.asc = !sortState.asc;
+            else {
+                sortState.index = col;
+                sortState.asc = true;
+            }
+            const numeric = [0];
+            rows.sort((a, b) => {
+                const A = getCellText(a, col);
+                const B = getCellText(b, col);
+                if (numeric.includes(col)) {
+                    return sortState.asc ? (parseFloat(A) || 0) - (parseFloat(B) || 0) : (parseFloat(B) || 0) - (parseFloat(A) || 0);
+                }
+                if (A < B) return sortState.asc ? -1 : 1;
+                if (A > B) return sortState.asc ? 1 : -1;
+                return 0;
+            });
+            rows.forEach(r => tbody.appendChild(r));
+            updateNumbers();
+            updateIndicators();
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const headers = table.querySelectorAll('thead th');
+            headers.forEach((th, idx) => th.addEventListener('click', () => sortBy(idx)));
+        });
     })();
 </script>
 </script>
@@ -235,9 +320,21 @@
     }
 
     /* compact default for pemutusTable (assets dropdown) */
-    #pemutusTable tbody tr td { padding-top: 2px !important; padding-bottom: 2px !important; font-size: 13px !important; }
-    #pemutusTable tbody tr { line-height: 1.15; }
-    #pemutusTable thead th { padding-top: 8px !important; padding-bottom: 8px !important; font-size: 12px !important; }
+    #pemutusTable tbody tr td {
+        padding-top: 2px !important;
+        padding-bottom: 2px !important;
+        font-size: 13px !important;
+    }
+
+    #pemutusTable tbody tr {
+        line-height: 1.15;
+    }
+
+    #pemutusTable thead th {
+        padding-top: 8px !important;
+        padding-bottom: 8px !important;
+        font-size: 12px !important;
+    }
 
     .bg-gradient-primary {
         background: linear-gradient(90deg, #005C99, #0099CC);
