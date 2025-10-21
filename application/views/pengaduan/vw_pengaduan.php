@@ -76,6 +76,7 @@
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Item Pengaduan</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PIC</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Catatan</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Aksi</th>
                             </tr>
                         </thead>
@@ -86,7 +87,7 @@
 
                             if (empty($pengaduan)): ?>
                                 <tr>
-                                    <td colspan="8" class="text-center text-secondary py-4">Belum ada data pengaduan</td>
+                                    <td colspan="9" class="text-center text-secondary py-4">Belum ada data pengaduan</td>
                                 </tr>
                                 <?php else:
                                 $no = $start_no;
@@ -104,6 +105,7 @@
                                             </span>
                                         </td>
                                         <td class="text-sm"><?= htmlentities($row['PIC'] ?? '-'); ?></td>
+                                        <td class="text-sm"><?= htmlentities($row['CATATAN'] ?? '-'); ?></td>
                                         <td class="text-center">
                                             <a href="<?= base_url('Pengaduan/detail/' . ($row['ID_PENGADUAN'] ?? '')); ?>" class="btn btn-info btn-xs text-white me-1" title="Detail">
                                                 <i class="fas fa-info-circle"></i>
@@ -130,91 +132,3 @@
         </div>
     </div>
 </main>
-
-<!-- SweetAlert -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    function confirmDelete(url) {
-        Swal.fire({
-            title: 'Apakah Anda yakin?',
-            text: "Data ini akan dihapus secara permanen!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Ya, hapus!',
-            cancelButtonText: 'Batal'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = url;
-            }
-        });
-    }
-
-    function changePerPagePengaduan(perPage) {
-        const url = new URL(window.location.href);
-        url.searchParams.set('per_page', perPage);
-        url.searchParams.set('page', '1');
-        window.location.href = url.toString();
-    }
-
-    function searchTablePengaduan() {
-        const input = document.getElementById('searchInputPengaduan');
-        const filter = input.value.toUpperCase();
-        const table = document.getElementById('pengaduanTable');
-        const tr = table.getElementsByTagName('tr');
-        for (let i = 1; i < tr.length; i++) {
-            let txtValue = tr[i].textContent || tr[i].innerText;
-            tr[i].style.display = (txtValue.toUpperCase().indexOf(filter) > -1) ? '' : 'none';
-        }
-    }
-</script>
-
-<!-- Style -->
-<style>
-    .card-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0.75rem 1rem;
-    }
-
-    .card-header h6 {
-        color: #fff;
-        margin: 0;
-        font-weight: 600;
-    }
-
-    .bg-gradient-primary {
-        background: linear-gradient(90deg, #005C99, #0099CC);
-    }
-
-    .table-row-odd {
-        background-color: #ffffff;
-    }
-
-    .table-row-even {
-        background-color: #f5f7fa;
-    }
-
-    #pengaduanTable tbody tr:hover {
-        background-color: #e9ecef !important;
-        transition: 0.2s ease-in-out;
-    }
-
-    .btn-xs {
-        padding: 2px 6px;
-        font-size: 11px;
-        border-radius: 4px;
-    }
-
-    .btn-xs i {
-        font-size: 12px;
-    }
-
-    .btn-tambah {
-        position: relative;
-        top: 10px;
-        /* 👉 ubah nilai ini sesuai kebutuhan kamu (misal 15px, 20px) */
-    }
-</style>

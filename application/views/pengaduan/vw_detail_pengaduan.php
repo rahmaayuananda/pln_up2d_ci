@@ -1,13 +1,13 @@
-<div class="main-content position-relative border-radius-lg"><!-- 🔧 Perubahan: ditambah class untuk konsistensi -->
+<div class="main-content position-relative border-radius-lg">
     <section class="section">
         <div class="section-body">
-            <div class="container-fluid py-4"><!-- 🔧 Perubahan: ditambah py-4 agar jarak sama -->
+            <div class="container-fluid py-4">
                 <h1 class="h3 mb-4 text-gray-800"><?= $judul; ?></h1>
 
                 <div class="row justify-content-center">
                     <div class="col-lg-10">
-                        <div class="card shadow border-0 rounded-4"><!-- 🔧 Perubahan: ubah ke gaya card utama -->
-                            <div class="card-header bg-gradient-primary text-white text-center rounded-top-4"><!-- 🔧 Perubahan warna -->
+                        <div class="card shadow border-0 rounded-4">
+                            <div class="card-header bg-gradient-primary text-white text-center rounded-top-4">
                                 <h6 class="mb-0 text-white">
                                     <i class="fas fa-file-alt me-2 text-white"></i> Detail Pengaduan
                                 </h6>
@@ -30,7 +30,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Tanggal Pengaduan & Tanggal Proses -->
+                                <!-- Tanggal Pengaduan & Proses -->
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <div class="detail-item">
@@ -72,13 +72,25 @@
                                     </div>
                                 </div>
 
+                                <!-- Tindak Lanjut -->
+                                <?php if (!empty($pengaduan['TINDAK_LANJUT'])): ?>
+                                    <div class="row mb-3">
+                                        <div class="col-md-12">
+                                            <div class="detail-item">
+                                                <span class="label">Tindak Lanjut</span>
+                                                <p class="value"><?= nl2br(htmlspecialchars($pengaduan['TINDAK_LANJUT'])); ?></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+
                                 <!-- Foto Pengaduan & Foto Proses -->
                                 <div class="row mb-4 text-center">
                                     <?php if (!empty($pengaduan['FOTO_PENGADUAN'])): ?>
                                         <div class="col-md-6 mb-3 mb-md-0">
                                             <span class="label d-block mb-2">Foto Pengaduan</span>
                                             <img src="<?= base_url('uploads/pengaduan/' . $pengaduan['FOTO_PENGADUAN']); ?>"
-                                                class="img-thumbnail rounded" style="max-width: 90%;"><!-- 🔧 Perubahan: gunakan .img-thumbnail -->
+                                                class="img-thumbnail rounded" style="max-width: 90%;">
                                         </div>
                                     <?php endif; ?>
 
@@ -86,7 +98,7 @@
                                         <div class="col-md-6">
                                             <span class="label d-block mb-2">Foto Proses</span>
                                             <img src="<?= base_url('uploads/proses/' . $pengaduan['FOTO_PROSES']); ?>"
-                                                class="img-thumbnail rounded" style="max-width: 90%;"><!-- 🔧 Perubahan -->
+                                                class="img-thumbnail rounded" style="max-width: 90%;">
                                         </div>
                                     <?php endif; ?>
                                 </div>
@@ -106,10 +118,21 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- 🟢 CATATAN -->
+                                <?php if (!empty($pengaduan['CATATAN'])): ?>
+                                    <div class="row mb-3">
+                                        <div class="col-md-12">
+                                            <div class="detail-item note-box">
+                                                <span class="label text-primary">Catatan</span>
+                                                <p class="value"><?= nl2br(htmlspecialchars($pengaduan['CATATAN'])); ?></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
                             </div>
 
                             <div class="card-footer text-center bg-light border-top">
-                                <!-- 🔧 Perubahan: ganti warna tombol agar konsisten -->
                                 <a href="<?= base_url('Pengaduan') ?>" class="btn btn-secondary px-4 me-2">
                                     <i class="fas fa-arrow-left me-1"></i> Kembali
                                 </a>
@@ -122,9 +145,8 @@
     </section>
 </div>
 
-<!-- STYLE TAMBAHAN -->
+<!-- STYLE -->
 <style>
-    /* 🔧 Perubahan: diseragamkan dengan form edit */
     .img-thumbnail {
         border: 1px solid #dee2e6;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
@@ -155,9 +177,35 @@
         box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     }
 
+    .note-box {
+        background: #e9f5ff;
+        /* 🌊 biru pastel lembut */
+        border-left: 6px solid #0d6efd;
+        border-radius: 10px;
+        padding: 15px 18px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+
+    .note-box .label {
+        font-weight: 700;
+        color: #0d6efd;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .note-box .value {
+        color: #2c3e50;
+        font-size: 15px;
+    }
+
+    .note-box:hover {
+        background: #dbefff;
+        /* efek hover lembut */
+        transition: 0.3s ease;
+    }
+
     .card-header {
         background: linear-gradient(90deg, #007bff, #0056d2);
-        /* 🔧 Perubahan: sama dengan bg-gradient-primary */
         font-weight: 600;
         font-size: 17px;
         padding: 14px;
