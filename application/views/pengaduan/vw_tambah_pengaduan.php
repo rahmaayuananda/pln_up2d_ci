@@ -11,7 +11,6 @@
             <div class="card-body">
                 <form id="formPengaduan" action="<?= base_url('Pengaduan/tambah'); ?>" method="POST" enctype="multipart/form-data">
                     <div class="row g-3">
-
                         <!-- Unit Pelaksana -->
                         <div class="col-md-4">
                             <label class="form-label">Unit Pelaksana</label>
@@ -71,38 +70,47 @@
                             </select>
                         </div>
 
-                        <!-- Laporan dan Tindak Lanjut -->
+                        <!-- Laporan, Tindak Lanjut, Catatan -->
                         <div class="col-md-12">
                             <div class="row">
+                                <!-- Laporan -->
                                 <div class="col-md-6">
                                     <label class="form-label">Laporan</label>
-                                    <textarea name="LAPORAN" rows="6" class="form-control" placeholder="Masukkan laporan pengaduan..." required></textarea>
+                                    <textarea name="LAPORAN" id="laporan" rows="6" class="form-control" placeholder="Masukkan laporan pengaduan..." required></textarea>
                                 </div>
+
+                                <!-- Tindak Lanjut -->
                                 <div class="col-md-6" id="tindakLanjutContainer" style="display:none;">
                                     <label class="form-label">Tindak Lanjut</label>
-                                    <textarea name="TINDAK_LANJUT" id="tindakLanjut" rows="6" class="form-control" placeholder="Masukkan tindak lanjut..."></textarea>
+                                    <textarea name="TINDAK_LANJUT" id="tindak_lanjut" rows="6" class="form-control" placeholder="Masukkan tindak lanjut..."></textarea>
+                                </div>
+
+                                <!-- Catatan -->
+                                <div class="col-md-6" id="catatanContainer" style="display:none;">
+                                    <label class="form-label">Catatan</label>
+                                    <textarea name="CATATAN" id="catatan" rows="6" class="form-control" placeholder="Masukkan catatan jika pengaduan sudah selesai..."></textarea>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Foto Pengaduan dan Foto Proses -->
+                        <!-- Foto Pengaduan dan Proses -->
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-6">
                                     <label class="form-label">Foto Pengaduan</label>
-                                    <input type="file" name="FOTO_PENGADUAN" id="foto_pengaduan" class="form-control" accept="image/*" onchange="previewImage(event, 'preview_pengaduan')">
+                                    <input type="file" name="FOTO_PENGADUAN" class="form-control" accept="image/*" onchange="previewImage(event, 'preview_pengaduan')">
                                     <small class="text-muted">Format: JPG, PNG, maksimal 2MB</small>
                                     <div class="mt-2">
-                                        <img id="preview_pengaduan" src="#" alt="Preview Foto Pengaduan" class="img-thumbnail rounded" style="max-width: 200px; display: none;">
+                                        <img id="preview_pengaduan" src="#" alt="Preview Foto Pengaduan" class="img-thumbnail rounded" style="max-width: 200px; display:none;">
                                     </div>
                                 </div>
 
                                 <div class="col-md-6" id="fotoProsesContainer" style="display:none;">
                                     <label class="form-label">Foto Proses</label>
-                                    <input type="file" name="FOTO_PROSES" id="foto_proses" class="form-control" accept="image/*" onchange="previewImage(event, 'preview_proses')">
+                                    <input type="file" name="FOTO_PROSES" class="form-control" accept="image/*" onchange="previewImage(event, 'preview_proses')">
                                     <small class="text-muted">Format: JPG, PNG, maksimal 2MB</small>
                                     <div class="mt-2">
-                                        <img id="preview_proses" src="#" alt="Preview Foto Proses" class="img-thumbnail rounded" style="max-width: 200px; display: none;">
+                                        <img id="preview_proses" src="#" alt="Preview Foto Proses" class="img-thumbnail rounded" style="max-width: 200px; display:none;">
                                     </div>
                                 </div>
                             </div>
@@ -129,7 +137,7 @@
     </div>
 
     <script>
-        // Data item per jenis
+        // Pilihan item pengaduan
         const dataPengaduan = {
             "Gardu Induk": ["Failed", "PMT", "Proteksi", "Kabel", "Kubikel", "lain-lain.."],
             "Gardu Hubung": ["Failed", "PMT", "Proteksi", "Kabel", "Kubikel", "Rectifier", "Baterai", "lain-lain.."],
@@ -144,7 +152,6 @@
         jenisSelect.addEventListener("change", function() {
             const selectedJenis = this.value;
             itemSelect.innerHTML = "<option value=''>-- Pilih Item Pengaduan --</option>";
-
             if (dataPengaduan[selectedJenis]) {
                 dataPengaduan[selectedJenis].forEach(item => {
                     const opt = document.createElement("option");
@@ -159,7 +166,6 @@
         function previewImage(event, previewId) {
             const input = event.target;
             const preview = document.getElementById(previewId);
-
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
@@ -173,43 +179,25 @@
             }
         }
 
-        // Tampilkan input sesuai status
+        // Logika tampil: Foto Proses, Tindak Lanjut, Catatan
         const statusSelect = document.getElementById("statusSelect");
         const fotoProsesContainer = document.getElementById("fotoProsesContainer");
         const tindakLanjutContainer = document.getElementById("tindakLanjutContainer");
-        const fotoProsesInput = document.getElementById("foto_proses");
-        const tindakLanjutInput = document.getElementById("tindakLanjut");
-        const formPengaduan = document.getElementById("formPengaduan");
+        const catatanContainer = document.getElementById("catatanContainer");
 
         statusSelect.addEventListener("change", function() {
             if (this.value === "Diproses") {
                 fotoProsesContainer.style.display = "block";
                 tindakLanjutContainer.style.display = "block";
-                fotoProsesInput.setAttribute("required", "required");
-                tindakLanjutInput.setAttribute("required", "required");
+                catatanContainer.style.display = "none";
             } else if (this.value === "Selesai") {
                 fotoProsesContainer.style.display = "none";
-                tindakLanjutContainer.style.display = "block";
-                fotoProsesInput.removeAttribute("required");
-                tindakLanjutInput.setAttribute("required", "required");
-            } else { // Menunggu
+                tindakLanjutContainer.style.display = "none";
+                catatanContainer.style.display = "block";
+            } else {
                 fotoProsesContainer.style.display = "none";
                 tindakLanjutContainer.style.display = "none";
-                fotoProsesInput.removeAttribute("required");
-                tindakLanjutInput.removeAttribute("required");
-                fotoProsesInput.value = "";
-                tindakLanjutInput.value = "";
-            }
-        });
-
-        // Validasi sebelum submit
-        formPengaduan.addEventListener("submit", function(event) {
-            const status = statusSelect.value;
-            const tindakLanjut = tindakLanjutInput.value.trim();
-
-            if (status === "Selesai" && tindakLanjut === "") {
-                alert("Harap isi tindak lanjut sebelum menyimpan data dengan status Selesai!");
-                event.preventDefault();
+                catatanContainer.style.display = "none";
             }
         });
     </script>
@@ -233,7 +221,7 @@
 
         textarea.form-control {
             resize: vertical;
-            height: 150px;
+            font-size: 0.9rem;
         }
     </style>
 </main>
