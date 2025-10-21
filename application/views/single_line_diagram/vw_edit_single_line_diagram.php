@@ -16,6 +16,28 @@
                 <form action="<?= base_url('Single_Line_Diagram/edit/' . urlencode($sld['ID_SLD'])); ?>" method="POST" enctype="multipart/form-data">
                     <div class="row g-3">
 
+                        <!-- Unit Pelaksana (optional - rendered if $unit available) -->
+                        <?php if (!empty($unit) && is_array($unit)): ?>
+                        <div class="col-md-6">
+                            <label class="form-label">Unit Pelaksana</label>
+                            <select name="ID_UNIT" class="form-control">
+                                <option value="">-- Pilih Unit Pelaksana --</option>
+                                <?php
+                                $seen = [];
+                                foreach ($unit as $u) {
+                                    $name = isset($u['UNIT_PELAKSANA']) ? trim($u['UNIT_PELAKSANA']) : '';
+                                    if ($name === '') continue;
+                                    $key = strtolower($name);
+                                    if (in_array($key, $seen)) continue;
+                                    $seen[] = $key;
+                                    $selected = (isset($sld['ID_UNIT']) && $sld['ID_UNIT'] == $u['ID_UNIT']) ? 'selected' : '';
+                                    echo '<option value="' . htmlentities($u['ID_UNIT'], ENT_QUOTES, 'UTF-8') . '" ' . $selected . '>' . htmlentities($name, ENT_QUOTES, 'UTF-8') . '</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <?php endif; ?>
+
                         <!-- Nama GI -->
                         <div class="col-md-6">
                             <label class="form-label">Nama GI</label>

@@ -79,59 +79,74 @@
                             </select>
                         </div>
 
-                        <!-- Laporan dan Tindak Lanjut -->
+                        <!-- 🟩 Laporan, Tindak Lanjut / Catatan -->
                         <div class="col-md-12">
                             <div class="row">
+                                <!-- Laporan -->
                                 <div class="col-md-6">
                                     <label class="form-label">Laporan</label>
-                                    <textarea name="LAPORAN" rows="6" class="form-control" required><?= htmlentities($pengaduan['LAPORAN']); ?></textarea>
+                                    <textarea name="LAPORAN" id="laporan" rows="6" class="form-control" required><?= htmlentities($pengaduan['LAPORAN']); ?></textarea>
                                 </div>
+
+                                <!-- Tindak Lanjut (status = Diproses) -->
                                 <div class="col-md-6" id="tindakLanjutContainer" style="display:none;">
                                     <label class="form-label">Tindak Lanjut</label>
-                                    <textarea name="TINDAK_LANJUT" id="tindakLanjut" rows="6" class="form-control"><?= htmlentities($pengaduan['TINDAK_LANJUT'] ?? ''); ?></textarea>
+                                    <textarea name="TINDAK_LANJUT" id="tindak_lanjut" rows="6" class="form-control"><?= htmlentities($pengaduan['TINDAK_LANJUT'] ?? ''); ?></textarea>
+                                </div>
+
+                                <!-- Catatan (status = Selesai) -->
+                                <div class="col-md-6" id="catatanContainer" style="display:none;">
+                                    <label class="form-label">Catatan</label>
+                                    <textarea name="CATATAN" id="catatan" rows="6" class="form-control"><?= htmlentities($pengaduan['CATATAN'] ?? ''); ?></textarea>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Foto -->
+                        <!-- FOTO -->
+                        <div class="col-md-12">
+                            <div class="row">
+                                <!-- Foto Pengaduan -->
+                                <div class="col-md-6">
+                                    <label class="form-label">Foto Pengaduan</label>
+                                    <?php if (!empty($pengaduan['FOTO_PENGADUAN'])): ?>
+                                        <div class="mt-2 mb-2">
+                                            <img src="<?= base_url('uploads/pengaduan/' . $pengaduan['FOTO_PENGADUAN']); ?>" class="img-thumbnail rounded" style="max-width:200px;">
+                                        </div>
+                                    <?php endif; ?>
+                                    <input type="file" name="FOTO_PENGADUAN" id="foto_pengaduan" class="form-control" accept="image/*" onchange="previewImage(event, 'preview_pengaduan')">
+                                    <div class="mt-2">
+                                        <img id="preview_pengaduan" src="#" class="img-thumbnail rounded" style="max-width:200px; display:none;">
+                                    </div>
+                                </div>
+
+                                <!-- Foto Proses -->
+                                <div class="col-md-6" id="fotoProsesContainer" style="display:none;">
+                                    <label class="form-label">Foto Proses</label>
+                                    <?php if (!empty($pengaduan['FOTO_PROSES'])): ?>
+                                        <div class="mt-2 mb-2">
+                                            <img src="<?= base_url('uploads/proses/' . $pengaduan['FOTO_PROSES']); ?>" class="img-thumbnail rounded" style="max-width:200px;">
+                                        </div>
+                                    <?php endif; ?>
+                                    <input type="file" name="FOTO_PROSES" id="foto_proses" class="form-control" accept="image/*" onchange="previewImage(event, 'preview_proses')">
+                                    <div class="mt-2">
+                                        <img id="preview_proses" src="#" class="img-thumbnail rounded" style="max-width:200px; display:none;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- STATUS -->
                         <div class="col-md-6">
-                            <label class="form-label">Foto Pengaduan</label>
-                            <?php if (!empty($pengaduan['FOTO_PENGADUAN'])): ?>
-                                <div class="mt-2 mb-2">
-                                    <img src="<?= base_url('uploads/pengaduan/' . $pengaduan['FOTO_PENGADUAN']); ?>" class="img-thumbnail rounded" style="max-width:200px;">
-                                </div>
-                            <?php endif; ?>
-                            <input type="file" name="FOTO_PENGADUAN" class="form-control" accept="image/*" onchange="previewImage(event, 'preview_pengaduan')">
-                            <div class="mt-2">
-                                <img id="preview_pengaduan" src="#" class="img-thumbnail rounded" style="max-width:200px; display:none;">
-                            </div>
-                        </div>
-
-                        <div class="col-md-6" id="fotoProsesContainer" style="display:none;">
-                            <label class="form-label">Foto Proses</label>
-                            <?php if (!empty($pengaduan['FOTO_PROSES'])): ?>
-                                <div class="mt-2 mb-2">
-                                    <img src="<?= base_url('uploads/proses/' . $pengaduan['FOTO_PROSES']); ?>" class="img-thumbnail rounded" style="max-width:200px;">
-                                </div>
-                            <?php endif; ?>
-                            <input type="file" name="FOTO_PROSES" id="foto_proses" class="form-control" accept="image/*" onchange="previewImage(event, 'preview_proses')">
-                            <div class="mt-2">
-                                <img id="preview_proses" src="#" class="img-thumbnail rounded" style="max-width:200px; display:none;">
-                            </div>
+                            <label class="form-label">Status</label>
+                            <select name="STATUS" id="statusSelect" class="form-control" required>
+                                <option value="Menunggu" <?= ($pengaduan['STATUS'] == 'Menunggu') ? 'selected' : ''; ?>>Menunggu</option>
+                                <option value="Diproses" <?= ($pengaduan['STATUS'] == 'Diproses') ? 'selected' : ''; ?>>Diproses</option>
+                                <option value="Selesai" <?= ($pengaduan['STATUS'] == 'Selesai') ? 'selected' : ''; ?>>Selesai</option>
+                            </select>
                         </div>
                     </div>
 
-                    <!-- Status -->
-                    <div class="col-md-6">
-                        <label class="form-label">Status</label>
-                        <select name="STATUS" id="statusSelect" class="form-control" required>
-                            <option value="Menunggu" <?= ($pengaduan['STATUS'] == 'Menunggu') ? 'selected' : ''; ?>>Menunggu</option>
-                            <option value="Diproses" <?= ($pengaduan['STATUS'] == 'Diproses') ? 'selected' : ''; ?>>Diproses</option>
-                            <option value="Selesai" <?= ($pengaduan['STATUS'] == 'Selesai') ? 'selected' : ''; ?>>Selesai</option>
-                        </select>
-                    </div>
-
-                    <!-- Tombol -->
+                    <!-- TOMBOL -->
                     <div class="mt-4">
                         <a href="<?= base_url('Pengaduan'); ?>" class="btn btn-secondary">Batal</a>
                         <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
@@ -143,60 +158,29 @@
 
     <!-- SCRIPT -->
     <script>
-        const dataPengaduan = {
-            "Gardu Induk": ["Failed", "PMT", "Proteksi", "Kabel", "Kubikel", "lain-lain.."],
-            "Gardu Hubung": ["Failed", "PMT", "Proteksi", "Kabel", "Kubikel", "Rectifier", "Baterai", "lain-lain.."],
-            "Recloser": ["Failed", "PMT", "Proteksi", "Kabel", "VT", "Panel", "Baterai", "lain-lain.."],
-            "LBS": ["Failed", "PMT", "Proteksi", "Kabel", "VT", "Panel", "Baterai", "lain-lain.."],
-            "Radio Komunikasi": ["Failed", "Antenna", "Base Station", "HT", "lain-lain.."]
-        };
-
-        const jenisSelect = document.getElementById("jenis_pengaduan");
-        const itemSelect = document.getElementById("item_pengaduan");
         const statusSelect = document.getElementById("statusSelect");
         const tindakLanjutContainer = document.getElementById("tindakLanjutContainer");
+        const catatanContainer = document.getElementById("catatanContainer");
         const fotoProsesContainer = document.getElementById("fotoProsesContainer");
-        const tindakLanjutInput = document.getElementById("tindakLanjut");
-        const fotoProsesInput = document.getElementById("foto_proses");
 
-        // Populate item pengaduan
-        jenisSelect.addEventListener("change", function() {
-            const selectedJenis = this.value;
-            itemSelect.innerHTML = "<option value=''>-- Pilih Item Pengaduan --</option>";
-            if (dataPengaduan[selectedJenis]) {
-                dataPengaduan[selectedJenis].forEach(item => {
-                    const opt = document.createElement("option");
-                    opt.value = item;
-                    opt.textContent = item;
-                    itemSelect.appendChild(opt);
-                });
-            }
-        });
-
-        // Tampilkan field sesuai status
         function updateStatusFields() {
-            if (statusSelect.value === "Diproses" || statusSelect.value === "Selesai") {
+            if (statusSelect.value === "Diproses") {
                 tindakLanjutContainer.style.display = "block";
+                catatanContainer.style.display = "none";
                 fotoProsesContainer.style.display = "block";
-                tindakLanjutInput.setAttribute("required", "required");
-                fotoProsesInput.setAttribute("required", "required");
+            } else if (statusSelect.value === "Selesai") {
+                tindakLanjutContainer.style.display = "none";
+                catatanContainer.style.display = "block";
+                fotoProsesContainer.style.display = "none";
             } else {
                 tindakLanjutContainer.style.display = "none";
+                catatanContainer.style.display = "none";
                 fotoProsesContainer.style.display = "none";
-                tindakLanjutInput.removeAttribute("required");
-                fotoProsesInput.removeAttribute("required");
             }
         }
-        updateStatusFields();
-        statusSelect.addEventListener("change", updateStatusFields);
 
-        // Validasi status selesai
-        document.getElementById("editPengaduanForm").addEventListener("submit", function(e) {
-            if (statusSelect.value === "Selesai" && tindakLanjutInput.value.trim() === "") {
-                e.preventDefault();
-                alert("Silakan isi Tindak Lanjut terlebih dahulu sebelum menyimpan status 'Selesai'.");
-            }
-        });
+        statusSelect.addEventListener("change", updateStatusFields);
+        document.addEventListener("DOMContentLoaded", updateStatusFields);
 
         // Preview foto
         function previewImage(event, previewId) {
@@ -235,7 +219,7 @@
 
         textarea.form-control {
             resize: vertical;
-            height: 150px;
+            font-size: 0.9rem;
         }
     </style>
 </main>

@@ -13,6 +13,29 @@
                     <i class="fas fa-building me-2 text-success"></i> Data Unit
                 </h6>
             </nav>
+
+            <!-- ICON kanan -->
+            <div class="d-flex align-items-center ms-auto">
+                <ul class="navbar-nav flex-row align-items-center mb-0">
+                    <li class="nav-item d-flex align-items-center me-3">
+                        <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
+                            <i class="fa fa-user me-sm-1"></i>
+                            <span class="d-sm-inline d-none">Sign In</span>
+                        </a>
+                    </li>
+                    <li class="nav-item px-2 d-flex align-items-center me-3">
+                        <a href="javascript:;" class="nav-link text-white p-0">
+                            <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown pe-2 d-flex align-items-center">
+                        <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-bell cursor-pointer"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton"></ul>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
 
@@ -195,6 +218,7 @@
     .btn-xs i {
         font-size: 12px;
     }
+
     .sort-indicator {
         display: inline-block;
         width: 10px;
@@ -202,17 +226,30 @@
         margin-left: 6px;
         vertical-align: middle;
     }
-    .sort-asc::after { content: '\25B2'; font-size: 10px; margin-left:4px; }
-    .sort-desc::after { content: '\25BC'; font-size: 10px; margin-left:4px; }
+
+    .sort-asc::after {
+        content: '\25B2';
+        font-size: 10px;
+        margin-left: 4px;
+    }
+
+    .sort-desc::after {
+        content: '\25BC';
+        font-size: 10px;
+        margin-left: 4px;
+    }
+
     /* Make compact padding the default for the table (applies for all per_page values) */
     #unitTable tbody tr td {
         padding-top: 2px !important;
         padding-bottom: 2px !important;
         font-size: 13px !important;
     }
+
     #unitTable tbody tr {
         line-height: 1.15;
     }
+
     #unitTable thead th {
         padding-top: 8px !important;
         padding-bottom: 8px !important;
@@ -222,7 +259,10 @@
 <script>
     // Client-side sorting only (no column or global filtering)
     (function() {
-        let sortState = { index: null, asc: true };
+        let sortState = {
+            index: null,
+            asc: true
+        };
 
         window.sortTableUnit = function(colIndex) {
             const table = document.getElementById('unitTable');
@@ -230,7 +270,7 @@
             const rows = Array.from(tbody.querySelectorAll('tr'));
 
             // Determine if column is numeric (cols 0,3,4)
-            const numericCols = [0,3,4];
+            const numericCols = [0, 3, 4];
 
             if (sortState.index === colIndex) {
                 sortState.asc = !sortState.asc;
@@ -273,7 +313,7 @@
             rows.forEach((r, idx) => {
                 const firstCell = r.children[0];
                 if (firstCell) firstCell.textContent = no + idx;
-                r.classList.remove('table-row-odd','table-row-even');
+                r.classList.remove('table-row-odd', 'table-row-even');
                 r.classList.add(((idx % 2) === 0) ? 'table-row-odd' : 'table-row-even');
             });
         }
@@ -281,7 +321,7 @@
         function updateSortIndicators() {
             const headers = document.querySelectorAll('#unitTable thead tr:first-child th');
             headers.forEach((th, idx) => {
-                th.classList.remove('sort-asc','sort-desc');
+                th.classList.remove('sort-asc', 'sort-desc');
                 if (sortState.index === idx) {
                     th.classList.add(sortState.asc ? 'sort-asc' : 'sort-desc');
                 }
