@@ -18,12 +18,12 @@
 
     <div class="card mb-4 shadow border-0 rounded-4">
       <div class="card-header py-2 d-flex justify-content-between align-items-center bg-gradient-primary text-white rounded-top-4">
-        <h6 class="mb-0">Data Monitoring Investasi</h6>
+        <h6 class="mb-0">Data Monitoring Operasi</h6>
         <div class="d-flex align-items-center">
           <a href="#" class="btn btn-sm btn-light text-primary me-2" onclick="alert('Fitur Tambah belum tersedia!')">
             <i class="fas fa-plus me-1"></i> Tambah
           </a>
-          <a href="#" class="btn btn-sm btn-light btn-secondary" onclick="downloadCSVMonitoring()">
+          <a href="#" class="btn btn-sm btn-light btn-secondary" onclick="downloadCSVMonitoringOp()">
             <i class="fas fa-file-csv me-1"></i> Download CSV
           </a>
         </div>
@@ -33,7 +33,7 @@
         <div class="px-3 mt-3 mb-3 d-flex justify-content-between align-items-center">
           <div class="d-flex align-items-center">
             <label class="mb-0 me-2 text-sm">Tampilkan:</label>
-            <select id="perPageSelectMonitoring" class="form-select form-select-sm" style="width: 80px; padding-right: 2rem;" onchange="changePerPageMonitoring(this.value)">
+            <select id="perPageSelectMonitoringOp" class="form-select form-select-sm" style="width: 80px; padding-right: 2rem;" onchange="changePerPageMonitoringOp(this.value)">
               <option value="5">5</option>
               <option value="10">10</option>
               <option value="25">25</option>
@@ -43,11 +43,11 @@
             </select>
             <span class="ms-3 text-sm">dari <?= count($rows) ?> data</span>
           </div>
-          <input type="text" id="searchInputMonitoring" onkeyup="searchTableMonitoring()" class="form-control form-control-sm rounded-3" style="max-width: 300px;" placeholder="Cari data...">
+          <input type="text" id="searchInputMonitoringOp" onkeyup="searchTableMonitoringOp()" class="form-control form-control-sm rounded-3" style="max-width: 300px;" placeholder="Cari data...">
         </div>
 
         <div class="table-responsive p-0">
-          <table class="table align-items-center mb-0" id="monitoringTable">
+          <table class="table align-items-center mb-0" id="monitoringOpTable">
             <thead class="bg-light">
               <tr>
                 <?php if (!empty($fields)): ?>
@@ -76,7 +76,7 @@
         </div>
         <div class="card-footer d-flex justify-content-end">
           <nav>
-            <ul class="pagination pagination-sm mb-0 asset-pagination" id="paginationMonitoring"></ul>
+            <ul class="pagination pagination-sm mb-0 asset-pagination" id="paginationMonitoringOp"></ul>
           </nav>
         </div>
       </div>
@@ -85,39 +85,39 @@
 </main>
 
 <script>
-let currentPageMonitoring = 1;
-let perPageMonitoring = 10;
+let currentPageMonitoringOp = 1;
+let perPageMonitoringOp = 10;
 
-function getFilteredRowsMonitoring() {
-  const input = document.getElementById('searchInputMonitoring');
+function getFilteredRowsMonitoringOp() {
+  const input = document.getElementById('searchInputMonitoringOp');
   const filter = (input.value || '').toUpperCase();
-  const table = document.getElementById('monitoringTable');
+  const table = document.getElementById('monitoringOpTable');
   const allRows = Array.from(table.getElementsByTagName('tbody')[0].getElementsByTagName('tr'));
   if (!filter) return allRows;
   return allRows.filter(row => (row.textContent || row.innerText || '').toUpperCase().indexOf(filter) > -1);
 }
 
-function renderTableMonitoring() {
-  const table = document.getElementById('monitoringTable');
-  const rows = getFilteredRowsMonitoring();
+function renderTableMonitoringOp() {
+  const table = document.getElementById('monitoringOpTable');
+  const rows = getFilteredRowsMonitoringOp();
   const total = rows.length;
-  const start = (currentPageMonitoring - 1) * perPageMonitoring;
-  const end = start + perPageMonitoring;
+  const start = (currentPageMonitoringOp - 1) * perPageMonitoringOp;
+  const end = start + perPageMonitoringOp;
   rows.forEach((row, i) => row.style.display = (i >= start && i < end) ? '' : 'none');
-  renderPaginationMonitoring(total);
+  renderPaginationMonitoringOp(total);
 }
 
-function renderPaginationMonitoring(total) {
-  const pagination = document.getElementById('paginationMonitoring');
+function renderPaginationMonitoringOp(total) {
+  const pagination = document.getElementById('paginationMonitoringOp');
   pagination.innerHTML = '';
-  const totalPages = Math.ceil(total / perPageMonitoring);
+  const totalPages = Math.ceil(total / perPageMonitoringOp);
   if (totalPages <= 1) return;
-  pagination.appendChild(createPageItemMonitoring('«', currentPageMonitoring > 1, () => setPageMonitoring(currentPageMonitoring - 1)));
-  for (let i = 1; i <= totalPages; i++) pagination.appendChild(createPageItemMonitoring(i, true, () => setPageMonitoring(i), i === currentPageMonitoring));
-  pagination.appendChild(createPageItemMonitoring('»', currentPageMonitoring < totalPages, () => setPageMonitoring(currentPageMonitoring + 1)));
+  pagination.appendChild(createPageItemMonitoringOp('«', currentPageMonitoringOp > 1, () => setPageMonitoringOp(currentPageMonitoringOp - 1)));
+  for (let i = 1; i <= totalPages; i++) pagination.appendChild(createPageItemMonitoringOp(i, true, () => setPageMonitoringOp(i), i === currentPageMonitoringOp));
+  pagination.appendChild(createPageItemMonitoringOp('»', currentPageMonitoringOp < totalPages, () => setPageMonitoringOp(currentPageMonitoringOp + 1)));
 }
 
-function createPageItemMonitoring(text, enabled, onClick, active = false) {
+function createPageItemMonitoringOp(text, enabled, onClick, active = false) {
   const li = document.createElement('li');
   li.className = 'page-item' + (enabled ? '' : ' disabled') + (active ? ' active' : '');
   const a = document.createElement('a');
@@ -129,14 +129,14 @@ function createPageItemMonitoring(text, enabled, onClick, active = false) {
   return li;
 }
 
-function setPageMonitoring(page) { currentPageMonitoring = page; renderTableMonitoring(); }
-function changePerPageMonitoring(val) { perPageMonitoring = parseInt(val); currentPageMonitoring = 1; renderTableMonitoring(); }
-function searchTableMonitoring(){ currentPageMonitoring = 1; renderTableMonitoring(); }
+function setPageMonitoringOp(page) { currentPageMonitoringOp = page; renderTableMonitoringOp(); }
+function changePerPageMonitoringOp(val) { perPageMonitoringOp = parseInt(val); currentPageMonitoringOp = 1; renderTableMonitoringOp(); }
+function searchTableMonitoringOp(){ currentPageMonitoringOp = 1; renderTableMonitoringOp(); }
 
-function downloadCSVMonitoring() {
-  const table = document.getElementById('monitoringTable');
+function downloadCSVMonitoringOp() {
+  const table = document.getElementById('monitoringOpTable');
   let csv = '';
-  const rows = getFilteredRowsMonitoring();
+  const rows = getFilteredRowsMonitoringOp();
   const header = table.querySelectorAll('thead th');
   let headerRow = [];
   for (let h of header) headerRow.push('"' + h.innerText.replace(/"/g, '""') + '"');
@@ -150,20 +150,14 @@ function downloadCSVMonitoring() {
   const blob = new Blob([csv], { type: 'text/csv' });
   const link = document.createElement('a');
   link.href = window.URL.createObjectURL(blob);
-  link.download = 'monitoring_inv.csv';
+  link.download = 'monitoring_op.csv';
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById('perPageSelectMonitoring').value = perPageMonitoring;
-  renderTableMonitoring();
+  document.getElementById('perPageSelectMonitoringOp').value = perPageMonitoringOp;
+  renderTableMonitoringOp();
 });
 </script>
-<main class="main-content position-relative border-radius-lg ">
-  <div class="container-fluid py-4">
-    <h3>Monitoring (placeholder)</h3>
-    <p>Halaman monitoring akan diimplementasikan di sini.</p>
-  </div>
-</main>
