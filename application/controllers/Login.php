@@ -8,6 +8,7 @@ class Login extends CI_Controller {
         parent::__construct();
         $this->load->helper(['url', 'form']);
         $this->load->library(['session', 'form_validation']);
+        $this->load->model('User_model');
     }
 
     // GET /login
@@ -40,11 +41,24 @@ class Login extends CI_Controller {
         $email = $this->input->post('email');
         $password = $this->input->post('password');
 
-        // Placeholder authentication (dev-only): adjust with real user model later
-        // Demo credential is accepted ONLY in development environment
+        // Try DB-based authentication first
+        $user = $this->User_model->find_by_email($email);
+        if ($user && $this->User_model->verify_password($user, $password)) {
+            // store useful user data in session
+            $this->session->set_userdata([
+                'user_email' => $user['email'],
+                'user_id'    => $user['id'],
+                'user_role'  => isset($user['role']) ? $user['role'] : null,
+                'logged_in'  => TRUE,
+            ]);
+            return redirect('dashboard');
+        }
+
+        // Fallback dev shortcut (keeps previous behavior in development)
         if (ENVIRONMENT === 'development' && $email === 'admin@pln.local' && $password === 'admin123') {
             $this->session->set_userdata([
                 'user_email' => $email,
+                'user_role'  => 'Administrator',
                 'logged_in'  => TRUE,
             ]);
             return redirect('dashboard');
