@@ -35,6 +35,10 @@
 <body class="g-sidenav-show bg-gray-100">
   <div class="min-height-300 bg-dark position-absolute w-100"></div>
 
+            class="nav-link d-flex align-items-center justify-content-between <?= ($this->uri->segment(1) == 'anggaran') ? 'active text-dark bg-light' : '' ?>"
+            data-bs-toggle="collapse"
+            role="button"
+            aria-expanded="<?= ($this->uri->segment(1) == 'anggaran') ? 'true' : 'false' ?>"
   <!-- Sidebar -->
   <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4" id="sidenav-main">
     <div class="sidenav-header">
@@ -165,6 +169,29 @@
             </li>
           </ul>
         </div>
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            try {
+              var isAnggaran = '<?= $this->uri->segment(1) ?>' === 'anggaran';
+              if (!isAnggaran) return;
+              var menu = document.getElementById('menuAnggaran');
+              if (menu && !menu.classList.contains('show')) menu.classList.add('show');
+              var toggler = document.querySelector('a[href="#menuAnggaran"]');
+              if (toggler) toggler.setAttribute('aria-expanded', 'true');
+
+              var sub = '<?= $this->uri->segment(2) ?>';
+              if (sub) {
+                var subId = (sub === 'investasi') ? 'anggaranInstansi' : (sub === 'operasi' ? 'anggaranOperasi' : null);
+                if (subId) {
+                  var subEl = document.getElementById(subId);
+                  if (subEl && !subEl.classList.contains('show')) subEl.classList.add('show');
+                  var subToggler = document.querySelector('a[href="#' + subId + '"]');
+                  if (subToggler) subToggler.setAttribute('aria-expanded', 'true');
+                }
+              }
+            } catch (e) { console && console.error && console.error(e); }
+          });
+        </script>
 
         <!-- Pengaduan -->
         <li class="nav-item">
@@ -314,10 +341,10 @@
         <!-- Anggaran -->
         <li class="nav-item">
           <a href="#menuAnggaran"
-            class="nav-link d-flex align-items-center justify-content-between"
+            class="nav-link d-flex align-items-center justify-content-between <?= ($this->uri->segment(1) == 'anggaran') ? 'active text-dark bg-light' : '' ?>"
             data-bs-toggle="collapse"
             role="button"
-            aria-expanded="false"
+            aria-expanded="<?= ($this->uri->segment(1) == 'anggaran') ? 'true' : 'false' ?>"
             aria-controls="menuAnggaran">
             <div class="d-flex align-items-center">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -329,34 +356,34 @@
         </li>
 
         <!-- Submenu Anggaran -->
-        <div class="collapse" id="menuAnggaran">
+  <div class="collapse <?= ($this->uri->segment(1) == 'anggaran') ? 'show' : '' ?>" id="menuAnggaran">
           <ul class="nav flex-column submenu-list">
             <!-- Anggaran Instansi (collapsible subgroup) -->
             <li class="nav-item">
               <a href="#anggaranInstansi"
-                class="nav-link d-flex align-items-center justify-content-between <?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'instansi') ? 'active' : '' ?>"
+                class="nav-link d-flex align-items-center justify-content-between <?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'investasi') ? 'active' : '' ?>"
                 data-bs-toggle="collapse"
                 role="button"
-                aria-expanded="<?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'instansi') ? 'true' : 'false' ?>"
+                aria-expanded="<?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'investasi') ? 'true' : 'false' ?>"
                 aria-controls="anggaranInstansi">
-                <div><i class="fas fa-building me-2"></i> Anggaran Instansi</div>
+                <div><i class="fas fa-building me-2"></i> Anggaran Investasi</div>
               </a>
             </li>
 
-            <div class="collapse <?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'instansi') ? 'show' : '' ?>" id="anggaranInstansi">
+            <div class="collapse <?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'investasi') ? 'show' : '' ?>" id="anggaranInstansi">
               <ul class="nav flex-column submenu-list ps-3">
                 <li class="nav-item">
-                  <a class="nav-link <?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'instansi' && $this->uri->segment(3) == 'progress_kontrak') ? 'active' : '' ?>" href="<?= base_url('anggaran/instansi/progress_kontrak'); ?>">
+                  <a class="nav-link <?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'investasi' && $this->uri->segment(3) == 'progress_kontrak') ? 'active' : '' ?>" href="<?= base_url('anggaran/investasi/progress_kontrak'); ?>">
                     <span style="font-size:9px; line-height:1; display:inline-block; width:8px; text-align:center; color:#6c757d;" class="me-2">&bull;</span> Progress Kontrak
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link <?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'instansi' && $this->uri->segment(3) == 'rekomposisi') ? 'active' : '' ?>" href="<?= base_url('anggaran/instansi/rekomposisi'); ?>">
+                  <a class="nav-link <?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'investasi' && $this->uri->segment(3) == 'rekomposisi') ? 'active' : '' ?>" href="<?= base_url('anggaran/investasi/rekomposisi'); ?>">
                     <span style="font-size:9px; line-height:1; display:inline-block; width:8px; text-align:center; color:#6c757d;" class="me-2">&bull;</span> Rekomposisi
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link <?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'instansi' && $this->uri->segment(3) == 'monitoring') ? 'active' : '' ?>" href="<?= base_url('anggaran/instansi/monitoring'); ?>">
+                  <a class="nav-link <?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'investasi' && $this->uri->segment(3) == 'monitoring') ? 'active' : '' ?>" href="<?= base_url('anggaran/investasi/monitoring'); ?>">
                     <span style="font-size:9px; line-height:1; display:inline-block; width:8px; text-align:center; color:#6c757d;" class="me-2">&bull;</span> Monitoring
                   </a>
                 </li>
