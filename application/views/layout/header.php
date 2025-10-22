@@ -442,7 +442,7 @@
 
         <!-- Sign In -->
         <li class="nav-item">
-          <a class="nav-link" href="<?= base_url('pages/sign-in'); ?>">
+          <a class="nav-link" href="<?= base_url('login'); ?>">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-key-25 text-dark text-sm opacity-10"></i>
             </div>
@@ -459,6 +459,18 @@
             <span class="nav-link-text ms-1">Sign Up</span>
           </a>
         </li>
+
+        <?php if ($this->session->userdata('logged_in')): ?>
+        <!-- Logout -->
+        <li class="nav-item">
+          <a class="nav-link" href="<?= base_url('logout'); ?>">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-button-power text-danger text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Logout</span>
+          </a>
+        </li>
+        <?php endif; ?>
 
       </ul>
     </div>
