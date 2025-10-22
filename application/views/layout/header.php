@@ -346,17 +346,17 @@
             <div class="collapse <?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'instansi') ? 'show' : '' ?>" id="anggaranInstansi">
               <ul class="nav flex-column submenu-list ps-3">
                 <li class="nav-item">
-                  <a class="nav-link <?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'instansi' && $this->uri->segment(3) == 'progress_kontrak') ? 'active' : '' ?>" href="<?= base_url('anggaran/instansi/progress_kontrak'); ?>">
+                  <a class="nav-link <?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'investasi' && $this->uri->segment(3) == 'progress_kontrak') ? 'active' : '' ?>" href="<?= base_url('anggaran/investasi/progress_kontrak'); ?>">
                     <span style="font-size:9px; line-height:1; display:inline-block; width:8px; text-align:center; color:#6c757d;" class="me-2">&bull;</span> Progress Kontrak
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link <?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'instansi' && $this->uri->segment(3) == 'rekomposisi') ? 'active' : '' ?>" href="<?= base_url('anggaran/instansi/rekomposisi'); ?>">
+                  <a class="nav-link <?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'investasi' && $this->uri->segment(3) == 'rekomposisi') ? 'active' : '' ?>" href="<?= base_url('anggaran/investasi/rekomposisi'); ?>">
                     <span style="font-size:9px; line-height:1; display:inline-block; width:8px; text-align:center; color:#6c757d;" class="me-2">&bull;</span> Rekomposisi
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link <?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'instansi' && $this->uri->segment(3) == 'monitoring') ? 'active' : '' ?>" href="<?= base_url('anggaran/instansi/monitoring'); ?>">
+                  <a class="nav-link <?= ($this->uri->segment(1) == 'anggaran' && $this->uri->segment(2) == 'investasi' && $this->uri->segment(3) == 'monitoring') ? 'active' : '' ?>" href="<?= base_url('anggaran/investasi/monitoring'); ?>">
                     <span style="font-size:9px; line-height:1; display:inline-block; width:8px; text-align:center; color:#6c757d;" class="me-2">&bull;</span> Monitoring
                   </a>
                 </li>

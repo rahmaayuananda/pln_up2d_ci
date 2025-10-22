@@ -23,10 +23,8 @@
                     <a href="#" class="btn btn-sm btn-light text-primary me-2" onclick="alert('Fitur Tambah belum tersedia!')">
                         <i class="fas fa-plus me-1"></i> Tambah
                     </a>
-                    <a href="#" class="btn btn-sm btn-light text-success" onclick="alert('Fitur Import belum tersedia!')">
-                        <i class="fas fa-file-import me-1"></i> Import
-                    </a>
-                    <a href="#" class="btn btn-sm btn-light text-secondary ms-2" onclick="downloadCSVProgressKontrak()">
+                    
+                    <a href="#" class="btn btn-sm btn-light text-secondary" onclick="downloadCSVProgressKontrak()">
                         <i class="fas fa-file-csv me-1"></i> Download CSV
                     </a>
                 </div>
@@ -50,28 +48,32 @@
                 </div>
 
                 <div class="table-responsive p-0">
-                    <table class="table align-items-center mb-0" id="progressKontrakTable">
-                        <thead class="bg-light">
-                            <tr>
-                                <?php foreach ($fields as $f): ?>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"><?= htmlentities($f) ?></th>
-                                <?php endforeach; ?>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php if (empty($rows)): ?>
-                                <tr><td colspan="<?= count($fields) ?>" class="text-center text-secondary py-4">Belum ada data</td></tr>
-                            <?php else: ?>
-                                <?php foreach ($rows as $r): ?>
-                                    <tr>
+                        <table class="table align-items-center mb-0" id="progressKontrakTable">
+                            <thead class="bg-light">
+                                <tr>
+                                    <?php if (!empty($fields)): ?>
                                         <?php foreach ($fields as $f): ?>
-                                            <td class="text-sm"><?= isset($r[$f]) ? htmlentities((string)$r[$f]) : '' ?></td>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"><?= htmlentities($f) ?></th>
                                         <?php endforeach; ?>
-                                    </tr>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
+                                    <?php else: ?>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Belum ada kolom</th>
+                                    <?php endif; ?>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if (empty($rows)): ?>
+                                    <tr><td colspan="<?= max(1, count($fields)) ?>" class="text-center text-secondary py-4">Belum ada data</td></tr>
+                                <?php else: ?>
+                                    <?php foreach ($rows as $r): ?>
+                                        <tr>
+                                            <?php foreach ($fields as $f): ?>
+                                                <td class="text-sm"><?= isset($r[$f]) ? htmlentities((string)$r[$f]) : '' ?></td>
+                                            <?php endforeach; ?>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
                 </div>
                 <div class="card-footer d-flex justify-content-end">
                     <nav>

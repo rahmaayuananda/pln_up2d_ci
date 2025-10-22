@@ -1,29 +1,27 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/** @property Progress_kontrak_op_model $progress_kontrak_model */
-/** @property Rekomposisi_op_model $rekomposisi_model */
-class Operasi extends CI_Controller {
-    /** @var Progress_kontrak_op_model */
+/** @property Progress_kontrak_inv_model $progress_kontrak_model */
+/** @property Rekomposisi_inv_model $rekomposisi_model */
+class Investasi extends CI_Controller {
+    /** @var Progress_kontrak_inv_model */
     public $progress_kontrak_model;
-    /** @var Rekomposisi_op_model */
+    /** @var Rekomposisi_inv_model */
     public $rekomposisi_model;
 
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('Progress_kontrak_op_model', 'progress_kontrak_model');
-        $this->load->model('Rekomposisi_op_model', 'rekomposisi_model');
+        // load models with aliases to satisfy static analysis and make runtime property explicit
+        $this->load->model('Progress_kontrak_inv_model', 'progress_kontrak_model');
+        $this->load->model('Rekomposisi_inv_model', 'rekomposisi_model');
         $this->load->helper('url');
     }
 
-    /**
-     * Show Progress Kontrak table for Anggaran Operasi
-     */
     public function progress_kontrak()
     {
         $data['title'] = 'Progress Kontrak';
-        $data['icon'] = 'fa-cogs text-success';
+        $data['icon'] = 'fa-building text-success';
 
         try {
             $result = $this->progress_kontrak_model->get_table_data(200);
@@ -36,15 +34,14 @@ class Operasi extends CI_Controller {
         }
 
         $this->load->view('layout/header');
-        $this->load->view('anggaran/operasi/progress_kontrak', $data);
+        $this->load->view('anggaran/investasi/progress_kontrak', $data);
         $this->load->view('layout/footer');
     }
 
     public function rekomposisi()
     {
-        // For now reuse the same layout as progress_kontrak but with a different title
         $data['title'] = 'Rekomposisi';
-        $data['icon'] = 'fa-cogs text-success';
+        $data['icon'] = 'fa-building text-success';
         try {
             $result = $this->rekomposisi_model->get_table_data(200);
             $data['fields'] = $result['fields'];
@@ -55,7 +52,16 @@ class Operasi extends CI_Controller {
             $data['error'] = $e->getMessage();
         }
         $this->load->view('layout/header');
-        $this->load->view('anggaran/operasi/rekomposisi', $data);
+        $this->load->view('anggaran/investasi/rekomposisi', $data);
+        $this->load->view('layout/footer');
+    }
+
+    public function monitoring()
+    {
+        $data['title'] = 'Monitoring';
+        $data['icon'] = 'fa-building text-success';
+        $this->load->view('layout/header');
+        $this->load->view('anggaran/investasi/monitoring', $data);
         $this->load->view('layout/footer');
     }
 

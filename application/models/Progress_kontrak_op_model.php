@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Anggaran_op_model extends CI_Model {
+class Progress_kontrak_op_model extends CI_Model {
 
     public function __construct()
     {
