@@ -56,20 +56,43 @@
         <?php endif; ?>
 
         <div class="card mb-4 shadow border-0 rounded-4">
-            <div class="card-header py-2 d-flex justify-content-between align-items-center bg-gradient-primary text-white rounded-top-4">
-                <h6 class="mb-0 fw-bold text-white">
-                    <i class="fas fa-project-diagram me-2"></i> Tabel Single Line Diagram
-                </h6>
-                <div class="d-flex align-items-center">
-                    <a href="<?= base_url('single_line_diagram/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
-                        <i class="fas fa-plus me-1"></i> Tambah
-                    </a>
+            <div class="card-header py-3 bg-gradient-primary text-white rounded-top-4">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center gap-4">
+                        <div>
+                            <h6 class="mb-0 fw-bold text-white"><i class="fas fa-project-diagram me-2"></i> Tabel Single Line Diagram</h6>
+                        </div>
+                        <!-- moved per-page control out of colored header to above the table -->
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3">
+                        <div>
+                            <a href="<?= base_url('single_line_diagram/tambah') ?>" class="btn btn-sm btn-light text-primary">
+                                <i class="fas fa-plus me-1"></i> Tambah
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="card-body px-0 pt-0 pb-2 bg-white">
-                <div class="px-3 mt-3 mb-3">
-                    <input type="text" id="searchInput" onkeyup="searchTable()" class="form-control form-control-sm rounded-3" placeholder="Cari GI atau Penyulang...">
+
+                <!-- White control row above the table (per-page left, search right) -->
+                <div class="px-3 py-2 mb-2 bg-white rounded-3 d-flex align-items-center justify-content-between" style="border:1px solid #eef3f6;">
+                    <div class="d-flex align-items-center">
+                        <label class="mb-0 me-2 fw-bold" style="color:#324a5f;">Tampilkan:</label>
+                        <select id="perPageSelectTop" class="form-select form-select-sm" style="width:90px;">
+                            <?php $options = [5,10,25,50,100]; $currentPer = $this->input->get('per_page') ? (int)$this->input->get('per_page') : 5; ?>
+                            <?php foreach ($options as $opt): ?>
+                                <option value="<?= $opt ?>" <?= ($opt == $currentPer) ? 'selected' : '' ?>><?= $opt ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <div class="ms-3" style="color:#324a5f; opacity:0.85;">dari <?= $total_rows ?? count($sld) ?> data</div>
+                    </div>
+
+                    <div style="min-width:300px; max-width:640px;">
+                        <input type="text" id="searchInput" onkeyup="searchTable()" class="form-control form-control-sm rounded-3" placeholder="Cari GI atau Penyulang...">
+                    </div>
                 </div>
 
                 <div class="table-responsive p-0">
@@ -140,6 +163,14 @@
                 </div>
             </div>
         </div>
+        <!-- Pagination links (summary removed) -->
+        <div class="d-flex justify-content-end align-items-center mt-2 px-3">
+            <?php if (!empty($pagination)): ?>
+                <nav id="sldPagination" aria-label="Page navigation">
+                    <?= $pagination ?>
+                </nav>
+            <?php endif; ?>
+        </div>
     </div>
 </main>
 
@@ -164,13 +195,23 @@
     }
 
     function searchTable() {
-        const input = document.getElementById('searchInput').value.toLowerCase();
+        const inputTop = document.getElementById('searchInputTop') || document.getElementById('searchInput');
+        const input = inputTop.value.toLowerCase();
         const rows = document.querySelectorAll('#sldTable tbody tr');
         rows.forEach(row => {
             const text = row.innerText.toLowerCase();
             row.style.display = text.includes(input) ? '' : 'none';
         });
     }
+
+    // per-page selector at top
+    document.getElementById('perPageSelectTop').addEventListener('change', function() {
+        const per = this.value;
+        const url = new URL(window.location.href);
+        url.searchParams.set('per_page', per);
+        url.searchParams.set('page', 1);
+        window.location.href = url.toString();
+    });
 </script>
 
 <style>
@@ -212,4 +253,39 @@
     input#searchInput {
         max-width: 1100px;
     }
+
+    /* Pagination rounded buttons like screenshot */
+    #sldPagination .pagination {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+    }
+
+    #sldPagination .pagination li {
+        list-style: none;
+    }
+
+    #sldPagination .pagination .page-link {
+        border-radius: 50% !important;
+        width: 38px;
+        height: 38px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.35rem 0.45rem;
+        border: 1px solid #e9ecef;
+        color: #495057;
+    }
+
+    #sldPagination .pagination .page-item.active .page-link,
+    #sldPagination .pagination .page-item .page-link:hover {
+        background: #0d6efd;
+        color: #fff;
+        border-color: #0d6efd;
+    }
+
+    /* refine pagination spacing */
+    #sldPagination { padding-right: 8px; }
 </style>
