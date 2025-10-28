@@ -55,6 +55,12 @@
  */
 	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 
+// If PHP timezone isn't set in php.ini, set default to Jakarta (WIB).
+// This ensures calls like date('Y-m-d H:i:s') produce the expected local time.
+if (!ini_get('date.timezone')) {
+    date_default_timezone_set('Asia/Jakarta');
+}
+
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING

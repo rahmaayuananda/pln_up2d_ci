@@ -72,36 +72,3 @@ class Notifikasi extends CI_Controller
         echo json_encode(['unread' => (int)$count]);
     }
 }
-<?php
-defined('BASEPATH') or exit('No direct script access allowed');
-
-class Notifikasi extends CI_Controller
-{
-    public function __construct()
-    {
-        parent::__construct();
-        $this->load->model('Notifikasi_model');
-    }
-
-    public function index()
-    {
-        $data['judul'] = 'Notifikasi Aktivitas';
-        $data['notifikasi'] = $this->Notifikasi_model->get_all();
-        $data['unread_count'] = $this->Notifikasi_model->count_unread();
-
-        // Saat halaman notifikasi dibuka, tandai semua sebagai dibaca
-        $this->Notifikasi_model->mark_as_read();
-
-        $this->load->view('layout/header', $data);
-        $this->load->view('notifikasi/vw_notifikasi', $data);
-        $this->load->view('layout/footer');
-    }
-
-    // 🔁 Dipanggil oleh AJAX untuk update badge notifikasi tanpa reload
-    public function get_latest()
-    {
-        $data['latest'] = $this->Notifikasi_model->get_latest(5);
-        $data['unread_count'] = $this->Notifikasi_model->count_unread();
-        echo json_encode($data);
-    }
-}

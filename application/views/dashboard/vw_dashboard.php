@@ -49,6 +49,27 @@
     <!-- End Navbar -->
      
     <div class="container-fluid py-4">
+        <!-- Login counter widget (separate from notifications) -->
+        <div class="row mb-3">
+            <div class="col-12 col-md-4">
+                <div class="card">
+                    <div class="card-body p-3">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3">
+                                <div class="icon icon-shape bg-gradient-info shadow-info text-center rounded-circle" style="width:48px; height:48px; line-height:48px;">
+                                    <i class="fa fa-sign-in text-white"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold">Login Count</p>
+                                <h5 class="font-weight-bolder mb-0"><?php echo isset($login_count) ? intval($login_count) : '—'; ?></h5>
+                                <small class="text-muted">Last login: <?php echo isset($last_login) && $last_login ? $last_login : '—'; ?></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
                 <div class="card">

@@ -1,6 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/**
+ * @property CI_Session $session
+ * @property CI_Input $input
+ * @property CI_Form_validation $form_validation
+ * @property User_model $User_model
+ */
 class Login extends CI_Controller {
 
     public function __construct()
@@ -51,6 +57,10 @@ class Login extends CI_Controller {
                 'user_role'  => isset($user['role']) ? $user['role'] : null,
                 'logged_in'  => TRUE,
             ]);
+            // record successful login (increments login_count and updates last_login if columns exist)
+            if (isset($user['id'])) {
+                $this->User_model->record_login($user['id']);
+            }
             return redirect('dashboard');
         }
 
@@ -61,6 +71,11 @@ class Login extends CI_Controller {
                 'user_role'  => 'Administrator',
                 'logged_in'  => TRUE,
             ]);
+            // In development shortcut, also record the login in DB if the admin user exists
+            $devUser = $this->User_model->find_by_email($email);
+            if ($devUser && isset($devUser['id'])) {
+                $this->User_model->record_login($devUser['id']);
+            }
             return redirect('dashboard');
         }
 
