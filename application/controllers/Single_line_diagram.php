@@ -18,12 +18,15 @@ class Single_Line_Diagram extends CI_Controller
     {
         $data['judul'] = 'Data Single Line Diagram';
 
-        // Konfigurasi pagination
-        $config['base_url'] = site_url('Single_Line_Diagram/index');
+        // Per-page dari query string atau default
+        $per_page = (int)$this->input->get('per_page') ?: 10;
+
+        // Konfigurasi pagination (menggunakan query string)
+        $config['base_url'] = site_url('Single_Line_Diagram/index') . '?';
         $config['total_rows'] = $this->sldModel->count_all_sld();
-        $config['per_page'] = 10;
-        $config['uri_segment'] = 3;
-        $config['use_page_numbers'] = TRUE;
+        $config['per_page'] = $per_page;
+        $config['page_query_string'] = TRUE;
+        $config['query_string_segment'] = 'page';
 
         // Tampilan pagination
         $config['full_tag_open'] = '<nav><ul class="pagination justify-content-end">';
@@ -38,16 +41,17 @@ class Single_Line_Diagram extends CI_Controller
         $config['num_tag_close'] = '</li>';
         $config['attributes'] = array('class' => 'page-link');
 
-        // Hitung offset berdasarkan halaman
-        $page_segment = $this->uri->segment(3);
-        $page = (is_numeric($page_segment) && $page_segment > 0) ? (int)$page_segment : 1;
-        $offset = ($page - 1) * $config['per_page'];
+    // Hitung offset berdasarkan page query string
+    $page = (int)$this->input->get('page');
+    if ($page < 1) $page = 1;
+    $offset = ($page - 1) * $config['per_page'];
 
         $this->pagination->initialize($config);
 
         $data['sld'] = $this->sldModel->get_sld($config['per_page'], $offset);
         $data['pagination'] = $this->pagination->create_links();
         $data['start_no'] = $offset + 1;
+    $data['total_rows'] = $config['total_rows'];
 
         $this->load->view('layout/header', $data);
         $this->load->view('single_line_diagram/vw_single_line_diagram', $data);
