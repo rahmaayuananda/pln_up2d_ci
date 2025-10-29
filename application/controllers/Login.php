@@ -66,14 +66,19 @@ class Login extends CI_Controller {
 
         // Fallback dev shortcut (keeps previous behavior in development)
         if (ENVIRONMENT === 'development' && $email === 'admin@pln.local' && $password === 'admin123') {
-            $this->session->set_userdata([
+            // attempt to find the admin user to set a proper user_id in session
+            $devUser = $this->User_model->find_by_email($email);
+            $sess = [
                 'user_email' => $email,
                 'user_role'  => 'Administrator',
                 'logged_in'  => TRUE,
-            ]);
-            // In development shortcut, also record the login in DB if the admin user exists
-            $devUser = $this->User_model->find_by_email($email);
+            ];
             if ($devUser && isset($devUser['id'])) {
+                $sess['user_id'] = $devUser['id'];
+            }
+            $this->session->set_userdata($sess);
+            // In development shortcut, also record the login in DB if the admin user exists
+            if (!empty($devUser['id'])) {
                 $this->User_model->record_login($devUser['id']);
             }
             return redirect('dashboard');

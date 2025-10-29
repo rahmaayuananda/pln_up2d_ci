@@ -55,9 +55,16 @@
                 <div class="card">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
-                            <div class="me-3">
-                                <div class="icon icon-shape bg-gradient-info shadow-info text-center rounded-circle" style="width:48px; height:48px; line-height:48px;">
-                                    <i class="fa fa-sign-in text-white"></i>
+                            <div class="me-3 d-flex align-items-center" style="min-width:64px;">
+                                <div class="icon icon-shape bg-gradient-info shadow-info rounded-circle d-flex align-items-center justify-content-center" style="width:56px; height:56px;">
+                                    <span style="display:inline-flex; align-items:center; justify-content:center; width:100%; height:100%;">
+                                        <!-- Inline SVG login icon (pixel-perfect centering across browsers) -->
+                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img">
+                                            <path d="M8 12h8" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M12 8l4 4-4 4" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M3 3v18a2 2 0 0 0 2 2h8" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </span>
                                 </div>
                             </div>
                             <div>
