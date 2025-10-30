@@ -1,6 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/**
+ * @property CI_Session $session
+ * @property CI_Input $input
+ * @property CI_Form_validation $form_validation
+ * @property User_model $User_model
+ */
 class Login extends CI_Controller {
 
     public function __construct()
@@ -8,6 +14,7 @@ class Login extends CI_Controller {
         parent::__construct();
         $this->load->helper(['url', 'form']);
         $this->load->library(['session', 'form_validation']);
+        $this->load->model('User_model');
     }
 
     // GET /login
@@ -40,13 +47,40 @@ class Login extends CI_Controller {
         $email = $this->input->post('email');
         $password = $this->input->post('password');
 
-        // Placeholder authentication (dev-only): adjust with real user model later
-        // Demo credential is accepted ONLY in development environment
-        if (ENVIRONMENT === 'development' && $email === 'admin@pln.local' && $password === 'admin123') {
+        // Try DB-based authentication first
+        $user = $this->User_model->find_by_email($email);
+        if ($user && $this->User_model->verify_password($user, $password)) {
+            // store useful user data in session
             $this->session->set_userdata([
-                'user_email' => $email,
+                'user_email' => $user['email'],
+                'user_id'    => $user['id'],
+                'user_role'  => isset($user['role']) ? $user['role'] : null,
                 'logged_in'  => TRUE,
             ]);
+            // record successful login (increments login_count and updates last_login if columns exist)
+            if (isset($user['id'])) {
+                $this->User_model->record_login($user['id']);
+            }
+            return redirect('dashboard');
+        }
+
+        // Fallback dev shortcut (keeps previous behavior in development)
+        if (ENVIRONMENT === 'development' && $email === 'admin@pln.local' && $password === 'admin123') {
+            // attempt to find the admin user to set a proper user_id in session
+            $devUser = $this->User_model->find_by_email($email);
+            $sess = [
+                'user_email' => $email,
+                'user_role'  => 'Administrator',
+                'logged_in'  => TRUE,
+            ];
+            if ($devUser && isset($devUser['id'])) {
+                $sess['user_id'] = $devUser['id'];
+            }
+            $this->session->set_userdata($sess);
+            // In development shortcut, also record the login in DB if the admin user exists
+            if (!empty($devUser['id'])) {
+                $this->User_model->record_login($devUser['id']);
+            }
             return redirect('dashboard');
         }
 

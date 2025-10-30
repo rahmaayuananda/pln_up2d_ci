@@ -57,6 +57,19 @@
     <div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main">
       <ul class="navbar-nav">
 
+        <?php
+          // Determine user role using CodeIgniter session so role checks are reliable.
+          $role = null;
+          if (isset($this) && isset($this->session)) {
+            $r = $this->session->userdata('user_role');
+            $role = $r ? strtolower($r) : null;
+          } elseif (isset($_SESSION['user_role'])) {
+            $role = strtolower($_SESSION['user_role']);
+          }
+        ?>
+
+        <!-- development debug banner removed -->
+
         <!-- Dashboard -->
         <li class="nav-item">
           <a class="nav-link <?= ($this->uri->segment(1) == 'dashboard') ? 'active' : '' ?>"
@@ -68,6 +81,7 @@
           </a>
         </li>
 
+        <?php if ($role !== 'perencanaan'): ?>
         <!-- Asset -->
         <li class="nav-item">
           <a href="#menuAsset"
@@ -108,8 +122,8 @@
             </div>
           </a>
         </li>
-
-        <!-- Submenu -->
+        
+  <!-- Submenu -->
         <div class="collapse <?= (
                                 $this->uri->segment(1) == 'unit' ||
                                 $this->uri->segment(1) == 'ulp' ||
@@ -169,7 +183,9 @@
             </li>
           </ul>
         </div>
-        <script>
+  <?php endif; ?>
+
+  <script>
           document.addEventListener('DOMContentLoaded', function() {
             try {
               var isAnggaran = '<?= $this->uri->segment(1) ?>' === 'anggaran';
@@ -205,8 +221,9 @@
           </a>
         </li>
 
-        <!-- Pustaka -->
-        <li class="nav-item">
+  <?php if ($role !== 'perencanaan'): ?>
+  <!-- Pustaka -->
+  <li class="nav-item">
           <a href="#menuPustaka"
             class="nav-link d-flex align-items-center justify-content-between <?= (
                                                                                 in_array($this->uri->segment(1), ['sop', 'bpm', 'ik', 'road_map', 'spln'])
@@ -291,9 +308,11 @@
             </li>
           </ul>
         </div>
+        <?php endif; ?>
 
-        <!-- Operasi -->
-        <li class="nav-item">
+  <?php if ($role !== 'perencanaan'): ?>
+  <!-- Operasi -->
+  <li class="nav-item">
           <a href="#menuOperasi"
             class="nav-link d-flex align-items-center justify-content-between <?= (
                                                                                 in_array($this->uri->segment(1), ['operasi', 'single_line_diagram'])
@@ -336,9 +355,11 @@
             </li>
 
           </ul>
-        </div>
+  </div>
+  <?php endif; ?>
 
-        <!-- Anggaran -->
+  <?php if ($role !== 'perencanaan'): ?>
+  <!-- Anggaran -->
         <li class="nav-item">
           <a href="#menuAnggaran"
             class="nav-link d-flex align-items-center justify-content-between <?= ($this->uri->segment(1) == 'anggaran') ? 'active text-dark bg-light' : '' ?>"
@@ -422,7 +443,8 @@
               </ul>
             </div>
           </ul>
-        </div>
+  </div>
+  <?php endif; ?>
 
 
         <!-- Account Pages -->

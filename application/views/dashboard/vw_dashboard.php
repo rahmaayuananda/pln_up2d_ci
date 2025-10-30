@@ -49,6 +49,34 @@
     <!-- End Navbar -->
      
     <div class="container-fluid py-4">
+        <!-- Login counter widget (separate from notifications) -->
+        <div class="row mb-3">
+            <div class="col-12 col-md-4">
+                <div class="card">
+                    <div class="card-body p-3">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3 d-flex align-items-center" style="min-width:64px;">
+                                <div class="icon icon-shape bg-gradient-info shadow-info rounded-circle d-flex align-items-center justify-content-center" style="width:56px; height:56px;">
+                                    <span style="display:inline-flex; align-items:center; justify-content:center; width:100%; height:100%;">
+                                        <!-- Inline SVG login icon (pixel-perfect centering across browsers) -->
+                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img">
+                                            <path d="M8 12h8" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M12 8l4 4-4 4" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M3 3v18a2 2 0 0 0 2 2h8" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </span>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold">Login Count</p>
+                                <h5 class="font-weight-bolder mb-0"><?php echo isset($login_count) ? intval($login_count) : '—'; ?></h5>
+                                <small class="text-muted">Last login: <?php echo isset($last_login) && $last_login ? $last_login : '—'; ?></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
                 <div class="card">
