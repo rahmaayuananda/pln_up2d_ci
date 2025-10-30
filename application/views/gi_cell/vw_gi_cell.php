@@ -109,47 +109,17 @@
                         <thead class="bg-light">
                             <tr>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">CXUNIT</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">UNITNAME</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ASSETNUM</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SSOTNUMBER</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">LOCATION</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">DESCRIPTION</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">VENDOR</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">MANUFACTURER</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">INSTALLDATE</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PRIORITY</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">STATUS</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">TUJDNUMBER</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">CHANGEBY</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">CHANGEDATE</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">CXCLASSIFICATIONDESC</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">CXPENYULANG</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">NAMA_LOCATION</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">LONGITUDEX</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">LATITUDEY</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ISASSET</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">STATUS_KEPEMILIKAN</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">BURDEN</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">FAKTOR_KALI</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">JENIS_CT</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">KELAS_CT</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">KELAS_PROTEKSI</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PRIMER_SEKUNDER</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">TIPE_CT</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">OWNERSYSID</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ISOLASI_KUBIKEL</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">JENIS_MVCELL</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">TH_BUAT</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">TYPE_MVCELL</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">CELL_TYPE</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php if (empty($gi_cell)): ?>
                                 <tr>
-                                    <td colspan="18" class="text-center text-secondary py-4">Belum ada data</td>
+                                    <td colspan="6" class="text-center text-secondary py-4">Belum ada data</td>
                                 </tr>
                             <?php else: ?>
                                 <?php
@@ -157,40 +127,10 @@
                                 foreach ($gi_cell as $row): ?>
                                     <tr class="<?= ($no % 2 == 0) ? 'table-row-even' : 'table-row-odd'; ?>">
                                         <td class="text-sm"><?= $no++; ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['CXUNIT'] ?? ''); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['UNITNAME'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['ASSETNUM'] ?? ''); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['SSOTNUMBER'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['LOCATION'] ?? ''); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['DESCRIPTION'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['VENDOR'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['MANUFACTURER'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['INSTALLDATE'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['PRIORITY'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['STATUS'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['TUJDNUMBER'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['CHANGEBY'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['CHANGEDATE'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['CXCLASSIFICATIONDESC'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['CXPENYULANG'] ?? ''); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['NAMA_LOCATION'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['LONGITUDEX'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['LATITUDEY'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['ISASSET'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['STATUS_KEPEMILIKAN'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['BURDEN'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['FAKTOR_KALI'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['JENIS_CT'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['KELAS_CT'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['KELAS_PROTEKSI'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['PRIMER_SEKUNDER'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['TIPE_CT'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['OWNERSYSID'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['ISOLASI_KUBIKEL'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['JENIS_MVCELL'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['TH_BUAT'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['TYPE_MVCELL'] ?? ''); ?></td>
-                                        <td class="text-sm"><?= htmlentities($row['CELL_TYPE'] ?? ''); ?></td>
                                         <td class="text-center">
                                             <a href="<?= base_url('Gi_cell/detail/' . urlencode($row['SSOTNUMBER'] ?? '')); ?>" class="btn btn-info btn-xs text-white me-1" title="Detail">
                                                 <i class="fas fa-info-circle"></i>
