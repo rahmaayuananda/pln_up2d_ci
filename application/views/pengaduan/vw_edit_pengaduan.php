@@ -28,13 +28,14 @@
                             </select>
                         </div>
 
-                        <!-- Tanggal -->
+                        <!-- Tanggal Pengaduan -->
                         <div class="col-md-4">
                             <label class="form-label">Tanggal Pengaduan</label>
                             <input type="date" class="form-control" name="TANGGAL_PENGADUAN" value="<?= htmlentities($pengaduan['TANGGAL_PENGADUAN']); ?>" required>
                         </div>
 
-                        <div class="col-md-4">
+                        <!-- 🟩 Tanggal Proses (disembunyikan default) -->
+                        <div class="col-md-4" id="tanggalProsesContainer" style="display:none;">
                             <label class="form-label">Tanggal Proses</label>
                             <input type="date" class="form-control" name="TANGGAL_PROSES" value="<?= htmlentities($pengaduan['TANGGAL_PROSES'] ?? ''); ?>">
                         </div>
@@ -159,20 +160,24 @@
     <!-- SCRIPT -->
     <script>
         const statusSelect = document.getElementById("statusSelect");
+        const tanggalProsesContainer = document.getElementById("tanggalProsesContainer");
         const tindakLanjutContainer = document.getElementById("tindakLanjutContainer");
         const catatanContainer = document.getElementById("catatanContainer");
         const fotoProsesContainer = document.getElementById("fotoProsesContainer");
 
         function updateStatusFields() {
             if (statusSelect.value === "Diproses") {
+                tanggalProsesContainer.style.display = "block";
                 tindakLanjutContainer.style.display = "block";
                 catatanContainer.style.display = "none";
                 fotoProsesContainer.style.display = "block";
             } else if (statusSelect.value === "Selesai") {
+                tanggalProsesContainer.style.display = "none";
                 tindakLanjutContainer.style.display = "none";
                 catatanContainer.style.display = "block";
                 fotoProsesContainer.style.display = "none";
             } else {
+                tanggalProsesContainer.style.display = "none";
                 tindakLanjutContainer.style.display = "none";
                 catatanContainer.style.display = "none";
                 fotoProsesContainer.style.display = "none";
