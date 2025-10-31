@@ -11,6 +11,7 @@
             <div class="card-body">
                 <form id="formPengaduan" action="<?= base_url('Pengaduan/tambah'); ?>" method="POST" enctype="multipart/form-data">
                     <div class="row g-3">
+
                         <!-- Unit Pelaksana -->
                         <div class="col-md-4">
                             <label class="form-label">Unit Pelaksana</label>
@@ -25,13 +26,14 @@
                             </select>
                         </div>
 
-                        <!-- Tanggal -->
+                        <!-- Tanggal Pengaduan -->
                         <div class="col-md-4">
                             <label class="form-label">Tanggal Pengaduan</label>
                             <input type="date" class="form-control" name="TANGGAL_PENGADUAN" required>
                         </div>
 
-                        <div class="col-md-4">
+                        <!-- Tanggal Proses (HIDDEN DEFAULT) -->
+                        <div class="col-md-4" id="tanggalProsesContainer" style="display:none;">
                             <label class="form-label">Tanggal Proses</label>
                             <input type="date" name="TANGGAL_PROSES" class="form-control">
                         </div>
@@ -73,19 +75,16 @@
                         <!-- Laporan, Tindak Lanjut, Catatan -->
                         <div class="col-md-12">
                             <div class="row">
-                                <!-- Laporan -->
                                 <div class="col-md-6">
                                     <label class="form-label">Laporan</label>
                                     <textarea name="LAPORAN" id="laporan" rows="6" class="form-control" placeholder="Masukkan laporan pengaduan..." required></textarea>
                                 </div>
 
-                                <!-- Tindak Lanjut -->
                                 <div class="col-md-6" id="tindakLanjutContainer" style="display:none;">
                                     <label class="form-label">Tindak Lanjut</label>
                                     <textarea name="TINDAK_LANJUT" id="tindak_lanjut" rows="6" class="form-control" placeholder="Masukkan tindak lanjut..."></textarea>
                                 </div>
 
-                                <!-- Catatan -->
                                 <div class="col-md-6" id="catatanContainer" style="display:none;">
                                     <label class="form-label">Catatan</label>
                                     <textarea name="CATATAN" id="catatan" rows="6" class="form-control" placeholder="Masukkan catatan jika pengaduan sudah selesai..."></textarea>
@@ -179,24 +178,28 @@
             }
         }
 
-        // Logika tampil: Foto Proses, Tindak Lanjut, Catatan
+        // Logika tampil dinamis
         const statusSelect = document.getElementById("statusSelect");
         const fotoProsesContainer = document.getElementById("fotoProsesContainer");
         const tindakLanjutContainer = document.getElementById("tindakLanjutContainer");
         const catatanContainer = document.getElementById("catatanContainer");
+        const tanggalProsesContainer = document.getElementById("tanggalProsesContainer");
 
         statusSelect.addEventListener("change", function() {
             if (this.value === "Diproses") {
                 fotoProsesContainer.style.display = "block";
                 tindakLanjutContainer.style.display = "block";
+                tanggalProsesContainer.style.display = "block";
                 catatanContainer.style.display = "none";
             } else if (this.value === "Selesai") {
                 fotoProsesContainer.style.display = "none";
                 tindakLanjutContainer.style.display = "none";
+                tanggalProsesContainer.style.display = "none";
                 catatanContainer.style.display = "block";
             } else {
                 fotoProsesContainer.style.display = "none";
                 tindakLanjutContainer.style.display = "none";
+                tanggalProsesContainer.style.display = "none";
                 catatanContainer.style.display = "none";
             }
         });
