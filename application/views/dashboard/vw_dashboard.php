@@ -60,26 +60,59 @@
     <div class="container-fluid py-4">
         <!-- Login counter widget (separate from notifications) -->
         <div class="row mb-3">
-            <div class="col-12 col-md-4">
-                <div class="card">
+            <div class="col-12 col-md-6 col-lg-5">
+                <div class="card login-count-card">
                     <div class="card-body p-3">
-                        <div class="d-flex align-items-center">
-                            <div class="me-3 d-flex align-items-center" style="min-width:64px;">
-                                <div class="icon icon-shape bg-gradient-info shadow-info rounded-circle d-flex align-items-center justify-content-center" style="width:56px; height:56px;">
-                                    <span style="display:inline-flex; align-items:center; justify-content:center; width:100%; height:100%;">
-                                        <!-- Inline SVG login icon (pixel-perfect centering across browsers) -->
-                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img">
+                        <div class="row align-items-center">
+                            <!-- Left Section: Icon & Badge -->
+                            <div class="col-auto">
+                                <div class="d-flex flex-column align-items-center">
+                                    <div class="icon icon-shape bg-gradient-info shadow-info rounded-circle d-flex align-items-center justify-content-center mb-2" style="width:64px; height:64px;">
+                                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img">
                                             <path d="M8 12h8" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
                                             <path d="M12 8l4 4-4 4" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
                                             <path d="M3 3v18a2 2 0 0 0 2 2h8" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
-                                    </span>
+                                    </div>
+                                    <?php if (isset($user_role) && $user_role): 
+                                        // Determine badge color based on role
+                                        $badge_color = 'bg-gradient-secondary';
+                                        $role_lower = strtolower($user_role);
+                                        if (strpos($role_lower, 'admin') !== false) {
+                                            $badge_color = 'bg-gradient-danger';
+                                        } elseif (strpos($role_lower, 'perencanaan') !== false) {
+                                            $badge_color = 'bg-gradient-primary';
+                                        } elseif (strpos($role_lower, 'operasi') !== false) {
+                                            $badge_color = 'bg-gradient-success';
+                                        } elseif (strpos($role_lower, 'pemeliharaan') !== false) {
+                                            $badge_color = 'bg-gradient-warning';
+                                        } elseif (strpos($role_lower, 'fasilitas') !== false) {
+                                            $badge_color = 'bg-gradient-info';
+                                        }
+                                    ?>
+                                        <span class="badge <?php echo $badge_color; ?>" style="font-size: 0.7rem; padding: 0.4em 0.7em;">
+                                            <i class="fas fa-user-tag" style="font-size: 0.65rem;"></i>
+                                            <span class="ms-1"><?php echo strtoupper(htmlspecialchars($user_role)); ?></span>
+                                        </span>
+                                    <?php endif; ?>
                                 </div>
                             </div>
-                            <div>
-                                <p class="text-sm mb-0 text-uppercase font-weight-bold">Login Count</p>
-                                <h5 class="font-weight-bolder mb-0"><?php echo isset($login_count) ? intval($login_count) : '—'; ?></h5>
-                                <small class="text-muted">Last login: <?php echo isset($last_login) && $last_login ? $last_login : '—'; ?></small>
+
+                            <!-- Right Section: Info -->
+                            <div class="col">
+                                <div class="ps-2">
+                                    <p class="text-xs text-uppercase text-secondary font-weight-bold mb-1 opacity-7">Login Count</p>
+                                    <h4 class="font-weight-bolder mb-2" style="font-size: 2rem; line-height: 1;">
+                                        <?php echo isset($login_count) ? intval($login_count) : '—'; ?>
+                                    </h4>
+                                    <p class="text-sm mb-0 text-secondary" style="line-height: 1.4;">
+                                        <i class="far fa-clock me-1 text-info"></i>
+                                        <span class="font-weight-normal">Last login:</span>
+                                    </p>
+                                    <p class="text-sm mb-0 font-weight-bold" style="line-height: 1.2;">
+                                        <?php echo isset($last_login) && $last_login ? $last_login : '—'; ?>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -491,7 +524,7 @@
 
     <!-- Modal: Login Activity Monitor (Admin Only) -->
     <div class="modal fade" id="loginActivityModal" tabindex="-1" aria-labelledby="loginActivityModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="loginActivityModalLabel">
@@ -524,15 +557,15 @@
 
                     <!-- Summary View (All Roles) -->
                     <div id="summaryView" style="display:none;">
-                        <h6 class="mb-3">Login Summary by Role</h6>
+                        <h6 class="mb-3" style="font-size: 0.95rem;">Login Summary by Role</h6>
                         <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
+                            <table class="table table-hover table-sm">
+                                <thead class="table-light">
                                     <tr>
-                                        <th>Role</th>
-                                        <th>Total Users</th>
-                                        <th>Total Logins</th>
-                                        <th>Latest Login</th>
+                                        <th style="width: 35%;">Role</th>
+                                        <th style="width: 18%;" class="text-center">Users</th>
+                                        <th style="width: 18%;" class="text-center">Logins</th>
+                                        <th style="width: 29%;">Latest</th>
                                     </tr>
                                 </thead>
                                 <tbody id="summaryTableBody">
@@ -544,16 +577,16 @@
 
                     <!-- Detail View (Specific Role) -->
                     <div id="detailView" style="display:none;">
-                        <h6 class="mb-3">Users in <span id="selectedRoleName" class="text-primary"></span> Role</h6>
+                        <h6 class="mb-3" style="font-size: 0.95rem;">Users in <span id="selectedRoleName" class="text-primary"></span> Role</h6>
                         <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
+                            <table class="table table-hover table-sm">
+                                <thead class="table-light">
                                     <tr>
-                                        <th>#</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Login Count</th>
-                                        <th>Last Login</th>
+                                        <th style="width: 8%;" class="text-center">#</th>
+                                        <th style="width: 28%;">Name</th>
+                                        <th style="width: 32%;">Email</th>
+                                        <th style="width: 12%;" class="text-center">Count</th>
+                                        <th style="width: 20%;">Last Login</th>
                                     </tr>
                                 </thead>
                                 <tbody id="detailTableBody">
@@ -577,6 +610,44 @@
     </div>
 
 </main>
+
+<!-- Global Styles for Login Count Card (All Roles) -->
+<style>
+/* Login Count Card - Professional Layout */
+.login-count-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.login-count-card:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.login-count-card .icon-shape {
+    transition: transform 0.2s ease !important;
+}
+
+.login-count-card:hover .icon-shape {
+    transform: scale(1.05) !important;
+}
+
+/* Badge styling for better alignment */
+.login-count-card .badge {
+    white-space: nowrap;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .login-count-card .col-auto {
+        margin-bottom: 0.5rem;
+    }
+    
+    .login-count-card h4 {
+        font-size: 1.5rem !important;
+    }
+}
+</style>
 
 <?php if (isset($user_role) && strtolower($user_role) === 'admin'): ?>
 <script>
@@ -647,11 +718,12 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             summary.forEach(item => {
                 const row = document.createElement('tr');
+                const formattedDate = formatDateTime(item.latest_login);
                 row.innerHTML = `
-                    <td><strong>${escapeHtml(item.role || 'N/A')}</strong></td>
-                    <td>${item.total_users || 0}</td>
-                    <td><span class="badge bg-primary">${item.total_logins || 0}</span></td>
-                    <td>${item.latest_login || 'Never'}</td>
+                    <td><strong style="font-size: 0.85rem;">${escapeHtml(item.role || 'N/A')}</strong></td>
+                    <td class="text-center">${item.total_users || 0}</td>
+                    <td class="text-center"><span class="badge bg-primary">${item.total_logins || 0}</span></td>
+                    <td><small>${formattedDate}</small></td>
                 `;
                 tbody.appendChild(row);
             });
@@ -670,18 +742,38 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             users.forEach((user, index) => {
                 const row = document.createElement('tr');
+                const formattedDate = formatDateTime(user.last_login);
                 row.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td>${escapeHtml(user.name || 'N/A')}</td>
-                    <td>${escapeHtml(user.email || 'N/A')}</td>
-                    <td><span class="badge bg-info">${user.login_count || 0}</span></td>
-                    <td>${user.last_login || 'Never'}</td>
+                    <td class="text-center">${index + 1}</td>
+                    <td style="font-size: 0.85rem;">${escapeHtml(user.name || 'N/A')}</td>
+                    <td><small>${escapeHtml(user.email || 'N/A')}</small></td>
+                    <td class="text-center"><span class="badge bg-info">${user.login_count || 0}</span></td>
+                    <td><small>${formattedDate}</small></td>
                 `;
                 tbody.appendChild(row);
             });
         }
 
         detailView.style.display = 'block';
+    }
+
+    function formatDateTime(dateTimeString) {
+        if (!dateTimeString || dateTimeString === 'Never') {
+            return 'Never';
+        }
+        
+        try {
+            // Format: 2025-11-03 07:29:03 -> 03/11 07:29
+            const parts = dateTimeString.split(' ');
+            if (parts.length === 2) {
+                const datePart = parts[0].split('-');
+                const timePart = parts[1].substring(0, 5); // Get HH:MM only
+                return `${datePart[2]}/${datePart[1]} ${timePart}`;
+            }
+            return dateTimeString;
+        } catch (e) {
+            return dateTimeString;
+        }
     }
 
     function showError(message) {
@@ -696,4 +788,179 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
+
+<style>
+/* Responsive Modal for Login Activity Monitor */
+#loginActivityModal .modal-dialog {
+    max-width: 700px;
+    width: 90%;
+    margin: 1.75rem auto;
+}
+
+#loginActivityModal .modal-content {
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+#loginActivityModal .modal-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    padding: 1rem 1.25rem;
+}
+
+#loginActivityModal .modal-header h5 {
+    font-size: 1.1rem;
+    margin: 0;
+    color: #344767;
+}
+
+#loginActivityModal .modal-body {
+    padding: 1.25rem;
+}
+
+/* Responsive breakpoints for different screen sizes */
+@media (min-width: 1400px) {
+    #loginActivityModal .modal-dialog {
+        max-width: 800px;
+    }
+}
+
+@media (max-width: 1366px) {
+    /* Common laptop resolution */
+    #loginActivityModal .modal-dialog {
+        max-width: 650px;
+        width: 85%;
+    }
+}
+
+@media (max-width: 1200px) {
+    #loginActivityModal .modal-dialog {
+        max-width: 600px;
+        width: 85%;
+    }
+}
+
+@media (max-width: 992px) {
+    #loginActivityModal .modal-dialog {
+        max-width: 90%;
+        width: 90%;
+        margin: 1rem auto;
+    }
+    
+    #loginActivityModal .table {
+        font-size: 0.875rem;
+    }
+    
+    #loginActivityModal .modal-body {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    #loginActivityModal .modal-dialog {
+        max-width: 95%;
+        width: 95%;
+        margin: 0.5rem auto;
+    }
+    
+    #loginActivityModal .table {
+        font-size: 0.813rem;
+    }
+    
+    #loginActivityModal .modal-body {
+        padding: 0.75rem;
+    }
+    
+    #loginActivityModal .table th,
+    #loginActivityModal .table td {
+        padding: 0.4rem;
+    }
+}
+
+@media (max-width: 576px) {
+    #loginActivityModal .modal-dialog {
+        max-width: 98%;
+        width: 98%;
+        margin: 0.25rem auto;
+    }
+    
+    #loginActivityModal .table {
+        font-size: 0.75rem;
+    }
+    
+    #loginActivityModal .modal-header h5 {
+        font-size: 0.95rem;
+    }
+    
+    #loginActivityModal .modal-body {
+        padding: 0.5rem;
+    }
+    
+    #loginActivityModal .badge {
+        font-size: 0.7rem;
+        padding: 0.25em 0.4em;
+    }
+}
+
+/* Ensure table is always responsive */
+#loginActivityModal .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 0;
+}
+
+/* Better table styling */
+#loginActivityModal .table {
+    margin-bottom: 0;
+    font-size: 0.875rem;
+}
+
+#loginActivityModal .table th {
+    border-top: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.65rem;
+    letter-spacing: 0.5px;
+    padding: 0.5rem;
+}
+
+#loginActivityModal .table td {
+    vertical-align: middle;
+    padding: 0.5rem;
+}
+
+#loginActivityModal .table-light {
+    background-color: #f6f9fc;
+}
+
+/* Small text improvements */
+#loginActivityModal small {
+    font-size: 0.875em;
+    color: #67748e;
+}
+
+/* Loading spinner centering */
+#loadingSpinner {
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Form select styling */
+#loginActivityModal .form-select {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+}
+
+#loginActivityModal .form-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+</style>
 <?php endif; ?>
