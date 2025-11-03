@@ -34,7 +34,7 @@
                             <input type="date" class="form-control" name="TANGGAL_PENGADUAN" value="<?= htmlentities($pengaduan['TANGGAL_PENGADUAN']); ?>" required>
                         </div>
 
-                        <!-- 🟩 Tanggal Proses (disembunyikan default) -->
+                        <!-- 🟩 Tanggal Proses -->
                         <div class="col-md-4" id="tanggalProsesContainer" style="display:none;">
                             <label class="form-label">Tanggal Proses</label>
                             <input type="date" class="form-control" name="TANGGAL_PROSES" value="<?= htmlentities($pengaduan['TANGGAL_PROSES'] ?? ''); ?>">
@@ -172,7 +172,8 @@
                 catatanContainer.style.display = "none";
                 fotoProsesContainer.style.display = "block";
             } else if (statusSelect.value === "Selesai") {
-                tanggalProsesContainer.style.display = "none";
+                // 🟩 Perubahan: Tanggal Proses tetap tampil
+                tanggalProsesContainer.style.display = "block";
                 tindakLanjutContainer.style.display = "none";
                 catatanContainer.style.display = "block";
                 fotoProsesContainer.style.display = "none";
