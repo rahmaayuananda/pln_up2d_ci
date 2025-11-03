@@ -79,5 +79,43 @@ class User_model extends CI_Model {
 
         return $updated;
     }
+
+    /**
+     * Get all users with their login statistics, optionally filtered by role
+     * 
+     * @param string|null $role Filter by specific role (e.g., 'perencanaan', 'admin')
+     * @return array List of users with id, name, email, role, login_count, last_login
+     */
+    public function get_users_login_stats($role = null)
+    {
+        $this->db->select('id, name, email, role, login_count, last_login');
+        $this->db->from($this->table);
+        
+        if ($role !== null) {
+            $this->db->where('role', $role);
+        }
+        
+        $this->db->order_by('login_count', 'DESC');
+        $query = $this->db->get();
+        
+        return $query->result_array();
+    }
+
+    /**
+     * Get login statistics summary by role
+     * Returns total users and total logins per role
+     * 
+     * @return array Summary of login stats grouped by role
+     */
+    public function get_login_stats_by_role()
+    {
+        $this->db->select('role, COUNT(*) as total_users, SUM(login_count) as total_logins, MAX(last_login) as latest_login');
+        $this->db->from($this->table);
+        $this->db->group_by('role');
+        $this->db->order_by('total_logins', 'DESC');
+        
+        $query = $this->db->get();
+        return $query->result_array();
+    }
 }
 
