@@ -81,6 +81,7 @@
           </a>
         </li>
 
+  <?php if ($role !== 'k3l & kam'): ?>
         <!-- Asset -->
         <li class="nav-item">
           <a href="#menuAsset"
@@ -206,8 +207,9 @@
             } catch (e) { console && console.error && console.error(e); }
           });
         </script>
+  <?php endif; ?>
 
-  <?php if ($role !== 'operasi sistem distribusi'): ?>
+  <?php if ($role !== 'operasi sistem distribusi' && $role !== 'k3l & kam'): ?>
         <!-- Pengaduan -->
         <li class="nav-item">
           <a class="nav-link <?= ($this->uri->segment(1) == 'pengaduan') ? 'active' : '' ?>"
@@ -308,7 +310,7 @@
           </ul>
         </div>
 
-  <?php if ($role !== 'perencanaan' && $role !== 'pemeliharaan' && $role !== 'fasilitas operasi'): ?>
+  <?php if ($role !== 'perencanaan' && $role !== 'pemeliharaan' && $role !== 'fasilitas operasi' && $role !== 'k3l & kam'): ?>
   <!-- Operasi -->
   <li class="nav-item">
           <a href="#menuOperasi"
@@ -356,7 +358,7 @@
   </div>
   <?php endif; ?>
 
-  <?php if ($role !== 'perencanaan' && $role !== 'pemeliharaan' && $role !== 'operasi sistem distribusi' && $role !== 'fasilitas operasi'): ?>
+  <?php if ($role !== 'perencanaan' && $role !== 'pemeliharaan' && $role !== 'operasi sistem distribusi' && $role !== 'fasilitas operasi' && $role !== 'k3l & kam'): ?>
   <!-- Anggaran -->
         <li class="nav-item">
           <a href="#menuAnggaran"

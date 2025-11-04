@@ -73,6 +73,15 @@ if (!function_exists('can_create')) {
             return in_array(strtolower($module), $allowed);
         }
 
+        // K3L & KAM: Hanya bisa CRUD di Pustaka
+        if (strtolower($role) === 'k3l & kam') {
+            if ($module === null) {
+                $module = $CI->router->fetch_class();
+            }
+            $allowed = ['sop', 'bpm', 'ik', 'road_map', 'spln']; // Pustaka modules only
+            return in_array(strtolower($module), $allowed);
+        }
+
         // Role lain bisa create (kecuali yang spesifik di-restrict nanti)
         return true;
     }
@@ -145,6 +154,15 @@ if (!function_exists('can_edit')) {
             return in_array(strtolower($module), $allowed);
         }
 
+        // K3L & KAM: Hanya bisa CRUD di Pustaka
+        if (strtolower($role) === 'k3l & kam') {
+            if ($module === null) {
+                $module = $CI->router->fetch_class();
+            }
+            $allowed = ['sop', 'bpm', 'ik', 'road_map', 'spln']; // Pustaka modules only
+            return in_array(strtolower($module), $allowed);
+        }
+
         // Role lain bisa edit (kecuali yang spesifik di-restrict nanti)
         return true;
     }
@@ -214,6 +232,15 @@ if (!function_exists('can_delete')) {
                        'pembangkit', 'kit_cell', 'pemutus', // Asset modules
                        'sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
                        'pengaduan']; // Pengaduan module
+            return in_array(strtolower($module), $allowed);
+        }
+
+        // K3L & KAM: Hanya bisa CRUD di Pustaka
+        if (strtolower($role) === 'k3l & kam') {
+            if ($module === null) {
+                $module = $CI->router->fetch_class();
+            }
+            $allowed = ['sop', 'bpm', 'ik', 'road_map', 'spln']; // Pustaka modules only
             return in_array(strtolower($module), $allowed);
         }
 
