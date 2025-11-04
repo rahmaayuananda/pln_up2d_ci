@@ -10,8 +10,9 @@ if (!function_exists('can_create')) {
     /**
      * Cek apakah user bisa create data
      * @return bool
+     * @param string $module Optional - nama module untuk cek permission spesifik
      */
-    function can_create()
+    function can_create($module = null)
     {
         $CI = &get_instance();
         $role = $CI->session->userdata('user_role');
@@ -27,6 +28,15 @@ if (!function_exists('can_create')) {
             return true;
         }
 
+        // UP3: Hanya bisa CRUD di module Pengaduan
+        if (strtolower($role) === 'up3') {
+            // Jika tidak ada module parameter, cek dari current controller
+            if ($module === null) {
+                $module = $CI->router->fetch_class();
+            }
+            return strtolower($module) === 'pengaduan';
+        }
+
         // Role lain bisa create (kecuali yang spesifik di-restrict nanti)
         return true;
     }
@@ -36,8 +46,9 @@ if (!function_exists('can_edit')) {
     /**
      * Cek apakah user bisa edit data
      * @return bool
+     * @param string $module Optional - nama module untuk cek permission spesifik
      */
-    function can_edit()
+    function can_edit($module = null)
     {
         $CI = &get_instance();
         $role = $CI->session->userdata('user_role');
@@ -53,6 +64,15 @@ if (!function_exists('can_edit')) {
             return true;
         }
 
+        // UP3: Hanya bisa CRUD di module Pengaduan
+        if (strtolower($role) === 'up3') {
+            // Jika tidak ada module parameter, cek dari current controller
+            if ($module === null) {
+                $module = $CI->router->fetch_class();
+            }
+            return strtolower($module) === 'pengaduan';
+        }
+
         // Role lain bisa edit (kecuali yang spesifik di-restrict nanti)
         return true;
     }
@@ -62,8 +82,9 @@ if (!function_exists('can_delete')) {
     /**
      * Cek apakah user bisa delete data
      * @return bool
+     * @param string $module Optional - nama module untuk cek permission spesifik
      */
-    function can_delete()
+    function can_delete($module = null)
     {
         $CI = &get_instance();
         $role = $CI->session->userdata('user_role');
@@ -77,6 +98,15 @@ if (!function_exists('can_delete')) {
         // Admin bisa semua
         if (strtolower($role) === 'admin' || strtolower($role) === 'administrator') {
             return true;
+        }
+
+        // UP3: Hanya bisa CRUD di module Pengaduan
+        if (strtolower($role) === 'up3') {
+            // Jika tidak ada module parameter, cek dari current controller
+            if ($module === null) {
+                $module = $CI->router->fetch_class();
+            }
+            return strtolower($module) === 'pengaduan';
         }
 
         // Role lain bisa delete (kecuali yang spesifik di-restrict nanti)
