@@ -83,6 +83,12 @@ class Gardu_induk extends CI_Controller
     // =======================
     public function tambah()
     {
+        // Check permission
+        if (!can_create()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menambah data');
+            redirect('Gardu_induk');
+        }
+
         $data['judul'] = 'Tambah Data Gardu Induk';
 
         if ($this->input->post()) {
@@ -167,6 +173,12 @@ class Gardu_induk extends CI_Controller
     // =======================
     public function hapus($id)
     {
+        // Check permission
+        if (!can_delete()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menghapus data');
+            redirect('Gardu_induk');
+        }
+
         $gardu = $this->garduModel->get_gardu_induk_by_id($id);
         if (!$gardu) {
             show_404();
@@ -218,6 +230,12 @@ class Gardu_induk extends CI_Controller
     // =======================
     public function edit($id)
     {
+        // Check permission
+        if (!can_edit()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk mengubah data');
+            redirect('Gardu_induk');
+        }
+
         $data['judul'] = 'Edit Data Gardu Induk';
         $data['gardu_induk'] = $this->garduModel->get_gardu_induk_by_id($id);
 
@@ -272,6 +290,12 @@ class Gardu_induk extends CI_Controller
 
     public function update()
     {
+        // Check permission
+        if (!can_edit()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk mengubah data');
+            redirect('Gardu_induk');
+        }
+
     // Determine submitted identifier(s)
     $submittedId = $this->input->post('SSOTNUMBER') ? $this->input->post('SSOTNUMBER') : $this->input->post('ID_GI');
     // Use the original SSOTNUMBER (hidden field) for WHERE so changing SSOTNUMBER is supported

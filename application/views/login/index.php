@@ -81,6 +81,12 @@
             <button type="submit" class="btn btn-primary w-100">Masuk</button>
           <?= form_close(); ?>
 
+          <!-- Guest Access -->
+          <div class="text-center mt-3">
+            <a href="<?= base_url('login/guest_login'); ?>" class="text-sm text-secondary">
+              <i class="ni ni-single-02 me-1"></i>Lihat sebagai Tamu
+            </a>
+          </div>
           
         </div>
       </div>

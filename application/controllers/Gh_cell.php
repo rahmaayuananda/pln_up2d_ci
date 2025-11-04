@@ -87,6 +87,11 @@ class Gh_cell extends CI_Controller
     // Tambah data baru
     public function tambah()
     {
+        if (!can_create()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menambah data');
+            redirect($this->router->fetch_class());
+        }
+
         if ($this->input->post()) {
             $insertData = [
                 'SSOTNUMBER' => $this->input->post('SSOTNUMBER'),
@@ -118,6 +123,11 @@ class Gh_cell extends CI_Controller
     // Edit data
     public function edit($id)
     {
+        if (!can_edit()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk mengubah data');
+            redirect($this->router->fetch_class());
+        }
+
         $data['gh_cell'] = $this->Gh_cell_model->get_gh_cell_by_id($id);
         if (empty($data['gh_cell'])) {
             show_404();
@@ -206,6 +216,11 @@ class Gh_cell extends CI_Controller
     // Hapus data
     public function hapus($id)
     {
+        if (!can_delete()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menghapus data');
+            redirect($this->router->fetch_class());
+        }
+
         $this->Gh_cell_model->delete_gh_cell($id);
         $this->session->set_flashdata('success', 'Data GH Cell berhasil dihapus!');
         redirect('Gh_cell');

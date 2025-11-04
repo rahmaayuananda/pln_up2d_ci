@@ -86,6 +86,10 @@ class Gardu_hubung extends CI_Controller
 
     public function tambah()
     {
+        if (!can_create()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menambah data');
+            redirect('Gardu_hubung');
+        }
         if ($this->input->post()) {
             $insertData = [
                 'SSOTNUMBER_GH'  => $this->input->post('SSOTNUMBER_GH'),
@@ -116,6 +120,10 @@ class Gardu_hubung extends CI_Controller
 
     public function edit($id)
     {
+        if (!can_edit()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk mengubah data');
+            redirect('Gardu_hubung');
+        }
         $data['gardu_hubung'] = $this->Gardu_hubung_model->get_gardu_hubung_by_id($id);
         if (empty($data['gardu_hubung'])) { show_404(); }
 
@@ -196,6 +204,10 @@ class Gardu_hubung extends CI_Controller
 
     public function hapus($id)
     {
+        if (!can_delete()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menghapus data');
+            redirect('Gardu_hubung');
+        }
         $this->Gardu_hubung_model->delete_gardu_hubung($id);
         $this->session->set_flashdata('success', 'Data Gardu Hubung berhasil dihapus!');
         redirect('Gardu_hubung');

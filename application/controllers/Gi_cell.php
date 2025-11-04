@@ -89,6 +89,10 @@ class Gi_cell extends CI_Controller
     // Tambah data baru
     public function tambah()
     {
+        if (!can_create()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menambah data');
+            redirect('Gi_cell');
+        }
         if ($this->input->post()) {
             $insertData = [
                 // Accept SSOTNUMBER from form; fallback to legacy field name if present
@@ -124,7 +128,11 @@ class Gi_cell extends CI_Controller
     // Edit data
     public function edit($id)
     {
-    $data['gi_cell'] = $this->gi_cell_model->get_gi_cell_by_id($id);
+        if (!can_edit()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk mengubah data');
+            redirect('Gi_cell');
+        }
+        $data['giCell'] = $this->giCellModel->get_gi_cell_by_id($id);
         if (empty($data['gi_cell'])) {
             show_404();
         }
@@ -219,6 +227,10 @@ class Gi_cell extends CI_Controller
     // Hapus data
     public function hapus($id)
     {
+        if (!can_delete()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menghapus data');
+            redirect('Gi_cell');
+        }
     $this->gi_cell_model->delete_gi_cell($id);
         $this->session->set_flashdata('success', 'Data GI Cell berhasil dihapus!');
         redirect('Gi_cell');

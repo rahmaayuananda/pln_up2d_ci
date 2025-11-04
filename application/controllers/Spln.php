@@ -59,6 +59,11 @@ class Spln extends CI_Controller
     // =======================
     public function tambah()
     {
+        if (!can_create()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menambah data');
+            redirect($this->router->fetch_class());
+        }
+
         $data['judul'] = 'Tambah SPLN';
 
         if (!$this->input->post()) {
@@ -112,6 +117,11 @@ class Spln extends CI_Controller
     // =======================
     public function edit($id)
     {
+        if (!can_edit()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk mengubah data');
+            redirect($this->router->fetch_class());
+        }
+
         $data['judul'] = 'Edit SPLN';
         $data['spln'] = $this->splnModel->get_spln_by_id($id);
 
@@ -169,6 +179,11 @@ class Spln extends CI_Controller
     // =======================
     public function hapus($id)
     {
+        if (!can_delete()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menghapus data');
+            redirect($this->router->fetch_class());
+        }
+
         $spln = $this->splnModel->get_spln_by_id($id);
         if (!$spln) {
             show_404();

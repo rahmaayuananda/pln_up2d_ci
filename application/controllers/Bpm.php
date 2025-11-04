@@ -58,6 +58,11 @@ class Bpm extends CI_Controller
     // =======================
     public function tambah()
     {
+        if (!can_create()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menambah data');
+            redirect($this->router->fetch_class());
+        }
+
         $data['judul'] = 'Tambah BPM';
 
         if (!$this->input->post()) {
@@ -111,6 +116,11 @@ class Bpm extends CI_Controller
     // =======================
     public function edit($id)
     {
+        if (!can_edit()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk mengubah data');
+            redirect($this->router->fetch_class());
+        }
+
         $data['judul'] = 'Edit BPM';
         $data['bpm'] = $this->bpmModel->get_bpm_by_id($id);
 
@@ -166,6 +176,11 @@ class Bpm extends CI_Controller
     // =======================
     public function hapus($id)
     {
+        if (!can_delete()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menghapus data');
+            redirect($this->router->fetch_class());
+        }
+
         $bpm = $this->bpmModel->get_bpm_by_id($id);
         if (!$bpm) {
             show_404();

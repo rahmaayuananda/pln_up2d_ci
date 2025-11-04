@@ -88,6 +88,21 @@ class Login extends CI_Controller {
         return redirect('login');
     }
 
+    // GET /login/guest_login
+    public function guest_login()
+    {
+        // Set session as Guest user
+        $this->session->set_userdata([
+            'user_email' => 'guest@pln.local',
+            'user_id'    => null,
+            'user_role'  => 'Guest',
+            'logged_in'  => TRUE,
+            'is_guest'   => TRUE, // flag khusus untuk Guest
+        ]);
+        
+        redirect('dashboard');
+    }
+
     // GET /logout
     public function logout()
     {

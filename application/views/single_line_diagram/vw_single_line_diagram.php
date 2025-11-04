@@ -66,11 +66,13 @@
                     </div>
 
                     <div class="d-flex align-items-center gap-3">
+                        <?php if (can_create()): ?>
                         <div>
                             <a href="<?= base_url('single_line_diagram/tambah') ?>" class="btn btn-sm btn-light text-primary">
                                 <i class="fas fa-plus me-1"></i> Tambah
                             </a>
                         </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -144,16 +146,20 @@
                                                 </a>
                                             <?php endif; ?>
 
+                                            <?php if (can_edit()): ?>
                                             <a href="<?= base_url('single_line_diagram/edit/' . $row['ID_SLD']); ?>"
                                                 class="btn btn-warning btn-xs text-white me-1" title="Edit">
                                                 <i class="fas fa-pen"></i>
                                             </a>
+                                            <?php endif; ?>
 
+                                            <?php if (can_delete()): ?>
                                             <a href="javascript:void(0);"
                                                 onclick="confirmDelete('<?= base_url('single_line_diagram/hapus/' . $row['ID_SLD']); ?>')"
                                                 class="btn btn-danger btn-xs" title="Hapus">
                                                 <i class="fas fa-trash"></i>
                                             </a>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

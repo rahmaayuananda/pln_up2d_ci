@@ -59,9 +59,11 @@
                 class="card-header py-2 d-flex justify-content-between align-items-center bg-gradient-primary text-white rounded-top-4">
                 <h6 class="mb-0">Tabel Data Road Map</h6>
                 <div class="d-flex align-items-center">
+                    <?php if (can_create()): ?>
                     <a href="<?= base_url('Road_map/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
                         <i class="fas fa-plus me-1"></i> Tambah
                     </a>
+                    <?php endif; ?>
                 </div>
             </div>
 
@@ -116,17 +118,21 @@
                                                 </a>
                                             <?php endif; ?>
 
+                                            <?php if (can_edit()): ?>
                                             <!-- Tombol Edit -->
                                             <a href="<?= base_url('Road_map/edit/' . ($row['ID_ROADMAP'] ?? '')); ?>"
                                                 class="btn btn-warning btn-xs text-white me-1" title="Edit">
                                                 <i class="fas fa-pen"></i>
                                             </a>
+                                            <?php endif; ?>
+                                            <?php if (can_delete()): ?>
                                             <!-- Tombol Hapus -->
                                             <a href="javascript:void(0);"
                                                 onclick="confirmDelete('<?= base_url('Road_map/hapus/' . ($row['ID_ROADMAP'] ?? '')); ?>')"
                                                 class="btn btn-danger btn-xs" title="Hapus">
                                                 <i class="fas fa-trash"></i>
                                             </a>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

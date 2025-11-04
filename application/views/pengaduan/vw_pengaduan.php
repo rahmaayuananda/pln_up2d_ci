@@ -59,9 +59,11 @@
                 class="card-header py-2 d-flex justify-content-between align-items-center bg-gradient-primary text-white rounded-top-4">
                 <h6 class="mb-0">Tabel Data Pengaduan</h6>
                 <div class="d-flex align-items-center">
+                    <?php if (can_create()): ?>
                     <a href="<?= base_url('Pengaduan/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
                         <i class="fas fa-plus me-1"></i> Tambah
                     </a>
+                    <?php endif; ?>
                 </div>
             </div>
 
@@ -111,12 +113,16 @@
                                             <a href="<?= base_url('Pengaduan/detail/' . ($row['ID_PENGADUAN'] ?? '')); ?>" class="btn btn-info btn-xs text-white me-1" title="Detail">
                                                 <i class="fas fa-info-circle"></i>
                                             </a>
+                                            <?php if (can_edit()): ?>
                                             <a href="<?= base_url('Pengaduan/edit/' . ($row['ID_PENGADUAN'] ?? '')); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
                                                 <i class="fas fa-pen"></i>
                                             </a>
+                                            <?php endif; ?>
+                                            <?php if (can_delete()): ?>
                                             <a href="javascript:void(0);" onclick="confirmDelete('<?= base_url('Pengaduan/hapus/' . ($row['ID_PENGADUAN'] ?? '')); ?>')" class="btn btn-danger btn-xs" title="Hapus">
                                                 <i class="fas fa-trash"></i>
                                             </a>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

@@ -79,6 +79,11 @@ class Pembangkit extends CI_Controller
     // Tambah data baru
     public function tambah()
     {
+        if (!can_create()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menambah data');
+            redirect($this->router->fetch_class());
+        }
+
         if ($this->input->post()) {
             $insertData = [
                 'UNIT_LAYANAN'   => $this->input->post('UNIT_LAYANAN'),
@@ -112,6 +117,11 @@ class Pembangkit extends CI_Controller
     // Edit data pembangkit
     public function edit($id)
     {
+        if (!can_edit()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk mengubah data');
+            redirect($this->router->fetch_class());
+        }
+
         $data['pembangkit'] = $this->Pembangkit_model->get_pembangkit_by_id($id);
         if (empty($data['pembangkit'])) {
             show_404();
@@ -164,6 +174,11 @@ class Pembangkit extends CI_Controller
     // Hapus data pembangkit
     public function hapus($id)
     {
+        if (!can_delete()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menghapus data');
+            redirect($this->router->fetch_class());
+        }
+
         $this->Pembangkit_model->delete_pembangkit($id);
         $this->session->set_flashdata('success', 'Data pembangkit berhasil dihapus!');
         redirect('Pembangkit');

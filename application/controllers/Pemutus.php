@@ -87,6 +87,11 @@ class Pemutus extends CI_Controller
     // 🔹 Tambah data baru
     public function tambah()
     {
+        if (!can_create()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menambah data');
+            redirect($this->router->fetch_class());
+        }
+
         if ($this->input->post()) {
             $insertData = [
                 'SSOTNUMBER' => $this->input->post('SSOTNUMBER'),
@@ -113,6 +118,11 @@ class Pemutus extends CI_Controller
     // 🔹 Edit data
     public function edit($ssotnumber)
     {
+        if (!can_edit()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk mengubah data');
+            redirect($this->router->fetch_class());
+        }
+
     $data['pemutus'] = $this->pemutus_model->get_pemutus_by_id($ssotnumber);
         if (empty($data['pemutus'])) {
             show_404();
@@ -223,6 +233,11 @@ class Pemutus extends CI_Controller
     // 🔹 Hapus data
     public function hapus($ssotnumber)
     {
+        if (!can_delete()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menghapus data');
+            redirect($this->router->fetch_class());
+        }
+
     $this->pemutus_model->delete_pemutus($ssotnumber);
         $this->session->set_flashdata('success', 'Data Pemutus berhasil dihapus!');
         redirect('Pemutus');

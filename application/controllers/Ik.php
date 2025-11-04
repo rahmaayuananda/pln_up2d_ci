@@ -58,6 +58,11 @@ class Ik extends CI_Controller
     // ==========================
     public function tambah()
     {
+        if (!can_create()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menambah data');
+            redirect($this->router->fetch_class());
+        }
+
         $data['judul'] = 'Tambah IK';
 
         if (!$this->input->post()) {
@@ -111,6 +116,11 @@ class Ik extends CI_Controller
     // ==========================
     public function edit($id)
     {
+        if (!can_edit()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk mengubah data');
+            redirect($this->router->fetch_class());
+        }
+
         $data['judul'] = 'Edit IK';
         $data['ik'] = $this->ikModel->get_ik_by_id($id);
 
@@ -166,6 +176,11 @@ class Ik extends CI_Controller
     // ==========================
     public function hapus($id)
     {
+        if (!can_delete()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menghapus data');
+            redirect($this->router->fetch_class());
+        }
+
         $ik = $this->ikModel->get_ik_by_id($id);
         if (!$ik) {
             show_404();

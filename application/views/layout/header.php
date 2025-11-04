@@ -81,7 +81,6 @@
           </a>
         </li>
 
-        <?php if ($role !== 'perencanaan'): ?>
         <!-- Asset -->
         <li class="nav-item">
           <a href="#menuAsset"
@@ -183,7 +182,6 @@
             </li>
           </ul>
         </div>
-  <?php endif; ?>
 
   <script>
           document.addEventListener('DOMContentLoaded', function() {
@@ -221,7 +219,6 @@
           </a>
         </li>
 
-  <?php if ($role !== 'perencanaan'): ?>
   <!-- Pustaka -->
   <li class="nav-item">
           <a href="#menuPustaka"
@@ -308,7 +305,6 @@
             </li>
           </ul>
         </div>
-        <?php endif; ?>
 
   <?php if ($role !== 'perencanaan'): ?>
   <!-- Operasi -->

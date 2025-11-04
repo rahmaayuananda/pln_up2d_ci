@@ -63,6 +63,11 @@ class Single_Line_Diagram extends CI_Controller
     // =======================
     public function tambah()
     {
+        if (!can_create()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menambah data');
+            redirect($this->router->fetch_class());
+        }
+
         $data['judul'] = 'Tambah Single Line Diagram';
     $this->load->model('Unit_model', 'unitModel');
     $data['unit'] = $this->unitModel->get_all_units(); // use existing model method
@@ -120,6 +125,11 @@ class Single_Line_Diagram extends CI_Controller
     // =======================
     public function edit($id)
     {
+        if (!can_edit()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk mengubah data');
+            redirect($this->router->fetch_class());
+        }
+
         $data['judul'] = 'Edit Single Line Diagram';
         $data['sld'] = $this->sldModel->get_sld_by_id($id);
 
@@ -181,6 +191,11 @@ class Single_Line_Diagram extends CI_Controller
     // =======================
     public function hapus($id)
     {
+        if (!can_delete()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menghapus data');
+            redirect($this->router->fetch_class());
+        }
+
         $sld = $this->sldModel->get_sld_by_id($id);
         if (!$sld) {
             show_404();

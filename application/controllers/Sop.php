@@ -59,6 +59,11 @@ class Sop extends CI_Controller
     // =======================
     public function tambah()
     {
+        if (!can_create()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menambah data');
+            redirect($this->router->fetch_class());
+        }
+
         $data['judul'] = 'Tambah SOP';
 
         // Hanya tampilkan form tambah jika belum ada post
@@ -117,6 +122,11 @@ class Sop extends CI_Controller
     // =======================
     public function edit($id)
     {
+        if (!can_edit()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk mengubah data');
+            redirect($this->router->fetch_class());
+        }
+
         $data['judul'] = 'Edit SOP';
         $data['sop'] = $this->sopModel->get_sop_by_id($id);
 
@@ -174,6 +184,11 @@ class Sop extends CI_Controller
     // =======================
     public function hapus($id)
     {
+        if (!can_delete()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menghapus data');
+            redirect($this->router->fetch_class());
+        }
+
         $sop = $this->sopModel->get_sop_by_id($id);
         if (!$sop) {
             show_404();

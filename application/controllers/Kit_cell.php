@@ -89,6 +89,11 @@ class Kit_cell extends CI_Controller
     // 🔹 Tambah data baru
     public function tambah()
     {
+        if (!can_create()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menambah data');
+            redirect($this->router->fetch_class());
+        }
+
         if ($this->input->post()) {
             // Normalisasi dan validasi FK ID_PEMBANGKIT
             $id_pembangkit = trim((string)$this->input->post('ID_PEMBANGKIT'));
@@ -136,6 +141,11 @@ class Kit_cell extends CI_Controller
     // 🔹 Edit data
     public function edit($id)
     {
+        if (!can_edit()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk mengubah data');
+            redirect($this->router->fetch_class());
+        }
+
     $data['kit_cell'] = $this->kit_cell_model->get_kit_cell_by_id($id);
         if (empty($data['kit_cell'])) {
             show_404();
@@ -237,6 +247,11 @@ class Kit_cell extends CI_Controller
     // 🔹 Hapus data
     public function hapus($id)
     {
+        if (!can_delete()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menghapus data');
+            redirect($this->router->fetch_class());
+        }
+
     $this->kit_cell_model->delete_kit_cell($id);
         $this->session->set_flashdata('success', 'Data KIT Cell berhasil dihapus!');
         redirect('Kit_cell');
