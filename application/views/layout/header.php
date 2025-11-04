@@ -207,6 +207,7 @@
           });
         </script>
 
+  <?php if ($role !== 'operasi sistem distribusi'): ?>
         <!-- Pengaduan -->
         <li class="nav-item">
           <a class="nav-link <?= ($this->uri->segment(1) == 'pengaduan') ? 'active' : '' ?>"
@@ -218,6 +219,7 @@
             <span class="nav-link-text ms-1">Pengaduan</span>
           </a>
         </li>
+  <?php endif; ?>
 
   <!-- Pustaka -->
   <li class="nav-item">
@@ -354,7 +356,7 @@
   </div>
   <?php endif; ?>
 
-  <?php if ($role !== 'perencanaan' && $role !== 'pemeliharaan'): ?>
+  <?php if ($role !== 'perencanaan' && $role !== 'pemeliharaan' && $role !== 'operasi sistem distribusi'): ?>
   <!-- Anggaran -->
         <li class="nav-item">
           <a href="#menuAnggaran"
