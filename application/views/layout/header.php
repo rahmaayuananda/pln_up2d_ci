@@ -306,7 +306,7 @@
           </ul>
         </div>
 
-  <?php if ($role !== 'perencanaan'): ?>
+  <?php if ($role !== 'perencanaan' && $role !== 'pemeliharaan'): ?>
   <!-- Operasi -->
   <li class="nav-item">
           <a href="#menuOperasi"
@@ -354,7 +354,7 @@
   </div>
   <?php endif; ?>
 
-  <?php if ($role !== 'perencanaan'): ?>
+  <?php if ($role !== 'perencanaan' && $role !== 'pemeliharaan'): ?>
   <!-- Anggaran -->
         <li class="nav-item">
           <a href="#menuAnggaran"

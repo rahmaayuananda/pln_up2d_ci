@@ -37,6 +37,18 @@ if (!function_exists('can_create')) {
             return strtolower($module) === 'pengaduan';
         }
 
+        // Pemeliharaan: Bisa CRUD di Asset, Pustaka, dan Pengaduan
+        if (strtolower($role) === 'pemeliharaan') {
+            if ($module === null) {
+                $module = $CI->router->fetch_class();
+            }
+            $allowed = ['unit', 'gardu_induk', 'gi_cell', 'gardu_hubung', 'gh_cell', 
+                       'pembangkit', 'kit_cell', 'pemutus', // Asset modules
+                       'sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
+                       'pengaduan']; // Pengaduan module
+            return in_array(strtolower($module), $allowed);
+        }
+
         // Role lain bisa create (kecuali yang spesifik di-restrict nanti)
         return true;
     }
@@ -73,6 +85,18 @@ if (!function_exists('can_edit')) {
             return strtolower($module) === 'pengaduan';
         }
 
+        // Pemeliharaan: Bisa CRUD di Asset, Pustaka, dan Pengaduan
+        if (strtolower($role) === 'pemeliharaan') {
+            if ($module === null) {
+                $module = $CI->router->fetch_class();
+            }
+            $allowed = ['unit', 'gardu_induk', 'gi_cell', 'gardu_hubung', 'gh_cell', 
+                       'pembangkit', 'kit_cell', 'pemutus', // Asset modules
+                       'sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
+                       'pengaduan']; // Pengaduan module
+            return in_array(strtolower($module), $allowed);
+        }
+
         // Role lain bisa edit (kecuali yang spesifik di-restrict nanti)
         return true;
     }
@@ -107,6 +131,18 @@ if (!function_exists('can_delete')) {
                 $module = $CI->router->fetch_class();
             }
             return strtolower($module) === 'pengaduan';
+        }
+
+        // Pemeliharaan: Bisa CRUD di Asset, Pustaka, dan Pengaduan
+        if (strtolower($role) === 'pemeliharaan') {
+            if ($module === null) {
+                $module = $CI->router->fetch_class();
+            }
+            $allowed = ['unit', 'gardu_induk', 'gi_cell', 'gardu_hubung', 'gh_cell', 
+                       'pembangkit', 'kit_cell', 'pemutus', // Asset modules
+                       'sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
+                       'pengaduan']; // Pengaduan module
+            return in_array(strtolower($module), $allowed);
         }
 
         // Role lain bisa delete (kecuali yang spesifik di-restrict nanti)
