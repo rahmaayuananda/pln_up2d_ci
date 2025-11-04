@@ -139,7 +139,13 @@ class Unit extends CI_Controller
                 'ADDRESS' => $this->input->post('ADDRESS')
             ];
 
-            $this->Unit_model->insert_unit($insertData);
+            $insert_id = $this->Unit_model->insert_unit($insertData);
+            
+            // Log aktivitas create
+            if ($insert_id) {
+                log_create('unit', $insert_id, $insertData['UNIT_PELAKSANA']);
+            }
+            
             $this->session->set_flashdata('success', 'Data Unit berhasil ditambahkan!');
             redirect('Unit');
         } else {
@@ -173,7 +179,13 @@ class Unit extends CI_Controller
                 'ADDRESS' => $this->input->post('ADDRESS')
             ];
 
-            $this->Unit_model->update_unit($id, $updateData);
+            $update_success = $this->Unit_model->update_unit($id, $updateData);
+            
+            // Log aktivitas update
+            if ($update_success) {
+                log_update('unit', $id, $updateData['UNIT_PELAKSANA']);
+            }
+            
             $this->session->set_flashdata('success', 'Data Unit berhasil diperbarui!');
             redirect('Unit');
         } else {
@@ -207,7 +219,17 @@ class Unit extends CI_Controller
             redirect('Unit');
         }
 
-        $this->Unit_model->delete_unit($id);
+        // Get data before delete for logging
+        $unit = $this->Unit_model->get_unit_by_id($id);
+        $unit_name = $unit ? ($unit['UNIT_PELAKSANA'] ?? 'ID-' . $id) : 'ID-' . $id;
+        
+        $delete_success = $this->Unit_model->delete_unit($id);
+        
+        // Log aktivitas delete
+        if ($delete_success) {
+            log_delete('unit', $id, $unit_name);
+        }
+        
         $this->session->set_flashdata('success', 'Data Unit berhasil dihapus!');
         redirect('Unit');
     }

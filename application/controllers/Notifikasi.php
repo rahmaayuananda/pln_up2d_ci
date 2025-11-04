@@ -7,15 +7,21 @@ class Notifikasi extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Notifikasi_model', 'notifModel');
-        $this->load->helper(['url', 'form']);
+        $this->load->helper(['url', 'form', 'authorization']);
         $this->load->library('session');
+
+        // Check if user is logged in
+        if (!$this->session->userdata('logged_in')) {
+            redirect('login');
+        }
     }
 
     // Tampilkan daftar notifikasi
     public function index()
     {
-        $data['judul'] = 'Notifikasi';
-        $data['notifikasi'] = $this->notifModel->get_all_notifications();
+        $data['judul'] = 'Notifikasi Aktivitas';
+        $data['notifikasi'] = $this->notifModel->get_all();
+        $data['unread_count'] = $this->notifModel->count_unread();
 
         $this->load->view('layout/header', $data);
         $this->load->view('notifikasi/vw_notifikasi', $data);
@@ -25,15 +31,42 @@ class Notifikasi extends CI_Controller
     // Tandai satu notifikasi sebagai sudah dibaca
     public function mark_read($id = null)
     {
-        if (!$id) redirect('Notifikasi');
+        if (!$id) {
+            redirect('Notifikasi');
+        }
 
-        $this->notifModel->update_notification($id, [
-            'IS_READ' => 1,
-            'READ_AT' => date('Y-m-d H:i:s')
-        ]);
-
+        $this->notifModel->mark_read($id);
         $this->session->set_flashdata('success', 'Notifikasi ditandai sudah dibaca');
         redirect('Notifikasi');
+    }
+
+    // Tandai notifikasi sebagai sudah dibaca dan redirect ke URL target
+    public function read($id = null)
+    {
+        if (!$id) {
+            redirect('Notifikasi');
+        }
+
+        // Get notifikasi detail
+        $notif = $this->notifModel->get_all();
+        $target_notif = null;
+        foreach ($notif as $n) {
+            if ($n['id'] == $id) {
+                $target_notif = $n;
+                break;
+            }
+        }
+
+        // Mark as read
+        $this->notifModel->mark_read($id);
+
+        // Redirect ke URL target jika ada module dan record_id
+        if ($target_notif && !empty($target_notif['module']) && !empty($target_notif['record_id']) && $target_notif['jenis_aktivitas'] != 'delete') {
+            redirect($target_notif['module'] . '/edit/' . $target_notif['record_id']);
+        } else {
+            // Jika tidak ada target, kembali ke notifikasi
+            redirect('Notifikasi');
+        }
     }
 
     // Tandai semua notifikasi sebagai sudah dibaca
@@ -44,31 +77,38 @@ class Notifikasi extends CI_Controller
         redirect('Notifikasi');
     }
 
-    // Tambah notifikasi (bisa dipanggil via form POST)
-    public function create()
+    // AJAX: Get latest notifications
+    public function get_latest()
     {
-        if (!$this->input->post()) {
-            redirect('Notifikasi');
-        }
+        $latest = $this->notifModel->get_latest(10);
+        $unread_count = $this->notifModel->count_unread();
 
-        $data = [
-            'TITLE' => $this->input->post('TITLE', true),
-            'MESSAGE' => $this->input->post('MESSAGE', true),
-            'LINK' => $this->input->post('LINK', true),
-            'IS_READ' => 0,
-            'CREATED_AT' => date('Y-m-d H:i:s')
-        ];
-
-        $this->notifModel->insert_notification($data);
-        $this->session->set_flashdata('success', 'Notifikasi berhasil ditambahkan');
-        redirect('Notifikasi');
+        header('Content-Type: application/json');
+        echo json_encode([
+            'latest' => $latest,
+            'unread_count' => (int)$unread_count
+        ]);
     }
 
-    // Endpoint ajax untuk mendapatkan jumlah notifikasi belum dibaca
+    // AJAX: Get unread count only
     public function ajax_unread_count()
     {
         $count = $this->notifModel->get_unread_count();
         header('Content-Type: application/json');
         echo json_encode(['unread' => (int)$count]);
+    }
+
+    // Cleanup old notifications (bisa dipanggil via cron)
+    public function cleanup($days = 30)
+    {
+        // Only admin can cleanup
+        $role = $this->session->userdata('role');
+        if (strtolower($role) !== 'admin') {
+            show_error('Unauthorized', 403);
+        }
+
+        $this->notifModel->delete_old($days);
+        $this->session->set_flashdata('success', "Notifikasi lebih dari {$days} hari berhasil dihapus");
+        redirect('Notifikasi');
     }
 }

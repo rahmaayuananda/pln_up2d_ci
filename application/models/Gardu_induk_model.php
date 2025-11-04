@@ -28,7 +28,8 @@ class Gardu_induk_model extends CI_Model
 
     public function insert_gardu_induk($data)
     {
-        return $this->db->insert($this->table, $data);
+        $this->db->insert($this->table, $data);
+        return $this->db->insert_id();
     }
 
     public function update_gardu_induk($ssotnumber, $data)

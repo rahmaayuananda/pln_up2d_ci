@@ -53,14 +53,20 @@ class Login extends CI_Controller {
             // store useful user data in session
             $this->session->set_userdata([
                 'user_email' => $user['email'],
+                'email'      => $user['email'], // untuk activity logger
                 'user_id'    => $user['id'],
                 'user_role'  => isset($user['role']) ? $user['role'] : null,
+                'role'       => isset($user['role']) ? $user['role'] : null, // untuk activity logger
                 'logged_in'  => TRUE,
             ]);
             // record successful login (increments login_count and updates last_login if columns exist)
             if (isset($user['id'])) {
                 $this->User_model->record_login($user['id']);
             }
+            
+            // Log aktivitas login
+            log_login();
+            
             return redirect('dashboard');
         }
 
@@ -70,7 +76,9 @@ class Login extends CI_Controller {
             $devUser = $this->User_model->find_by_email($email);
             $sess = [
                 'user_email' => $email,
+                'email'      => $email,
                 'user_role'  => 'Administrator',
+                'role'       => 'Administrator',
                 'logged_in'  => TRUE,
             ];
             if ($devUser && isset($devUser['id'])) {
@@ -81,6 +89,10 @@ class Login extends CI_Controller {
             if (!empty($devUser['id'])) {
                 $this->User_model->record_login($devUser['id']);
             }
+            
+            // Log aktivitas login
+            log_login();
+            
             return redirect('dashboard');
         }
 
@@ -94,11 +106,16 @@ class Login extends CI_Controller {
         // Set session as Guest user
         $this->session->set_userdata([
             'user_email' => 'guest@pln.local',
+            'email'      => 'guest@pln.local',
             'user_id'    => null,
             'user_role'  => 'Guest',
+            'role'       => 'Guest',
             'logged_in'  => TRUE,
             'is_guest'   => TRUE, // flag khusus untuk Guest
         ]);
+        
+        // Log aktivitas login guest
+        log_login();
         
         redirect('dashboard');
     }
@@ -106,6 +123,9 @@ class Login extends CI_Controller {
     // GET /logout
     public function logout()
     {
+        // Log aktivitas logout sebelum destroy session
+        log_logout();
+        
         $this->session->sess_destroy();
         redirect('login');
     }

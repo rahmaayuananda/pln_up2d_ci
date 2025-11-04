@@ -114,7 +114,13 @@ class Gardu_induk extends CI_Controller
                 'THN_INTEGRASI'  => $this->input->post('THN_INTEGRASI'),
             ];
 
-            $this->garduModel->insert_gardu_induk($dataInput);
+            $insert_id = $this->garduModel->insert_gardu_induk($dataInput);
+            
+            // Log aktivitas
+            if ($insert_id) {
+                log_create('gardu_induk', $insert_id, $dataInput['GARDU_INDUK']);
+            }
+            
             $this->session->set_flashdata('success', 'Data berhasil ditambahkan');
             redirect('gardu_induk');
         }
@@ -184,7 +190,14 @@ class Gardu_induk extends CI_Controller
             show_404();
         }
 
-        $this->garduModel->delete_gardu_induk($id);
+        $gardu_name = $gardu['GARDU_INDUK'] ?? 'ID-' . $id;
+        $delete_success = $this->garduModel->delete_gardu_induk($id);
+        
+        // Log aktivitas
+        if ($delete_success) {
+            log_delete('gardu_induk', $id, $gardu_name);
+        }
+        
         $this->session->set_flashdata('success', 'Data berhasil dihapus');
         redirect('gardu_induk');
     }
@@ -278,7 +291,13 @@ class Gardu_induk extends CI_Controller
                 'THN_INTEGRASI'  => $this->input->post('THN_INTEGRASI'),
             ];
 
-            $this->garduModel->update_gardu_induk($id, $dataUpdate);
+            $update_success = $this->garduModel->update_gardu_induk($id, $dataUpdate);
+            
+            // Log aktivitas
+            if ($update_success) {
+                log_update('gardu_induk', $id, $dataUpdate['GARDU_INDUK']);
+            }
+            
             $this->session->set_flashdata('success', 'Data berhasil diperbarui');
             redirect('gardu_induk');
         }

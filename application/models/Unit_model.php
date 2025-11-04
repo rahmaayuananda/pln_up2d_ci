@@ -28,6 +28,7 @@ class Unit_model extends CI_Model
     public function insert_unit($data)
     {
         $this->db->insert($this->table, $data);
+        return $this->db->insert_id();
     }
 
     // Update data
