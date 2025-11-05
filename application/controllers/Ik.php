@@ -18,12 +18,19 @@ class Ik extends CI_Controller
     {
         $data['judul'] = 'Data IK';
 
-        // Konfigurasi pagination
+        // Konfigurasi pagination dengan pilihan per-page dari query string
+        $allowedPerPage = [5, 10, 25, 50, 100, 500];
+        $requestedPer = (int) $this->input->get('per_page');
+    $defaultPer = 5;
+        $per_page = in_array($requestedPer, $allowedPerPage) ? $requestedPer : $defaultPer;
+
         $config['base_url'] = site_url('ik/index');
         $config['total_rows'] = $this->ikModel->count_all_ik();
-        $config['per_page'] = 10;
+        $config['per_page'] = $per_page;
         $config['uri_segment'] = 3;
         $config['use_page_numbers'] = TRUE;
+        // biarkan query string (per_page) dipertahankan pada link pagination
+        $config['reuse_query_string'] = TRUE;
 
         // Tampilan pagination
         $config['full_tag_open'] = '<nav><ul class="pagination justify-content-end">';
@@ -38,15 +45,19 @@ class Ik extends CI_Controller
         $config['num_tag_close'] = '</li>';
         $config['attributes'] = array('class' => 'page-link');
 
-        $page_segment = $this->uri->segment(3);
-        $page = (is_numeric($page_segment) && $page_segment > 0) ? (int)$page_segment : 1;
-        $offset = ($page - 1) * $config['per_page'];
+
+    $page_segment = $this->uri->segment(3);
+    $page = (is_numeric($page_segment) && $page_segment > 0) ? (int)$page_segment : 1;
+    $offset = ($page - 1) * $config['per_page'];
 
         $this->pagination->initialize($config);
 
-        $data['ik'] = $this->ikModel->get_ik($config['per_page'], $offset);
-        $data['pagination'] = $this->pagination->create_links();
-        $data['start_no'] = $offset + 1;
+
+    $data['ik'] = $this->ikModel->get_ik($config['per_page'], $offset);
+    $data['pagination'] = $this->pagination->create_links();
+    $data['start_no'] = $offset + 1;
+    $data['per_page'] = $per_page;
+    $data['total_rows'] = $config['total_rows'];
 
         $this->load->view('layout/header', $data);
         $this->load->view('ik/vw_ik', $data);
