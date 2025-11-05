@@ -66,11 +66,13 @@
                     </div>
 
                     <div class="d-flex align-items-center gap-3">
+                        <?php if (can_create()): ?>
                         <div>
                             <a href="<?= base_url('single_line_diagram/tambah') ?>" class="btn btn-sm btn-light text-primary">
                                 <i class="fas fa-plus me-1"></i> Tambah
                             </a>
                         </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -81,17 +83,19 @@
                 <div class="px-3 py-2 mb-2 bg-white rounded-3 d-flex align-items-center justify-content-between" style="border:1px solid #eef3f6;">
                     <div class="d-flex align-items-center">
                         <label class="mb-0 me-2 fw-bold" style="color:#324a5f;">Tampilkan:</label>
-                        <select id="perPageSelectTop" class="form-select form-select-sm" style="width:90px;">
-                            <?php $options = [5,10,25,50,100]; $currentPer = $this->input->get('per_page') ? (int)$this->input->get('per_page') : 5; ?>
-                            <?php foreach ($options as $opt): ?>
-                                <option value="<?= $opt ?>" <?= ($opt == $currentPer) ? 'selected' : '' ?>><?= $opt ?></option>
-                            <?php endforeach; ?>
+                        <select id="perPageSelectTop" class="form-select form-select-sm" style="width:80px; padding-right: 2rem;" onchange="changePerPageSld(this.value)">
+                            <option value="5" <?= (isset($per_page) && $per_page == 5) ? 'selected' : ''; ?>>5</option>
+                            <option value="10" <?= (isset($per_page) && $per_page == 10) ? 'selected' : ''; ?>>10</option>
+                            <option value="25" <?= (isset($per_page) && $per_page == 25) ? 'selected' : ''; ?>>25</option>
+                            <option value="50" <?= (isset($per_page) && $per_page == 50) ? 'selected' : ''; ?>>50</option>
+                            <option value="100" <?= (isset($per_page) && $per_page == 100) ? 'selected' : ''; ?>>100</option>
+                            <option value="500" <?= (isset($per_page) && $per_page == 500) ? 'selected' : ''; ?>>500</option>
                         </select>
                         <div class="ms-3" style="color:#324a5f; opacity:0.85;">dari <?= $total_rows ?? count($sld) ?> data</div>
                     </div>
 
-                    <div style="min-width:300px; max-width:640px;">
-                        <input type="text" id="searchInput" onkeyup="searchTable()" class="form-control form-control-sm rounded-3" placeholder="Cari GI atau Penyulang...">
+                    <div style="min-width:240px; max-width:640px;">
+                        <input type="text" id="searchInputSLD" onkeyup="searchTableSld()" class="form-control form-control-sm rounded-3" placeholder="Cari GI atau Penyulang...">
                     </div>
                 </div>
 
@@ -115,7 +119,7 @@
                                     </td>
                                 </tr>
                             <?php else: ?>
-                                <?php $no = $start_no;
+                                <?php $no = isset($start_no) ? $start_no : 1;
                                 foreach ($sld as $row): ?>
                                     <tr class="<?= ($no % 2 == 0) ? 'table-row-even' : 'table-row-odd'; ?>">
                                         <td class="text-sm"><?= $no++; ?></td>
@@ -144,16 +148,20 @@
                                                 </a>
                                             <?php endif; ?>
 
+                                            <?php if (can_edit()): ?>
                                             <a href="<?= base_url('single_line_diagram/edit/' . $row['ID_SLD']); ?>"
                                                 class="btn btn-warning btn-xs text-white me-1" title="Edit">
                                                 <i class="fas fa-pen"></i>
                                             </a>
+                                            <?php endif; ?>
 
+                                            <?php if (can_delete()): ?>
                                             <a href="javascript:void(0);"
                                                 onclick="confirmDelete('<?= base_url('single_line_diagram/hapus/' . $row['ID_SLD']); ?>')"
                                                 class="btn btn-danger btn-xs" title="Hapus">
                                                 <i class="fas fa-trash"></i>
                                             </a>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -194,9 +202,8 @@
         });
     }
 
-    function searchTable() {
-        const inputTop = document.getElementById('searchInputTop') || document.getElementById('searchInput');
-        const input = inputTop.value.toLowerCase();
+    function searchTableSld() {
+        const input = document.getElementById('searchInputSLD').value.toLowerCase();
         const rows = document.querySelectorAll('#sldTable tbody tr');
         rows.forEach(row => {
             const text = row.innerText.toLowerCase();
@@ -204,14 +211,13 @@
         });
     }
 
-    // per-page selector at top
-    document.getElementById('perPageSelectTop').addEventListener('change', function() {
-        const per = this.value;
+    function changePerPageSld(perPage) {
         const url = new URL(window.location.href);
-        url.searchParams.set('per_page', per);
-        url.searchParams.set('page', 1);
+        url.searchParams.set('per_page', perPage);
+        // when pagination uses query-string offsets, set page to 0 (start)
+        url.searchParams.set('page', 0);
         window.location.href = url.toString();
-    });
+    }
 </script>
 
 <style>

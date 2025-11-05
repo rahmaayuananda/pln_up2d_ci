@@ -89,6 +89,11 @@ class Kit_cell extends CI_Controller
     // 🔹 Tambah data baru
     public function tambah()
     {
+        if (!can_create()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menambah data');
+            redirect($this->router->fetch_class());
+        }
+
         if ($this->input->post()) {
             // Only use the 34 valid database columns from kit_cell table
             $insertData = [
@@ -216,6 +221,11 @@ class Kit_cell extends CI_Controller
     // 🔹 Hapus data
     public function hapus($id)
     {
+        if (!can_delete()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menghapus data');
+            redirect($this->router->fetch_class());
+        }
+
     $this->kit_cell_model->delete_kit_cell($id);
         $this->session->set_flashdata('success', 'Data KIT Cell berhasil dihapus!');
         redirect('Kit_cell');

@@ -18,12 +18,18 @@ class Bpm extends CI_Controller
     {
         $data['judul'] = 'Data BPM';
 
-        // Konfigurasi pagination
-        $config['base_url'] = site_url('bpm/index');
-        $config['total_rows'] = $this->bpmModel->count_all_bpm();
-        $config['per_page'] = 10;
-        $config['uri_segment'] = 3;
-        $config['use_page_numbers'] = TRUE;
+    // Konfigurasi pagination dengan pilihan per-page dari query string
+    $allowedPerPage = [5, 10, 25, 50, 100, 500];
+    $requestedPer = (int) $this->input->get('per_page');
+    $defaultPer = 5;
+    $per_page = in_array($requestedPer, $allowedPerPage) ? $requestedPer : $defaultPer;
+
+    $config['base_url'] = site_url('bpm/index');
+    $config['total_rows'] = $this->bpmModel->count_all_bpm();
+    $config['per_page'] = $per_page;
+    $config['uri_segment'] = 3;
+    $config['use_page_numbers'] = TRUE;
+    $config['reuse_query_string'] = TRUE;
 
         // Tampilan pagination
         $config['full_tag_open'] = '<nav><ul class="pagination justify-content-end">';
@@ -44,9 +50,11 @@ class Bpm extends CI_Controller
 
         $this->pagination->initialize($config);
 
-        $data['bpm'] = $this->bpmModel->get_bpm($config['per_page'], $offset);
-        $data['pagination'] = $this->pagination->create_links();
-        $data['start_no'] = $offset + 1;
+    $data['bpm'] = $this->bpmModel->get_bpm($config['per_page'], $offset);
+    $data['pagination'] = $this->pagination->create_links();
+    $data['start_no'] = $offset + 1;
+    $data['per_page'] = $per_page;
+    $data['total_rows'] = $config['total_rows'];
 
         $this->load->view('layout/header', $data);
         $this->load->view('bpm/vw_bpm', $data);
@@ -58,6 +66,11 @@ class Bpm extends CI_Controller
     // =======================
     public function tambah()
     {
+        if (!can_create()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menambah data');
+            redirect($this->router->fetch_class());
+        }
+
         $data['judul'] = 'Tambah BPM';
 
         if (!$this->input->post()) {
@@ -111,6 +124,11 @@ class Bpm extends CI_Controller
     // =======================
     public function edit($id)
     {
+        if (!can_edit()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk mengubah data');
+            redirect($this->router->fetch_class());
+        }
+
         $data['judul'] = 'Edit BPM';
         $data['bpm'] = $this->bpmModel->get_bpm_by_id($id);
 
@@ -166,6 +184,11 @@ class Bpm extends CI_Controller
     // =======================
     public function hapus($id)
     {
+        if (!can_delete()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menghapus data');
+            redirect($this->router->fetch_class());
+        }
+
         $bpm = $this->bpmModel->get_bpm_by_id($id);
         if (!$bpm) {
             show_404();

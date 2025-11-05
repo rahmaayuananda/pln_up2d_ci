@@ -81,7 +81,7 @@
           </a>
         </li>
 
-        <?php if ($role !== 'perencanaan'): ?>
+  <?php if ($role !== 'k3l & kam'): ?>
         <!-- Asset -->
         <li class="nav-item">
           <a href="#menuAsset"
@@ -183,7 +183,6 @@
             </li>
           </ul>
         </div>
-  <?php endif; ?>
 
   <script>
           document.addEventListener('DOMContentLoaded', function() {
@@ -208,7 +207,9 @@
             } catch (e) { console && console.error && console.error(e); }
           });
         </script>
+  <?php endif; ?>
 
+  <?php if ($role !== 'operasi sistem distribusi' && $role !== 'k3l & kam'): ?>
         <!-- Pengaduan -->
         <li class="nav-item">
           <a class="nav-link <?= ($this->uri->segment(1) == 'pengaduan') ? 'active' : '' ?>"
@@ -220,8 +221,8 @@
             <span class="nav-link-text ms-1">Pengaduan</span>
           </a>
         </li>
+  <?php endif; ?>
 
-  <?php if ($role !== 'perencanaan'): ?>
   <!-- Pustaka -->
   <li class="nav-item">
           <a href="#menuPustaka"
@@ -308,9 +309,8 @@
             </li>
           </ul>
         </div>
-        <?php endif; ?>
 
-  <?php if ($role !== 'perencanaan'): ?>
+  <?php if ($role !== 'perencanaan' && $role !== 'pemeliharaan' && $role !== 'fasilitas operasi' && $role !== 'k3l & kam'): ?>
   <!-- Operasi -->
   <li class="nav-item">
           <a href="#menuOperasi"
@@ -358,7 +358,7 @@
   </div>
   <?php endif; ?>
 
-  <?php if ($role !== 'perencanaan'): ?>
+  <?php if ($role !== 'perencanaan' && $role !== 'pemeliharaan' && $role !== 'operasi sistem distribusi' && $role !== 'fasilitas operasi' && $role !== 'k3l & kam'): ?>
   <!-- Anggaran -->
         <li class="nav-item">
           <a href="#menuAnggaran"

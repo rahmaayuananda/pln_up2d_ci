@@ -124,6 +124,12 @@ class Unit extends CI_Controller
     // Tambah data baru
     public function tambah()
     {
+        // Check permission
+        if (!can_create()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menambah data');
+            redirect('Unit');
+        }
+
         if ($this->input->post()) {
             $insertData = [
                 'UNIT_PELAKSANA' => $this->input->post('UNIT_PELAKSANA'),
@@ -133,7 +139,13 @@ class Unit extends CI_Controller
                 'ADDRESS' => $this->input->post('ADDRESS')
             ];
 
-            $this->Unit_model->insert_unit($insertData);
+            $insert_id = $this->Unit_model->insert_unit($insertData);
+            
+            // Log aktivitas create
+            if ($insert_id) {
+                log_create('unit', $insert_id, $insertData['UNIT_PELAKSANA']);
+            }
+            
             $this->session->set_flashdata('success', 'Data Unit berhasil ditambahkan!');
             redirect('Unit');
         } else {
@@ -147,6 +159,12 @@ class Unit extends CI_Controller
     // Edit data
     public function edit($id)
     {
+        // Check permission
+        if (!can_edit()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk mengubah data');
+            redirect('Unit');
+        }
+
         $data['unit'] = $this->Unit_model->get_unit_by_id($id);
         if (empty($data['unit'])) {
             show_404();
@@ -161,7 +179,13 @@ class Unit extends CI_Controller
                 'ADDRESS' => $this->input->post('ADDRESS')
             ];
 
-            $this->Unit_model->update_unit($id, $updateData);
+            $update_success = $this->Unit_model->update_unit($id, $updateData);
+            
+            // Log aktivitas update
+            if ($update_success) {
+                log_update('unit', $id, $updateData['UNIT_PELAKSANA']);
+            }
+            
             $this->session->set_flashdata('success', 'Data Unit berhasil diperbarui!');
             redirect('Unit');
         } else {
@@ -189,7 +213,23 @@ class Unit extends CI_Controller
     // Hapus data
     public function hapus($id)
     {
-        $this->Unit_model->delete_unit($id);
+        // Check permission
+        if (!can_delete()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menghapus data');
+            redirect('Unit');
+        }
+
+        // Get data before delete for logging
+        $unit = $this->Unit_model->get_unit_by_id($id);
+        $unit_name = $unit ? ($unit['UNIT_PELAKSANA'] ?? 'ID-' . $id) : 'ID-' . $id;
+        
+        $delete_success = $this->Unit_model->delete_unit($id);
+        
+        // Log aktivitas delete
+        if ($delete_success) {
+            log_delete('unit', $id, $unit_name);
+        }
+        
         $this->session->set_flashdata('success', 'Data Unit berhasil dihapus!');
         redirect('Unit');
     }

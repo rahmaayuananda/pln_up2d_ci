@@ -59,15 +59,32 @@
                 class="card-header py-2 d-flex justify-content-between align-items-center bg-gradient-primary text-white rounded-top-4">
                 <h6 class="mb-0">Tabel Data Pengaduan</h6>
                 <div class="d-flex align-items-center">
+                    <?php if (can_create()): ?>
                     <a href="<?= base_url('Pengaduan/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
                         <i class="fas fa-plus me-1"></i> Tambah
                     </a>
+                    <?php endif; ?>
                 </div>
             </div>
 
             <div class="card-body px-0 pt-0 pb-2 bg-white">
-                <div class="px-3 mt-3 mb-3">
-                    <input type="text" id="searchInputPengaduan" onkeyup="searchTablePengaduan()" class="form-control form-control-sm rounded-3" placeholder="Cari data pengaduan...">
+                <div class="px-3 mt-3 mb-3 d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <label class="mb-0 me-2 text-sm">Tampilkan:</label>
+                        <select id="perPageSelectPengaduan" class="form-select form-select-sm" style="width: 80px; padding-right: 2rem;" onchange="changePerPagePengaduan(this.value)">
+                            <option value="5" <?= (isset($per_page) && $per_page == 5) ? 'selected' : ''; ?>>5</option>
+                            <option value="10" <?= (isset($per_page) && $per_page == 10) ? 'selected' : ''; ?>>10</option>
+                            <option value="25" <?= (isset($per_page) && $per_page == 25) ? 'selected' : ''; ?>>25</option>
+                            <option value="50" <?= (isset($per_page) && $per_page == 50) ? 'selected' : ''; ?>>50</option>
+                            <option value="100" <?= (isset($per_page) && $per_page == 100) ? 'selected' : ''; ?>>100</option>
+                            <option value="500" <?= (isset($per_page) && $per_page == 500) ? 'selected' : ''; ?>>500</option>
+                        </select>
+                        <span class="ms-3 text-sm">dari <?= $total_rows ?? 0; ?> data</span>
+                    </div>
+
+                    <div style="min-width:240px;">
+                        <input type="text" id="searchInputPengaduan" onkeyup="searchTablePengaduan()" class="form-control form-control-sm rounded-3" placeholder="Cari data pengaduan...">
+                    </div>
                 </div>
 
                 <div class="table-responsive p-0">
@@ -91,7 +108,7 @@
                                     <td colspan="9" class="text-center text-secondary py-4">Belum ada data pengaduan</td>
                                 </tr>
                             <?php else: ?>
-                                <?php $no = 1;
+                                <?php $no = isset($start_no) ? $start_no : 1;
                                 foreach ($pengaduan as $row): ?>
                                     <tr class="<?= ($no % 2 == 0) ? 'table-row-even' : 'table-row-odd'; ?>">
                                         <td class="text-sm"><?= $no++; ?></td>
@@ -111,18 +128,26 @@
                                             <a href="<?= base_url('Pengaduan/detail/' . ($row['ID_PENGADUAN'] ?? '')); ?>" class="btn btn-info btn-xs text-white me-1" title="Detail">
                                                 <i class="fas fa-info-circle"></i>
                                             </a>
+                                            <?php if (can_edit()): ?>
                                             <a href="<?= base_url('Pengaduan/edit/' . ($row['ID_PENGADUAN'] ?? '')); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
                                                 <i class="fas fa-pen"></i>
                                             </a>
+                                            <?php endif; ?>
+                                            <?php if (can_delete()): ?>
                                             <a href="javascript:void(0);" onclick="confirmDelete('<?= base_url('Pengaduan/hapus/' . ($row['ID_PENGADUAN'] ?? '')); ?>')" class="btn btn-danger btn-xs" title="Hapus">
                                                 <i class="fas fa-trash"></i>
                                             </a>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </tbody>
                     </table>
+                </div>
+                <!-- pagination bawah (right) -->
+                <div class="px-3 mt-3 d-flex justify-content-end">
+                    <?= isset($pagination) ? $pagination : ''; ?>
                 </div>
             </div>
         </div>
@@ -156,6 +181,13 @@
             const text = row.innerText.toLowerCase();
             row.style.display = text.includes(input) ? '' : 'none';
         });
+    }
+
+    function changePerPagePengaduan(perPage) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('per_page', perPage);
+        url.searchParams.set('page', '0');
+        window.location.href = url.toString();
     }
 </script>
 

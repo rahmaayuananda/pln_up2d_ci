@@ -51,12 +51,14 @@
             <div class="card-header py-2 d-flex justify-content-between align-items-center bg-gradient-primary text-white rounded-top-4">
                 <h6 class="mb-0">Tabel Data Gardu Induk</h6>
                 <div class="d-flex align-items-center">
+                    <?php if (can_create()): ?>
                     <a href="<?= base_url('Gardu_induk/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
                         <i class="fas fa-plus me-1"></i> Tambah
                     </a>
                     <a href="<?= base_url('import/gi') ?>" class="btn btn-sm btn-light text-success">
                         <i class="fas fa-file-import me-1"></i> Import
                     </a>
+                    <?php endif; ?>
                     <a href="<?= base_url('Gardu_induk/export_csv') ?>" class="btn btn-sm btn-light text-secondary ms-2">
                         <i class="fas fa-file-csv me-1"></i> Download CSV
                     </a>
@@ -114,12 +116,16 @@
                                             <a href="<?= base_url('Gardu_induk/detail/' . urlencode($row['SSOTNUMBER'] ?? '')); ?>" class="btn btn-info btn-xs text-white me-1" title="Detail">
                                                 <i class="fas fa-info-circle"></i>
                                             </a>
+                                            <?php if (can_edit()): ?>
                                             <a href="<?= base_url('Gardu_induk/edit/' . urlencode($row['SSOTNUMBER'] ?? '')); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
                                                 <i class="fas fa-pen"></i>
                                             </a>
+                                            <?php endif; ?>
+                                            <?php if (can_delete()): ?>
                                             <a href="<?= base_url('Gardu_induk/hapus/' . urlencode($row['SSOTNUMBER'] ?? '')); ?>" class="btn btn-danger btn-xs btn-hapus" title="Hapus">
                                                 <i class="fas fa-trash"></i>
                                             </a>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

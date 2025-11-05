@@ -20,8 +20,13 @@ class Spln extends CI_Controller
 
         // Konfigurasi pagination
         $config['base_url'] = site_url('spln/index');
-        $config['total_rows'] = $this->splnModel->count_all_spln();
-        $config['per_page'] = 10;
+    $config['total_rows'] = $this->splnModel->count_all_spln();
+    // support per_page via query string (allowed values)
+    $allowedPer = [5,10,25,50,100,500];
+    $reqPer = (int) $this->input->get('per_page', TRUE);
+    $perPage = in_array($reqPer, $allowedPer) ? $reqPer : 5; // default 5
+    $config['per_page'] = $perPage;
+    $config['reuse_query_string'] = TRUE;
         $config['uri_segment'] = 3;
         $config['use_page_numbers'] = TRUE;
 
@@ -59,6 +64,11 @@ class Spln extends CI_Controller
     // =======================
     public function tambah()
     {
+        if (!can_create()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menambah data');
+            redirect($this->router->fetch_class());
+        }
+
         $data['judul'] = 'Tambah SPLN';
 
         if (!$this->input->post()) {
@@ -112,6 +122,11 @@ class Spln extends CI_Controller
     // =======================
     public function edit($id)
     {
+        if (!can_edit()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk mengubah data');
+            redirect($this->router->fetch_class());
+        }
+
         $data['judul'] = 'Edit SPLN';
         $data['spln'] = $this->splnModel->get_spln_by_id($id);
 
@@ -169,6 +184,11 @@ class Spln extends CI_Controller
     // =======================
     public function hapus($id)
     {
+        if (!can_delete()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menghapus data');
+            redirect($this->router->fetch_class());
+        }
+
         $spln = $this->splnModel->get_spln_by_id($id);
         if (!$spln) {
             show_404();

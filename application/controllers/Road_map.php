@@ -21,7 +21,12 @@ class Road_map extends CI_Controller
         // Konfigurasi pagination
         $config['base_url'] = site_url('road_map/index');
         $config['total_rows'] = $this->roadmapModel->count_all_roadmap();
-        $config['per_page'] = 10;
+        // support per_page from query string (allowed values)
+        $allowedPer = [5,10,25,50,100,500];
+        $reqPer = (int) $this->input->get('per_page', TRUE);
+        $perPage = in_array($reqPer, $allowedPer) ? $reqPer : 5; // default 5
+        $config['per_page'] = $perPage;
+        $config['reuse_query_string'] = TRUE;
         $config['uri_segment'] = 3;
         $config['use_page_numbers'] = TRUE;
 
@@ -40,13 +45,15 @@ class Road_map extends CI_Controller
 
         $page_segment = $this->uri->segment(3);
         $page = (is_numeric($page_segment) && $page_segment > 0) ? (int)$page_segment : 1;
-        $offset = ($page - 1) * $config['per_page'];
+    $offset = ($page - 1) * $config['per_page'];
 
         $this->pagination->initialize($config);
 
         $data['road_map'] = $this->roadmapModel->get_roadmap($config['per_page'], $offset);
         $data['pagination'] = $this->pagination->create_links();
         $data['start_no'] = $offset + 1;
+    $data['per_page'] = $perPage;
+    $data['total_rows'] = $config['total_rows'];
 
         $this->load->view('layout/header', $data);
         $this->load->view('road_map/vw_road_map', $data);
@@ -58,6 +65,11 @@ class Road_map extends CI_Controller
     // ==========================
     public function tambah()
     {
+        if (!can_create()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menambah data');
+            redirect($this->router->fetch_class());
+        }
+
         $data['judul'] = 'Tambah Road Map';
 
         if (!$this->input->post()) {
@@ -111,6 +123,11 @@ class Road_map extends CI_Controller
     // ==========================
     public function edit($id)
     {
+        if (!can_edit()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk mengubah data');
+            redirect($this->router->fetch_class());
+        }
+
         $data['judul'] = 'Edit Road Map';
         $data['road_map'] = $this->roadmapModel->get_roadmap_by_id($id);
 
@@ -166,6 +183,11 @@ class Road_map extends CI_Controller
     // ==========================
     public function hapus($id)
     {
+        if (!can_delete()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menghapus data');
+            redirect($this->router->fetch_class());
+        }
+
         $roadmap = $this->roadmapModel->get_roadmap_by_id($id);
         if (!$roadmap) {
             show_404();

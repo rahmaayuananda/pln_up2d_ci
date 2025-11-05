@@ -59,15 +59,32 @@
                 class="card-header py-2 d-flex justify-content-between align-items-center bg-gradient-primary text-white rounded-top-4">
                 <h6 class="mb-0">Tabel Data SPLN</h6>
                 <div class="d-flex align-items-center">
+                    <?php if (can_create()): ?>
                     <a href="<?= base_url('Spln/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
                         <i class="fas fa-plus me-1"></i> Tambah
                     </a>
+                    <?php endif; ?>
                 </div>
             </div>
 
             <div class="card-body px-0 pt-0 pb-2 bg-white">
-                <div class="px-3 mt-3 mb-3">
-                    <input type="text" id="searchInput" onkeyup="searchTable()" class="form-control form-control-sm rounded-3" placeholder="Cari SPLN...">
+                <div class="px-3 mt-3 mb-3 d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <label class="mb-0 me-2 text-sm">Tampilkan:</label>
+                        <select id="perPageSelectSpln" class="form-select form-select-sm" style="width: 80px; padding-right: 2rem;" onchange="changePerPageSpln(this.value)">
+                            <option value="5" <?= (isset($per_page) && $per_page == 5) ? 'selected' : ''; ?>>5</option>
+                            <option value="10" <?= (isset($per_page) && $per_page == 10) ? 'selected' : ''; ?>>10</option>
+                            <option value="25" <?= (isset($per_page) && $per_page == 25) ? 'selected' : ''; ?>>25</option>
+                            <option value="50" <?= (isset($per_page) && $per_page == 50) ? 'selected' : ''; ?>>50</option>
+                            <option value="100" <?= (isset($per_page) && $per_page == 100) ? 'selected' : ''; ?>>100</option>
+                            <option value="500" <?= (isset($per_page) && $per_page == 500) ? 'selected' : ''; ?>>500</option>
+                        </select>
+                        <span class="ms-3 text-sm">dari <?= $total_rows ?? 0; ?> data</span>
+                    </div>
+
+                    <div style="min-width:240px;">
+                        <input type="text" id="searchInputSpln" onkeyup="searchTable()" class="form-control form-control-sm rounded-3" placeholder="Cari SPLN...">
+                    </div>
                 </div>
 
                 <div class="table-responsive p-0">
@@ -75,9 +92,9 @@
                         <thead class="bg-light">
                             <tr>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama File</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Created By</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama Dokumen</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Created By</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama File</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Aksi</th>
                             </tr>
                         </thead>
@@ -87,7 +104,7 @@
                                     <td colspan="5" class="text-center text-secondary py-4">Belum ada data SPLN</td>
                                 </tr>
                             <?php else: ?>
-                                <?php $no = 1;
+                                <?php $no = isset($start_no) ? $start_no : 1;
                                 foreach ($spln as $row): ?>
                                     <tr class="<?= ($no % 2 == 0) ? 'table-row-even' : 'table-row-odd'; ?>">
                                         <td class="text-sm"><?= $no++; ?></td>
@@ -116,23 +133,31 @@
                                                 </a>
                                             <?php endif; ?>
 
+                                            <?php if (can_edit()): ?>
                                             <!-- Tombol Edit -->
                                             <a href="<?= base_url('Spln/edit/' . ($row['ID_SPLN'] ?? '')); ?>"
                                                 class="btn btn-warning btn-xs text-white me-1" title="Edit">
                                                 <i class="fas fa-pen"></i>
                                             </a>
+                                            <?php endif; ?>
+                                            <?php if (can_delete()): ?>
                                             <!-- Tombol Hapus -->
                                             <a href="javascript:void(0);"
                                                 onclick="confirmDelete('<?= base_url('Spln/hapus/' . ($row['ID_SPLN'] ?? '')); ?>')"
                                                 class="btn btn-danger btn-xs" title="Hapus">
                                                 <i class="fas fa-trash"></i>
                                             </a>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </tbody>
                     </table>
+                </div>
+                <!-- pagination bawah (right) -->
+                <div class="px-3 mt-3 d-flex justify-content-end">
+                    <?= isset($pagination) ? $pagination : ''; ?>
                 </div>
             </div>
         </div>
@@ -160,12 +185,19 @@
     }
 
     function searchTable() {
-        const input = document.getElementById('searchInput').value.toLowerCase();
+        const input = document.getElementById('searchInputSpln').value.toLowerCase();
         const rows = document.querySelectorAll('#splnTable tbody tr');
         rows.forEach(row => {
             const text = row.innerText.toLowerCase();
             row.style.display = text.includes(input) ? '' : 'none';
         });
+    }
+
+    function changePerPageSpln(perPage) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('per_page', perPage);
+        url.searchParams.set('page', '1');
+        window.location.href = url.toString();
     }
 </script>
 
@@ -215,7 +247,7 @@
         transform: translateY(10px);
     }
 
-    input#searchInput {
+    input#searchInputSpln {
         max-width: 1100px;
     }
 </style>

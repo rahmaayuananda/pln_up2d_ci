@@ -66,6 +66,11 @@ class Pengaduan extends CI_Controller
     // 🔹 Tambah Data Pengaduan
     public function tambah()
     {
+        if (!can_create()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menambah data');
+            redirect($this->router->fetch_class());
+        }
+
         $data['judul'] = 'Tambah Pengaduan';
         $this->_set_rules();
 
@@ -116,6 +121,11 @@ class Pengaduan extends CI_Controller
     // 🔹 Edit Pengaduan
     public function edit($id)
     {
+        if (!can_edit()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk mengubah data');
+            redirect($this->router->fetch_class());
+        }
+
         $data['judul'] = 'Edit Pengaduan';
         $data['pengaduan'] = $this->Pengaduan_model->get_pengaduan_by_id($id);
 
@@ -157,6 +167,11 @@ class Pengaduan extends CI_Controller
     // 🔹 Hapus Pengaduan
     public function hapus($id)
     {
+        if (!can_delete()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menghapus data');
+            redirect($this->router->fetch_class());
+        }
+
         $pengaduan = $this->Pengaduan_model->get_pengaduan_by_id($id);
 
         if (!$pengaduan) {

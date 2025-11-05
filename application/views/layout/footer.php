@@ -176,6 +176,28 @@
             'right': '10px'
         });
     });
+
+    // Update notifikasi badge
+    function updateNotifBadge() {
+        fetch('<?= base_url("Notifikasi/ajax_unread_count"); ?>')
+            .then(response => response.json())
+            .then(data => {
+                const badge = document.getElementById('notifBadge');
+                if (badge) {
+                    const count = data.unread || 0;
+                    badge.textContent = count;
+                    badge.style.display = count > 0 ? 'inline-block' : 'none';
+                }
+            })
+            .catch(error => console.error('Error fetching notification count:', error));
+    }
+
+    // Update badge saat halaman dimuat
+    <?php if ($this->session->userdata('logged_in')): ?>
+    updateNotifBadge();
+    // Update tiap 30 detik
+    setInterval(updateNotifBadge, 30000);
+    <?php endif; ?>
 </script>
 
 

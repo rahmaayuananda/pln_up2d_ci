@@ -87,6 +87,11 @@ class Pemutus extends CI_Controller
     // 🔹 Tambah data baru
     public function tambah()
     {
+        if (!can_create()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menambah data');
+            redirect($this->router->fetch_class());
+        }
+
         if ($this->input->post()) {
             // Only use the 31 valid database columns from lbs_recloser table (correct structure)
             $insertData = [
@@ -223,6 +228,11 @@ class Pemutus extends CI_Controller
     // 🔹 Hapus data
     public function hapus($ssotnumber)
     {
+        if (!can_delete()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menghapus data');
+            redirect($this->router->fetch_class());
+        }
+
     $this->pemutus_model->delete_pemutus($ssotnumber);
         $this->session->set_flashdata('success', 'Data Pemutus berhasil dihapus!');
         redirect('Pemutus');
