@@ -92,53 +92,7 @@ class Gardu_hubung extends CI_Controller
         }
         if ($this->input->post()) {
             $insertData = [
-                'SSOTNUMBER_GH'  => $this->input->post('SSOTNUMBER_GH'),
-                'UNIT_LAYANAN'   => $this->input->post('UNIT_LAYANAN'),
-                'GARDU_HUBUNG'   => $this->input->post('GARDU_HUBUNG'),
-                'LONGITUDEX'     => $this->input->post('LONGITUDEX'),
-                'LATITUDEY'      => $this->input->post('LATITUDEY'),
-                'ADDRESS'        => $this->input->post('ADDRESS'),
-                'STATUS_OPERASI' => $this->input->post('STATUS_OPERASI'),
-                'STATUS_SCADA'   => $this->input->post('STATUS_SCADA'),
-                'IP_GATEWAY'     => $this->input->post('IP_GATEWAY'),
-                'IP_RTU'         => $this->input->post('IP_RTU'),
-                'MERK_RTU'       => $this->input->post('MERK_RTU'),
-                'KOMUNIKASI'     => $this->input->post('KOMUNIKASI'),
-                'TGL_INTEGRASI'  => $this->input->post('TGL_INTEGRASI'),
-                'TGL_PASANG_BATT'=> $this->input->post('TGL_PASANG_BATT'),
-            ];
-            $this->Gardu_hubung_model->insert_gardu_hubung($insertData);
-            $this->session->set_flashdata('success', 'Data Gardu Hubung berhasil ditambahkan!');
-            redirect('Gardu_hubung');
-        } else {
-            $data['title'] = 'Tambah Data Gardu Hubung';
-            $this->load->view('layout/header');
-            $this->load->view('gardu_hubung/vw_tambah_gardu_hubung', $data);
-            $this->load->view('layout/footer');
-        }
-    }
-
-    public function edit($id)
-    {
-        if (!can_edit()) {
-            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk mengubah data');
-            redirect('Gardu_hubung');
-        }
-        $data['gardu_hubung'] = $this->Gardu_hubung_model->get_gardu_hubung_by_id($id);
-        if (empty($data['gardu_hubung'])) { show_404(); }
-
-    // Ensure keys exist for the edit view (extend with all fields present in list view)
-    $expected = ['UP3_2D','UNITNAME_UP3','CXUNIT','UNITNAME','LOCATION','SSOTNUMBER','DESCRIPTION','STATUS','TUJDNUMBER','ASSETCLASSHI','SADDRESSCODE','CXCLASSIFICATIONDESC','PENYULANG','PARENT','PARENT_DESCRIPTION','INSTALLDATE','ACTUALOPRDATE','CHANGEDATE','CHANGEBY','LATITUDEY','LONGITUDEX','FORMATTEDADDRESS','STREETADDRESS','CITY','ISASSET','STATUS_KEPEMILIKAN','EXTERNALREFID','JENIS_PELAYANAN','NO_SLO','OWNERSYSID','SLOACTIVEDATE','STATUS_RC','TYPE_GARDU','UNIT_LAYANAN','GARDU_HUBUNG','IP_GATEWAY','IP_RTU','MERK_RTU','KOMUNIKASI','TGL_INTEGRASI','TGL_PASANG_BATT','SSOTNUMBER_GH'];
-        foreach ($expected as $k) {
-            if (!array_key_exists($k, $data['gardu_hubung'])) {
-                $data['gardu_hubung'][$k] = '';
-            }
-        }
-
-        if ($this->input->post()) {
-            // allow changing SSOTNUMBER; use original_SSOTNUMBER for WHERE
-            $original = $this->input->post('original_SSOTNUMBER') ? $this->input->post('original_SSOTNUMBER') : $id;
-            $updateData = [
+                // Only fields that exist in database gh (40+ columns)
                 'UP3_2D' => $this->input->post('UP3_2D'),
                 'UNITNAME_UP3' => $this->input->post('UNITNAME_UP3'),
                 'CXUNIT' => $this->input->post('CXUNIT'),
@@ -171,15 +125,74 @@ class Gardu_hubung extends CI_Controller
                 'OWNERSYSID' => $this->input->post('OWNERSYSID'),
                 'SLOACTIVEDATE' => $this->input->post('SLOACTIVEDATE'),
                 'STATUS_RC' => $this->input->post('STATUS_RC'),
-                'TYPE_GARDU' => $this->input->post('TYPE_GARDU'),
-                'UNIT_LAYANAN' => $this->input->post('UNIT_LAYANAN'),
-                'GARDU_HUBUNG' => $this->input->post('GARDU_HUBUNG'),
-                'IP_GATEWAY' => $this->input->post('IP_GATEWAY'),
-                'IP_RTU' => $this->input->post('IP_RTU'),
-                'MERK_RTU' => $this->input->post('MERK_RTU'),
-                'KOMUNIKASI' => $this->input->post('KOMUNIKASI'),
-                'TGL_INTEGRASI' => $this->input->post('TGL_INTEGRASI'),
-                'TGL_PASANG_BATT' => $this->input->post('TGL_PASANG_BATT'),
+                'TYPE_GARDU' => $this->input->post('TYPE_GARDU')
+            ];
+            $this->Gardu_hubung_model->insert_gardu_hubung($insertData);
+            $this->session->set_flashdata('success', 'Data Gardu Hubung berhasil ditambahkan!');
+            redirect('Gardu_hubung');
+        } else {
+            $data['title'] = 'Tambah Data Gardu Hubung';
+            $this->load->view('layout/header');
+            $this->load->view('gardu_hubung/vw_tambah_gardu_hubung', $data);
+            $this->load->view('layout/footer');
+        }
+    }
+
+    public function edit($id)
+    {
+        if (!can_edit()) {
+            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk mengubah data');
+            redirect('Gardu_hubung');
+        }
+        $data['gardu_hubung'] = $this->Gardu_hubung_model->get_gardu_hubung_by_id($id);
+        if (empty($data['gardu_hubung'])) { show_404(); }
+
+    // Ensure keys exist for the edit view (only fields that exist in database - 33 columns)
+        $expected = ['UP3_2D','UNITNAME_UP3','CXUNIT','UNITNAME','LOCATION','SSOTNUMBER','DESCRIPTION','STATUS','TUJDNUMBER','ASSETCLASSHI','SADDRESSCODE','CXCLASSIFICATIONDESC','PENYULANG','PARENT','PARENT_DESCRIPTION','INSTALLDATE','ACTUALOPRDATE','CHANGEDATE','CHANGEBY','LATITUDEY','LONGITUDEX','FORMATTEDADDRESS','STREETADDRESS','CITY','ISASSET','STATUS_KEPEMILIKAN','EXTERNALREFID','JENIS_PELAYANAN','NO_SLO','OWNERSYSID','SLOACTIVEDATE','STATUS_RC','TYPE_GARDU'];
+        foreach ($expected as $k) {
+            if (!array_key_exists($k, $data['gardu_hubung'])) {
+                $data['gardu_hubung'][$k] = '';
+            }
+        }
+
+        if ($this->input->post()) {
+            // allow changing SSOTNUMBER; use original_SSOTNUMBER for WHERE
+            $original = $this->input->post('original_SSOTNUMBER') ? $this->input->post('original_SSOTNUMBER') : $id;
+            $updateData = [
+                // Only fields that exist in database gh (40 columns)
+                'UP3_2D' => $this->input->post('UP3_2D'),
+                'UNITNAME_UP3' => $this->input->post('UNITNAME_UP3'),
+                'CXUNIT' => $this->input->post('CXUNIT'),
+                'UNITNAME' => $this->input->post('UNITNAME'),
+                'LOCATION' => $this->input->post('LOCATION'),
+                'SSOTNUMBER' => $this->input->post('SSOTNUMBER'),
+                'DESCRIPTION' => $this->input->post('DESCRIPTION'),
+                'STATUS' => $this->input->post('STATUS'),
+                'TUJDNUMBER' => $this->input->post('TUJDNUMBER'),
+                'ASSETCLASSHI' => $this->input->post('ASSETCLASSHI'),
+                'SADDRESSCODE' => $this->input->post('SADDRESSCODE'),
+                'CXCLASSIFICATIONDESC' => $this->input->post('CXCLASSIFICATIONDESC'),
+                'PENYULANG' => $this->input->post('PENYULANG'),
+                'PARENT' => $this->input->post('PARENT'),
+                'PARENT_DESCRIPTION' => $this->input->post('PARENT_DESCRIPTION'),
+                'INSTALLDATE' => $this->input->post('INSTALLDATE'),
+                'ACTUALOPRDATE' => $this->input->post('ACTUALOPRDATE'),
+                'CHANGEDATE' => $this->input->post('CHANGEDATE'),
+                'CHANGEBY' => $this->input->post('CHANGEBY'),
+                'LATITUDEY' => $this->input->post('LATITUDEY'),
+                'LONGITUDEX' => $this->input->post('LONGITUDEX'),
+                'FORMATTEDADDRESS' => $this->input->post('FORMATTEDADDRESS'),
+                'STREETADDRESS' => $this->input->post('STREETADDRESS'),
+                'CITY' => $this->input->post('CITY'),
+                'ISASSET' => $this->input->post('ISASSET'),
+                'STATUS_KEPEMILIKAN' => $this->input->post('STATUS_KEPEMILIKAN'),
+                'EXTERNALREFID' => $this->input->post('EXTERNALREFID'),
+                'JENIS_PELAYANAN' => $this->input->post('JENIS_PELAYANAN'),
+                'NO_SLO' => $this->input->post('NO_SLO'),
+                'OWNERSYSID' => $this->input->post('OWNERSYSID'),
+                'SLOACTIVEDATE' => $this->input->post('SLOACTIVEDATE'),
+                'STATUS_RC' => $this->input->post('STATUS_RC'),
+                'TYPE_GARDU' => $this->input->post('TYPE_GARDU')
             ];
             $this->Gardu_hubung_model->update_gardu_hubung($original, $updateData);
             $this->session->set_flashdata('success', 'Data Gardu Hubung berhasil diperbarui!');

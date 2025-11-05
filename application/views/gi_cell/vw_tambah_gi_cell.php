@@ -12,69 +12,146 @@
 			<div class="card-body">
 				<form action="<?= base_url('Gi_cell/tambah'); ?>" method="post">
 					<div class="row g-3">
-						<div class="col-md-6">
-							<label class="form-label">SSOT Number</label>
-							<input type="text" class="form-control" name="SSOTNUMBER_GI_CELL" required>
+						<!-- Only fields that exist in database (34 columns) -->
+						<div class="col-md-4">
+							<label class="form-label">CXUNIT</label>
+							<input type="text" class="form-control" name="CXUNIT">
 						</div>
-						<div class="col-md-6">
-							<label class="form-label">Gardu Induk</label>
-							<input type="text" class="form-control" name="GARDU_INDUK" required>
+						<div class="col-md-4">
+							<label class="form-label">UNITNAME</label>
+							<input type="text" class="form-control" name="UNITNAME">
 						</div>
-						<div class="col-md-3">
-							<label class="form-label">TD</label>
-							<input type="text" class="form-control" name="TD">
-						</div>
-						<div class="col-md-3">
-							<label class="form-label">Kapasitas TD (MVA)</label>
-							<input type="text" class="form-control" name="KAP_TD_MVA">
+						<div class="col-md-4">
+							<label class="form-label">ASSETNUM</label>
+							<input type="number" class="form-control" name="ASSETNUM">
 						</div>
 						<div class="col-md-6">
-							<label class="form-label">Nama Cell</label>
-							<input type="text" class="form-control" name="NAMA_CELL" required>
+							<label class="form-label">SSOTNUMBER <span class="text-danger">*</span></label>
+							<input type="text" class="form-control" name="SSOTNUMBER" required>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">LOCATION</label>
+							<input type="text" class="form-control" name="LOCATION">
+						</div>
+						<div class="col-md-12">
+							<label class="form-label">DESCRIPTION</label>
+							<input type="text" class="form-control" name="DESCRIPTION">
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">VENDOR</label>
+							<input type="text" class="form-control" name="VENDOR">
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">MANUFACTURER</label>
+							<input type="text" class="form-control" name="MANUFACTURER">
 						</div>
 						<div class="col-md-4">
-							<label class="form-label">Jenis Cell</label>
-							<input type="text" class="form-control" name="JENIS_CELL">
+							<label class="form-label">INSTALLDATE</label>
+							<input type="date" class="form-control" name="INSTALLDATE">
 						</div>
 						<div class="col-md-4">
-							<label class="form-label">Status Operasi</label>
-							<input type="text" class="form-control" name="STATUS_OPERASI">
+							<label class="form-label">PRIORITY</label>
+							<input type="text" class="form-control" name="PRIORITY">
 						</div>
 						<div class="col-md-4">
-							<label class="form-label">Status SCADA</label>
-							<input type="text" class="form-control" name="STATUS_SCADA">
+							<label class="form-label">STATUS</label>
+							<input type="text" class="form-control" name="STATUS">
 						</div>
 						<div class="col-md-4">
-							<label class="form-label">Merk Cell</label>
-							<input type="text" class="form-control" name="MERK_CELL">
+							<label class="form-label">TUJDNUMBER</label>
+							<input type="text" class="form-control" name="TUJDNUMBER">
 						</div>
 						<div class="col-md-4">
-							<label class="form-label">Type Cell</label>
-							<input type="text" class="form-control" name="TYPE_CELL">
+							<label class="form-label">CHANGEBY</label>
+							<input type="text" class="form-control" name="CHANGEBY">
 						</div>
 						<div class="col-md-4">
-							<label class="form-label">Tahun Cell</label>
-							<input type="text" class="form-control" name="THN_CELL">
+							<label class="form-label">CHANGEDATE</label>
+							<input type="text" class="form-control" name="CHANGEDATE">
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">CXCLASSIFICATIONDESC</label>
+							<input type="text" class="form-control" name="CXCLASSIFICATIONDESC">
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">CXPENYULANG</label>
+							<input type="text" class="form-control" name="CXPENYULANG">
+						</div>
+						<div class="col-md-12">
+							<label class="form-label">NAMA_LOCATION</label>
+							<input type="text" class="form-control" name="NAMA_LOCATION">
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">LONGITUDEX</label>
+							<input type="text" class="form-control" name="LONGITUDEX" placeholder="Contoh: 106.8456">
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">LATITUDEY</label>
+							<input type="text" class="form-control" name="LATITUDEY" placeholder="Contoh: -6.2088">
 						</div>
 						<div class="col-md-4">
-							<label class="form-label">Merk Relay</label>
-							<input type="text" class="form-control" name="MERK_RELAY">
+							<label class="form-label">ISASSET</label>
+							<input type="text" class="form-control" name="ISASSET">
 						</div>
 						<div class="col-md-4">
-							<label class="form-label">Type Relay</label>
-							<input type="text" class="form-control" name="TYPE_RELAY">
+							<label class="form-label">STATUS_KEPEMILIKAN</label>
+							<input type="text" class="form-control" name="STATUS_KEPEMILIKAN">
 						</div>
 						<div class="col-md-4">
-							<label class="form-label">Tahun Relay</label>
-							<input type="text" class="form-control" name="THN_RELAY">
+							<label class="form-label">BURDEN</label>
+							<input type="number" class="form-control" name="BURDEN">
 						</div>
 						<div class="col-md-4">
-							<label class="form-label">Ratio CT</label>
-							<input type="text" class="form-control" name="RATIO_CT">
+							<label class="form-label">FAKTOR_KALI</label>
+							<input type="text" class="form-control" name="FAKTOR_KALI">
 						</div>
-						<div class="col-md-8">
-							<label class="form-label">ID GI (Relasi, opsional)</label>
-							<input type="text" class="form-control" name="ID_GI">
+						<div class="col-md-4">
+							<label class="form-label">JENIS_CT</label>
+							<input type="text" class="form-control" name="JENIS_CT">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">KELAS_CT</label>
+							<input type="text" class="form-control" name="KELAS_CT">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">KELAS_PROTEKSI</label>
+							<input type="text" class="form-control" name="KELAS_PROTEKSI">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">PRIMER_SEKUNDER</label>
+							<input type="text" class="form-control" name="PRIMER_SEKUNDER">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">TIPE_CT</label>
+							<input type="text" class="form-control" name="TIPE_CT">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">OWNERSYSID</label>
+							<input type="text" class="form-control" name="OWNERSYSID">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">ISOLASI_KUBIKEL</label>
+							<input type="text" class="form-control" name="ISOLASI_KUBIKEL">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">JENIS_MVCELL</label>
+							<input type="text" class="form-control" name="JENIS_MVCELL">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">TH_BUAT</label>
+							<input type="text" class="form-control" name="TH_BUAT" placeholder="Contoh: 2020">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">TYPE_MVCELL</label>
+							<input type="text" class="form-control" name="TYPE_MVCELL">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">CELL_TYPE</label>
+							<select class="form-control" name="CELL_TYPE">
+								<option value="">-- Pilih Tipe Cell --</option>
+								<option value="CT">CT</option>
+								<option value="MVCELL">MVCELL</option>
+							</select>
 						</div>
 					</div>
 					<div class="mt-4">

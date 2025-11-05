@@ -158,33 +158,6 @@
 							<label class="form-label">TYPE_GARDU</label>
 							<input type="text" class="form-control" name="TYPE_GARDU" value="<?= htmlentities($gardu_hubung['TYPE_GARDU'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 						</div>
-
-						<!-- Keep RTU/network-related and integration fields -->
-						<div class="col-md-4">
-							<label class="form-label">IP Gateway</label>
-							<input type="text" class="form-control" name="IP_GATEWAY" value="<?= htmlentities($gardu_hubung['IP_GATEWAY'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
-						</div>
-						<div class="col-md-4">
-							<label class="form-label">IP RTU</label>
-							<input type="text" class="form-control" name="IP_RTU" value="<?= htmlentities($gardu_hubung['IP_RTU'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
-						</div>
-						<div class="col-md-4">
-							<label class="form-label">Merk RTU</label>
-							<input type="text" class="form-control" name="MERK_RTU" value="<?= htmlentities($gardu_hubung['MERK_RTU'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
-						</div>
-
-						<div class="col-md-4">
-							<label class="form-label">Komunikasi</label>
-							<input type="text" class="form-control" name="KOMUNIKASI" value="<?= htmlentities($gardu_hubung['KOMUNIKASI'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
-						</div>
-						<div class="col-md-4">
-							<label class="form-label">Tgl Integrasi</label>
-							<input type="text" class="form-control" name="TGL_INTEGRASI" value="<?= htmlentities($gardu_hubung['TGL_INTEGRASI'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
-						</div>
-						<div class="col-md-4">
-							<label class="form-label">Tgl Pasang Batt</label>
-							<input type="text" class="form-control" name="TGL_PASANG_BATT" value="<?= htmlentities($gardu_hubung['TGL_PASANG_BATT'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
-						</div>
 					</div>
 					<div class="mt-4">
 						<a href="<?= base_url('Gardu_hubung'); ?>" class="btn btn-secondary">Batal</a>
