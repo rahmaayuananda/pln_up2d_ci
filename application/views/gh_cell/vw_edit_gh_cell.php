@@ -11,90 +11,149 @@
 			<div class="card-header bg-gradient-primary text-white"><strong>Form Edit GH Cell</strong></div>
 			<div class="card-body">
 				<form action="<?= base_url('Gh_cell/edit/' . urlencode($gh_cell['SSOTNUMBER'] ?? '')); ?>" method="post">
+					<input type="hidden" name="original_SSOTNUMBER" value="<?= htmlentities($gh_cell['SSOTNUMBER'] ?? ''); ?>">
 					<div class="row g-3">
-						<input type="hidden" name="original_SSOTNUMBER" value="<?= htmlentities($gh_cell['SSOTNUMBER'] ?? ''); ?>">
-						<div class="col-md-6">
-							<label class="form-label">SSOT Number</label>
-							<input type="text" class="form-control" name="SSOTNUMBER" value="<?= htmlentities($gh_cell['SSOTNUMBER'] ?? ''); ?>" required>
-						</div>
-						<div class="col-md-6">
-							<label class="form-label">CX Unit</label>
-							<input type="text" class="form-control" name="CXUNIT" value="<?= htmlentities($gh_cell['CXUNIT'] ?? ''); ?>">
-						</div>
-						<div class="col-md-6">
-							<label class="form-label">Unit Name</label>
-							<input type="text" class="form-control" name="UNITNAME" value="<?= htmlentities($gh_cell['UNITNAME'] ?? ''); ?>">
-						</div>
-						<div class="col-md-6">
-							<label class="form-label">Asset Number</label>
-							<input type="text" class="form-control" name="ASSETNUM" value="<?= htmlentities($gh_cell['ASSETNUM'] ?? ''); ?>">
-						</div>
-						<div class="col-md-6">
-							<label class="form-label">Gardu Hubung</label>
-							<input type="text" class="form-control" name="GARDU_HUBUNG" value="<?= htmlentities($gh_cell['GARDU_HUBUNG'] ?? ''); ?>" required>
-						</div>
-						<div class="col-md-6">
-							<label class="form-label">Nama Cell</label>
-							<input type="text" class="form-control" name="NAMA_CELL" value="<?= htmlentities($gh_cell['NAMA_CELL'] ?? ''); ?>" required>
-						</div>
-						<div class="col-md-6">
-							<label class="form-label">Jenis Cell</label>
-							<input type="text" class="form-control" name="JENIS_CELL" value="<?= htmlentities($gh_cell['JENIS_CELL'] ?? ''); ?>">
+						<!-- Only fields that exist in database (34 columns) -->
+						<div class="col-md-4">
+							<label class="form-label">CXUNIT</label>
+							<input type="text" class="form-control" name="CXUNIT" value="<?= htmlentities($gh_cell['CXUNIT'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 						</div>
 						<div class="col-md-4">
-							<label class="form-label">Status Operasi</label>
-							<input type="text" class="form-control" name="STATUS_OPERASI" value="<?= htmlentities($gh_cell['STATUS_OPERASI'] ?? ''); ?>">
+							<label class="form-label">UNITNAME</label>
+							<input type="text" class="form-control" name="UNITNAME" value="<?= htmlentities($gh_cell['UNITNAME'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 						</div>
 						<div class="col-md-4">
-							<label class="form-label">Status SCADA</label>
-							<input type="text" class="form-control" name="STATUS_SCADA" value="<?= htmlentities($gh_cell['STATUS_SCADA'] ?? ''); ?>">
-						</div>
-						<div class="col-md-4">
-							<label class="form-label">Ratio CT</label>
-							<input type="text" class="form-control" name="RATIO_CT" value="<?= htmlentities($gh_cell['RATIO_CT'] ?? ''); ?>">
-						</div>
-						<div class="col-md-4">
-							<label class="form-label">Merk Cell</label>
-							<input type="text" class="form-control" name="MERK_CELL" value="<?= htmlentities($gh_cell['MERK_CELL'] ?? ''); ?>">
-						</div>
-						<div class="col-md-4">
-							<label class="form-label">Type Cell</label>
-							<input type="text" class="form-control" name="TYPE_CELL" value="<?= htmlentities($gh_cell['TYPE_CELL'] ?? ''); ?>">
-						</div>
-						<div class="col-md-4">
-							<label class="form-label">Tahun Cell</label>
-							<input type="text" class="form-control" name="THN_CELL" value="<?= htmlentities($gh_cell['THN_CELL'] ?? ''); ?>">
+							<label class="form-label">ASSETNUM</label>
+							<input type="number" class="form-control" name="ASSETNUM" value="<?= htmlentities($gh_cell['ASSETNUM'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 						</div>
 						<div class="col-md-6">
-							<label class="form-label">Merk Relay</label>
-							<input type="text" class="form-control" name="MERK_RELAY" value="<?= htmlentities($gh_cell['MERK_RELAY'] ?? ''); ?>">
+							<label class="form-label">SSOTNUMBER</label>
+							<input type="text" class="form-control" name="SSOTNUMBER" value="<?= htmlentities($gh_cell['SSOTNUMBER'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required>
 						</div>
 						<div class="col-md-6">
-							<label class="form-label">Type Relay</label>
-							<input type="text" class="form-control" name="TYPE_RELAY" value="<?= htmlentities($gh_cell['TYPE_RELAY'] ?? ''); ?>">
+							<label class="form-label">LOCATION</label>
+							<input type="text" class="form-control" name="LOCATION" value="<?= htmlentities($gh_cell['LOCATION'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-12">
+							<label class="form-label">DESCRIPTION</label>
+							<input type="text" class="form-control" name="DESCRIPTION" value="<?= htmlentities($gh_cell['DESCRIPTION'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 						</div>
 						<div class="col-md-6">
-							<label class="form-label">Tahun Relay</label>
-							<input type="text" class="form-control" name="THN_RELAY" value="<?= htmlentities($gh_cell['THN_RELAY'] ?? ''); ?>">
+							<label class="form-label">VENDOR</label>
+							<input type="text" class="form-control" name="VENDOR" value="<?= htmlentities($gh_cell['VENDOR'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 						</div>
-
-						<!-- Additional list-view fields -->
-						<div class="col-12 mt-2">
-							<h6 class="text-secondary">Additional Attributes</h6>
+						<div class="col-md-6">
+							<label class="form-label">MANUFACTURER</label>
+							<input type="text" class="form-control" name="MANUFACTURER" value="<?= htmlentities($gh_cell['MANUFACTURER'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 						</div>
-						<?php
-						$extra_fields = [
-							'LOCATION','DESCRIPTION','VENDOR','MANUFACTURER','INSTALLDATE','PRIORITY','STATUS','TUJDNUMBER',
-							'CHANGEBY','CHANGEDATE','CXCLASSIFICATIONDESC','CXPENYULANG','NAMA_LOCATION','LONGITUDEX','LATITUDEY',
-							'ISASSET','STATUS_KEPEMILIKAN','BURDEN','FAKTOR_KALI','JENIS_CT','KELAS_CT','KELAS_PROTEKSI','PRIMER_SEKUNDER',
-							'TIPE_CT','OWNERSYSID','ISOLASI_KUBIKEL','JENIS_MVCELL','TH_BUAT','TYPE_MVCELL','CELL_TYPE'
-						];
-						foreach ($extra_fields as $field): ?>
-							<div class="col-md-4">
-								<label class="form-label"><?= $field; ?></label>
-								<input type="text" class="form-control" name="<?= $field; ?>" value="<?= htmlentities($gh_cell[$field] ?? ''); ?>">
-							</div>
-						<?php endforeach; ?>
+						<div class="col-md-4">
+							<label class="form-label">INSTALLDATE</label>
+							<input type="date" class="form-control" name="INSTALLDATE" value="<?= htmlentities($gh_cell['INSTALLDATE'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">PRIORITY</label>
+							<input type="text" class="form-control" name="PRIORITY" value="<?= htmlentities($gh_cell['PRIORITY'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">STATUS</label>
+							<input type="text" class="form-control" name="STATUS" value="<?= htmlentities($gh_cell['STATUS'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">TUJDNUMBER</label>
+							<input type="text" class="form-control" name="TUJDNUMBER" value="<?= htmlentities($gh_cell['TUJDNUMBER'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">CHANGEBY</label>
+							<input type="text" class="form-control" name="CHANGEBY" value="<?= htmlentities($gh_cell['CHANGEBY'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">CHANGEDATE</label>
+							<input type="text" class="form-control" name="CHANGEDATE" value="<?= htmlentities($gh_cell['CHANGEDATE'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">CXCLASSIFICATIONDESC</label>
+							<input type="text" class="form-control" name="CXCLASSIFICATIONDESC" value="<?= htmlentities($gh_cell['CXCLASSIFICATIONDESC'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">CXPENYULANG</label>
+							<input type="text" class="form-control" name="CXPENYULANG" value="<?= htmlentities($gh_cell['CXPENYULANG'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-12">
+							<label class="form-label">NAMA_LOCATION</label>
+							<input type="text" class="form-control" name="NAMA_LOCATION" value="<?= htmlentities($gh_cell['NAMA_LOCATION'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">LONGITUDEX</label>
+							<input type="text" class="form-control" name="LONGITUDEX" value="<?= htmlentities($gh_cell['LONGITUDEX'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">LATITUDEY</label>
+							<input type="text" class="form-control" name="LATITUDEY" value="<?= htmlentities($gh_cell['LATITUDEY'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">ISASSET</label>
+							<input type="text" class="form-control" name="ISASSET" value="<?= htmlentities($gh_cell['ISASSET'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">STATUS_KEPEMILIKAN</label>
+							<input type="text" class="form-control" name="STATUS_KEPEMILIKAN" value="<?= htmlentities($gh_cell['STATUS_KEPEMILIKAN'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">BURDEN</label>
+							<input type="number" class="form-control" name="BURDEN" value="<?= htmlentities($gh_cell['BURDEN'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">FAKTOR_KALI</label>
+							<input type="text" class="form-control" name="FAKTOR_KALI" value="<?= htmlentities($gh_cell['FAKTOR_KALI'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">JENIS_CT</label>
+							<input type="text" class="form-control" name="JENIS_CT" value="<?= htmlentities($gh_cell['JENIS_CT'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">KELAS_CT</label>
+							<input type="text" class="form-control" name="KELAS_CT" value="<?= htmlentities($gh_cell['KELAS_CT'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">KELAS_PROTEKSI</label>
+							<input type="text" class="form-control" name="KELAS_PROTEKSI" value="<?= htmlentities($gh_cell['KELAS_PROTEKSI'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">PRIMER_SEKUNDER</label>
+							<input type="text" class="form-control" name="PRIMER_SEKUNDER" value="<?= htmlentities($gh_cell['PRIMER_SEKUNDER'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">TIPE_CT</label>
+							<input type="text" class="form-control" name="TIPE_CT" value="<?= htmlentities($gh_cell['TIPE_CT'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">OWNERSYSID</label>
+							<input type="text" class="form-control" name="OWNERSYSID" value="<?= htmlentities($gh_cell['OWNERSYSID'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">ISOLASI_KUBIKEL</label>
+							<input type="text" class="form-control" name="ISOLASI_KUBIKEL" value="<?= htmlentities($gh_cell['ISOLASI_KUBIKEL'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">JENIS_MVCELL</label>
+							<input type="text" class="form-control" name="JENIS_MVCELL" value="<?= htmlentities($gh_cell['JENIS_MVCELL'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">TH_BUAT</label>
+							<input type="text" class="form-control" name="TH_BUAT" value="<?= htmlentities($gh_cell['TH_BUAT'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">TYPE_MVCELL</label>
+							<input type="text" class="form-control" name="TYPE_MVCELL" value="<?= htmlentities($gh_cell['TYPE_MVCELL'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">CELL_TYPE</label>
+							<select class="form-control" name="CELL_TYPE">
+								<option value="">-- Pilih --</option>
+								<option value="CT" <?= (isset($gh_cell['CELL_TYPE']) && $gh_cell['CELL_TYPE'] == 'CT') ? 'selected' : ''; ?>>CT</option>
+								<option value="MVCELL" <?= (isset($gh_cell['CELL_TYPE']) && $gh_cell['CELL_TYPE'] == 'MVCELL') ? 'selected' : ''; ?>>MVCELL</option>
+							</select>
+						</div>
 					</div>
 					<div class="mt-4">
 						<a href="<?= base_url('Gh_cell'); ?>" class="btn btn-secondary">Batal</a>

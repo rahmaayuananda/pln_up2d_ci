@@ -91,23 +91,41 @@ class Gi_cell extends CI_Controller
     {
         if ($this->input->post()) {
             $insertData = [
-                // Accept SSOTNUMBER from form; fallback to legacy field name if present
-                'SSOTNUMBER' => $this->input->post('SSOTNUMBER') ? $this->input->post('SSOTNUMBER') : $this->input->post('SSOTNUMBER_GI_CELL'),
-                'GARDU_INDUK'        => $this->input->post('GARDU_INDUK'),
-                'TD'                 => $this->input->post('TD'),
-                'KAP_TD_MVA'         => $this->input->post('KAP_TD_MVA'),
-                'NAMA_CELL'          => $this->input->post('NAMA_CELL'),
-                'JENIS_CELL'         => $this->input->post('JENIS_CELL'),
-                'STATUS_OPERASI'     => $this->input->post('STATUS_OPERASI'),
-                'MERK_CELL'          => $this->input->post('MERK_CELL'),
-                'TYPE_CELL'          => $this->input->post('TYPE_CELL'),
-                'THN_CELL'           => $this->input->post('THN_CELL'),
-                'STATUS_SCADA'       => $this->input->post('STATUS_SCADA'),
-                'MERK_RELAY'         => $this->input->post('MERK_RELAY'),
-                'TYPE_RELAY'         => $this->input->post('TYPE_RELAY'),
-                'THN_RELAY'          => $this->input->post('THN_RELAY'),
-                'RATIO_CT'           => $this->input->post('RATIO_CT'),
-                'ID_GI'              => $this->input->post('ID_GI')
+                // Only fields that exist in database (34 columns)
+                'CXUNIT' => $this->input->post('CXUNIT'),
+                'UNITNAME' => $this->input->post('UNITNAME'),
+                'ASSETNUM' => $this->input->post('ASSETNUM'),
+                'SSOTNUMBER' => $this->input->post('SSOTNUMBER'),
+                'LOCATION' => $this->input->post('LOCATION'),
+                'DESCRIPTION' => $this->input->post('DESCRIPTION'),
+                'VENDOR' => $this->input->post('VENDOR'),
+                'MANUFACTURER' => $this->input->post('MANUFACTURER'),
+                'INSTALLDATE' => $this->input->post('INSTALLDATE'),
+                'PRIORITY' => $this->input->post('PRIORITY'),
+                'STATUS' => $this->input->post('STATUS'),
+                'TUJDNUMBER' => $this->input->post('TUJDNUMBER'),
+                'CHANGEBY' => $this->input->post('CHANGEBY'),
+                'CHANGEDATE' => $this->input->post('CHANGEDATE'),
+                'CXCLASSIFICATIONDESC' => $this->input->post('CXCLASSIFICATIONDESC'),
+                'CXPENYULANG' => $this->input->post('CXPENYULANG'),
+                'NAMA_LOCATION' => $this->input->post('NAMA_LOCATION'),
+                'LONGITUDEX' => $this->input->post('LONGITUDEX'),
+                'LATITUDEY' => $this->input->post('LATITUDEY'),
+                'ISASSET' => $this->input->post('ISASSET'),
+                'STATUS_KEPEMILIKAN' => $this->input->post('STATUS_KEPEMILIKAN'),
+                'BURDEN' => $this->input->post('BURDEN'),
+                'FAKTOR_KALI' => $this->input->post('FAKTOR_KALI'),
+                'JENIS_CT' => $this->input->post('JENIS_CT'),
+                'KELAS_CT' => $this->input->post('KELAS_CT'),
+                'KELAS_PROTEKSI' => $this->input->post('KELAS_PROTEKSI'),
+                'PRIMER_SEKUNDER' => $this->input->post('PRIMER_SEKUNDER'),
+                'TIPE_CT' => $this->input->post('TIPE_CT'),
+                'OWNERSYSID' => $this->input->post('OWNERSYSID'),
+                'ISOLASI_KUBIKEL' => $this->input->post('ISOLASI_KUBIKEL'),
+                'JENIS_MVCELL' => $this->input->post('JENIS_MVCELL'),
+                'TH_BUAT' => $this->input->post('TH_BUAT'),
+                'TYPE_MVCELL' => $this->input->post('TYPE_MVCELL'),
+                'CELL_TYPE' => $this->input->post('CELL_TYPE')
             ];
 
             $this->gi_cell_model->insert_gi_cell($insertData);
@@ -130,7 +148,8 @@ class Gi_cell extends CI_Controller
         }
 
         // Ensure all expected keys exist to avoid undefined index notices in the view
-    $expected = ['SSOTNUMBER','SSOTNUMBER_GI_CELL','CXUNIT','UNITNAME','ASSETNUM','LOCATION','DESCRIPTION','VENDOR','MANUFACTURER','INSTALLDATE','PRIORITY','STATUS','TUJDNUMBER','CHANGEBY','CHANGEDATE','CXCLASSIFICATIONDESC','CXPENYULANG','NAMA_LOCATION','LONGITUDEX','LATITUDEY','ISASSET','STATUS_KEPEMILIKAN','BURDEN','FAKTOR_KALI','JENIS_CT','KELAS_CT','KELAS_PROTEKSI','PRIMER_SEKUNDER','TIPE_CT','OWNERSYSID','ISOLASI_KUBIKEL','JENIS_MVCELL','TH_BUAT','TYPE_MVCELL','CELL_TYPE','GARDU_INDUK','TD','KAP_TD_MVA','NAMA_CELL','JENIS_CELL','STATUS_OPERASI','MERK_CELL','TYPE_CELL','THN_CELL','STATUS_SCADA','MERK_RELAY','TYPE_RELAY','THN_RELAY','RATIO_CT','ID_GI'];
+        // Only include fields that exist in database (34 columns)
+        $expected = ['SSOTNUMBER','CXUNIT','UNITNAME','ASSETNUM','LOCATION','DESCRIPTION','VENDOR','MANUFACTURER','INSTALLDATE','PRIORITY','STATUS','TUJDNUMBER','CHANGEBY','CHANGEDATE','CXCLASSIFICATIONDESC','CXPENYULANG','NAMA_LOCATION','LONGITUDEX','LATITUDEY','ISASSET','STATUS_KEPEMILIKAN','BURDEN','FAKTOR_KALI','JENIS_CT','KELAS_CT','KELAS_PROTEKSI','PRIMER_SEKUNDER','TIPE_CT','OWNERSYSID','ISOLASI_KUBIKEL','JENIS_MVCELL','TH_BUAT','TYPE_MVCELL','CELL_TYPE'];
         foreach ($expected as $k) {
             if (!array_key_exists($k, $data['gi_cell'])) {
                 $data['gi_cell'][$k] = '';
@@ -140,7 +159,8 @@ class Gi_cell extends CI_Controller
         if ($this->input->post()) {
             $original = $this->input->post('original_SSOTNUMBER') ? $this->input->post('original_SSOTNUMBER') : $id;
             $updateData = [
-                'SSOTNUMBER'     => $this->input->post('SSOTNUMBER'),
+                // Only fields that exist in database (34 columns)
+                'SSOTNUMBER' => $this->input->post('SSOTNUMBER'),
                 'CXUNIT' => $this->input->post('CXUNIT'),
                 'UNITNAME' => $this->input->post('UNITNAME'),
                 'ASSETNUM' => $this->input->post('ASSETNUM'),
@@ -173,22 +193,7 @@ class Gi_cell extends CI_Controller
                 'JENIS_MVCELL' => $this->input->post('JENIS_MVCELL'),
                 'TH_BUAT' => $this->input->post('TH_BUAT'),
                 'TYPE_MVCELL' => $this->input->post('TYPE_MVCELL'),
-                'CELL_TYPE' => $this->input->post('CELL_TYPE'),
-                'GARDU_INDUK'    => $this->input->post('GARDU_INDUK'),
-                'TD'             => $this->input->post('TD'),
-                'KAP_TD_MVA'     => $this->input->post('KAP_TD_MVA'),
-                'NAMA_CELL'      => $this->input->post('NAMA_CELL'),
-                'JENIS_CELL'     => $this->input->post('JENIS_CELL'),
-                'STATUS_OPERASI' => $this->input->post('STATUS_OPERASI'),
-                'MERK_CELL'      => $this->input->post('MERK_CELL'),
-                'TYPE_CELL'      => $this->input->post('TYPE_CELL'),
-                'THN_CELL'       => $this->input->post('THN_CELL'),
-                'STATUS_SCADA'   => $this->input->post('STATUS_SCADA'),
-                'MERK_RELAY'     => $this->input->post('MERK_RELAY'),
-                'TYPE_RELAY'     => $this->input->post('TYPE_RELAY'),
-                'THN_RELAY'      => $this->input->post('THN_RELAY'),
-                'RATIO_CT'       => $this->input->post('RATIO_CT'),
-                'ID_GI'          => $this->input->post('ID_GI')
+                'CELL_TYPE' => $this->input->post('CELL_TYPE')
             ];
 
             $this->gi_cell_model->update_gi_cell($original, $updateData);
