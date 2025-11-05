@@ -175,7 +175,13 @@ class Pemutus extends CI_Controller
                 'CELL_TYPE' => $this->input->post('CELL_TYPE'),
             ];
 
-            $this->pemutus_model->update_pemutus($original, $updateData);
+            $update_success = $this->pemutus_model->update_pemutus($original, $updateData);
+            
+            // Log aktivitas
+            if ($update_success) {
+                log_update('pemutus', $original, $updateData['KEYPOINT']);
+            }
+            
             $this->session->set_flashdata('success', 'Data Pemutus berhasil diperbarui!');
             redirect('Pemutus');
         } else {
@@ -238,7 +244,17 @@ class Pemutus extends CI_Controller
             redirect($this->router->fetch_class());
         }
 
-    $this->pemutus_model->delete_pemutus($ssotnumber);
+        // Get data before delete for logging
+        $pemutus_data = $this->pemutus_model->get_pemutus_by_id($ssotnumber);
+        $name = $pemutus_data['KEYPOINT'] ?? $ssotnumber;
+        
+        $delete_success = $this->pemutus_model->delete_pemutus($ssotnumber);
+        
+        // Log aktivitas
+        if ($delete_success) {
+            log_delete('pemutus', $ssotnumber, $name);
+        }
+        
         $this->session->set_flashdata('success', 'Data Pemutus berhasil dihapus!');
         redirect('Pemutus');
     }

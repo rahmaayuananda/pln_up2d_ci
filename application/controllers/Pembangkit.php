@@ -146,7 +146,13 @@ class Pembangkit extends CI_Controller
                 'THN_INTEGRASI'  => $this->input->post('THN_INTEGRASI'),
             ];
 
-            $this->Pembangkit_model->update_pembangkit($id, $updateData);
+            $update_success = $this->Pembangkit_model->update_pembangkit($id, $updateData);
+            
+            // Log aktivitas update
+            if ($update_success) {
+                log_update('pembangkit', $id, $updateData['PEMBANGKIT']);
+            }
+            
             $this->session->set_flashdata('success', 'Data pembangkit berhasil diperbarui!');
             redirect('Pembangkit');
         } else {
@@ -179,7 +185,17 @@ class Pembangkit extends CI_Controller
             redirect($this->router->fetch_class());
         }
 
-        $this->Pembangkit_model->delete_pembangkit($id);
+        // Get data before delete for logging
+        $pembangkit = $this->Pembangkit_model->get_pembangkit_by_id($id);
+        $pembangkit_name = $pembangkit ? ($pembangkit['PEMBANGKIT'] ?? 'ID-' . $id) : 'ID-' . $id;
+        
+        $delete_success = $this->Pembangkit_model->delete_pembangkit($id);
+        
+        // Log aktivitas delete
+        if ($delete_success) {
+            log_delete('pembangkit', $id, $pembangkit_name);
+        }
+        
         $this->session->set_flashdata('success', 'Data pembangkit berhasil dihapus!');
         redirect('Pembangkit');
     }

@@ -174,7 +174,13 @@ class Sop extends CI_Controller
             'FILE_SOP'   => $file_name
         ];
 
-        $this->sopModel->update_sop($id, $dataUpdate);
+        $update_success = $this->sopModel->update_sop($id, $dataUpdate);
+        
+        // Log aktivitas
+        if ($update_success) {
+            log_update('sop', $id, $dataUpdate['NAMA_FILE']);
+        }
+        
         $this->session->set_flashdata('success', 'Data SOP berhasil diperbarui.');
         redirect('sop');
     }
@@ -200,7 +206,13 @@ class Sop extends CI_Controller
         }
 
         // Hapus data dari database
-        $this->sopModel->delete_sop($id);
+        $delete_success = $this->sopModel->delete_sop($id);
+        
+        // Log aktivitas
+        if ($delete_success) {
+            log_delete('sop', $id, $sop['NAMA_FILE']);
+        }
+        
         $this->session->set_flashdata('success', 'Data SOP berhasil dihapus.');
         redirect('sop');
     }

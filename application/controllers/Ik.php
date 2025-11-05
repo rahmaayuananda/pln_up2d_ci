@@ -166,7 +166,13 @@ class Ik extends CI_Controller
             'FILE_IK'    => $file_name
         ];
 
-        $this->ikModel->update_ik($id, $dataUpdate);
+        $update_success = $this->ikModel->update_ik($id, $dataUpdate);
+        
+        // Log aktivitas
+        if ($update_success) {
+            log_update('ik', $id, $dataUpdate['NAMA_FILE']);
+        }
+        
         $this->session->set_flashdata('success', 'Data IK berhasil diperbarui.');
         redirect('ik');
     }
@@ -190,7 +196,13 @@ class Ik extends CI_Controller
             unlink('./uploads/ik/' . $ik['FILE_IK']);
         }
 
-        $this->ikModel->delete_ik($id);
+        $delete_success = $this->ikModel->delete_ik($id);
+        
+        // Log aktivitas
+        if ($delete_success) {
+            log_delete('ik', $id, $ik['NAMA_FILE']);
+        }
+        
         $this->session->set_flashdata('success', 'Data IK berhasil dihapus.');
         redirect('ik');
     }

@@ -351,7 +351,13 @@ class Gardu_induk extends CI_Controller
 
     // Save using original identifier if present; otherwise use submittedId
     $whereId = $original ? $original : $submittedId;
-    $this->garduModel->update_gardu_induk($whereId, $dataUpdate);
+    $update_success = $this->garduModel->update_gardu_induk($whereId, $dataUpdate);
+    
+    // Log aktivitas
+    if ($update_success) {
+        log_update('gardu_induk', $whereId, $dataUpdate['UNITNAME']);
+    }
+    
         $this->session->set_flashdata('success', 'Data berhasil diperbarui');
         redirect('gardu_induk');
     }

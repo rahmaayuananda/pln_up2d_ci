@@ -30,10 +30,10 @@
 							<label class="form-label">SSOT Number</label>
 							<input type="text" class="form-control" name="SSOTNUMBER" value="<?= htmlentities($gi_cell['SSOTNUMBER'] ?? $gi_cell['SSOTNUMBER_GI_CELL'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 						</div>
-						<div class="col-md-6">
-							<label class="form-label">Gardu Induk</label>
-							<input type="text" class="form-control" name="GARDU_INDUK" value="<?= htmlentities($gi_cell['GARDU_INDUK'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required>
-						</div>
+					<div class="col-md-6">
+						<label class="form-label">Gardu Induk</label>
+						<input type="text" class="form-control" name="GARDU_INDUK" value="<?= htmlentities($gi_cell['GARDU_INDUK'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required>
+					</div>
 						<div class="col-md-3">
 							<label class="form-label">TD</label>
 							<input type="text" class="form-control" name="TD" value="<?= htmlentities($gi_cell['TD'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">

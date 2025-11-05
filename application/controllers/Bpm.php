@@ -166,7 +166,13 @@ class Bpm extends CI_Controller
             'FILE_BPM'   => $file_name
         ];
 
-        $this->bpmModel->update_bpm($id, $dataUpdate);
+        $update_success = $this->bpmModel->update_bpm($id, $dataUpdate);
+        
+        // Log aktivitas
+        if ($update_success) {
+            log_update('bpm', $id, $dataUpdate['NAMA_FILE']);
+        }
+        
         $this->session->set_flashdata('success', 'Data BPM berhasil diperbarui.');
         redirect('bpm');
     }
@@ -190,7 +196,13 @@ class Bpm extends CI_Controller
             unlink('./uploads/bpm/' . $bpm['FILE_BPM']);
         }
 
-        $this->bpmModel->delete_bpm($id);
+        $delete_success = $this->bpmModel->delete_bpm($id);
+        
+        // Log aktivitas
+        if ($delete_success) {
+            log_delete('bpm', $id, $bpm['NAMA_FILE']);
+        }
+        
         $this->session->set_flashdata('success', 'Data BPM berhasil dihapus.');
         redirect('bpm');
     }

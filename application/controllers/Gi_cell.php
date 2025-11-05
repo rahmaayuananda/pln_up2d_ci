@@ -132,7 +132,7 @@ class Gi_cell extends CI_Controller
             $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk mengubah data');
             redirect('Gi_cell');
         }
-        $data['giCell'] = $this->giCellModel->get_gi_cell_by_id($id);
+        $data['giCell'] = $this->gi_cell_model->get_gi_cell_by_id($id);
         if (empty($data['gi_cell'])) {
             show_404();
         }
