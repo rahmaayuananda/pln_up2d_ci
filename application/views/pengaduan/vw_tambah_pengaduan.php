@@ -119,7 +119,7 @@
                         <div class="col-md-6">
                             <label class="form-label">Status</label>
                             <select name="STATUS" id="statusSelect" class="form-control" required>
-                                <option value="Menunggu">Lapor</option>
+                                <option value="Lapor">Lapor</option>
                                 <option value="Diproses">Diproses</option>
                                 <option value="Selesai">Selesai</option>
                             </select>

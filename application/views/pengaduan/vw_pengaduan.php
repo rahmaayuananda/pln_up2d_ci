@@ -121,7 +121,8 @@
                                                 <?= ($row['STATUS'] ?? '') == 'Selesai' ? 'bg-success' : (($row['STATUS'] ?? '') == 'Diproses' ? 'bg-warning text-dark' : 'bg-secondary'); ?>">
                                                 <?php
                                                     $rawStatus = $row['STATUS'] ?? '-';
-                                                    $displayStatus = ($rawStatus === 'Menunggu') ? 'Lapor' : $rawStatus;
+                                                    // Treat legacy 'Menunggu' as 'Lapor' and display 'Lapor' for both
+                                                    $displayStatus = in_array($rawStatus, ['Menunggu', 'Lapor']) ? 'Lapor' : $rawStatus;
                                                     echo htmlentities($displayStatus);
                                                 ?>
                                             </span>
