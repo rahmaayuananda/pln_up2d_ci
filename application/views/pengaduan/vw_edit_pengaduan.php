@@ -10,10 +10,16 @@
                 <strong>Form Edit Pengaduan</strong>
             </div>
             <div class="card-body">
+                <?php 
+                $user_role = strtolower($this->session->userdata('user_role') ?? '');
+                $is_up3 = ($user_role === 'up3');
+                $readonly = $is_up3 ? 'readonly' : '';
+                $disabled = $is_up3 ? 'disabled' : '';
+                ?>
                 <form id="editPengaduanForm" action="<?= base_url('Pengaduan/edit/' . urlencode($pengaduan['ID_PENGADUAN'])); ?>" method="POST" enctype="multipart/form-data">
                     <div class="row g-3">
 
-                        <!-- Unit Pelaksana -->
+                        <!-- Unit Pelaksana - UP3 BISA EDIT -->
                         <div class="col-md-4">
                             <label class="form-label">Unit Pelaksana</label>
                             <select name="NAMA_UP3" class="form-control" required>
@@ -28,19 +34,19 @@
                             </select>
                         </div>
 
-                        <!-- Tanggal Pengaduan -->
+                        <!-- Tanggal Pengaduan - UP3 TIDAK BISA EDIT -->
                         <div class="col-md-4">
                             <label class="form-label">Tanggal Pengaduan</label>
-                            <input type="date" class="form-control" name="TANGGAL_PENGADUAN" value="<?= htmlentities($pengaduan['TANGGAL_PENGADUAN']); ?>" required>
+                            <input type="date" class="form-control" name="TANGGAL_PENGADUAN" value="<?= htmlentities($pengaduan['TANGGAL_PENGADUAN']); ?>" <?= $readonly; ?> required>
                         </div>
 
-                        <!-- 🟩 Tanggal Proses -->
+                        <!-- 🟩 Tanggal Proses - UP3 TIDAK BISA EDIT -->
                         <div class="col-md-4" id="tanggalProsesContainer" style="display:none;">
                             <label class="form-label">Tanggal Proses</label>
-                            <input type="date" class="form-control" name="TANGGAL_PROSES" value="<?= htmlentities($pengaduan['TANGGAL_PROSES'] ?? ''); ?>">
+                            <input type="date" class="form-control" name="TANGGAL_PROSES" value="<?= htmlentities($pengaduan['TANGGAL_PROSES'] ?? ''); ?>" <?= $readonly; ?>>
                         </div>
 
-                        <!-- Jenis & Item Pengaduan -->
+                        <!-- Jenis & Item Pengaduan - UP3 BISA EDIT -->
                         <div class="col-md-6">
                             <label class="form-label">Jenis Pengaduan</label>
                             <select id="jenis_pengaduan" name="JENIS_PENGADUAN" class="form-control" required>
@@ -65,10 +71,13 @@
                             </select>
                         </div>
 
-                        <!-- PIC -->
+                        <!-- PIC - UP3 TIDAK BISA EDIT -->
                         <div class="col-md-6">
                             <label class="form-label">PIC</label>
-                            <select name="PIC" id="pic" class="form-control" required>
+                            <?php if ($is_up3): ?>
+                                <input type="hidden" name="PIC" value="<?= htmlentities($pengaduan['PIC'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+                            <?php endif; ?>
+                            <select name="PIC" id="pic" class="form-control" <?= $disabled; ?> required>
                                 <option value="">-- Pilih PIC --</option>
                                 <?php
                                 $picList = ["Operasi Sistem Distribusi", "Fasilitas Operasi", "Pemeliharaan", "K3L & KAM", "Perencanaan"];
@@ -80,25 +89,22 @@
                             </select>
                         </div>
 
-                        <!-- 🟩 Laporan, Tindak Lanjut / Catatan -->
-                        <div class="col-md-12">
-                            <div class="row">
-                                <!-- Laporan -->
+                                <!-- Laporan - UP3 BISA EDIT -->
                                 <div class="col-md-6">
                                     <label class="form-label">Laporan</label>
                                     <textarea name="LAPORAN" id="laporan" rows="6" class="form-control" required><?= htmlentities($pengaduan['LAPORAN']); ?></textarea>
                                 </div>
 
-                                <!-- Tindak Lanjut (status = Diproses) -->
+                                <!-- Tindak Lanjut (status = Diproses) - UP3 TIDAK BISA EDIT -->
                                 <div class="col-md-6" id="tindakLanjutContainer" style="display:none;">
                                     <label class="form-label">Tindak Lanjut</label>
-                                    <textarea name="TINDAK_LANJUT" id="tindak_lanjut" rows="6" class="form-control"><?= htmlentities($pengaduan['TINDAK_LANJUT'] ?? ''); ?></textarea>
+                                    <textarea name="TINDAK_LANJUT" id="tindak_lanjut" rows="6" class="form-control" <?= $readonly; ?>><?= htmlentities($pengaduan['TINDAK_LANJUT'] ?? ''); ?></textarea>
                                 </div>
 
-                                <!-- Catatan (status = Selesai) -->
+                                <!-- Catatan (status = Selesai) - UP3 TIDAK BISA EDIT -->
                                 <div class="col-md-6" id="catatanContainer" style="display:none;">
                                     <label class="form-label">Catatan</label>
-                                    <textarea name="CATATAN" id="catatan" rows="6" class="form-control"><?= htmlentities($pengaduan['CATATAN'] ?? ''); ?></textarea>
+                                    <textarea name="CATATAN" id="catatan" rows="6" class="form-control" <?= $readonly; ?>><?= htmlentities($pengaduan['CATATAN'] ?? ''); ?></textarea>
                                 </div>
                             </div>
                         </div>
@@ -106,7 +112,7 @@
                         <!-- FOTO -->
                         <div class="col-md-12">
                             <div class="row">
-                                <!-- Foto Pengaduan -->
+                                <!-- Foto Pengaduan - UP3 BISA EDIT -->
                                 <div class="col-md-6">
                                     <label class="form-label">Foto Pengaduan</label>
                                     <?php if (!empty($pengaduan['FOTO_PENGADUAN'])): ?>
@@ -120,7 +126,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Foto Proses -->
+                                <!-- Foto Proses - UP3 TIDAK BISA EDIT -->
                                 <div class="col-md-6" id="fotoProsesContainer" style="display:none;">
                                     <label class="form-label">Foto Proses</label>
                                     <?php if (!empty($pengaduan['FOTO_PROSES'])): ?>
@@ -128,7 +134,7 @@
                                             <img src="<?= base_url('uploads/proses/' . $pengaduan['FOTO_PROSES']); ?>" class="img-thumbnail rounded" style="max-width:200px;">
                                         </div>
                                     <?php endif; ?>
-                                    <input type="file" name="FOTO_PROSES" id="foto_proses" class="form-control" accept="image/*" onchange="previewImage(event, 'preview_proses')">
+                                    <input type="file" name="FOTO_PROSES" id="foto_proses" class="form-control" accept="image/*" <?= $disabled; ?> onchange="previewImage(event, 'preview_proses')">
                                     <div class="mt-2">
                                         <img id="preview_proses" src="#" class="img-thumbnail rounded" style="max-width:200px; display:none;">
                                     </div>
@@ -136,14 +142,18 @@
                             </div>
                         </div>
 
-                        <!-- STATUS -->
+                        <!-- STATUS - UP3 TIDAK BISA EDIT -->
                         <div class="col-md-6">
                             <label class="form-label">Status</label>
-                            <select name="STATUS" id="statusSelect" class="form-control" required>
+                            <select name="STATUS" id="statusSelect" class="form-control" <?= $is_up3 ? 'disabled' : 'required'; ?>>
                                 <option value="Lapor" <?= in_array(($pengaduan['STATUS'] ?? ''), ['Lapor','Menunggu']) ? 'selected' : ''; ?>>Lapor</option>
                                 <option value="Diproses" <?= ($pengaduan['STATUS'] == 'Diproses') ? 'selected' : ''; ?>>Diproses</option>
                                 <option value="Selesai" <?= ($pengaduan['STATUS'] == 'Selesai') ? 'selected' : ''; ?>>Selesai</option>
                             </select>
+                            <?php if ($is_up3): ?>
+                                <!-- Hidden input to submit current status when disabled -->
+                                <input type="hidden" name="STATUS" value="<?= htmlentities($pengaduan['STATUS'] ?? 'Lapor', ENT_QUOTES, 'UTF-8'); ?>">
+                            <?php endif; ?>
                         </div>
                     </div>
 

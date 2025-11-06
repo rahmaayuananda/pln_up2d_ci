@@ -20,7 +20,7 @@
       <div class="card-header py-2 d-flex justify-content-between align-items-center bg-gradient-primary text-white rounded-top-4">
         <h6 class="mb-0">Data Rekomposisi</h6>
         <div class="d-flex align-items-center">
-          <a href="#" class="btn btn-sm btn-light text-primary me-2" onclick="alert('Fitur Tambah belum tersedia!')">
+          <a href="<?= base_url('anggaran/investasi/add_rekomposisi'); ?>" class="btn btn-sm btn-light text-primary me-2">
             <i class="fas fa-plus me-1"></i> Tambah
           </a>
           <a href="#" class="btn btn-sm btn-light text-secondary" onclick="downloadCSVProgressKontrak()">
