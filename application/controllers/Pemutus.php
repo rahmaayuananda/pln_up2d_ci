@@ -93,15 +93,39 @@ class Pemutus extends CI_Controller
         }
 
         if ($this->input->post()) {
+            // Only use the 31 valid database columns from lbs_recloser table (correct structure)
             $insertData = [
+                'CXUNIT' => $this->input->post('CXUNIT'),
+                'UNITNAME' => $this->input->post('UNITNAME'),
+                'UP3_2D' => $this->input->post('UP3_2D'),
+                'ASSETNUM' => $this->input->post('ASSETNUM'),
                 'SSOTNUMBER' => $this->input->post('SSOTNUMBER'),
-                'UNIT_LAYANAN'      => $this->input->post('UNIT_LAYANAN'),
-                'PENYULANG'         => $this->input->post('PENYULANG'),
-                'KEYPOINT'          => $this->input->post('KEYPOINT'),
-                'FUNGSI_KP'         => $this->input->post('FUNGSI_KP'),
-                'STATUS_SCADA'      => $this->input->post('STATUS_SCADA'),
-                'MEDIA_KOMDAT'      => $this->input->post('MEDIA_KOMDAT'),
-                'MERK_KOMDAT'       => $this->input->post('MERK_KOMDAT')
+                'LOCATION' => $this->input->post('LOCATION'),
+                'DESCRIPTION' => $this->input->post('DESCRIPTION'),
+                'VENDOR' => $this->input->post('VENDOR'),
+                'MANUFACTURER' => $this->input->post('MANUFACTURER'),
+                'INSTALLDATE' => $this->input->post('INSTALLDATE'),
+                'PRIORITY' => $this->input->post('PRIORITY'),
+                'STATUS' => $this->input->post('STATUS'),
+                'TUJDNUMBER' => $this->input->post('TUJDNUMBER'),
+                'CHANGEBY' => $this->input->post('CHANGEBY'),
+                'CHANGEDATE' => $this->input->post('CHANGEDATE'),
+                'CXCLASSIFICATIONDESC' => $this->input->post('CXCLASSIFICATIONDESC'),
+                'NAMA_LOCATION' => $this->input->post('NAMA_LOCATION'),
+                'LONGITUDEX' => $this->input->post('LONGITUDEX'),
+                'LATITUDEY' => $this->input->post('LATITUDEY'),
+                'ISASSET' => $this->input->post('ISASSET'),
+                'PEREDAM' => $this->input->post('PEREDAM'),
+                'STATUS_KEPEMILIKAN' => $this->input->post('STATUS_KEPEMILIKAN'),
+                'CXPENYULANG' => $this->input->post('CXPENYULANG'),
+                'TH_BUAT' => $this->input->post('TH_BUAT'),
+                'TYPE_LBS' => $this->input->post('TYPE_LBS'),
+                'MODE_OPERASI' => $this->input->post('MODE_OPERASI'),
+                'TYPE_RECLOSER' => $this->input->post('TYPE_RECLOSER'),
+                'MODE_OPR' => $this->input->post('MODE_OPR'),
+                'TYPE_OPERASI' => $this->input->post('TYPE_OPERASI'),
+                'TYPE_SECTIONALIZER' => $this->input->post('TYPE_SECTIONALIZER'),
+                'PEMUTUS_TYPE' => $this->input->post('PEMUTUS_TYPE')
             ];
 
             $this->pemutus_model->insert_pemutus($insertData);
@@ -118,12 +142,7 @@ class Pemutus extends CI_Controller
     // 🔹 Edit data
     public function edit($ssotnumber)
     {
-        if (!can_edit()) {
-            $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk mengubah data');
-            redirect($this->router->fetch_class());
-        }
-
-    $data['pemutus'] = $this->pemutus_model->get_pemutus_by_id($ssotnumber);
+        $data['pemutus'] = $this->pemutus_model->get_pemutus_by_id($ssotnumber);
         if (empty($data['pemutus'])) {
             show_404();
         }
@@ -131,18 +150,13 @@ class Pemutus extends CI_Controller
         if ($this->input->post()) {
             $original = $this->input->post('original_SSOTNUMBER') ?: $ssotnumber;
 
+            // Only use the 31 valid database columns from lbs_recloser table (correct structure)
             $updateData = [
-                'SSOTNUMBER' => $this->input->post('SSOTNUMBER') ?: $this->input->post('original_SSOTNUMBER'),
-                'UNIT_LAYANAN' => $this->input->post('UNIT_LAYANAN'),
-                'PENYULANG'    => $this->input->post('PENYULANG'),
-                'KEYPOINT'     => $this->input->post('KEYPOINT'),
-                'FUNGSI_KP'    => $this->input->post('FUNGSI_KP'),
-                'STATUS_SCADA' => $this->input->post('STATUS_SCADA'),
-                'MEDIA_KOMDAT' => $this->input->post('MEDIA_KOMDAT'),
-                'MERK_KOMDAT'  => $this->input->post('MERK_KOMDAT'),
-                // additional list-view fields
                 'CXUNIT' => $this->input->post('CXUNIT'),
                 'UNITNAME' => $this->input->post('UNITNAME'),
+                'UP3_2D' => $this->input->post('UP3_2D'),
+                'ASSETNUM' => $this->input->post('ASSETNUM'),
+                'SSOTNUMBER' => $this->input->post('SSOTNUMBER') ?: $this->input->post('original_SSOTNUMBER'),
                 'LOCATION' => $this->input->post('LOCATION'),
                 'DESCRIPTION' => $this->input->post('DESCRIPTION'),
                 'VENDOR' => $this->input->post('VENDOR'),
@@ -154,25 +168,21 @@ class Pemutus extends CI_Controller
                 'CHANGEBY' => $this->input->post('CHANGEBY'),
                 'CHANGEDATE' => $this->input->post('CHANGEDATE'),
                 'CXCLASSIFICATIONDESC' => $this->input->post('CXCLASSIFICATIONDESC'),
-                'CXPENYULANG' => $this->input->post('CXPENYULANG'),
                 'NAMA_LOCATION' => $this->input->post('NAMA_LOCATION'),
                 'LONGITUDEX' => $this->input->post('LONGITUDEX'),
                 'LATITUDEY' => $this->input->post('LATITUDEY'),
                 'ISASSET' => $this->input->post('ISASSET'),
+                'PEREDAM' => $this->input->post('PEREDAM'),
                 'STATUS_KEPEMILIKAN' => $this->input->post('STATUS_KEPEMILIKAN'),
-                'BURDEN' => $this->input->post('BURDEN'),
-                'FAKTOR_KALI' => $this->input->post('FAKTOR_KALI'),
-                'JENIS_CT' => $this->input->post('JENIS_CT'),
-                'KELAS_CT' => $this->input->post('KELAS_CT'),
-                'KELAS_PROTEKSI' => $this->input->post('KELAS_PROTEKSI'),
-                'PRIMER_SEKUNDER' => $this->input->post('PRIMER_SEKUNDER'),
-                'TIPE_CT' => $this->input->post('TIPE_CT'),
-                'OWNERSYSID' => $this->input->post('OWNERSYSID'),
-                'ISOLASI_KUBIKEL' => $this->input->post('ISOLASI_KUBIKEL'),
-                'JENIS_MVCELL' => $this->input->post('JENIS_MVCELL'),
+                'CXPENYULANG' => $this->input->post('CXPENYULANG'),
                 'TH_BUAT' => $this->input->post('TH_BUAT'),
-                'TYPE_MVCELL' => $this->input->post('TYPE_MVCELL'),
-                'CELL_TYPE' => $this->input->post('CELL_TYPE'),
+                'TYPE_LBS' => $this->input->post('TYPE_LBS'),
+                'MODE_OPERASI' => $this->input->post('MODE_OPERASI'),
+                'TYPE_RECLOSER' => $this->input->post('TYPE_RECLOSER'),
+                'MODE_OPR' => $this->input->post('MODE_OPR'),
+                'TYPE_OPERASI' => $this->input->post('TYPE_OPERASI'),
+                'TYPE_SECTIONALIZER' => $this->input->post('TYPE_SECTIONALIZER'),
+                'PEMUTUS_TYPE' => $this->input->post('PEMUTUS_TYPE')
             ];
 
             $update_success = $this->pemutus_model->update_pemutus($original, $updateData);
@@ -185,21 +195,6 @@ class Pemutus extends CI_Controller
             $this->session->set_flashdata('success', 'Data Pemutus berhasil diperbarui!');
             redirect('Pemutus');
         } else {
-            // ensure all expected keys exist to avoid undefined index in view
-            $expectedKeys = [
-                'SSOTNUMBER','CXUNIT','UNITNAME','LOCATION','DESCRIPTION','VENDOR','MANUFACTURER',
-                'INSTALLDATE','PRIORITY','STATUS','TUJDNUMBER','CHANGEBY','CHANGEDATE','CXCLASSIFICATIONDESC',
-                'CXPENYULANG','NAMA_LOCATION','LONGITUDEX','LATITUDEY','ISASSET','STATUS_KEPEMILIKAN',
-                'BURDEN','FAKTOR_KALI','JENIS_CT','KELAS_CT','KELAS_PROTEKSI','PRIMER_SEKUNDER',
-                'TIPE_CT','OWNERSYSID','ISOLASI_KUBIKEL','JENIS_MVCELL','TH_BUAT','TYPE_MVCELL','CELL_TYPE'
-            ];
-
-            foreach ($expectedKeys as $k) {
-                if (!array_key_exists($k, $data['pemutus'])) {
-                    $data['pemutus'][$k] = '';
-                }
-            }
-
             $data['title'] = 'Edit Data Pemutus';
             $this->load->view('layout/header');
             $this->load->view('pemutus/vw_edit_pemutus', $data);

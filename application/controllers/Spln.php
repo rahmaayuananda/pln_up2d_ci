@@ -20,8 +20,13 @@ class Spln extends CI_Controller
 
         // Konfigurasi pagination
         $config['base_url'] = site_url('spln/index');
-        $config['total_rows'] = $this->splnModel->count_all_spln();
-        $config['per_page'] = 10;
+    $config['total_rows'] = $this->splnModel->count_all_spln();
+    // support per_page via query string (allowed values)
+    $allowedPer = [5,10,25,50,100,500];
+    $reqPer = (int) $this->input->get('per_page', TRUE);
+    $perPage = in_array($reqPer, $allowedPer) ? $reqPer : 5; // default 5
+    $config['per_page'] = $perPage;
+    $config['reuse_query_string'] = TRUE;
         $config['uri_segment'] = 3;
         $config['use_page_numbers'] = TRUE;
 

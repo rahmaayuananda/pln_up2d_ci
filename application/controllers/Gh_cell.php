@@ -94,19 +94,41 @@ class Gh_cell extends CI_Controller
 
         if ($this->input->post()) {
             $insertData = [
+                // Only fields that exist in database gh_cell (34 columns)
+                'CXUNIT' => $this->input->post('CXUNIT'),
+                'UNITNAME' => $this->input->post('UNITNAME'),
+                'ASSETNUM' => $this->input->post('ASSETNUM'),
                 'SSOTNUMBER' => $this->input->post('SSOTNUMBER'),
-                'GARDU_HUBUNG'       => $this->input->post('GARDU_HUBUNG'),
-                'NAMA_CELL'          => $this->input->post('NAMA_CELL'),
-                'JENIS_CELL'         => $this->input->post('JENIS_CELL'),
-                'STATUS_OPERASI'     => $this->input->post('STATUS_OPERASI'),
-                'MERK_CELL'          => $this->input->post('MERK_CELL'),
-                'TYPE_CELL'          => $this->input->post('TYPE_CELL'),
-                'THN_CELL'           => $this->input->post('THN_CELL'),
-                'STATUS_SCADA'       => $this->input->post('STATUS_SCADA'),
-                'MERK_RELAY'         => $this->input->post('MERK_RELAY'),
-                'TYPE_RELAY'         => $this->input->post('TYPE_RELAY'),
-                'THN_RELAY'          => $this->input->post('THN_RELAY'),
-                'RATIO_CT'           => $this->input->post('RATIO_CT'),
+                'LOCATION' => $this->input->post('LOCATION'),
+                'DESCRIPTION' => $this->input->post('DESCRIPTION'),
+                'VENDOR' => $this->input->post('VENDOR'),
+                'MANUFACTURER' => $this->input->post('MANUFACTURER'),
+                'INSTALLDATE' => $this->input->post('INSTALLDATE'),
+                'PRIORITY' => $this->input->post('PRIORITY'),
+                'STATUS' => $this->input->post('STATUS'),
+                'TUJDNUMBER' => $this->input->post('TUJDNUMBER'),
+                'CHANGEBY' => $this->input->post('CHANGEBY'),
+                'CHANGEDATE' => $this->input->post('CHANGEDATE'),
+                'CXCLASSIFICATIONDESC' => $this->input->post('CXCLASSIFICATIONDESC'),
+                'CXPENYULANG' => $this->input->post('CXPENYULANG'),
+                'NAMA_LOCATION' => $this->input->post('NAMA_LOCATION'),
+                'LONGITUDEX' => $this->input->post('LONGITUDEX'),
+                'LATITUDEY' => $this->input->post('LATITUDEY'),
+                'ISASSET' => $this->input->post('ISASSET'),
+                'STATUS_KEPEMILIKAN' => $this->input->post('STATUS_KEPEMILIKAN'),
+                'BURDEN' => $this->input->post('BURDEN'),
+                'FAKTOR_KALI' => $this->input->post('FAKTOR_KALI'),
+                'JENIS_CT' => $this->input->post('JENIS_CT'),
+                'KELAS_CT' => $this->input->post('KELAS_CT'),
+                'KELAS_PROTEKSI' => $this->input->post('KELAS_PROTEKSI'),
+                'PRIMER_SEKUNDER' => $this->input->post('PRIMER_SEKUNDER'),
+                'TIPE_CT' => $this->input->post('TIPE_CT'),
+                'OWNERSYSID' => $this->input->post('OWNERSYSID'),
+                'ISOLASI_KUBIKEL' => $this->input->post('ISOLASI_KUBIKEL'),
+                'JENIS_MVCELL' => $this->input->post('JENIS_MVCELL'),
+                'TH_BUAT' => $this->input->post('TH_BUAT'),
+                'TYPE_MVCELL' => $this->input->post('TYPE_MVCELL'),
+                'CELL_TYPE' => $this->input->post('CELL_TYPE')
             ];
 
             $this->Gh_cell_model->insert_gh_cell($insertData);
@@ -137,12 +159,12 @@ class Gh_cell extends CI_Controller
             // Determine the original SSOTNUMBER (hidden field) to allow changing SSOTNUMBER safely
             $original = $this->input->post('original_SSOTNUMBER') ?: $id;
 
-            // Build update data including SSOTNUMBER and all list-view fields
+            // Build update data - only fields that exist in database gh_cell (34 columns)
             $updateData = [
-                'SSOTNUMBER' => $this->input->post('SSOTNUMBER') ?: $this->input->post('original_SSOTNUMBER'),
                 'CXUNIT' => $this->input->post('CXUNIT'),
                 'UNITNAME' => $this->input->post('UNITNAME'),
                 'ASSETNUM' => $this->input->post('ASSETNUM'),
+                'SSOTNUMBER' => $this->input->post('SSOTNUMBER') ?: $this->input->post('original_SSOTNUMBER'),
                 'LOCATION' => $this->input->post('LOCATION'),
                 'DESCRIPTION' => $this->input->post('DESCRIPTION'),
                 'VENDOR' => $this->input->post('VENDOR'),
@@ -172,20 +194,7 @@ class Gh_cell extends CI_Controller
                 'JENIS_MVCELL' => $this->input->post('JENIS_MVCELL'),
                 'TH_BUAT' => $this->input->post('TH_BUAT'),
                 'TYPE_MVCELL' => $this->input->post('TYPE_MVCELL'),
-                'CELL_TYPE' => $this->input->post('CELL_TYPE'),
-                // Existing GH-specific fields
-                'GARDU_HUBUNG'   => $this->input->post('GARDU_HUBUNG'),
-                'NAMA_CELL'      => $this->input->post('NAMA_CELL'),
-                'JENIS_CELL'     => $this->input->post('JENIS_CELL'),
-                'STATUS_OPERASI' => $this->input->post('STATUS_OPERASI'),
-                'MERK_CELL'      => $this->input->post('MERK_CELL'),
-                'TYPE_CELL'      => $this->input->post('TYPE_CELL'),
-                'THN_CELL'       => $this->input->post('THN_CELL'),
-                'STATUS_SCADA'   => $this->input->post('STATUS_SCADA'),
-                'MERK_RELAY'     => $this->input->post('MERK_RELAY'),
-                'TYPE_RELAY'     => $this->input->post('TYPE_RELAY'),
-                'THN_RELAY'      => $this->input->post('THN_RELAY'),
-                'RATIO_CT'       => $this->input->post('RATIO_CT'),
+                'CELL_TYPE' => $this->input->post('CELL_TYPE')
             ];
 
             $this->Gh_cell_model->update_gh_cell($original, $updateData);

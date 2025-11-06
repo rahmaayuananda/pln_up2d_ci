@@ -17,69 +17,146 @@
 				<?php endif; ?>
 				<form action="<?= base_url('Kit_cell/tambah'); ?>" method="post">
 					<div class="row g-3">
-						<div class="col-md-6">
-							<label class="form-label">SSOT Number</label>
-												<input type="text" class="form-control" name="SSOTNUMBER" required>
-						</div>
-						<div class="col-md-6">
-							<label class="form-label">Nama Pembangkit (Teks)</label>
-							<input type="text" class="form-control" name="PEMBANGKIT" placeholder="Nama pembangkit (opsional jika pakai relasi)">
-						</div>
-						<div class="col-md-6">
-							<label class="form-label">Nama Cell</label>
-							<input type="text" class="form-control" name="NAMA_CELL" required>
-						</div>
-						<div class="col-md-6">
-							<label class="form-label">Jenis Cell</label>
-							<input type="text" class="form-control" name="JENIS_CELL">
+						<!-- 34 database columns from kit_cell table -->
+						<div class="col-md-4">
+							<label class="form-label">CXUNIT</label>
+							<input type="text" class="form-control" name="CXUNIT">
 						</div>
 						<div class="col-md-4">
-							<label class="form-label">Status Operasi</label>
-							<input type="text" class="form-control" name="STATUS_OPERASI">
+							<label class="form-label">UNITNAME</label>
+							<input type="text" class="form-control" name="UNITNAME">
 						</div>
 						<div class="col-md-4">
-							<label class="form-label">Status SCADA</label>
-							<input type="text" class="form-control" name="STATUS_SCADA">
-						</div>
-						<div class="col-md-4">
-							<label class="form-label">Ratio CT</label>
-							<input type="text" class="form-control" name="RATIO_CT">
-						</div>
-						<div class="col-md-4">
-							<label class="form-label">Merk Cell</label>
-							<input type="text" class="form-control" name="MERK_CELL">
-						</div>
-						<div class="col-md-4">
-							<label class="form-label">Type Cell</label>
-							<input type="text" class="form-control" name="TYPE_CELL">
-						</div>
-						<div class="col-md-4">
-							<label class="form-label">Tahun Cell</label>
-							<input type="text" class="form-control" name="THN_CELL">
+							<label class="form-label">ASSETNUM</label>
+							<input type="text" class="form-control" name="ASSETNUM">
 						</div>
 						<div class="col-md-6">
-							<label class="form-label">Merk Relay</label>
-							<input type="text" class="form-control" name="MERK_RELAY">
+							<label class="form-label">SSOTNUMBER <span class="text-danger">*</span></label>
+							<input type="text" class="form-control" name="SSOTNUMBER" required>
 						</div>
 						<div class="col-md-6">
-							<label class="form-label">Type Relay</label>
-							<input type="text" class="form-control" name="TYPE_RELAY">
+							<label class="form-label">LOCATION</label>
+							<input type="text" class="form-control" name="LOCATION">
+						</div>
+						<div class="col-md-12">
+							<label class="form-label">DESCRIPTION</label>
+							<textarea class="form-control" name="DESCRIPTION" rows="2"></textarea>
 						</div>
 						<div class="col-md-4">
-							<label class="form-label">Tahun Relay</label>
-							<input type="text" class="form-control" name="THN_RELAY">
+							<label class="form-label">VENDOR</label>
+							<input type="text" class="form-control" name="VENDOR">
 						</div>
-						<div class="col-md-8">
-							<label class="form-label">Relasi ke Pembangkit (opsional)</label>
-							<select class="form-select" name="ID_PEMBANGKIT">
-								<option value="">-- Pilih Pembangkit --</option>
-								<?php if (!empty($pembangkit_list)) : ?>
-									<?php foreach ($pembangkit_list as $p) : ?>
-										<option value="<?= htmlentities($p['ID_PEMBANGKIT']); ?>">[<?= htmlentities($p['ID_PEMBANGKIT']); ?>] <?= htmlentities($p['NAMA_PEMBANGKIT'] ?? ($p['PEMBANGKIT'] ?? '')); ?></option>
-									<?php endforeach; ?>
-								<?php endif; ?>
+						<div class="col-md-4">
+							<label class="form-label">MANUFACTURER</label>
+							<input type="text" class="form-control" name="MANUFACTURER">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">INSTALLDATE</label>
+							<input type="date" class="form-control" name="INSTALLDATE">
+						</div>
+						<div class="col-md-3">
+							<label class="form-label">PRIORITY</label>
+							<input type="text" class="form-control" name="PRIORITY">
+						</div>
+						<div class="col-md-3">
+							<label class="form-label">STATUS</label>
+							<input type="text" class="form-control" name="STATUS">
+						</div>
+						<div class="col-md-3">
+							<label class="form-label">TUJDNUMBER</label>
+							<input type="text" class="form-control" name="TUJDNUMBER">
+						</div>
+						<div class="col-md-3">
+							<label class="form-label">CHANGEBY</label>
+							<input type="text" class="form-control" name="CHANGEBY">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">CHANGEDATE</label>
+							<input type="date" class="form-control" name="CHANGEDATE">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">CXCLASSIFICATIONDESC</label>
+							<input type="text" class="form-control" name="CXCLASSIFICATIONDESC">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">CXPENYULANG</label>
+							<input type="text" class="form-control" name="CXPENYULANG">
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">NAMA_LOCATION</label>
+							<input type="text" class="form-control" name="NAMA_LOCATION">
+						</div>
+						<div class="col-md-3">
+							<label class="form-label">LONGITUDEX</label>
+							<input type="text" class="form-control" name="LONGITUDEX">
+						</div>
+						<div class="col-md-3">
+							<label class="form-label">LATITUDEY</label>
+							<input type="text" class="form-control" name="LATITUDEY">
+						</div>
+						<div class="col-md-3">
+							<label class="form-label">ISASSET</label>
+							<input type="text" class="form-control" name="ISASSET">
+						</div>
+						<div class="col-md-3">
+							<label class="form-label">STATUS_KEPEMILIKAN</label>
+							<input type="text" class="form-control" name="STATUS_KEPEMILIKAN">
+						</div>
+						<div class="col-md-3">
+							<label class="form-label">BURDEN</label>
+							<input type="text" class="form-control" name="BURDEN">
+						</div>
+						<div class="col-md-3">
+							<label class="form-label">FAKTOR_KALI</label>
+							<input type="text" class="form-control" name="FAKTOR_KALI">
+						</div>
+						<div class="col-md-3">
+							<label class="form-label">JENIS_CT</label>
+							<input type="text" class="form-control" name="JENIS_CT">
+						</div>
+						<div class="col-md-3">
+							<label class="form-label">KELAS_CT</label>
+							<input type="text" class="form-control" name="KELAS_CT">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">KELAS_PROTEKSI</label>
+							<input type="text" class="form-control" name="KELAS_PROTEKSI">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">PRIMER_SEKUNDER</label>
+							<input type="text" class="form-control" name="PRIMER_SEKUNDER">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">TIPE_CT</label>
+							<input type="text" class="form-control" name="TIPE_CT">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">OWNERSYSID</label>
+							<input type="text" class="form-control" name="OWNERSYSID">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">ISOLASI_KUBIKEL</label>
+							<input type="text" class="form-control" name="ISOLASI_KUBIKEL">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">JENIS_MVCELL</label>
+							<input type="text" class="form-control" name="JENIS_MVCELL">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">TH_BUAT</label>
+							<input type="text" class="form-control" name="TH_BUAT">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">TYPE_MVCELL</label>
+							<input type="text" class="form-control" name="TYPE_MVCELL">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">CELL_TYPE</label>
+							<select class="form-select" name="CELL_TYPE">
+								<option value="">-- Pilih --</option>
+								<option value="CT">CT</option>
+								<option value="MVCELL">MVCELL</option>
 							</select>
-							<small class="text-muted">Kosongkan jika tidak ingin mengikat ke data Pembangkit.</small>
 						</div>
 					</div>
 					<div class="mt-4">
