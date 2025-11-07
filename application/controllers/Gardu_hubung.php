@@ -194,7 +194,13 @@ class Gardu_hubung extends CI_Controller
                 'STATUS_RC' => $this->input->post('STATUS_RC'),
                 'TYPE_GARDU' => $this->input->post('TYPE_GARDU')
             ];
-            $this->Gardu_hubung_model->update_gardu_hubung($original, $updateData);
+            $update_success = $this->Gardu_hubung_model->update_gardu_hubung($original, $updateData);
+            
+            // Log aktivitas update
+            if ($update_success) {
+                log_update('gardu_hubung', $original, $updateData['GARDU_HUBUNG']);
+            }
+            
             $this->session->set_flashdata('success', 'Data Gardu Hubung berhasil diperbarui!');
             redirect('Gardu_hubung');
         } else {
@@ -221,7 +227,18 @@ class Gardu_hubung extends CI_Controller
             $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menghapus data');
             redirect('Gardu_hubung');
         }
-        $this->Gardu_hubung_model->delete_gardu_hubung($id);
+        
+        // Get data before delete for logging
+        $gardu = $this->Gardu_hubung_model->get_gardu_hubung_by_id($id);
+        $gardu_name = $gardu ? ($gardu['GARDU_HUBUNG'] ?? 'ID-' . $id) : 'ID-' . $id;
+        
+        $delete_success = $this->Gardu_hubung_model->delete_gardu_hubung($id);
+        
+        // Log aktivitas delete
+        if ($delete_success) {
+            log_delete('gardu_hubung', $id, $gardu_name);
+        }
+        
         $this->session->set_flashdata('success', 'Data Gardu Hubung berhasil dihapus!');
         redirect('Gardu_hubung');
     }

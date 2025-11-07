@@ -42,14 +42,14 @@ class Unit_model extends CI_Model
     public function update_unit($id, $data)
     {
         $this->db->where('ID_UNIT', $id);
-        $this->db->update($this->table, $data);
+        return $this->db->update($this->table, $data);
     }
 
     // Hapus data
     public function delete_unit($id)
     {
         $this->db->where('ID_UNIT', $id);
-        $this->db->delete($this->table);
+        return $this->db->delete($this->table);
     }
 
     // Ambil semua data tanpa paginasi (untuk export/download)
