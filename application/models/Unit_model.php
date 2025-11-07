@@ -8,6 +8,8 @@ class Unit_model extends CI_Model
     // Ambil semua data dengan paginasi
     public function get_unit($limit, $offset)
     {
+        // Tambahkan order_by agar data terbaru (ID besar) tampil di atas
+        $this->db->order_by('ID_UNIT', 'DESC');
         $this->db->limit($limit, $offset);
         return $this->db->get($this->table)->result_array();
     }
@@ -27,6 +29,11 @@ class Unit_model extends CI_Model
     // Tambah data baru
     public function insert_unit($data)
     {
+        // Pastikan ID_UNIT tidak dikirim manual
+        if (isset($data['ID_UNIT'])) {
+            unset($data['ID_UNIT']);
+        }
+
         $this->db->insert($this->table, $data);
         return $this->db->insert_id();
     }
@@ -48,6 +55,8 @@ class Unit_model extends CI_Model
     // Ambil semua data tanpa paginasi (untuk export/download)
     public function get_all_units()
     {
+        // Tambahkan order_by agar urutan export sama (terbaru dulu)
+        $this->db->order_by('ID_UNIT', 'DESC');
         return $this->db->get($this->table)->result_array();
     }
 
