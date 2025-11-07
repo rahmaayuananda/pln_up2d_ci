@@ -19,16 +19,23 @@ function role_check()
     // If no role set, allow by default
     if (!$role) return;
 
-    // Example rule: Perencanaan can only access dashboard and pengaduan
+    // Example rule: Perencanaan can access dashboard, asset, pustaka, and pengaduan
     if (strtolower($role) === 'perencanaan') {
         // Don't run role checks for auth or public controllers so login/logout still work
         $controller = strtolower($CI->router->fetch_class());
-        $excluded_controllers = ['login', 'logout', 'welcome', 'assets'];
+        $excluded_controllers = ['login', 'logout', 'welcome', 'assets', 'notifikasi'];
         if (in_array($controller, $excluded_controllers)) {
             return;
         }
 
-        $allowed_controllers = ['dashboard', 'pengaduan'];
+        $allowed_controllers = ['dashboard', 'pengaduan',
+                               // Asset modules
+                               'unit', 'gardu_induk', 'gi_cell', 'gardu_hubung', 'gh_cell', 
+                               'pembangkit', 'kit_cell', 'pemutus',
+                               // Pustaka modules
+                               'sop', 'bpm', 'ik', 'road_map', 'spln',
+                               // Anggaran modules
+                               'operasi', 'investasi'];
 
         if (!in_array($controller, $allowed_controllers)) {
             // If request is AJAX, return 403 JSON

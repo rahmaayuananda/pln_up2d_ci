@@ -119,7 +119,12 @@
                                         <td class="text-sm">
                                             <span class="badge 
                                                 <?= ($row['STATUS'] ?? '') == 'Selesai' ? 'bg-success' : (($row['STATUS'] ?? '') == 'Diproses' ? 'bg-warning text-dark' : 'bg-secondary'); ?>">
-                                                <?= htmlentities($row['STATUS'] ?? '-'); ?>
+                                                <?php
+                                                    $rawStatus = $row['STATUS'] ?? '-';
+                                                    // Treat legacy 'Menunggu' as 'Lapor' and display 'Lapor' for both
+                                                    $displayStatus = in_array($rawStatus, ['Menunggu', 'Lapor']) ? 'Lapor' : $rawStatus;
+                                                    echo htmlentities($displayStatus);
+                                                ?>
                                             </span>
                                         </td>
                                         <td class="text-sm"><?= htmlentities($row['PIC'] ?? '-'); ?></td>

@@ -108,7 +108,11 @@
                                     <div class="col-md-6">
                                         <div class="detail-item">
                                             <span class="label">Status</span>
-                                            <p class="value"><?= htmlspecialchars($pengaduan['STATUS'] ?? '-'); ?></p>
+                                            <?php
+                                                $rawStatus = $pengaduan['STATUS'] ?? '-';
+                                                $displayStatus = ($rawStatus === 'Menunggu') ? 'Lapor' : $rawStatus;
+                                            ?>
+                                            <p class="value"><?= htmlspecialchars($displayStatus); ?></p>
                                         </div>
                                     </div>
                                     <div class="col-md-6">

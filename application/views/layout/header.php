@@ -358,7 +358,7 @@
   </div>
   <?php endif; ?>
 
-  <?php if ($role !== 'perencanaan' && $role !== 'pemeliharaan' && $role !== 'operasi sistem distribusi' && $role !== 'fasilitas operasi' && $role !== 'k3l & kam'): ?>
+  <?php if ($role !== 'up3' && $role !== 'guest'): ?>
   <!-- Anggaran -->
         <li class="nav-item">
           <a href="#menuAnggaran"

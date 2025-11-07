@@ -37,7 +37,7 @@ if (!function_exists('can_create')) {
             return strtolower($module) === 'pengaduan';
         }
 
-        // Pemeliharaan: Bisa CRUD di Asset, Pustaka, dan Pengaduan
+        // Pemeliharaan: Bisa CRUD di Asset, Pustaka, Pengaduan, dan Anggaran
         if (strtolower($role) === 'pemeliharaan') {
             if ($module === null) {
                 $module = $CI->router->fetch_class();
@@ -45,11 +45,12 @@ if (!function_exists('can_create')) {
             $allowed = ['unit', 'gardu_induk', 'gi_cell', 'gardu_hubung', 'gh_cell', 
                        'pembangkit', 'kit_cell', 'pemutus', // Asset modules
                        'sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
-                       'pengaduan']; // Pengaduan module
+                       'pengaduan', // Pengaduan module
+                       'operasi', 'investasi']; // Anggaran modules
             return in_array(strtolower($module), $allowed);
         }
 
-        // Operasi Sistem Distribusi: Bisa CRUD di Asset, Pustaka, dan Operasi
+        // Operasi Sistem Distribusi: Bisa CRUD di Asset, Pustaka, Operasi, dan Anggaran
         if (strtolower($role) === 'operasi sistem distribusi') {
             if ($module === null) {
                 $module = $CI->router->fetch_class();
@@ -57,11 +58,12 @@ if (!function_exists('can_create')) {
             $allowed = ['unit', 'gardu_induk', 'gi_cell', 'gardu_hubung', 'gh_cell', 
                        'pembangkit', 'kit_cell', 'pemutus', // Asset modules
                        'sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
-                       'single_line_diagram']; // Operasi module
+                       'single_line_diagram', // Operasi module
+                       'operasi', 'investasi']; // Anggaran modules
             return in_array(strtolower($module), $allowed);
         }
 
-        // Fasilitas Operasi: Bisa CRUD di Asset, Pustaka, dan Pengaduan
+        // Fasilitas Operasi: Bisa CRUD di Asset, Pustaka, Pengaduan, dan Anggaran
         if (strtolower($role) === 'fasilitas operasi') {
             if ($module === null) {
                 $module = $CI->router->fetch_class();
@@ -69,16 +71,31 @@ if (!function_exists('can_create')) {
             $allowed = ['unit', 'gardu_induk', 'gi_cell', 'gardu_hubung', 'gh_cell', 
                        'pembangkit', 'kit_cell', 'pemutus', // Asset modules
                        'sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
-                       'pengaduan']; // Pengaduan module
+                       'pengaduan', // Pengaduan module
+                       'operasi', 'investasi']; // Anggaran modules
             return in_array(strtolower($module), $allowed);
         }
 
-        // K3L & KAM: Hanya bisa CRUD di Pustaka
+        // K3L & KAM: Bisa CRUD di Pustaka dan Anggaran
         if (strtolower($role) === 'k3l & kam') {
             if ($module === null) {
                 $module = $CI->router->fetch_class();
             }
-            $allowed = ['sop', 'bpm', 'ik', 'road_map', 'spln']; // Pustaka modules only
+            $allowed = ['sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
+                       'operasi', 'investasi']; // Anggaran modules
+            return in_array(strtolower($module), $allowed);
+        }
+
+        // Perencanaan: Bisa CRUD di Asset, Pustaka, Pengaduan, dan Anggaran
+        if (strtolower($role) === 'perencanaan') {
+            if ($module === null) {
+                $module = $CI->router->fetch_class();
+            }
+            $allowed = ['unit', 'gardu_induk', 'gi_cell', 'gardu_hubung', 'gh_cell', 
+                       'pembangkit', 'kit_cell', 'pemutus', // Asset modules
+                       'sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
+                       'pengaduan', // Pengaduan module
+                       'operasi', 'investasi']; // Anggaran modules
             return in_array(strtolower($module), $allowed);
         }
 
@@ -118,7 +135,7 @@ if (!function_exists('can_edit')) {
             return strtolower($module) === 'pengaduan';
         }
 
-        // Pemeliharaan: Bisa CRUD di Asset, Pustaka, dan Pengaduan
+        // Pemeliharaan: Bisa CRUD di Asset, Pustaka, Pengaduan, dan Anggaran
         if (strtolower($role) === 'pemeliharaan') {
             if ($module === null) {
                 $module = $CI->router->fetch_class();
@@ -126,11 +143,12 @@ if (!function_exists('can_edit')) {
             $allowed = ['unit', 'gardu_induk', 'gi_cell', 'gardu_hubung', 'gh_cell', 
                        'pembangkit', 'kit_cell', 'pemutus', // Asset modules
                        'sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
-                       'pengaduan']; // Pengaduan module
+                       'pengaduan', // Pengaduan module
+                       'operasi', 'investasi']; // Anggaran modules
             return in_array(strtolower($module), $allowed);
         }
 
-        // Operasi Sistem Distribusi: Bisa CRUD di Asset, Pustaka, dan Operasi
+        // Operasi Sistem Distribusi: Bisa CRUD di Asset, Pustaka, Operasi, dan Anggaran
         if (strtolower($role) === 'operasi sistem distribusi') {
             if ($module === null) {
                 $module = $CI->router->fetch_class();
@@ -138,11 +156,12 @@ if (!function_exists('can_edit')) {
             $allowed = ['unit', 'gardu_induk', 'gi_cell', 'gardu_hubung', 'gh_cell', 
                        'pembangkit', 'kit_cell', 'pemutus', // Asset modules
                        'sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
-                       'single_line_diagram']; // Operasi module
+                       'single_line_diagram', // Operasi module
+                       'operasi', 'investasi']; // Anggaran modules
             return in_array(strtolower($module), $allowed);
         }
 
-        // Fasilitas Operasi: Bisa CRUD di Asset, Pustaka, dan Pengaduan
+        // Fasilitas Operasi: Bisa CRUD di Asset, Pustaka, Pengaduan, dan Anggaran
         if (strtolower($role) === 'fasilitas operasi') {
             if ($module === null) {
                 $module = $CI->router->fetch_class();
@@ -150,16 +169,31 @@ if (!function_exists('can_edit')) {
             $allowed = ['unit', 'gardu_induk', 'gi_cell', 'gardu_hubung', 'gh_cell', 
                        'pembangkit', 'kit_cell', 'pemutus', // Asset modules
                        'sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
-                       'pengaduan']; // Pengaduan module
+                       'pengaduan', // Pengaduan module
+                       'operasi', 'investasi']; // Anggaran modules
             return in_array(strtolower($module), $allowed);
         }
 
-        // K3L & KAM: Hanya bisa CRUD di Pustaka
+        // K3L & KAM: Bisa CRUD di Pustaka dan Anggaran
         if (strtolower($role) === 'k3l & kam') {
             if ($module === null) {
                 $module = $CI->router->fetch_class();
             }
-            $allowed = ['sop', 'bpm', 'ik', 'road_map', 'spln']; // Pustaka modules only
+            $allowed = ['sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
+                       'operasi', 'investasi']; // Anggaran modules
+            return in_array(strtolower($module), $allowed);
+        }
+
+        // Perencanaan: Bisa CRUD di Asset, Pustaka, Pengaduan, dan Anggaran
+        if (strtolower($role) === 'perencanaan') {
+            if ($module === null) {
+                $module = $CI->router->fetch_class();
+            }
+            $allowed = ['unit', 'gardu_induk', 'gi_cell', 'gardu_hubung', 'gh_cell', 
+                       'pembangkit', 'kit_cell', 'pemutus', // Asset modules
+                       'sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
+                       'pengaduan', // Pengaduan module
+                       'operasi', 'investasi']; // Anggaran modules
             return in_array(strtolower($module), $allowed);
         }
 
@@ -199,7 +233,7 @@ if (!function_exists('can_delete')) {
             return strtolower($module) === 'pengaduan';
         }
 
-        // Pemeliharaan: Bisa CRUD di Asset, Pustaka, dan Pengaduan
+        // Pemeliharaan: Bisa CRUD di Asset, Pustaka, Pengaduan, dan Anggaran
         if (strtolower($role) === 'pemeliharaan') {
             if ($module === null) {
                 $module = $CI->router->fetch_class();
@@ -207,11 +241,12 @@ if (!function_exists('can_delete')) {
             $allowed = ['unit', 'gardu_induk', 'gi_cell', 'gardu_hubung', 'gh_cell', 
                        'pembangkit', 'kit_cell', 'pemutus', // Asset modules
                        'sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
-                       'pengaduan']; // Pengaduan module
+                       'pengaduan', // Pengaduan module
+                       'operasi', 'investasi']; // Anggaran modules
             return in_array(strtolower($module), $allowed);
         }
 
-        // Operasi Sistem Distribusi: Bisa CRUD di Asset, Pustaka, dan Operasi
+        // Operasi Sistem Distribusi: Bisa CRUD di Asset, Pustaka, Operasi, dan Anggaran
         if (strtolower($role) === 'operasi sistem distribusi') {
             if ($module === null) {
                 $module = $CI->router->fetch_class();
@@ -219,11 +254,12 @@ if (!function_exists('can_delete')) {
             $allowed = ['unit', 'gardu_induk', 'gi_cell', 'gardu_hubung', 'gh_cell', 
                        'pembangkit', 'kit_cell', 'pemutus', // Asset modules
                        'sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
-                       'single_line_diagram']; // Operasi module
+                       'single_line_diagram', // Operasi module
+                       'operasi', 'investasi']; // Anggaran modules
             return in_array(strtolower($module), $allowed);
         }
 
-        // Fasilitas Operasi: Bisa CRUD di Asset, Pustaka, dan Pengaduan
+        // Fasilitas Operasi: Bisa CRUD di Asset, Pustaka, Pengaduan, dan Anggaran
         if (strtolower($role) === 'fasilitas operasi') {
             if ($module === null) {
                 $module = $CI->router->fetch_class();
@@ -231,16 +267,31 @@ if (!function_exists('can_delete')) {
             $allowed = ['unit', 'gardu_induk', 'gi_cell', 'gardu_hubung', 'gh_cell', 
                        'pembangkit', 'kit_cell', 'pemutus', // Asset modules
                        'sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
-                       'pengaduan']; // Pengaduan module
+                       'pengaduan', // Pengaduan module
+                       'operasi', 'investasi']; // Anggaran modules
             return in_array(strtolower($module), $allowed);
         }
 
-        // K3L & KAM: Hanya bisa CRUD di Pustaka
+        // K3L & KAM: Bisa CRUD di Pustaka dan Anggaran
         if (strtolower($role) === 'k3l & kam') {
             if ($module === null) {
                 $module = $CI->router->fetch_class();
             }
-            $allowed = ['sop', 'bpm', 'ik', 'road_map', 'spln']; // Pustaka modules only
+            $allowed = ['sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
+                       'operasi', 'investasi']; // Anggaran modules
+            return in_array(strtolower($module), $allowed);
+        }
+
+        // Perencanaan: Bisa CRUD di Asset, Pustaka, Pengaduan, dan Anggaran
+        if (strtolower($role) === 'perencanaan') {
+            if ($module === null) {
+                $module = $CI->router->fetch_class();
+            }
+            $allowed = ['unit', 'gardu_induk', 'gi_cell', 'gardu_hubung', 'gh_cell', 
+                       'pembangkit', 'kit_cell', 'pemutus', // Asset modules
+                       'sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
+                       'pengaduan', // Pengaduan module
+                       'operasi', 'investasi']; // Anggaran modules
             return in_array(strtolower($module), $allowed);
         }
 
@@ -316,11 +367,11 @@ if (!function_exists('can_access_module')) {
         // Mapping akses modul per role
         $access_map = [
             'up3' => ['pengaduan'],
-            'perencanaan' => ['asset', 'pustaka', 'pengaduan'],
-            'pemeliharaan' => ['asset', 'pustaka', 'pengaduan'],
-            'operasi sistem distribusi' => ['asset', 'pustaka', 'operasi'],
-            'fasilitas operasi' => ['asset', 'pustaka', 'pengaduan'],
-            'k3l & kam' => ['pustaka'],
+            'perencanaan' => ['asset', 'pustaka', 'pengaduan', 'anggaran'],
+            'pemeliharaan' => ['asset', 'pustaka', 'pengaduan', 'anggaran'],
+            'operasi sistem distribusi' => ['asset', 'pustaka', 'operasi', 'anggaran'],
+            'fasilitas operasi' => ['asset', 'pustaka', 'pengaduan', 'anggaran'],
+            'k3l & kam' => ['pustaka', 'anggaran'],
         ];
 
         if (isset($access_map[$role])) {
