@@ -28,11 +28,14 @@
                             <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
                         </a>
                     </li>
+                    <!-- Notifikasi -->
                     <li class="nav-item dropdown pe-2 d-flex align-items-center">
-                        <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa fa-bell cursor-pointer"></i>
+                        <a href="<?= base_url('Notifikasi'); ?>" class="nav-link text-white p-0 position-relative" title="Lihat Notifikasi">
+                            <i class="fa fa-bell cursor-pointer" style="font-size: 18px;"></i>
+                            <span id="notifBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 9px; display: none;">
+                                0
+                            </span>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton"></ul>
                     </li>
                 </ul>
             </div>
@@ -50,17 +53,17 @@
 
         <div class="card mb-4 shadow border-0 rounded-4">
             <div class="card-header py-2 d-flex justify-content-between align-items-center bg-gradient-primary text-white rounded-top-4">
-                <h6 class="mb-0">Tabel Data Pembangkit</h6>
-                <div class="d-flex align-items-center">
+                <h6 class="mb-0 d-flex align-items-center">Tabel Data Pembangkit</h6>
+                <div class="d-flex align-items-center" style="padding-top: 16px;">
                     <?php if (can_create()): ?>
-                        <a href="<?= base_url('Pembangkit/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
+                        <a href="<?= base_url('Unit/tambah') ?>" class="btn btn-sm btn-light text-primary me-2 d-flex align-items-center">
                             <i class="fas fa-plus me-1"></i> Tambah
                         </a>
-                        <a href="<?= base_url('import/pembangkit') ?>" class="btn btn-sm btn-light text-success">
+                        <a href="<?= base_url('import/unit') ?>" class="btn btn-sm btn-light text-success d-flex align-items-center">
                             <i class="fas fa-file-import me-1"></i> Import
                         </a>
                     <?php endif; ?>
-                    <a href="<?= base_url('Pembangkit/export_csv') ?>" class="btn btn-sm btn-light text-secondary ms-2">
+                    <a href="<?= base_url('Unit/export_csv') ?>" class="btn btn-sm btn-light text-secondary ms-2 d-flex align-items-center">
                         <i class="fas fa-file-csv me-1"></i> Download CSV
                     </a>
                 </div>
