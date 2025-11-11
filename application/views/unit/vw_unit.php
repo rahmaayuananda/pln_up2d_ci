@@ -53,12 +53,12 @@
                 <h6 class="mb-0">Tabel Data Unit</h6>
                 <div class="d-flex align-items-center">
                     <?php if (can_create()): ?>
-                    <a href="<?= base_url('Unit/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
-                        <i class="fas fa-plus me-1"></i> Tambah
-                    </a>
-                    <a href="<?= base_url('import/unit') ?>" class="btn btn-sm btn-light text-success">
-                        <i class="fas fa-file-import me-1"></i> Import
-                    </a>
+                        <a href="<?= base_url('Unit/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
+                            <i class="fas fa-plus me-1"></i> Tambah
+                        </a>
+                        <a href="<?= base_url('import/unit') ?>" class="btn btn-sm btn-light text-success">
+                            <i class="fas fa-file-import me-1"></i> Import
+                        </a>
                     <?php endif; ?>
                     <a href="<?= base_url('Unit/export_csv') ?>" class="btn btn-sm btn-light text-secondary ms-2">
                         <i class="fas fa-file-csv me-1"></i> Download CSV
@@ -118,14 +118,14 @@
                                                 <i class="fas fa-info-circle"></i>
                                             </a>
                                             <?php if (can_edit()): ?>
-                                            <a href="<?= base_url('Unit/edit/' . $row['ID_UNIT']); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
-                                                <i class="fas fa-pen"></i>
-                                            </a>
+                                                <a href="<?= base_url('Unit/edit/' . $row['ID_UNIT']); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
+                                                    <i class="fas fa-pen"></i>
+                                                </a>
                                             <?php endif; ?>
                                             <?php if (can_delete()): ?>
-                                            <a href="<?= base_url('Unit/hapus/' . $row['ID_UNIT']); ?>" class="btn btn-danger btn-xs btn-hapus" title="Hapus">
-                                                <i class="fas fa-trash"></i>
-                                            </a>
+                                                <a href="<?= base_url('Unit/hapus/' . $row['ID_UNIT']); ?>" class="btn btn-danger btn-xs btn-hapus" title="Hapus">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
                                             <?php endif; ?>
                                         </td>
                                     </tr>
@@ -260,6 +260,24 @@
         padding-top: 8px !important;
         padding-bottom: 8px !important;
         font-size: 12px !important;
+    }
+
+    /* Rata tengah vertikal & horizontal untuk kolom aksi + beri jarak atas-bawah */
+    #unitTable tbody td.text-center {
+        vertical-align: middle !important;
+        /* tetap di tengah vertikal */
+        text-align: center !important;
+        /* di tengah horizontal */
+        padding-top: 6px !important;
+        /* jarak atas */
+        padding-bottom: 6px !important;
+        /* jarak bawah */
+    }
+
+    /* Jarak antar tombol */
+    #unitTable tbody td.text-center .btn {
+        margin: 2px 3px;
+        /* jarak atas-bawah 2px, kiri-kanan 3px */
     }
 </style>
 <script>

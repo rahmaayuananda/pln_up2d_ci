@@ -19,9 +19,11 @@ if (!function_exists('can_create')) {
         $is_guest = $CI->session->userdata('is_guest');
 
         // Guest tidak bisa create
-        if ($is_guest || strtolower($role) === 'guest') {
+        // Guest tidak bisa create
+        if ($is_guest || strtolower($role ?? '') === 'guest') {
             return false;
         }
+
 
         // Admin bisa semua
         if (strtolower($role) === 'admin' || strtolower($role) === 'administrator') {
@@ -42,11 +44,24 @@ if (!function_exists('can_create')) {
             if ($module === null) {
                 $module = $CI->router->fetch_class();
             }
-            $allowed = ['unit', 'gardu_induk', 'gi_cell', 'gardu_hubung', 'gh_cell', 
-                       'pembangkit', 'kit_cell', 'pemutus', // Asset modules
-                       'sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
-                       'pengaduan', // Pengaduan module
-                       'operasi', 'investasi']; // Anggaran modules
+            $allowed = [
+                'unit',
+                'gardu_induk',
+                'gi_cell',
+                'gardu_hubung',
+                'gh_cell',
+                'pembangkit',
+                'kit_cell',
+                'pemutus', // Asset modules
+                'sop',
+                'bpm',
+                'ik',
+                'road_map',
+                'spln', // Pustaka modules
+                'pengaduan', // Pengaduan module
+                'operasi',
+                'investasi'
+            ]; // Anggaran modules
             return in_array(strtolower($module), $allowed);
         }
 
@@ -55,11 +70,24 @@ if (!function_exists('can_create')) {
             if ($module === null) {
                 $module = $CI->router->fetch_class();
             }
-            $allowed = ['unit', 'gardu_induk', 'gi_cell', 'gardu_hubung', 'gh_cell', 
-                       'pembangkit', 'kit_cell', 'pemutus', // Asset modules
-                       'sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
-                       'single_line_diagram', // Operasi module
-                       'operasi', 'investasi']; // Anggaran modules
+            $allowed = [
+                'unit',
+                'gardu_induk',
+                'gi_cell',
+                'gardu_hubung',
+                'gh_cell',
+                'pembangkit',
+                'kit_cell',
+                'pemutus', // Asset modules
+                'sop',
+                'bpm',
+                'ik',
+                'road_map',
+                'spln', // Pustaka modules
+                'single_line_diagram', // Operasi module
+                'operasi',
+                'investasi'
+            ]; // Anggaran modules
             return in_array(strtolower($module), $allowed);
         }
 
@@ -68,11 +96,24 @@ if (!function_exists('can_create')) {
             if ($module === null) {
                 $module = $CI->router->fetch_class();
             }
-            $allowed = ['unit', 'gardu_induk', 'gi_cell', 'gardu_hubung', 'gh_cell', 
-                       'pembangkit', 'kit_cell', 'pemutus', // Asset modules
-                       'sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
-                       'pengaduan', // Pengaduan module
-                       'operasi', 'investasi']; // Anggaran modules
+            $allowed = [
+                'unit',
+                'gardu_induk',
+                'gi_cell',
+                'gardu_hubung',
+                'gh_cell',
+                'pembangkit',
+                'kit_cell',
+                'pemutus', // Asset modules
+                'sop',
+                'bpm',
+                'ik',
+                'road_map',
+                'spln', // Pustaka modules
+                'pengaduan', // Pengaduan module
+                'operasi',
+                'investasi'
+            ]; // Anggaran modules
             return in_array(strtolower($module), $allowed);
         }
 
@@ -81,8 +122,15 @@ if (!function_exists('can_create')) {
             if ($module === null) {
                 $module = $CI->router->fetch_class();
             }
-            $allowed = ['sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
-                       'operasi', 'investasi']; // Anggaran modules
+            $allowed = [
+                'sop',
+                'bpm',
+                'ik',
+                'road_map',
+                'spln', // Pustaka modules
+                'operasi',
+                'investasi'
+            ]; // Anggaran modules
             return in_array(strtolower($module), $allowed);
         }
 
@@ -91,11 +139,24 @@ if (!function_exists('can_create')) {
             if ($module === null) {
                 $module = $CI->router->fetch_class();
             }
-            $allowed = ['unit', 'gardu_induk', 'gi_cell', 'gardu_hubung', 'gh_cell', 
-                       'pembangkit', 'kit_cell', 'pemutus', // Asset modules
-                       'sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
-                       'pengaduan', // Pengaduan module
-                       'operasi', 'investasi']; // Anggaran modules
+            $allowed = [
+                'unit',
+                'gardu_induk',
+                'gi_cell',
+                'gardu_hubung',
+                'gh_cell',
+                'pembangkit',
+                'kit_cell',
+                'pemutus', // Asset modules
+                'sop',
+                'bpm',
+                'ik',
+                'road_map',
+                'spln', // Pustaka modules
+                'pengaduan', // Pengaduan module
+                'operasi',
+                'investasi'
+            ]; // Anggaran modules
             return in_array(strtolower($module), $allowed);
         }
 
@@ -140,11 +201,24 @@ if (!function_exists('can_edit')) {
             if ($module === null) {
                 $module = $CI->router->fetch_class();
             }
-            $allowed = ['unit', 'gardu_induk', 'gi_cell', 'gardu_hubung', 'gh_cell', 
-                       'pembangkit', 'kit_cell', 'pemutus', // Asset modules
-                       'sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
-                       'pengaduan', // Pengaduan module
-                       'operasi', 'investasi']; // Anggaran modules
+            $allowed = [
+                'unit',
+                'gardu_induk',
+                'gi_cell',
+                'gardu_hubung',
+                'gh_cell',
+                'pembangkit',
+                'kit_cell',
+                'pemutus', // Asset modules
+                'sop',
+                'bpm',
+                'ik',
+                'road_map',
+                'spln', // Pustaka modules
+                'pengaduan', // Pengaduan module
+                'operasi',
+                'investasi'
+            ]; // Anggaran modules
             return in_array(strtolower($module), $allowed);
         }
 
@@ -153,11 +227,24 @@ if (!function_exists('can_edit')) {
             if ($module === null) {
                 $module = $CI->router->fetch_class();
             }
-            $allowed = ['unit', 'gardu_induk', 'gi_cell', 'gardu_hubung', 'gh_cell', 
-                       'pembangkit', 'kit_cell', 'pemutus', // Asset modules
-                       'sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
-                       'single_line_diagram', // Operasi module
-                       'operasi', 'investasi']; // Anggaran modules
+            $allowed = [
+                'unit',
+                'gardu_induk',
+                'gi_cell',
+                'gardu_hubung',
+                'gh_cell',
+                'pembangkit',
+                'kit_cell',
+                'pemutus', // Asset modules
+                'sop',
+                'bpm',
+                'ik',
+                'road_map',
+                'spln', // Pustaka modules
+                'single_line_diagram', // Operasi module
+                'operasi',
+                'investasi'
+            ]; // Anggaran modules
             return in_array(strtolower($module), $allowed);
         }
 
@@ -166,11 +253,24 @@ if (!function_exists('can_edit')) {
             if ($module === null) {
                 $module = $CI->router->fetch_class();
             }
-            $allowed = ['unit', 'gardu_induk', 'gi_cell', 'gardu_hubung', 'gh_cell', 
-                       'pembangkit', 'kit_cell', 'pemutus', // Asset modules
-                       'sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
-                       'pengaduan', // Pengaduan module
-                       'operasi', 'investasi']; // Anggaran modules
+            $allowed = [
+                'unit',
+                'gardu_induk',
+                'gi_cell',
+                'gardu_hubung',
+                'gh_cell',
+                'pembangkit',
+                'kit_cell',
+                'pemutus', // Asset modules
+                'sop',
+                'bpm',
+                'ik',
+                'road_map',
+                'spln', // Pustaka modules
+                'pengaduan', // Pengaduan module
+                'operasi',
+                'investasi'
+            ]; // Anggaran modules
             return in_array(strtolower($module), $allowed);
         }
 
@@ -179,8 +279,15 @@ if (!function_exists('can_edit')) {
             if ($module === null) {
                 $module = $CI->router->fetch_class();
             }
-            $allowed = ['sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
-                       'operasi', 'investasi']; // Anggaran modules
+            $allowed = [
+                'sop',
+                'bpm',
+                'ik',
+                'road_map',
+                'spln', // Pustaka modules
+                'operasi',
+                'investasi'
+            ]; // Anggaran modules
             return in_array(strtolower($module), $allowed);
         }
 
@@ -189,11 +296,24 @@ if (!function_exists('can_edit')) {
             if ($module === null) {
                 $module = $CI->router->fetch_class();
             }
-            $allowed = ['unit', 'gardu_induk', 'gi_cell', 'gardu_hubung', 'gh_cell', 
-                       'pembangkit', 'kit_cell', 'pemutus', // Asset modules
-                       'sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
-                       'pengaduan', // Pengaduan module
-                       'operasi', 'investasi']; // Anggaran modules
+            $allowed = [
+                'unit',
+                'gardu_induk',
+                'gi_cell',
+                'gardu_hubung',
+                'gh_cell',
+                'pembangkit',
+                'kit_cell',
+                'pemutus', // Asset modules
+                'sop',
+                'bpm',
+                'ik',
+                'road_map',
+                'spln', // Pustaka modules
+                'pengaduan', // Pengaduan module
+                'operasi',
+                'investasi'
+            ]; // Anggaran modules
             return in_array(strtolower($module), $allowed);
         }
 
@@ -238,11 +358,24 @@ if (!function_exists('can_delete')) {
             if ($module === null) {
                 $module = $CI->router->fetch_class();
             }
-            $allowed = ['unit', 'gardu_induk', 'gi_cell', 'gardu_hubung', 'gh_cell', 
-                       'pembangkit', 'kit_cell', 'pemutus', // Asset modules
-                       'sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
-                       'pengaduan', // Pengaduan module
-                       'operasi', 'investasi']; // Anggaran modules
+            $allowed = [
+                'unit',
+                'gardu_induk',
+                'gi_cell',
+                'gardu_hubung',
+                'gh_cell',
+                'pembangkit',
+                'kit_cell',
+                'pemutus', // Asset modules
+                'sop',
+                'bpm',
+                'ik',
+                'road_map',
+                'spln', // Pustaka modules
+                'pengaduan', // Pengaduan module
+                'operasi',
+                'investasi'
+            ]; // Anggaran modules
             return in_array(strtolower($module), $allowed);
         }
 
@@ -251,11 +384,24 @@ if (!function_exists('can_delete')) {
             if ($module === null) {
                 $module = $CI->router->fetch_class();
             }
-            $allowed = ['unit', 'gardu_induk', 'gi_cell', 'gardu_hubung', 'gh_cell', 
-                       'pembangkit', 'kit_cell', 'pemutus', // Asset modules
-                       'sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
-                       'single_line_diagram', // Operasi module
-                       'operasi', 'investasi']; // Anggaran modules
+            $allowed = [
+                'unit',
+                'gardu_induk',
+                'gi_cell',
+                'gardu_hubung',
+                'gh_cell',
+                'pembangkit',
+                'kit_cell',
+                'pemutus', // Asset modules
+                'sop',
+                'bpm',
+                'ik',
+                'road_map',
+                'spln', // Pustaka modules
+                'single_line_diagram', // Operasi module
+                'operasi',
+                'investasi'
+            ]; // Anggaran modules
             return in_array(strtolower($module), $allowed);
         }
 
@@ -264,11 +410,24 @@ if (!function_exists('can_delete')) {
             if ($module === null) {
                 $module = $CI->router->fetch_class();
             }
-            $allowed = ['unit', 'gardu_induk', 'gi_cell', 'gardu_hubung', 'gh_cell', 
-                       'pembangkit', 'kit_cell', 'pemutus', // Asset modules
-                       'sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
-                       'pengaduan', // Pengaduan module
-                       'operasi', 'investasi']; // Anggaran modules
+            $allowed = [
+                'unit',
+                'gardu_induk',
+                'gi_cell',
+                'gardu_hubung',
+                'gh_cell',
+                'pembangkit',
+                'kit_cell',
+                'pemutus', // Asset modules
+                'sop',
+                'bpm',
+                'ik',
+                'road_map',
+                'spln', // Pustaka modules
+                'pengaduan', // Pengaduan module
+                'operasi',
+                'investasi'
+            ]; // Anggaran modules
             return in_array(strtolower($module), $allowed);
         }
 
@@ -277,8 +436,15 @@ if (!function_exists('can_delete')) {
             if ($module === null) {
                 $module = $CI->router->fetch_class();
             }
-            $allowed = ['sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
-                       'operasi', 'investasi']; // Anggaran modules
+            $allowed = [
+                'sop',
+                'bpm',
+                'ik',
+                'road_map',
+                'spln', // Pustaka modules
+                'operasi',
+                'investasi'
+            ]; // Anggaran modules
             return in_array(strtolower($module), $allowed);
         }
 
@@ -287,11 +453,24 @@ if (!function_exists('can_delete')) {
             if ($module === null) {
                 $module = $CI->router->fetch_class();
             }
-            $allowed = ['unit', 'gardu_induk', 'gi_cell', 'gardu_hubung', 'gh_cell', 
-                       'pembangkit', 'kit_cell', 'pemutus', // Asset modules
-                       'sop', 'bpm', 'ik', 'road_map', 'spln', // Pustaka modules
-                       'pengaduan', // Pengaduan module
-                       'operasi', 'investasi']; // Anggaran modules
+            $allowed = [
+                'unit',
+                'gardu_induk',
+                'gi_cell',
+                'gardu_hubung',
+                'gh_cell',
+                'pembangkit',
+                'kit_cell',
+                'pemutus', // Asset modules
+                'sop',
+                'bpm',
+                'ik',
+                'road_map',
+                'spln', // Pustaka modules
+                'pengaduan', // Pengaduan module
+                'operasi',
+                'investasi'
+            ]; // Anggaran modules
             return in_array(strtolower($module), $allowed);
         }
 

@@ -16,43 +16,43 @@ class Pengaduan extends CI_Controller
     {
         $data['judul'] = 'Data Pengaduan';
 
-        $per_page = $this->input->get('per_page');
-        $per_page = (is_numeric($per_page) && $per_page > 0) ? $per_page : 5;
+        // Pagination setup
+        $per_page = (int) $this->input->get('per_page') ?: 5;
+        $page = (int) $this->input->get('page') ?: 0;
 
-        $config['base_url'] = base_url('pengaduan/index');
-        $config['total_rows'] = $this->db->count_all('pengaduan');
-        $config['per_page'] = $per_page;
-        $config['page_query_string'] = TRUE;
-        $config['query_string_segment'] = 'page';
-        $config['reuse_query_string'] = TRUE;
+        $config = [
+            'base_url'            => base_url('pengaduan/index'),
+            'total_rows'          => $this->db->count_all('pengaduan'),
+            'per_page'            => $per_page,
+            'page_query_string'   => true,
+            'query_string_segment' => 'page',
+            'reuse_query_string'  => true,
 
-        // 🎨 Styling Pagination Bootstrap 5
-        $config['full_tag_open'] = '<nav><ul class="pagination justify-content-center">';
-        $config['full_tag_close'] = '</ul></nav>';
-        $config['first_link'] = '« First';
-        $config['first_tag_open'] = '<li class="page-item">';
-        $config['first_tag_close'] = '</li>';
-        $config['last_link'] = 'Last »';
-        $config['last_tag_open'] = '<li class="page-item">';
-        $config['last_tag_close'] = '</li>';
-        $config['next_link'] = '›';
-        $config['next_tag_open'] = '<li class="page-item">';
-        $config['next_tag_close'] = '</li>';
-        $config['prev_link'] = '‹';
-        $config['prev_tag_open'] = '<li class="page-item">';
-        $config['prev_tag_close'] = '</li>';
-        $config['cur_tag_open'] = '<li class="page-item active"><a class="page-link" href="#">';
-        $config['cur_tag_close'] = '</a></li>';
-        $config['num_tag_open'] = '<li class="page-item">';
-        $config['num_tag_close'] = '</li>';
-        $config['attributes'] = ['class' => 'page-link'];
+            // Bootstrap 5 style
+            'full_tag_open'   => '<nav><ul class="pagination justify-content-center">',
+            'full_tag_close'  => '</ul></nav>',
+            'first_link'      => '« First',
+            'first_tag_open'  => '<li class="page-item">',
+            'first_tag_close' => '</li>',
+            'last_link'       => 'Last »',
+            'last_tag_open'   => '<li class="page-item">',
+            'last_tag_close'  => '</li>',
+            'next_link'       => '›',
+            'next_tag_open'   => '<li class="page-item">',
+            'next_tag_close'  => '</li>',
+            'prev_link'       => '‹',
+            'prev_tag_open'   => '<li class="page-item">',
+            'prev_tag_close'  => '</li>',
+            'cur_tag_open'    => '<li class="page-item active"><a class="page-link" href="#">',
+            'cur_tag_close'   => '</a></li>',
+            'num_tag_open'    => '<li class="page-item">',
+            'num_tag_close'   => '</li>',
+            'attributes'      => ['class' => 'page-link']
+        ];
 
         $this->pagination->initialize($config);
 
-        $page = $this->input->get('page');
-        $page = (is_numeric($page) && $page > 0) ? $page : 0;
-
-        $data['pengaduan'] = $this->Pengaduan_model->get_pengaduan_paginated($config['per_page'], $page);
+        $data['pengaduan'] = $this->Pengaduan_model->get_pengaduan_paginated($per_page, $page);
         $data['start_no'] = $page + 1;
         $data['pagination'] = $this->pagination->create_links();
         $data['total_rows'] = $config['total_rows'];
@@ -81,8 +81,15 @@ class Pengaduan extends CI_Controller
             return;
         }
 
+        // Upload foto
         $foto_pengaduan = $this->_upload_file('FOTO_PENGADUAN', './uploads/pengaduan/');
         $foto_proses = $this->_upload_file('FOTO_PROSES', './uploads/proses/');
+
+        // Default status "Lapor" bila kosong
+        $status = $this->input->post('STATUS', true);
+        if (empty($status)) {
+            $status = 'Lapor';
+        }
 
         $insert_data = [
             'NAMA_UP3'          => $this->input->post('NAMA_UP3', true),
@@ -93,9 +100,9 @@ class Pengaduan extends CI_Controller
             'FOTO_PENGADUAN'    => $foto_pengaduan,
             'TANGGAL_PROSES'    => $this->input->post('TANGGAL_PROSES', true),
             'FOTO_PROSES'       => $foto_proses,
-            'STATUS'            => $this->input->post('STATUS', true),
+            'STATUS'            => $status,
             'PIC'               => $this->input->post('PIC', true),
-            'CATATAN'           => $this->input->post('CATATAN', true), // 🟢 Tambahan kolom CATATAN
+            'CATATAN'           => $this->input->post('CATATAN', true),
         ];
 
         $this->Pengaduan_model->insert_pengaduan($insert_data);
@@ -142,8 +149,15 @@ class Pengaduan extends CI_Controller
             return;
         }
 
+        // Upload ulang foto jika ada
         $foto_pengaduan = $this->_upload_file('FOTO_PENGADUAN', './uploads/pengaduan/', $data['pengaduan']['FOTO_PENGADUAN']);
         $foto_proses = $this->_upload_file('FOTO_PROSES', './uploads/proses/', $data['pengaduan']['FOTO_PROSES']);
+
+        // Jika status kosong, tetap pertahankan atau set default "Lapor"
+        $status = $this->input->post('STATUS', true);
+        if (empty($status)) {
+            $status = !empty($data['pengaduan']['STATUS']) ? $data['pengaduan']['STATUS'] : 'Lapor';
+        }
 
         $update_data = [
             'NAMA_UP3'          => $this->input->post('NAMA_UP3', true),
@@ -154,9 +168,9 @@ class Pengaduan extends CI_Controller
             'FOTO_PENGADUAN'    => $foto_pengaduan,
             'TANGGAL_PROSES'    => $this->input->post('TANGGAL_PROSES', true),
             'FOTO_PROSES'       => $foto_proses,
-            'STATUS'            => $this->input->post('STATUS', true),
+            'STATUS'            => $status,
             'PIC'               => $this->input->post('PIC', true),
-            'CATATAN'           => $this->input->post('CATATAN', true), // 🟢 Tambahan kolom CATATAN
+            'CATATAN'           => $this->input->post('CATATAN', true),
         ];
 
         $this->Pengaduan_model->update_pengaduan($id, $update_data);
@@ -173,7 +187,6 @@ class Pengaduan extends CI_Controller
         }
 
         $pengaduan = $this->Pengaduan_model->get_pengaduan_by_id($id);
-
         if (!$pengaduan) {
             $this->session->set_flashdata('error', 'Data pengaduan tidak ditemukan!');
             redirect('pengaduan');

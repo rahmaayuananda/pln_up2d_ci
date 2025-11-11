@@ -52,12 +52,12 @@
                 <h6 class="mb-0">Tabel Data Pemutus</h6>
                 <div class="d-flex align-items-center">
                     <?php if (can_create()): ?>
-                    <a href="<?= base_url('Pemutus/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
-                        <i class="fas fa-plus me-1"></i> Tambah
-                    </a>
-                    <a href="<?= base_url('import/pemutus') ?>" class="btn btn-sm btn-light text-success">
-                        <i class="fas fa-file-import me-1"></i> Import
-                    </a>
+                        <a href="<?= base_url('Pemutus/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
+                            <i class="fas fa-plus me-1"></i> Tambah
+                        </a>
+                        <a href="<?= base_url('import/pemutus') ?>" class="btn btn-sm btn-light text-success">
+                            <i class="fas fa-file-import me-1"></i> Import
+                        </a>
                     <?php endif; ?>
                     <a href="<?= base_url('Pemutus/export_csv') ?>" class="btn btn-sm btn-light text-secondary ms-2">
                         <i class="fas fa-file-csv me-1"></i> Download CSV
@@ -69,7 +69,7 @@
                 <div class="px-3 mt-3 mb-3 d-flex justify-content-between align-items-center">
                     <div class="d-flex align-items-center">
                         <label class="mb-0 me-2 text-sm">Tampilkan:</label>
-                        <select id="perPageSelect" class="form-select form-select-sm" style="width: 80px; padding-right: 2rem;" onchange="changePerPage(this.value)">
+                        <select id="perPageSelectPemutus" class="form-select form-select-sm" style="width: 80px; padding-right: 2rem;" onchange="changePerPagePemutus(this.value)">
                             <option value="5" <?= ($per_page == 5) ? 'selected' : ''; ?>>5</option>
                             <option value="10" <?= ($per_page == 10) ? 'selected' : ''; ?>>10</option>
                             <option value="25" <?= ($per_page == 25) ? 'selected' : ''; ?>>25</option>
@@ -79,7 +79,7 @@
                         </select>
                         <span class="ms-3 text-sm">dari <?= $total_rows; ?> data</span>
                     </div>
-                    <input type="text" id="searchInput" onkeyup="searchTable()" class="form-control form-control-sm rounded-3" style="max-width: 300px;" placeholder="Cari data Pemutus...">
+                    <input type="text" id="searchInputPemutus" onkeyup="searchTablePemutus()" class="form-control form-control-sm rounded-3" style="max-width: 300px;" placeholder="Cari data Pemutus...">
                 </div>
 
                 <div class="table-responsive p-0">
@@ -101,8 +101,7 @@
                                     <td colspan="7" class="text-center text-secondary py-4">Belum ada data</td>
                                 </tr>
                             <?php else: ?>
-                                <?php
-                                $no = $start_no;
+                                <?php $no = $start_no;
                                 foreach ($pemutus as $row): ?>
                                     <tr class="<?= ($no % 2 == 0) ? 'table-row-even' : 'table-row-odd'; ?>">
                                         <td class="text-sm"><?= $no++; ?></td>
@@ -116,14 +115,14 @@
                                                 <i class="fas fa-info-circle"></i>
                                             </a>
                                             <?php if (can_edit()): ?>
-                                            <a href="<?= base_url('Pemutus/edit/' . urlencode($row['SSOTNUMBER'])); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
-                                                <i class="fas fa-pen"></i>
-                                            </a>
+                                                <a href="<?= base_url('Pemutus/edit/' . urlencode($row['SSOTNUMBER'])); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
+                                                    <i class="fas fa-pen"></i>
+                                                </a>
                                             <?php endif; ?>
                                             <?php if (can_delete()): ?>
-                                            <a href="<?= base_url('Pemutus/hapus/' . urlencode($row['SSOTNUMBER'])); ?>" class="btn btn-danger btn-xs btn-hapus" title="Hapus">
-                                                <i class="fas fa-trash"></i>
-                                            </a>
+                                                <a href="<?= base_url('Pemutus/hapus/' . urlencode($row['SSOTNUMBER'])); ?>" class="btn btn-danger btn-xs btn-hapus" title="Hapus">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
                                             <?php endif; ?>
                                         </td>
                                     </tr>
@@ -140,114 +139,28 @@
     </div>
 </main>
 
-<!-- Script pencarian -->
+<!-- Script -->
 <script>
-    function changePerPage(perPage) {
+    function changePerPagePemutus(perPage) {
         const url = new URL(window.location.href);
         url.searchParams.set('per_page', perPage);
-        url.searchParams.set('page', '1'); // Reset ke halaman 1
+        url.searchParams.set('page', '1');
         window.location.href = url.toString();
     }
 
-    function searchTable() {
-        const input = document.getElementById('searchInput');
+    function searchTablePemutus() {
+        const input = document.getElementById('searchInputPemutus');
         const filter = input.value.toUpperCase();
         const table = document.getElementById('pemutusTable');
         const tr = table.getElementsByTagName('tr');
-
         for (let i = 1; i < tr.length; i++) {
-            let txtValue = tr[i].textContent || tr[i].innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = '';
-            } else {
-                tr[i].style.display = 'none';
-            }
+            const txtValue = tr[i].textContent || tr[i].innerText;
+            tr[i].style.display = (txtValue.toUpperCase().indexOf(filter) > -1) ? '' : 'none';
         }
     }
-    // global search removed; sorting-only
 </script>
 
-<style>
-    #pemutusTable thead th {
-        cursor: pointer;
-    }
-
-    .pem-sort-asc::after {
-        content: '\25B2';
-        font-size: 10px;
-        margin-left: 6px;
-    }
-
-    .pem-sort-desc::after {
-        content: '\25BC';
-        font-size: 10px;
-        margin-left: 6px;
-    }
-</style>
-<script>
-    (function() {
-        const table = document.getElementById('pemutusTable');
-        if (!table) return;
-        let sortState = {
-            index: null,
-            asc: true
-        };
-
-        function getCellText(r, i) {
-            return (r.children[i] && (r.children[i].textContent || r.children[i].innerText) || '').trim();
-        }
-
-        function updateNumbers() {
-            const tbody = table.tBodies[0];
-            const rows = Array.from(tbody.querySelectorAll('tr'));
-            let no = parseInt('<?= $start_no; ?>', 10) || 1;
-            rows.forEach((r, idx) => {
-                if (r.children[0]) r.children[0].textContent = no + idx;
-                r.classList.remove('table-row-odd', 'table-row-even');
-                r.classList.add((idx % 2 === 0) ? 'table-row-odd' : 'table-row-even');
-            });
-        }
-
-        function updateIndicators() {
-            const headers = table.querySelectorAll('thead th');
-            headers.forEach((th, i) => {
-                th.classList.remove('pem-sort-asc', 'pem-sort-desc');
-                if (sortState.index === i) th.classList.add(sortState.asc ? 'pem-sort-asc' : 'pem-sort-desc');
-            });
-        }
-
-        function sortBy(col) {
-            const tbody = table.tBodies[0];
-            const rows = Array.from(tbody.querySelectorAll('tr'));
-            if (sortState.index === col) sortState.asc = !sortState.asc;
-            else {
-                sortState.index = col;
-                sortState.asc = true;
-            }
-            const numeric = [0];
-            rows.sort((a, b) => {
-                const A = getCellText(a, col);
-                const B = getCellText(b, col);
-                if (numeric.includes(col)) {
-                    return sortState.asc ? (parseFloat(A) || 0) - (parseFloat(B) || 0) : (parseFloat(B) || 0) - (parseFloat(A) || 0);
-                }
-                if (A < B) return sortState.asc ? -1 : 1;
-                if (A > B) return sortState.asc ? 1 : -1;
-                return 0;
-            });
-            rows.forEach(r => tbody.appendChild(r));
-            updateNumbers();
-            updateIndicators();
-        }
-        document.addEventListener('DOMContentLoaded', () => {
-            const headers = table.querySelectorAll('thead th');
-            headers.forEach((th, idx) => th.addEventListener('click', () => sortBy(idx)));
-        });
-    })();
-</script>
-</script>
-
-<!-- Style tambahan -->
+<!-- Style -->
 <style>
     .card-header {
         display: flex;
@@ -262,36 +175,14 @@
         font-weight: 600;
     }
 
-    /* Ensure breadcrumb active/title is visible on dark header */
     .breadcrumb .breadcrumb-item.active,
     .breadcrumb .breadcrumb-item a.opacity-5,
     .breadcrumb .breadcrumb-item.text-white {
         color: #ffffff !important;
     }
 
-    /* compact default for pemutusTable (assets dropdown) */
-    #pemutusTable tbody tr td {
-        padding-top: 2px !important;
-        padding-bottom: 2px !important;
-        font-size: 13px !important;
-    }
-
-    #pemutusTable tbody tr {
-        line-height: 1.15;
-    }
-
-    #pemutusTable thead th {
-        padding-top: 8px !important;
-        padding-bottom: 8px !important;
-        font-size: 12px !important;
-    }
-
     .bg-gradient-primary {
         background: linear-gradient(90deg, #005C99, #0099CC);
-    }
-
-    .card-header .d-flex.align-items-center a {
-        transform: translateY(10px);
     }
 
     .table-row-odd {
@@ -315,5 +206,33 @@
 
     .btn-xs i {
         font-size: 12px;
+    }
+
+    /* Padding dan jarak tombol */
+    #pemutusTable tbody tr td {
+        padding-top: 2px !important;
+        padding-bottom: 2px !important;
+        font-size: 13px !important;
+    }
+
+    #pemutusTable tbody td.text-center {
+        vertical-align: middle !important;
+        text-align: center !important;
+        padding-top: 6px !important;
+        padding-bottom: 6px !important;
+    }
+
+    #pemutusTable tbody td.text-center .btn {
+        margin: 2px 3px;
+    }
+
+    #pemutusTable thead th {
+        padding-top: 8px !important;
+        padding-bottom: 8px !important;
+        font-size: 12px !important;
+    }
+
+    #pemutusTable tbody tr {
+        line-height: 1.15;
     }
 </style>

@@ -13,6 +13,7 @@
                     <i class="fas fa-industry me-2 text-danger"></i> Data Pembangkit
                 </h6>
             </nav>
+
             <!-- ICON kanan -->
             <div class="d-flex align-items-center ms-auto">
                 <ul class="navbar-nav flex-row align-items-center mb-0">
@@ -52,12 +53,12 @@
                 <h6 class="mb-0">Tabel Data Pembangkit</h6>
                 <div class="d-flex align-items-center">
                     <?php if (can_create()): ?>
-                    <a href="<?= base_url('Pembangkit/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
-                        <i class="fas fa-plus me-1"></i> Tambah
-                    </a>
-                    <a href="<?= base_url('import/pembangkit') ?>" class="btn btn-sm btn-light text-success">
-                        <i class="fas fa-file-import me-1"></i> Import
-                    </a>
+                        <a href="<?= base_url('Pembangkit/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
+                            <i class="fas fa-plus me-1"></i> Tambah
+                        </a>
+                        <a href="<?= base_url('import/pembangkit') ?>" class="btn btn-sm btn-light text-success">
+                            <i class="fas fa-file-import me-1"></i> Import
+                        </a>
                     <?php endif; ?>
                     <a href="<?= base_url('Pembangkit/export_csv') ?>" class="btn btn-sm btn-light text-secondary ms-2">
                         <i class="fas fa-file-csv me-1"></i> Download CSV
@@ -100,8 +101,7 @@
                                     <td colspan="6" class="text-center text-secondary py-4">Belum ada data</td>
                                 </tr>
                             <?php else: ?>
-                                <?php
-                                $no = $start_no;
+                                <?php $no = $start_no;
                                 foreach ($pembangkit as $row): ?>
                                     <tr class="<?= ($no % 2 == 0) ? 'table-row-even' : 'table-row-odd'; ?>">
                                         <td class="text-sm"><?= $no++; ?></td>
@@ -114,14 +114,14 @@
                                                 <i class="fas fa-info-circle"></i>
                                             </a>
                                             <?php if (can_edit()): ?>
-                                            <a href="<?= base_url('Pembangkit/edit/' . $row['ID_PEMBANGKIT']); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
-                                                <i class="fas fa-pen"></i>
-                                            </a>
+                                                <a href="<?= base_url('Pembangkit/edit/' . $row['ID_PEMBANGKIT']); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
+                                                    <i class="fas fa-pen"></i>
+                                                </a>
                                             <?php endif; ?>
                                             <?php if (can_delete()): ?>
-                                            <a href="<?= base_url('Pembangkit/hapus/' . $row['ID_PEMBANGKIT']); ?>" class="btn btn-danger btn-xs btn-hapus" title="Hapus">
-                                                <i class="fas fa-trash"></i>
-                                            </a>
+                                                <a href="<?= base_url('Pembangkit/hapus/' . $row['ID_PEMBANGKIT']); ?>" class="btn btn-danger btn-xs btn-hapus" title="Hapus">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
                                             <?php endif; ?>
                                         </td>
                                     </tr>
@@ -130,6 +130,7 @@
                         </tbody>
                     </table>
                 </div>
+
                 <div class="card-footer d-flex justify-content-end">
                     <?= $pagination; ?>
                 </div>
@@ -138,7 +139,28 @@
     </div>
 </main>
 
-<!-- Style tambahan -->
+<!-- Script -->
+<script>
+    function changePerPage(perPage) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('per_page', perPage);
+        url.searchParams.set('page', '1');
+        window.location.href = url.toString();
+    }
+
+    function searchTable() {
+        const input = document.getElementById('searchInput');
+        const filter = input.value.toUpperCase();
+        const table = document.getElementById('pembangkitTable');
+        const tr = table.getElementsByTagName('tr');
+        for (let i = 1; i < tr.length; i++) {
+            let txtValue = tr[i].textContent || tr[i].innerText;
+            tr[i].style.display = (txtValue.toUpperCase().indexOf(filter) > -1) ? '' : 'none';
+        }
+    }
+</script>
+
+<!-- Style -->
 <style>
     .card-header {
         display: flex;
@@ -153,36 +175,14 @@
         font-weight: 600;
     }
 
-    /* Ensure breadcrumb active/title is visible on dark header */
     .breadcrumb .breadcrumb-item.active,
     .breadcrumb .breadcrumb-item a.opacity-5,
     .breadcrumb .breadcrumb-item.text-white {
         color: #ffffff !important;
     }
 
-    /* compact default for pembangkitTable (assets dropdown) */
-    #pembangkitTable tbody tr td {
-        padding-top: 2px !important;
-        padding-bottom: 2px !important;
-        font-size: 13px !important;
-    }
-
-    #pembangkitTable tbody tr {
-        line-height: 1.15;
-    }
-
-    #pembangkitTable thead th {
-        padding-top: 8px !important;
-        padding-bottom: 8px !important;
-        font-size: 12px !important;
-    }
-
     .bg-gradient-primary {
         background: linear-gradient(90deg, #005C99, #0099CC);
-    }
-
-    .card-header .d-flex.align-items-center a {
-        transform: translateY(10px);
     }
 
     .table-row-odd {
@@ -207,108 +207,32 @@
     .btn-xs i {
         font-size: 12px;
     }
-</style>
 
-<script>
-    function changePerPage(perPage) {
-        const url = new URL(window.location.href);
-        url.searchParams.set('per_page', perPage);
-        url.searchParams.set('page', '1'); // Reset ke halaman 1
-        window.location.href = url.toString();
+    /* padding sel tabel */
+    #pembangkitTable tbody tr td {
+        padding-top: 2px !important;
+        padding-bottom: 2px !important;
+        font-size: 13px !important;
     }
 
-    function searchTable() {
-        const input = document.getElementById('searchInput');
-        const filter = input.value.toUpperCase();
-        const table = document.getElementById('pembangkitTable');
-        const tr = table.getElementsByTagName('tr');
-
-        for (let i = 1; i < tr.length; i++) {
-            let txtValue = tr[i].textContent || tr[i].innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = '';
-            } else {
-                tr[i].style.display = 'none';
-            }
-        }
+    #pembangkitTable tbody td.text-center {
+        vertical-align: middle !important;
+        text-align: center !important;
+        padding-top: 6px !important;
+        padding-bottom: 6px !important;
     }
-</script>
 
-<style>
+    #pembangkitTable tbody td.text-center .btn {
+        margin: 2px 3px;
+    }
+
     #pembangkitTable thead th {
-        cursor: pointer
+        padding-top: 8px !important;
+        padding-bottom: 8px !important;
+        font-size: 12px !important;
     }
 
-    .pemg-sort-asc::after {
-        content: '\25B2';
-        font-size: 10px;
-        margin-left: 6px
-    }
-
-    .pemg-sort-desc::after {
-        content: '\25BC';
-        font-size: 10px;
-        margin-left: 6px
+    #pembangkitTable tbody tr {
+        line-height: 1.15;
     }
 </style>
-<script>
-    (function() {
-        const table = document.getElementById('pembangkitTable');
-        if (!table) return;
-        let s = {
-            index: null,
-            asc: true
-        };
-
-        function t(r, i) {
-            return (r.children[i] && (r.children[i].textContent || r.children[i].innerText) || '').trim()
-        }
-
-        function up() {
-            const tbody = table.tBodies[0];
-            const rows = Array.from(tbody.querySelectorAll('tr'));
-            let no = parseInt('<?= $start_no; ?>', 10) || 1;
-            rows.forEach((r, idx) => {
-                if (r.children[0]) r.children[0].textContent = no + idx;
-                r.classList.remove('table-row-odd', 'table-row-even');
-                r.classList.add((idx % 2 === 0) ? 'table-row-odd' : 'table-row-even')
-            })
-        }
-
-        function ind() {
-            const headers = table.querySelectorAll('thead th');
-            headers.forEach((th, i) => {
-                th.classList.remove('pemg-sort-asc', 'pemg-sort-desc');
-                if (s.index === i) th.classList.add(s.asc ? 'pemg-sort-asc' : 'pemg-sort-desc')
-            })
-        }
-
-        function sortBy(col) {
-            const tbody = table.tBodies[0];
-            const rows = Array.from(tbody.querySelectorAll('tr'));
-            if (s.index === col) s.asc = !s.asc;
-            else {
-                s.index = col;
-                s.asc = true;
-            }
-            const num = [0, 3, 4];
-            rows.sort((a, b) => {
-                const A = t(a, col);
-                const B = t(b, col);
-                if (num.includes(col)) {
-                    return s.asc ? ((parseFloat(A) || 0) - (parseFloat(B) || 0)) : ((parseFloat(B) || 0) - (parseFloat(A) || 0));
-                }
-                if (A < B) return s.asc ? -1 : 1;
-                if (A > B) return s.asc ? 1 : -1;
-                return 0
-            });
-            rows.forEach(r => tbody.appendChild(r));
-            up();
-            ind()
-        }
-        document.addEventListener('DOMContentLoaded', () => {
-            const headers = table.querySelectorAll('thead th');
-            headers.forEach((th, idx) => th.addEventListener('click', () => sortBy(idx)));
-        });
-    })();
-</script>

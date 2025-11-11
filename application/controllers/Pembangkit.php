@@ -22,11 +22,11 @@ class Pembangkit extends CI_Controller
         $config['base_url'] = site_url('pembangkit/index');
         $config['total_rows'] = $this->Pembangkit_model->count_all_pembangkit();
         // Per-page selector (from ?per_page), use config default_per_page
-        $allowedPerPage = [5,10,25,50,100,500];
+        $allowedPerPage = [5, 10, 25, 50, 100, 500];
         $requestedPer = (int) $this->input->get('per_page');
         $defaultPer = (int) $this->config->item('default_per_page');
         $perPage = in_array($requestedPer, $allowedPerPage) ? $requestedPer : $defaultPer;
-    $config['per_page'] = $perPage;
+        $config['per_page'] = $perPage;
         $config["uri_segment"] = 3;
         $config['use_page_numbers'] = TRUE;
 
@@ -65,11 +65,11 @@ class Pembangkit extends CI_Controller
         $this->pagination->initialize($config);
 
         // Ambil data untuk halaman saat ini
-    $data['pembangkit'] = $this->Pembangkit_model->get_pembangkit($config['per_page'], $offset);
-    $data['pagination'] = $this->pagination->create_links();
-    $data['start_no'] = $offset + 1;
-    $data['total_rows'] = $config['total_rows'];
-    $data['per_page'] = $perPage;
+        $data['pembangkit'] = $this->Pembangkit_model->get_pembangkit($config['per_page'], $offset);
+        $data['pagination'] = $this->pagination->create_links();
+        $data['start_no'] = $offset + 1;
+        $data['total_rows'] = $config['total_rows'];
+        $data['per_page'] = $perPage;
 
         $this->load->view('layout/header');
         $this->load->view('pembangkit/vw_pembangkit', $data);
@@ -147,12 +147,12 @@ class Pembangkit extends CI_Controller
             ];
 
             $update_success = $this->Pembangkit_model->update_pembangkit($id, $updateData);
-            
+
             // Log aktivitas update
             if ($update_success) {
                 log_update('pembangkit', $id, $updateData['PEMBANGKIT']);
             }
-            
+
             $this->session->set_flashdata('success', 'Data pembangkit berhasil diperbarui!');
             redirect('Pembangkit');
         } else {
@@ -188,14 +188,14 @@ class Pembangkit extends CI_Controller
         // Get data before delete for logging
         $pembangkit = $this->Pembangkit_model->get_pembangkit_by_id($id);
         $pembangkit_name = $pembangkit ? ($pembangkit['PEMBANGKIT'] ?? 'ID-' . $id) : 'ID-' . $id;
-        
+
         $delete_success = $this->Pembangkit_model->delete_pembangkit($id);
-        
+
         // Log aktivitas delete
         if ($delete_success) {
             log_delete('pembangkit', $id, $pembangkit_name);
         }
-        
+
         $this->session->set_flashdata('success', 'Data pembangkit berhasil dihapus!');
         redirect('Pembangkit');
     }

@@ -10,9 +10,10 @@
                     <li class="breadcrumb-item text-sm text-white active" aria-current="page">Data GH Cell</li>
                 </ol>
                 <h6 class="font-weight-bolder text-white mb-0">
-                    <i class="fas fa-square me-2 text-secondary"></i> Data GH Cell - Penyulang
+                    <i class="fas fa-square me-2 text-warning"></i> Data GH Cell - Penyulang
                 </h6>
             </nav>
+
             <!-- ICON kanan -->
             <div class="d-flex align-items-center ms-auto">
                 <ul class="navbar-nav flex-row align-items-center mb-0">
@@ -52,12 +53,12 @@
                 <h6 class="mb-0">Tabel Data GH Penyulang</h6>
                 <div class="d-flex align-items-center">
                     <?php if (can_create()): ?>
-                    <a href="<?= base_url('Gh_cell/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
-                        <i class="fas fa-plus me-1"></i> Tambah
-                    </a>
-                    <a href="<?= base_url('import/gh_cell') ?>" class="btn btn-sm btn-light text-success">
-                        <i class="fas fa-file-import me-1"></i> Import
-                    </a>
+                        <a href="<?= base_url('Gh_cell/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
+                            <i class="fas fa-plus me-1"></i> Tambah
+                        </a>
+                        <a href="<?= base_url('import/gh_cell') ?>" class="btn btn-sm btn-light text-success">
+                            <i class="fas fa-file-import me-1"></i> Import
+                        </a>
                     <?php endif; ?>
                     <a href="<?= base_url('Gh_cell/export_csv') ?>" class="btn btn-sm btn-light text-secondary ms-2">
                         <i class="fas fa-file-csv me-1"></i> Download CSV
@@ -69,7 +70,7 @@
                 <div class="px-3 mt-3 mb-3 d-flex justify-content-between align-items-center">
                     <div class="d-flex align-items-center">
                         <label class="mb-0 me-2 text-sm">Tampilkan:</label>
-                        <select id="perPageSelect" class="form-select form-select-sm" style="width: 80px; padding-right: 2rem;" onchange="changePerPage(this.value)">
+                        <select id="perPageSelectGH" class="form-select form-select-sm" style="width: 80px; padding-right: 2rem;" onchange="changePerPageGH(this.value)">
                             <option value="5" <?= ($per_page == 5) ? 'selected' : ''; ?>>5</option>
                             <option value="10" <?= ($per_page == 10) ? 'selected' : ''; ?>>10</option>
                             <option value="25" <?= ($per_page == 25) ? 'selected' : ''; ?>>25</option>
@@ -79,117 +80,8 @@
                         </select>
                         <span class="ms-3 text-sm">dari <?= $total_rows; ?> data</span>
                     </div>
-                    <input type="text" id="searchInput" onkeyup="searchTable()" class="form-control form-control-sm rounded-3" style="max-width: 300px;" placeholder="Cari data GH Cell...">
+                    <input type="text" id="searchInputGH" onkeyup="searchTableGH()" class="form-control form-control-sm rounded-3" style="max-width: 300px;" placeholder="Cari data GH Cell...">
                 </div>
-
-                <script>
-                    function changePerPage(perPage) {
-                        const url = new URL(window.location.href);
-                        url.searchParams.set('per_page', perPage);
-                        url.searchParams.set('page', '1'); // Reset ke halaman 1
-                        window.location.href = url.toString();
-                    }
-
-                    function searchTable() {
-                        const input = document.getElementById('searchInput');
-                        const filter = input.value.toUpperCase();
-                        const table = document.getElementById('ghCellTable');
-                        const tr = table.getElementsByTagName('tr');
-
-                        for (let i = 1; i < tr.length; i++) {
-                            let txtValue = tr[i].textContent || tr[i].innerText;
-                            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                                tr[i].style.display = '';
-                            } else {
-                                tr[i].style.display = 'none';
-                            }
-                        }
-                    }
-                </script>
-                <style>
-                    /* sort indicator */
-                    #ghCellTable thead th {
-                        cursor: pointer;
-                    }
-
-                    .gh-sort-asc::after {
-                        content: '\25B2';
-                        font-size: 10px;
-                        margin-left: 6px;
-                    }
-
-                    .gh-sort-desc::after {
-                        content: '\25BC';
-                        font-size: 10px;
-                        margin-left: 6px;
-                    }
-                </style>
-
-                <script>
-                    (function() {
-                        const table = document.getElementById('ghCellTable');
-                        if (!table) return;
-                        let sortState = {
-                            index: null,
-                            asc: true
-                        };
-
-                        function getCellText(row, idx) {
-                            return (row.children[idx] && (row.children[idx].textContent || row.children[idx].innerText) || '').trim();
-                        }
-
-                        function updateRowNumbers() {
-                            const tbody = table.tBodies[0];
-                            const rows = Array.from(tbody.querySelectorAll('tr'));
-                            let no = parseInt('<?= $start_no; ?>', 10) || 1;
-                            rows.forEach((r, i) => {
-                                if (r.children[0]) r.children[0].textContent = no + i;
-                                r.classList.remove('table-row-odd', 'table-row-even');
-                                r.classList.add((i % 2 === 0) ? 'table-row-odd' : 'table-row-even');
-                            });
-                        }
-
-                        function updateIndicators() {
-                            const headers = table.querySelectorAll('thead th');
-                            headers.forEach((th, i) => {
-                                th.classList.remove('gh-sort-asc', 'gh-sort-desc');
-                                if (sortState.index === i) th.classList.add(sortState.asc ? 'gh-sort-asc' : 'gh-sort-desc');
-                            });
-                        }
-
-                        function sortBy(col) {
-                            const tbody = table.tBodies[0];
-                            const rows = Array.from(tbody.querySelectorAll('tr'));
-                            if (sortState.index === col) sortState.asc = !sortState.asc;
-                            else {
-                                sortState.index = col;
-                                sortState.asc = true;
-                            }
-                            const numericCols = [0]; // assume No is numeric; other numeric columns can be added
-                            rows.sort((a, b) => {
-                                const A = getCellText(a, col);
-                                const B = getCellText(b, col);
-                                if (numericCols.includes(col)) {
-                                    return sortState.asc ? (parseFloat(A) - parseFloat(B)) : (parseFloat(B) - parseFloat(A));
-                                }
-                                if (A < B) return sortState.asc ? -1 : 1;
-                                if (A > B) return sortState.asc ? 1 : -1;
-                                return 0;
-                            });
-                            rows.forEach(r => tbody.appendChild(r));
-                            updateRowNumbers();
-                            updateIndicators();
-                        }
-
-                        document.addEventListener('DOMContentLoaded', () => {
-                            const headers = table.querySelectorAll('thead th');
-                            headers.forEach((th, idx) => {
-                                // don't attach to action column if last
-                                th.addEventListener('click', () => sortBy(idx));
-                            });
-                        });
-                    })();
-                </script>
 
                 <div class="table-responsive p-0">
                     <table class="table align-items-center mb-0" id="ghCellTable">
@@ -209,8 +101,7 @@
                                     <td colspan="6" class="text-center text-secondary py-4">Belum ada data</td>
                                 </tr>
                             <?php else: ?>
-                                <?php
-                                $no = $start_no;
+                                <?php $no = $start_no;
                                 foreach ($gh_cell as $row): ?>
                                     <tr class="<?= ($no % 2 == 0) ? 'table-row-even' : 'table-row-odd'; ?>">
                                         <td class="text-sm"><?= $no++; ?></td>
@@ -223,14 +114,14 @@
                                                 <i class="fas fa-info-circle"></i>
                                             </a>
                                             <?php if (can_edit()): ?>
-                                            <a href="<?= base_url('Gh_cell/edit/' . urlencode($row['SSOTNUMBER'])); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
-                                                <i class="fas fa-pen"></i>
-                                            </a>
+                                                <a href="<?= base_url('Gh_cell/edit/' . urlencode($row['SSOTNUMBER'])); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
+                                                    <i class="fas fa-pen"></i>
+                                                </a>
                                             <?php endif; ?>
                                             <?php if (can_delete()): ?>
-                                            <a href="<?= base_url('Gh_cell/hapus/' . urlencode($row['SSOTNUMBER'])); ?>" class="btn btn-danger btn-xs btn-hapus" title="Hapus">
-                                                <i class="fas fa-trash"></i>
-                                            </a>
+                                                <a href="<?= base_url('Gh_cell/hapus/' . urlencode($row['SSOTNUMBER'])); ?>" class="btn btn-danger btn-xs btn-hapus" title="Hapus">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
                                             <?php endif; ?>
                                         </td>
                                     </tr>
@@ -239,6 +130,7 @@
                         </tbody>
                     </table>
                 </div>
+
                 <div class="card-footer d-flex justify-content-end">
                     <?= $pagination; ?>
                 </div>
@@ -247,7 +139,28 @@
     </div>
 </main>
 
-<!-- Style tambahan -->
+<!-- Script -->
+<script>
+    function changePerPageGH(perPage) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('per_page', perPage);
+        url.searchParams.set('page', '1');
+        window.location.href = url.toString();
+    }
+
+    function searchTableGH() {
+        const input = document.getElementById('searchInputGH');
+        const filter = input.value.toUpperCase();
+        const table = document.getElementById('ghCellTable');
+        const tr = table.getElementsByTagName('tr');
+        for (let i = 1; i < tr.length; i++) {
+            let txtValue = tr[i].textContent || tr[i].innerText;
+            tr[i].style.display = (txtValue.toUpperCase().indexOf(filter) > -1) ? '' : 'none';
+        }
+    }
+</script>
+
+<!-- Style -->
 <style>
     .card-header {
         display: flex;
@@ -262,36 +175,14 @@
         font-weight: 600;
     }
 
-    /* Ensure breadcrumb active/title is visible on dark header */
     .breadcrumb .breadcrumb-item.active,
     .breadcrumb .breadcrumb-item a.opacity-5,
     .breadcrumb .breadcrumb-item.text-white {
         color: #ffffff !important;
     }
 
-    /* compact default for ghCellTable (assets dropdown) */
-    #ghCellTable tbody tr td {
-        padding-top: 2px !important;
-        padding-bottom: 2px !important;
-        font-size: 13px !important;
-    }
-
-    #ghCellTable tbody tr {
-        line-height: 1.15;
-    }
-
-    #ghCellTable thead th {
-        padding-top: 8px !important;
-        padding-bottom: 8px !important;
-        font-size: 12px !important;
-    }
-
     .bg-gradient-primary {
         background: linear-gradient(90deg, #005C99, #0099CC);
-    }
-
-    .card-header .d-flex.align-items-center a {
-        transform: translateY(10px);
     }
 
     .table-row-odd {
@@ -315,5 +206,33 @@
 
     .btn-xs i {
         font-size: 12px;
+    }
+
+    /* padding sel tabel */
+    #ghCellTable tbody tr td {
+        padding-top: 2px !important;
+        padding-bottom: 2px !important;
+        font-size: 13px !important;
+    }
+
+    #ghCellTable tbody td.text-center {
+        vertical-align: middle !important;
+        text-align: center !important;
+        padding-top: 6px !important;
+        padding-bottom: 6px !important;
+    }
+
+    #ghCellTable tbody td.text-center .btn {
+        margin: 2px 3px;
+    }
+
+    #ghCellTable thead th {
+        padding-top: 8px !important;
+        padding-bottom: 8px !important;
+        font-size: 12px !important;
+    }
+
+    #ghCellTable tbody tr {
+        line-height: 1.15;
     }
 </style>

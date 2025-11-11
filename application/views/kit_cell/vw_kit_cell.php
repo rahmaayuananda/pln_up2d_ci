@@ -7,12 +7,13 @@
                     <li class="breadcrumb-item text-sm">
                         <a class="opacity-5 text-white" href="<?= base_url('dashboard'); ?>">Dashboard</a>
                     </li>
-                    <li class="breadcrumb-item text-sm text-white active" aria-current="page">Data Penyulang</li>
+                    <li class="breadcrumb-item text-sm text-white active" aria-current="page">Data Kit Cell</li>
                 </ol>
                 <h6 class="font-weight-bolder text-white mb-0">
-                    <i class="fas fa-microchip me-2 text-primary"></i> Data Penyulang
+                    <i class="fas fa-microchip me-2 text-warning"></i> Data Kit Cell
                 </h6>
             </nav>
+
             <!-- ICON kanan -->
             <div class="d-flex align-items-center ms-auto">
                 <ul class="navbar-nav flex-row align-items-center mb-0">
@@ -49,15 +50,15 @@
 
         <div class="card mb-4 shadow border-0 rounded-4">
             <div class="card-header py-2 d-flex justify-content-between align-items-center bg-gradient-primary text-white rounded-top-4">
-                <h6 class="mb-0">Tabel Data Kit Penyulang</h6>
+                <h6 class="mb-0">Tabel Data Kit Cell</h6>
                 <div class="d-flex align-items-center">
                     <?php if (can_create()): ?>
-                    <a href="<?= base_url('Kit_cell/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
-                        <i class="fas fa-plus me-1"></i> Tambah
-                    </a>
-                    <a href="<?= base_url('import/kit_cell') ?>" class="btn btn-sm btn-light text-success">
-                        <i class="fas fa-file-import me-1"></i> Import
-                    </a>
+                        <a href="<?= base_url('Kit_cell/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
+                            <i class="fas fa-plus me-1"></i> Tambah
+                        </a>
+                        <a href="<?= base_url('import/kit_cell') ?>" class="btn btn-sm btn-light text-success">
+                            <i class="fas fa-file-import me-1"></i> Import
+                        </a>
                     <?php endif; ?>
                     <a href="<?= base_url('Kit_cell/export_csv') ?>" class="btn btn-sm btn-light text-secondary ms-2">
                         <i class="fas fa-file-csv me-1"></i> Download CSV
@@ -69,7 +70,7 @@
                 <div class="px-3 mt-3 mb-3 d-flex justify-content-between align-items-center">
                     <div class="d-flex align-items-center">
                         <label class="mb-0 me-2 text-sm">Tampilkan:</label>
-                        <select id="perPageSelect" class="form-select form-select-sm" style="width: 80px; padding-right: 2rem;" onchange="changePerPage(this.value)">
+                        <select id="perPageSelectKC" class="form-select form-select-sm" style="width: 80px; padding-right: 2rem;" onchange="changePerPageKC(this.value)">
                             <option value="5" <?= ($per_page == 5) ? 'selected' : ''; ?>>5</option>
                             <option value="10" <?= ($per_page == 10) ? 'selected' : ''; ?>>10</option>
                             <option value="25" <?= ($per_page == 25) ? 'selected' : ''; ?>>25</option>
@@ -79,114 +80,11 @@
                         </select>
                         <span class="ms-3 text-sm">dari <?= $total_rows; ?> data</span>
                     </div>
-                    <input type="text" id="searchInput" onkeyup="searchTable()" class="form-control form-control-sm rounded-3" style="max-width: 300px;" placeholder="Cari data KIT Cell...">
+                    <input type="text" id="searchInputKC" onkeyup="searchTableKC()" class="form-control form-control-sm rounded-3" style="max-width: 300px;" placeholder="Cari data Kit Cell...">
                 </div>
 
                 <div class="table-responsive p-0">
                     <table class="table align-items-center mb-0" id="kitCellTable">
-                        <script>
-                            function changePerPage(perPage) {
-                                const url = new URL(window.location.href);
-                                url.searchParams.set('per_page', perPage);
-                                url.searchParams.set('page', '1'); // Reset ke halaman 1
-                                window.location.href = url.toString();
-                            }
-
-                            function searchTable() {
-                                const input = document.getElementById('searchInput');
-                                const filter = input.value.toUpperCase();
-                                const table = document.getElementById('kitCellTable');
-                                const tr = table.getElementsByTagName('tr');
-
-                                for (let i = 1; i < tr.length; i++) {
-                                    let txtValue = tr[i].textContent || tr[i].innerText;
-                                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                                        tr[i].style.display = '';
-                                    } else {
-                                        tr[i].style.display = 'none';
-                                    }
-                                }
-                            }
-
-                            // global search removed; sorting-only
-                        </script>
-
-                        <style>
-                            #kitCellTable thead th {
-                                cursor: pointer
-                            }
-
-                            .kit-sort-asc::after {
-                                content: '\25B2';
-                                font-size: 10px;
-                                margin-left: 6px
-                            }
-
-                            .kit-sort-desc::after {
-                                content: '\25BC';
-                                font-size: 10px;
-                                margin-left: 6px
-                            }
-                        </style>
-                        <script>
-                            (function() {
-                                const table = document.getElementById('kitCellTable');
-                                if (!table) return;
-                                let sortState = {
-                                    index: null,
-                                    asc: true
-                                };
-
-                                function t(r, i) {
-                                    return (r.children[i] && (r.children[i].textContent || r.children[i].innerText) || '').trim()
-                                }
-
-                                function up() {
-                                    const tbody = table.tBodies[0];
-                                    const rows = Array.from(tbody.querySelectorAll('tr'));
-                                    let no = parseInt('<?= $start_no; ?>', 10) || 1;
-                                    rows.forEach((r, idx) => {
-                                        if (r.children[0]) r.children[0].textContent = no + idx;
-                                        r.classList.remove('table-row-odd', 'table-row-even');
-                                        r.classList.add((idx % 2 === 0) ? 'table-row-odd' : 'table-row-even');
-                                    })
-                                }
-
-                                function ind() {
-                                    const headers = table.querySelectorAll('thead th');
-                                    headers.forEach((th, i) => {
-                                        th.classList.remove('kit-sort-asc', 'kit-sort-desc');
-                                        if (sortState.index === i) th.classList.add(sortState.asc ? 'kit-sort-asc' : 'kit-sort-desc');
-                                    })
-                                }
-
-                                function sortBy(col) {
-                                    const tbody = table.tBodies[0];
-                                    const rows = Array.from(tbody.querySelectorAll('tr'));
-                                    if (sortState.index === col) sortState.asc = !sortState.asc;
-                                    else {
-                                        sortState.index = col;
-                                        sortState.asc = true;
-                                    }
-                                    const num = [0];
-                                    rows.sort((a, b) => {
-                                        const A = t(a, col);
-                                        const B = t(b, col);
-                                        if (num.includes(col)) return sortState.asc ? ((parseFloat(A) || 0) - (parseFloat(B) || 0)) : ((parseFloat(B) || 0) - (parseFloat(A) || 0));
-                                        if (A < B) return sortState.asc ? -1 : 1;
-                                        if (A > B) return sortState.asc ? 1 : -1;
-                                        return 0
-                                    });
-                                    rows.forEach(r => tbody.appendChild(r));
-                                    up();
-                                    ind()
-                                }
-                                document.addEventListener('DOMContentLoaded', () => {
-                                    const headers = table.querySelectorAll('thead th');
-                                    headers.forEach((th, idx) => th.addEventListener('click', () => sortBy(idx)));
-                                });
-                            })();
-                        </script>
                         <thead class="bg-light">
                             <tr>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
@@ -203,8 +101,7 @@
                                     <td colspan="6" class="text-center text-secondary py-4">Belum ada data</td>
                                 </tr>
                             <?php else: ?>
-                                <?php
-                                $no = $start_no;
+                                <?php $no = $start_no;
                                 foreach ($kit_cell as $row): ?>
                                     <tr class="<?= ($no % 2 == 0) ? 'table-row-even' : 'table-row-odd'; ?>">
                                         <td class="text-sm"><?= $no++; ?></td>
@@ -217,14 +114,14 @@
                                                 <i class="fas fa-info-circle"></i>
                                             </a>
                                             <?php if (can_edit()): ?>
-                                            <a href="<?= base_url('Kit_cell/edit/' . urlencode($row['SSOTNUMBER'])); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
-                                                <i class="fas fa-pen"></i>
-                                            </a>
+                                                <a href="<?= base_url('Kit_cell/edit/' . urlencode($row['SSOTNUMBER'])); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
+                                                    <i class="fas fa-pen"></i>
+                                                </a>
                                             <?php endif; ?>
                                             <?php if (can_delete()): ?>
-                                            <a href="<?= base_url('Kit_cell/hapus/' . urlencode($row['SSOTNUMBER'])); ?>" class="btn btn-danger btn-xs btn-hapus" title="Hapus">
-                                                <i class="fas fa-trash"></i>
-                                            </a>
+                                                <a href="<?= base_url('Kit_cell/hapus/' . urlencode($row['SSOTNUMBER'])); ?>" class="btn btn-danger btn-xs btn-hapus" title="Hapus">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
                                             <?php endif; ?>
                                         </td>
                                     </tr>
@@ -233,6 +130,7 @@
                         </tbody>
                     </table>
                 </div>
+
                 <div class="card-footer d-flex justify-content-end">
                     <?= $pagination; ?>
                 </div>
@@ -241,7 +139,28 @@
     </div>
 </main>
 
-<!-- Style tambahan -->
+<!-- Script -->
+<script>
+    function changePerPageKC(perPage) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('per_page', perPage);
+        url.searchParams.set('page', '1');
+        window.location.href = url.toString();
+    }
+
+    function searchTableKC() {
+        const input = document.getElementById('searchInputKC');
+        const filter = input.value.toUpperCase();
+        const table = document.getElementById('kitCellTable');
+        const tr = table.getElementsByTagName('tr');
+        for (let i = 1; i < tr.length; i++) {
+            let txtValue = tr[i].textContent || tr[i].innerText;
+            tr[i].style.display = (txtValue.toUpperCase().indexOf(filter) > -1) ? '' : 'none';
+        }
+    }
+</script>
+
+<!-- Style -->
 <style>
     .card-header {
         display: flex;
@@ -256,36 +175,14 @@
         font-weight: 600;
     }
 
-    /* Ensure breadcrumb active/title is visible on dark header */
     .breadcrumb .breadcrumb-item.active,
     .breadcrumb .breadcrumb-item a.opacity-5,
     .breadcrumb .breadcrumb-item.text-white {
         color: #ffffff !important;
     }
 
-    /* compact default for kitCellTable (assets dropdown) */
-    #kitCellTable tbody tr td {
-        padding-top: 2px !important;
-        padding-bottom: 2px !important;
-        font-size: 13px !important;
-    }
-
-    #kitCellTable tbody tr {
-        line-height: 1.15;
-    }
-
-    #kitCellTable thead th {
-        padding-top: 8px !important;
-        padding-bottom: 8px !important;
-        font-size: 12px !important;
-    }
-
     .bg-gradient-primary {
         background: linear-gradient(90deg, #005C99, #0099CC);
-    }
-
-    .card-header .d-flex.align-items-center a {
-        transform: translateY(10px);
     }
 
     .table-row-odd {
@@ -310,82 +207,31 @@
     .btn-xs i {
         font-size: 12px;
     }
-</style>
-<style>
+
+    #kitCellTable tbody tr td {
+        padding-top: 2px !important;
+        padding-bottom: 2px !important;
+        font-size: 13px !important;
+    }
+
+    #kitCellTable tbody td.text-center {
+        vertical-align: middle !important;
+        text-align: center !important;
+        padding-top: 6px !important;
+        padding-bottom: 6px !important;
+    }
+
+    #kitCellTable tbody td.text-center .btn {
+        margin: 2px 3px;
+    }
+
     #kitCellTable thead th {
-        cursor: pointer
+        padding-top: 8px !important;
+        padding-bottom: 8px !important;
+        font-size: 12px !important;
     }
 
-    .kit-sort-asc::after {
-        content: '\25B2';
-        font-size: 10px;
-        margin-left: 6px
-    }
-
-    .kit-sort-desc::after {
-        content: '\25BC';
-        font-size: 10px;
-        margin-left: 6px
+    #kitCellTable tbody tr {
+        line-height: 1.15;
     }
 </style>
-<script>
-    (function() {
-        const table = document.getElementById('kitCellTable');
-        if (!table) return;
-        let sortState = {
-            index: null,
-            asc: true
-        };
-
-        function t(r, i) {
-            return (r.children[i] && (r.children[i].textContent || r.children[i].innerText) || '').trim()
-        }
-
-        function up() {
-            const tbody = table.tBodies[0];
-            const rows = Array.from(tbody.querySelectorAll('tr'));
-            let no = parseInt('<?= $start_no; ?>', 10) || 1;
-            rows.forEach((r, idx) => {
-                if (r.children[0]) r.children[0].textContent = no + idx;
-                r.classList.remove('table-row-odd', 'table-row-even');
-                r.classList.add((idx % 2 === 0) ? 'table-row-odd' : 'table-row-even');
-            })
-        }
-
-        function ind() {
-            const headers = table.querySelectorAll('thead th');
-            headers.forEach((th, i) => {
-                th.classList.remove('kit-sort-asc', 'kit-sort-desc');
-                if (sortState.index === i) th.classList.add(sortState.asc ? 'kit-sort-asc' : 'kit-sort-desc');
-            })
-        }
-
-        function sortBy(col) {
-            const tbody = table.tBodies[0];
-            const rows = Array.from(tbody.querySelectorAll('tr'));
-            if (sortState.index === col) sortState.asc = !sortState.asc;
-            else {
-                sortState.index = col;
-                sortState.asc = true;
-            }
-            const num = [0];
-            rows.sort((a, b) => {
-                const A = t(a, col);
-                const B = t(b, col);
-                if (num.includes(col)) {
-                    return sortState.asc ? (parseFloat(A) || 0) - (parseFloat(B) || 0) : (parseFloat(B) || 0) - (parseFloat(A) || 0)
-                }
-                if (A < B) return sortState.asc ? -1 : 1;
-                if (A > B) return sortState.asc ? 1 : -1;
-                return 0
-            });
-            rows.forEach(r => tbody.appendChild(r));
-            up();
-            ind()
-        }
-        document.addEventListener('DOMContentLoaded', () => {
-            const headers = table.querySelectorAll('thead th');
-            headers.forEach((th, idx) => th.addEventListener('click', () => sortBy(idx)));
-        });
-    })();
-</script>

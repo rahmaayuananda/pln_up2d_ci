@@ -1,4 +1,4 @@
-<main class="main-content position-relative border-radius-lg">
+<main class="main-content position-relative border-radius-lg ">
     <!-- Navbar -->
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="false">
         <div class="container-fluid py-1 px-3">
@@ -10,9 +10,10 @@
                     <li class="breadcrumb-item text-sm text-white active" aria-current="page">Data Gardu Hubung</li>
                 </ol>
                 <h6 class="font-weight-bolder text-white mb-0">
-                    <i class="fas fa-network-wired me-2"></i> Data Gardu Hubung
+                    <i class="fas fa-network-wired me-2 text-warning"></i> Data Gardu Hubung
                 </h6>
             </nav>
+
             <!-- ICON kanan -->
             <div class="d-flex align-items-center ms-auto">
                 <ul class="navbar-nav flex-row align-items-center mb-0">
@@ -51,12 +52,12 @@
                 <h6 class="mb-0">Tabel Data Gardu Hubung</h6>
                 <div class="d-flex align-items-center">
                     <?php if (can_create()): ?>
-                    <a href="<?= base_url('Gardu_hubung/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
-                        <i class="fas fa-plus me-1"></i> Tambah
-                    </a>
-                    <a href="<?= base_url('import/gh') ?>" class="btn btn-sm btn-light text-success">
-                        <i class="fas fa-file-import me-1"></i> Import
-                    </a>
+                        <a href="<?= base_url('Gardu_hubung/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
+                            <i class="fas fa-plus me-1"></i> Tambah
+                        </a>
+                        <a href="<?= base_url('import/gh') ?>" class="btn btn-sm btn-light text-success">
+                            <i class="fas fa-file-import me-1"></i> Import
+                        </a>
                     <?php endif; ?>
                     <a href="<?= base_url('Gardu_hubung/export_csv') ?>" class="btn btn-sm btn-light text-secondary ms-2">
                         <i class="fas fa-file-csv me-1"></i> Download CSV
@@ -100,8 +101,7 @@
                                     <td colspan="7" class="text-center text-secondary py-4">Belum ada data</td>
                                 </tr>
                             <?php else: ?>
-                                <?php
-                                $no = $start_no;
+                                <?php $no = $start_no;
                                 foreach ($gardu_hubung as $row): ?>
                                     <tr class="<?= ($no % 2 == 0) ? 'table-row-even' : 'table-row-odd'; ?>">
                                         <td class="text-sm"><?= $no++; ?></td>
@@ -115,14 +115,14 @@
                                                 <i class="fas fa-info-circle"></i>
                                             </a>
                                             <?php if (can_edit()): ?>
-                                            <a href="<?= base_url('Gardu_hubung/edit/' . urlencode($row['SSOTNUMBER'] ?? '')); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
-                                                <i class="fas fa-pen"></i>
-                                            </a>
+                                                <a href="<?= base_url('Gardu_hubung/edit/' . urlencode($row['SSOTNUMBER'] ?? '')); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
+                                                    <i class="fas fa-pen"></i>
+                                                </a>
                                             <?php endif; ?>
                                             <?php if (can_delete()): ?>
-                                            <a href="<?= base_url('Gardu_hubung/hapus/' . urlencode($row['SSOTNUMBER'] ?? '')); ?>" class="btn btn-danger btn-xs btn-hapus" title="Hapus">
-                                                <i class="fas fa-trash"></i>
-                                            </a>
+                                                <a href="<?= base_url('Gardu_hubung/hapus/' . urlencode($row['SSOTNUMBER'] ?? '')); ?>" class="btn btn-danger btn-xs btn-hapus" title="Hapus">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
                                             <?php endif; ?>
                                         </td>
                                     </tr>
@@ -139,7 +139,28 @@
     </div>
 </main>
 
-<!-- Style tambahan -->
+<!-- Script -->
+<script>
+    function changePerPageGH(perPage) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('per_page', perPage);
+        url.searchParams.set('page', '1');
+        window.location.href = url.toString();
+    }
+
+    function searchTableGH() {
+        const input = document.getElementById('searchInputGH');
+        const filter = input.value.toUpperCase();
+        const table = document.getElementById('ghTable');
+        const tr = table.getElementsByTagName('tr');
+        for (let i = 1; i < tr.length; i++) {
+            let txtValue = tr[i].textContent || tr[i].innerText;
+            tr[i].style.display = (txtValue.toUpperCase().indexOf(filter) > -1) ? '' : 'none';
+        }
+    }
+</script>
+
+<!-- Style -->
 <style>
     .card-header {
         display: flex;
@@ -154,32 +175,10 @@
         font-weight: 600;
     }
 
-    /* Ensure breadcrumb active/title is visible on dark header */
     .breadcrumb .breadcrumb-item.active,
     .breadcrumb .breadcrumb-item a.opacity-5,
     .breadcrumb .breadcrumb-item.text-white {
         color: #ffffff !important;
-    }
-
-    /* compact default for gardu_hubung table (assets dropdown) */
-    #ghTable tbody tr td {
-        padding-top: 2px !important;
-        padding-bottom: 2px !important;
-        font-size: 13px !important;
-    }
-
-    #ghTable tbody tr {
-        line-height: 1.15;
-    }
-
-    #ghTable thead th {
-        padding-top: 8px !important;
-        padding-bottom: 8px !important;
-        font-size: 12px !important;
-    }
-
-    .card-header .d-flex.align-items-center a {
-        transform: translateY(10px);
     }
 
     .bg-gradient-primary {
@@ -208,121 +207,32 @@
     .btn-xs i {
         font-size: 12px;
     }
-</style>
 
-<script>
-    function changePerPageGH(perPage) {
-        const url = new URL(window.location.href);
-        url.searchParams.set('per_page', perPage);
-        url.searchParams.set('page', '1');
-        window.location.href = url.toString();
+    /* padding sel tabel */
+    #ghTable tbody tr td {
+        padding-top: 2px !important;
+        padding-bottom: 2px !important;
+        font-size: 13px !important;
     }
 
-    function searchTableGH() {
-        const input = document.getElementById('searchInputGH');
-        const filter = input.value.toUpperCase();
-        const table = document.getElementById('ghTable');
-        const tr = table.getElementsByTagName('tr');
-
-        for (let i = 1; i < tr.length; i++) {
-            let txtValue = tr[i].textContent || tr[i].innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = '';
-            } else {
-                tr[i].style.display = 'none';
-            }
-        }
+    #ghTable tbody td.text-center {
+        vertical-align: middle !important;
+        text-align: center !important;
+        padding-top: 6px !important;
+        padding-bottom: 6px !important;
     }
-</script>
 
-<style>
+    #ghTable tbody td.text-center .btn {
+        margin: 2px 3px;
+    }
+
     #ghTable thead th {
-        cursor: pointer
+        padding-top: 8px !important;
+        padding-bottom: 8px !important;
+        font-size: 12px !important;
     }
 
-    .ghh-sort-asc::after {
-        content: '\25B2';
-        font-size: 10px;
-        margin-left: 6px
-    }
-
-    .ghh-sort-desc::after {
-        content: '\25BC';
-        font-size: 10px;
-        margin-left: 6px
+    #ghTable tbody tr {
+        line-height: 1.15;
     }
 </style>
-<script>
-    (function() {
-        const table = document.getElementById('ghTable');
-        if (!table) return;
-        let s = {
-            index: null,
-            asc: true
-        };
-
-        function t(r, i) {
-            return (r.children[i] && (r.children[i].textContent || r.children[i].innerText) || '').trim()
-        }
-
-        function up() {
-            const tbody = table.tBodies[0];
-            const rows = Array.from(tbody.querySelectorAll('tr'));
-            let no = parseInt('<?= $start_no; ?>', 10) || 1;
-            rows.forEach((r, idx) => {
-                if (r.children[0]) r.children[0].textContent = no + idx;
-                r.classList.remove('table-row-odd', 'table-row-even');
-                r.classList.add((idx % 2 === 0) ? 'table-row-odd' : 'table-row-even');
-            });
-        }
-
-        function ind() {
-            const headers = table.querySelectorAll('thead th');
-            headers.forEach((th, i) => {
-                th.classList.remove('ghh-sort-asc', 'ghh-sort-desc');
-                if (s.index === i) th.classList.add(s.asc ? 'ghh-sort-asc' : 'ghh-sort-desc');
-            });
-        }
-
-        function sortBy(col) {
-            const tbody = table.tBodies[0];
-            const rows = Array.from(tbody.querySelectorAll('tr'));
-            if (s.index === col) s.asc = !s.asc;
-            else {
-                s.index = col;
-                s.asc = true;
-            }
-            const num = [0, 20, 21];
-            rows.sort((a, b) => {
-                const A = t(a, col);
-                const B = t(b, col);
-                if (num.includes(col)) return s.asc ? ((parseFloat(A) || 0) - (parseFloat(B) || 0)) : ((parseFloat(B) || 0) - (parseFloat(A) || 0));
-                if (A < B) return s.asc ? -1 : 1;
-                if (A > B) return s.asc ? 1 : -1;
-                return 0;
-            });
-            rows.forEach(r => tbody.appendChild(r));
-            up();
-            ind();
-        }
-        document.addEventListener('DOMContentLoaded', () => {
-            const headers = table.querySelectorAll('thead th');
-            headers.forEach((th, idx) => th.addEventListener('click', () => sortBy(idx)));
-        });
-    })();
-
-    function searchTableGH() {
-        const input = document.getElementById('searchInputGH');
-        const filter = input.value.toUpperCase();
-        const table = document.getElementById('ghTable');
-        const tr = table.getElementsByTagName('tr');
-        for (let i = 1; i < tr.length; i++) {
-            let txtValue = tr[i].textContent || tr[i].innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = '';
-            } else {
-                tr[i].style.display = 'none';
-            }
-        }
-    }
-</script>

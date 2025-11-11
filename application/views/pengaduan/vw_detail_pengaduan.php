@@ -30,18 +30,24 @@
                                     </div>
                                 </div>
 
-                                <!-- Tanggal Pengaduan & Proses -->
+                                <!-- Tanggal Pengaduan, Proses & Selesai -->
                                 <div class="row mb-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="detail-item">
                                             <span class="label">Tanggal Pengaduan</span>
                                             <p class="value"><?= htmlspecialchars($pengaduan['TANGGAL_PENGADUAN'] ?? '-'); ?></p>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="detail-item">
                                             <span class="label">Tanggal Proses</span>
                                             <p class="value"><?= htmlspecialchars($pengaduan['TANGGAL_PROSES'] ?? '-'); ?></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="detail-item">
+                                            <span class="label">Tanggal Selesai</span>
+                                            <p class="value"><?= htmlspecialchars($pengaduan['TANGGAL_SELESAI'] ?? '-'); ?></p>
                                         </div>
                                     </div>
                                 </div>
@@ -109,8 +115,8 @@
                                         <div class="detail-item">
                                             <span class="label">Status</span>
                                             <?php
-                                                $rawStatus = $pengaduan['STATUS'] ?? '-';
-                                                $displayStatus = ($rawStatus === 'Menunggu') ? 'Lapor' : $rawStatus;
+                                            $rawStatus = $pengaduan['STATUS'] ?? '-';
+                                            $displayStatus = ($rawStatus === 'Menunggu') ? 'Lapor' : $rawStatus;
                                             ?>
                                             <p class="value"><?= htmlspecialchars($displayStatus); ?></p>
                                         </div>
@@ -123,7 +129,7 @@
                                     </div>
                                 </div>
 
-                                <!-- 🟢 CATATAN -->
+                                <!-- Catatan -->
                                 <?php if (!empty($pengaduan['CATATAN'])): ?>
                                     <div class="row mb-3">
                                         <div class="col-md-12">
@@ -183,7 +189,6 @@
 
     .note-box {
         background: #e9f5ff;
-        /* 🌊 biru pastel lembut */
         border-left: 6px solid #0d6efd;
         border-radius: 10px;
         padding: 15px 18px;
@@ -204,7 +209,6 @@
 
     .note-box:hover {
         background: #dbefff;
-        /* efek hover lembut */
         transition: 0.3s ease;
     }
 

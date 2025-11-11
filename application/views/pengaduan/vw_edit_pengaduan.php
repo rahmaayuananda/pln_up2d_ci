@@ -1,28 +1,29 @@
-<main class="main-content position-relative border-radius-lg ">
-    <!-- Navbar -->
+<main class="main-content position-relative border-radius-lg">
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="false">
         <div class="container-fluid py-1 px-3"></div>
     </nav>
 
     <div class="container-fluid py-4">
         <div class="card shadow border-0 rounded-4">
-            <div class="card-header bg-gradient-primary text-white">
+            <div class="card-header bg-gradient-primary text-white d-flex align-items-center justify-content-between">
                 <strong>Form Edit Pengaduan</strong>
             </div>
+
             <div class="card-body">
-                <?php 
+                <?php
                 $user_role = strtolower($this->session->userdata('user_role') ?? '');
                 $is_up3 = ($user_role === 'up3');
                 $readonly = $is_up3 ? 'readonly' : '';
                 $disabled = $is_up3 ? 'disabled' : '';
                 ?>
+
                 <form id="editPengaduanForm" action="<?= base_url('Pengaduan/edit/' . urlencode($pengaduan['ID_PENGADUAN'])); ?>" method="POST" enctype="multipart/form-data">
                     <div class="row g-3">
 
-                        <!-- Unit Pelaksana - UP3 BISA EDIT -->
+                        <!-- Unit Pelaksana -->
                         <div class="col-md-4">
                             <label class="form-label">Unit Pelaksana</label>
-                            <select name="NAMA_UP3" class="form-control" required>
+                            <select name="NAMA_UP3" class="form-control" <?= $disabled; ?> required>
                                 <option value="">-- Pilih UP --</option>
                                 <?php
                                 $upList = ['PEKANBARU', 'DUMAI', 'TANJUNG PINANG', 'RENGAT', 'BANGKINANG', 'UP2D_Riau'];
@@ -34,22 +35,28 @@
                             </select>
                         </div>
 
-                        <!-- Tanggal Pengaduan - UP3 TIDAK BISA EDIT -->
+                        <!-- Tanggal Pengaduan -->
                         <div class="col-md-4">
                             <label class="form-label">Tanggal Pengaduan</label>
                             <input type="date" class="form-control" name="TANGGAL_PENGADUAN" value="<?= htmlentities($pengaduan['TANGGAL_PENGADUAN']); ?>" <?= $readonly; ?> required>
                         </div>
 
-                        <!-- 🟩 Tanggal Proses - UP3 TIDAK BISA EDIT -->
+                        <!-- Tanggal Proses -->
                         <div class="col-md-4" id="tanggalProsesContainer" style="display:none;">
                             <label class="form-label">Tanggal Proses</label>
-                            <input type="date" class="form-control" name="TANGGAL_PROSES" value="<?= htmlentities($pengaduan['TANGGAL_PROSES'] ?? ''); ?>" <?= $readonly; ?>>
+                            <input type="date" name="TANGGAL_PROSES" class="form-control" value="<?= htmlentities($pengaduan['TANGGAL_PROSES'] ?? ''); ?>" <?= $readonly; ?>>
                         </div>
 
-                        <!-- Jenis & Item Pengaduan - UP3 BISA EDIT -->
+                        <!-- Tanggal Selesai -->
+                        <div class="col-md-4" id="tanggalSelesaiContainer" style="display:none;">
+                            <label class="form-label">Tanggal Selesai</label>
+                            <input type="date" name="TANGGAL_SELESAI" id="tanggalSelesai" class="form-control" value="<?= htmlentities($pengaduan['TANGGAL_SELESAI'] ?? ''); ?>" <?= $readonly; ?>>
+                        </div>
+
+                        <!-- Jenis Pengaduan -->
                         <div class="col-md-6">
                             <label class="form-label">Jenis Pengaduan</label>
-                            <select id="jenis_pengaduan" name="JENIS_PENGADUAN" class="form-control" required>
+                            <select id="jenis_pengaduan" name="JENIS_PENGADUAN" class="form-control" <?= $disabled; ?> required>
                                 <option value="">-- Pilih Jenis Pengaduan --</option>
                                 <?php
                                 $jenisList = ["Gardu Induk", "Gardu Hubung", "Recloser", "LBS", "Radio Komunikasi"];
@@ -61,9 +68,10 @@
                             </select>
                         </div>
 
+                        <!-- Item Pengaduan -->
                         <div class="col-md-6">
                             <label class="form-label">Pilih Item Pengaduan</label>
-                            <select id="item_pengaduan" name="ITEM_PENGADUAN" class="form-control" required>
+                            <select id="item_pengaduan" name="ITEM_PENGADUAN" class="form-control" <?= $disabled; ?> required>
                                 <option value="">-- Pilih Item Pengaduan --</option>
                                 <?php if (!empty($pengaduan['ITEM_PENGADUAN'])): ?>
                                     <option value="<?= htmlentities($pengaduan['ITEM_PENGADUAN']); ?>" selected><?= htmlentities($pengaduan['ITEM_PENGADUAN']); ?></option>
@@ -71,12 +79,9 @@
                             </select>
                         </div>
 
-                        <!-- PIC - UP3 TIDAK BISA EDIT -->
+                        <!-- PIC -->
                         <div class="col-md-6">
                             <label class="form-label">PIC</label>
-                            <?php if ($is_up3): ?>
-                                <input type="hidden" name="PIC" value="<?= htmlentities($pengaduan['PIC'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
-                            <?php endif; ?>
                             <select name="PIC" id="pic" class="form-control" <?= $disabled; ?> required>
                                 <option value="">-- Pilih PIC --</option>
                                 <?php
@@ -89,30 +94,29 @@
                             </select>
                         </div>
 
-                                <!-- Laporan - UP3 BISA EDIT -->
+                        <!-- Laporan, Tindak Lanjut, Catatan -->
+                        <div class="col-md-12">
+                            <div class="row">
                                 <div class="col-md-6">
                                     <label class="form-label">Laporan</label>
-                                    <textarea name="LAPORAN" id="laporan" rows="6" class="form-control" required><?= htmlentities($pengaduan['LAPORAN']); ?></textarea>
+                                    <textarea name="LAPORAN" rows="5" class="form-control" required><?= htmlentities($pengaduan['LAPORAN']); ?></textarea>
                                 </div>
 
-                                <!-- Tindak Lanjut (status = Diproses) - UP3 TIDAK BISA EDIT -->
                                 <div class="col-md-6" id="tindakLanjutContainer" style="display:none;">
                                     <label class="form-label">Tindak Lanjut</label>
-                                    <textarea name="TINDAK_LANJUT" id="tindak_lanjut" rows="6" class="form-control" <?= $readonly; ?>><?= htmlentities($pengaduan['TINDAK_LANJUT'] ?? ''); ?></textarea>
+                                    <textarea name="TINDAK_LANJUT" rows="5" class="form-control" <?= $readonly; ?>><?= htmlentities($pengaduan['TINDAK_LANJUT'] ?? ''); ?></textarea>
                                 </div>
 
-                                <!-- Catatan (status = Selesai) - UP3 TIDAK BISA EDIT -->
                                 <div class="col-md-6" id="catatanContainer" style="display:none;">
                                     <label class="form-label">Catatan</label>
-                                    <textarea name="CATATAN" id="catatan" rows="6" class="form-control" <?= $readonly; ?>><?= htmlentities($pengaduan['CATATAN'] ?? ''); ?></textarea>
+                                    <textarea name="CATATAN" rows="5" class="form-control" <?= $readonly; ?>><?= htmlentities($pengaduan['CATATAN'] ?? ''); ?></textarea>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- FOTO -->
+                        <!-- Foto Pengaduan & Proses -->
                         <div class="col-md-12">
                             <div class="row">
-                                <!-- Foto Pengaduan - UP3 BISA EDIT -->
                                 <div class="col-md-6">
                                     <label class="form-label">Foto Pengaduan</label>
                                     <?php if (!empty($pengaduan['FOTO_PENGADUAN'])): ?>
@@ -120,13 +124,13 @@
                                             <img src="<?= base_url('uploads/pengaduan/' . $pengaduan['FOTO_PENGADUAN']); ?>" class="img-thumbnail rounded" style="max-width:200px;">
                                         </div>
                                     <?php endif; ?>
-                                    <input type="file" name="FOTO_PENGADUAN" id="foto_pengaduan" class="form-control" accept="image/*" onchange="previewImage(event, 'preview_pengaduan')">
+                                    <input type="file" name="FOTO_PENGADUAN" class="form-control" accept="image/*" onchange="previewImage(event, 'preview_pengaduan')">
+                                    <small class="text-muted">Format: JPG, PNG, maksimal 2MB</small>
                                     <div class="mt-2">
                                         <img id="preview_pengaduan" src="#" class="img-thumbnail rounded" style="max-width:200px; display:none;">
                                     </div>
                                 </div>
 
-                                <!-- Foto Proses - UP3 TIDAK BISA EDIT -->
                                 <div class="col-md-6" id="fotoProsesContainer" style="display:none;">
                                     <label class="form-label">Foto Proses</label>
                                     <?php if (!empty($pengaduan['FOTO_PROSES'])): ?>
@@ -134,7 +138,8 @@
                                             <img src="<?= base_url('uploads/proses/' . $pengaduan['FOTO_PROSES']); ?>" class="img-thumbnail rounded" style="max-width:200px;">
                                         </div>
                                     <?php endif; ?>
-                                    <input type="file" name="FOTO_PROSES" id="foto_proses" class="form-control" accept="image/*" <?= $disabled; ?> onchange="previewImage(event, 'preview_proses')">
+                                    <input type="file" name="FOTO_PROSES" class="form-control" accept="image/*" onchange="previewImage(event, 'preview_proses')" <?= $disabled; ?>>
+                                    <small class="text-muted">Format: JPG, PNG, maksimal 2MB</small>
                                     <div class="mt-2">
                                         <img id="preview_proses" src="#" class="img-thumbnail rounded" style="max-width:200px; display:none;">
                                     </div>
@@ -142,89 +147,80 @@
                             </div>
                         </div>
 
-                        <!-- STATUS - UP3 TIDAK BISA EDIT -->
+                        <!-- Status -->
                         <div class="col-md-6">
                             <label class="form-label">Status</label>
                             <select name="STATUS" id="statusSelect" class="form-control" <?= $is_up3 ? 'disabled' : 'required'; ?>>
-                                <option value="Lapor" <?= in_array(($pengaduan['STATUS'] ?? ''), ['Lapor','Menunggu']) ? 'selected' : ''; ?>>Lapor</option>
+                                <option value="Lapor" <?= in_array(($pengaduan['STATUS'] ?? ''), ['Lapor', 'Menunggu']) ? 'selected' : ''; ?>>Lapor</option>
                                 <option value="Diproses" <?= ($pengaduan['STATUS'] == 'Diproses') ? 'selected' : ''; ?>>Diproses</option>
                                 <option value="Selesai" <?= ($pengaduan['STATUS'] == 'Selesai') ? 'selected' : ''; ?>>Selesai</option>
                             </select>
                             <?php if ($is_up3): ?>
-                                <!-- Hidden input to submit current status when disabled -->
                                 <input type="hidden" name="STATUS" value="<?= htmlentities($pengaduan['STATUS'] ?? 'Lapor', ENT_QUOTES, 'UTF-8'); ?>">
                             <?php endif; ?>
                         </div>
                     </div>
 
-                    <!-- TOMBOL -->
-                    <div class="mt-4">
-                        <a href="<?= base_url('Pengaduan'); ?>" class="btn btn-secondary">Batal</a>
-                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                    <div class="mt-4 text-end">
+                        <a href="<?= base_url('Pengaduan'); ?>" class="btn btn-secondary px-4">Batal</a>
+                        <button type="submit" class="btn btn-primary px-4">Simpan Perubahan</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- SCRIPT -->
     <script>
         const statusSelect = document.getElementById("statusSelect");
         const tanggalProsesContainer = document.getElementById("tanggalProsesContainer");
+        const tanggalSelesaiContainer = document.getElementById("tanggalSelesaiContainer");
         const tindakLanjutContainer = document.getElementById("tindakLanjutContainer");
         const catatanContainer = document.getElementById("catatanContainer");
         const fotoProsesContainer = document.getElementById("fotoProsesContainer");
+        const tanggalSelesaiInput = document.getElementById("tanggalSelesai");
 
         function updateStatusFields() {
-            if (statusSelect.value === "Diproses") {
-                tanggalProsesContainer.style.display = "block";
-                tindakLanjutContainer.style.display = "block";
-                catatanContainer.style.display = "none";
-                fotoProsesContainer.style.display = "block";
-            } else if (statusSelect.value === "Selesai") {
-                // 🟩 Perubahan: Tanggal Proses tetap tampil
-                tanggalProsesContainer.style.display = "block";
-                tindakLanjutContainer.style.display = "none";
-                catatanContainer.style.display = "block";
-                fotoProsesContainer.style.display = "none";
-            } else {
-                tanggalProsesContainer.style.display = "none";
-                tindakLanjutContainer.style.display = "none";
-                catatanContainer.style.display = "none";
-                fotoProsesContainer.style.display = "none";
+            const value = statusSelect.value;
+            const today = new Date().toISOString().split('T')[0];
+            tanggalProsesContainer.style.display = (value === "Diproses" || value === "Selesai") ? "block" : "none";
+            tanggalSelesaiContainer.style.display = (value === "Selesai") ? "block" : "none";
+            tindakLanjutContainer.style.display = (value === "Diproses") ? "block" : "none";
+            catatanContainer.style.display = (value === "Selesai") ? "block" : "none";
+            fotoProsesContainer.style.display = (value === "Diproses") ? "block" : "none";
+
+            if (value === "Selesai" && !tanggalSelesaiInput.value) {
+                tanggalSelesaiInput.value = today;
             }
         }
 
         statusSelect.addEventListener("change", updateStatusFields);
         document.addEventListener("DOMContentLoaded", updateStatusFields);
 
-        // Preview foto
         function previewImage(event, previewId) {
             const input = event.target;
             const preview = document.getElementById(previewId);
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = e => {
                     preview.src = e.target.result;
                     preview.style.display = 'block';
                 };
                 reader.readAsDataURL(input.files[0]);
             } else {
-                preview.src = "#";
                 preview.style.display = 'none';
             }
         }
     </script>
 
     <style>
-        .img-thumbnail {
-            border: 1px solid #dee2e6;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        }
-
         .form-label {
             font-weight: 600;
             color: #2c3e50;
+        }
+
+        .img-thumbnail {
+            border: 1px solid #dee2e6;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         }
 
         select.form-control,
@@ -236,6 +232,10 @@
         textarea.form-control {
             resize: vertical;
             font-size: 0.9rem;
+        }
+
+        .btn {
+            border-radius: 0.5rem;
         }
     </style>
 </main>
