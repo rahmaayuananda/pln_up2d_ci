@@ -17,7 +17,7 @@ class Gi_cell extends CI_Controller
     {
         parent::__construct();
         // Load model
-    $this->load->model('Gi_cell_model', 'gi_cell_model');
+        $this->load->model('Gi_cell_model', 'gi_cell_model');
         // Load helper dan library
         $this->load->helper(['url', 'form']);
         $this->load->library(['session', 'pagination']);
@@ -30,13 +30,13 @@ class Gi_cell extends CI_Controller
 
         // Konfigurasi paginasi
         $config['base_url'] = site_url('gi_cell/index');
-    $config['total_rows'] = $this->gi_cell_model->count_all_gi_cell();
+        $config['total_rows'] = $this->gi_cell_model->count_all_gi_cell();
         // Per-page selector (from ?per_page), use config default_per_page
-        $allowedPerPage = [5,10,25,50,100,500];
+        $allowedPerPage = [5, 10, 25, 50, 100, 500];
         $requestedPer = (int) $this->input->get('per_page');
         $defaultPer = (int) $this->config->item('default_per_page');
         $perPage = in_array($requestedPer, $allowedPerPage) ? $requestedPer : $defaultPer;
-    $config['per_page'] = $perPage;
+        $config['per_page'] = $perPage;
         $config["uri_segment"] = 3;
         $config['use_page_numbers'] = TRUE;
 
@@ -150,14 +150,50 @@ class Gi_cell extends CI_Controller
             $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk mengubah data');
             redirect('Gi_cell');
         }
-        $data['giCell'] = $this->gi_cell_model->get_gi_cell_by_id($id);
+
+        // Pastikan nama variabel seragam: gi_cell
+        $data['gi_cell'] = $this->gi_cell_model->get_gi_cell_by_id($id);
         if (empty($data['gi_cell'])) {
             show_404();
         }
 
-        // Ensure all expected keys exist to avoid undefined index notices in the view
-        // Only include fields that exist in database (34 columns)
-        $expected = ['SSOTNUMBER','CXUNIT','UNITNAME','ASSETNUM','LOCATION','DESCRIPTION','VENDOR','MANUFACTURER','INSTALLDATE','PRIORITY','STATUS','TUJDNUMBER','CHANGEBY','CHANGEDATE','CXCLASSIFICATIONDESC','CXPENYULANG','NAMA_LOCATION','LONGITUDEX','LATITUDEY','ISASSET','STATUS_KEPEMILIKAN','BURDEN','FAKTOR_KALI','JENIS_CT','KELAS_CT','KELAS_PROTEKSI','PRIMER_SEKUNDER','TIPE_CT','OWNERSYSID','ISOLASI_KUBIKEL','JENIS_MVCELL','TH_BUAT','TYPE_MVCELL','CELL_TYPE'];
+        $expected = [
+            'SSOTNUMBER',
+            'CXUNIT',
+            'UNITNAME',
+            'ASSETNUM',
+            'LOCATION',
+            'DESCRIPTION',
+            'VENDOR',
+            'MANUFACTURER',
+            'INSTALLDATE',
+            'PRIORITY',
+            'STATUS',
+            'TUJDNUMBER',
+            'CHANGEBY',
+            'CHANGEDATE',
+            'CXCLASSIFICATIONDESC',
+            'CXPENYULANG',
+            'NAMA_LOCATION',
+            'LONGITUDEX',
+            'LATITUDEY',
+            'ISASSET',
+            'STATUS_KEPEMILIKAN',
+            'BURDEN',
+            'FAKTOR_KALI',
+            'JENIS_CT',
+            'KELAS_CT',
+            'KELAS_PROTEKSI',
+            'PRIMER_SEKUNDER',
+            'TIPE_CT',
+            'OWNERSYSID',
+            'ISOLASI_KUBIKEL',
+            'JENIS_MVCELL',
+            'TH_BUAT',
+            'TYPE_MVCELL',
+            'CELL_TYPE'
+        ];
+
         foreach ($expected as $k) {
             if (!array_key_exists($k, $data['gi_cell'])) {
                 $data['gi_cell'][$k] = '';
@@ -167,7 +203,6 @@ class Gi_cell extends CI_Controller
         if ($this->input->post()) {
             $original = $this->input->post('original_SSOTNUMBER') ? $this->input->post('original_SSOTNUMBER') : $id;
             $updateData = [
-                // Only fields that exist in database (34 columns)
                 'SSOTNUMBER' => $this->input->post('SSOTNUMBER'),
                 'CXUNIT' => $this->input->post('CXUNIT'),
                 'UNITNAME' => $this->input->post('UNITNAME'),
@@ -218,7 +253,7 @@ class Gi_cell extends CI_Controller
     // Detail data
     public function detail($id)
     {
-    $data['gi_cell'] = $this->gi_cell_model->get_gi_cell_by_id($id);
+        $data['gi_cell'] = $this->gi_cell_model->get_gi_cell_by_id($id);
         if (empty($data['gi_cell'])) {
             show_404();
         }
@@ -236,7 +271,7 @@ class Gi_cell extends CI_Controller
             $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk menghapus data');
             redirect('Gi_cell');
         }
-    $this->gi_cell_model->delete_gi_cell($id);
+        $this->gi_cell_model->delete_gi_cell($id);
         $this->session->set_flashdata('success', 'Data GI Cell berhasil dihapus!');
         redirect('Gi_cell');
     }
