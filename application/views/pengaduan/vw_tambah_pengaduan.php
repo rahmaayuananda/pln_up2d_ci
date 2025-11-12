@@ -10,6 +10,12 @@
             </div>
 
             <div class="card-body">
+                <?php
+                $user_role = strtolower($this->session->userdata('user_role') ?? '');
+                $is_up3 = ($user_role === 'up3');
+                $disabled = $is_up3 ? 'disabled' : '';
+                ?>
+
                 <form id="formPengaduan" action="<?= base_url('Pengaduan/tambah'); ?>" method="POST" enctype="multipart/form-data">
                     <div class="row g-3">
 
@@ -125,11 +131,14 @@
                         <!-- Status -->
                         <div class="col-md-6">
                             <label class="form-label">Status</label>
-                            <select name="STATUS" id="statusSelect" class="form-control" required>
-                                <option value="Lapor">Lapor</option>
+                            <select name="STATUS" id="statusSelect" class="form-control" <?= $is_up3 ? 'disabled' : 'required'; ?>>
+                                <option value="Lapor" selected>Lapor</option>
                                 <option value="Diproses">Diproses</option>
                                 <option value="Selesai">Selesai</option>
                             </select>
+                            <?php if ($is_up3): ?>
+                                <input type="hidden" name="STATUS" value="Lapor">
+                            <?php endif; ?>
                         </div>
 
                     </div>
