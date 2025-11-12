@@ -57,14 +57,14 @@
                 <h6 class="mb-0 d-flex align-items-center">Tabel Data Gardu Induk</h6>
                 <div class="d-flex align-items-center" style="padding-top: 16px;">
                     <?php if (can_create()): ?>
-                        <a href="<?= base_url('Unit/tambah') ?>" class="btn btn-sm btn-light text-primary me-2 d-flex align-items-center">
+                        <a href="<?= base_url('Gardu_induk/tambah') ?>" class="btn btn-sm btn-light text-primary me-2 d-flex align-items-center">
                             <i class="fas fa-plus me-1"></i> Tambah
                         </a>
-                        <a href="<?= base_url('import/unit') ?>" class="btn btn-sm btn-light text-success d-flex align-items-center">
+                        <a href="<?= base_url('import/gardu_induk') ?>" class="btn btn-sm btn-light text-success d-flex align-items-center">
                             <i class="fas fa-file-import me-1"></i> Import
                         </a>
                     <?php endif; ?>
-                    <a href="<?= base_url('Unit/export_csv') ?>" class="btn btn-sm btn-light text-secondary ms-2 d-flex align-items-center">
+                    <a href="<?= base_url('Gardu_induk/export_csv') ?>" class="btn btn-sm btn-light text-secondary ms-2 d-flex align-items-center">
                         <i class="fas fa-file-csv me-1"></i> Download CSV
                     </a>
                 </div>
