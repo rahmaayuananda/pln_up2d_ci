@@ -28,11 +28,14 @@
                             <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
                         </a>
                     </li>
+                    <!-- Notifikasi -->
                     <li class="nav-item dropdown pe-2 d-flex align-items-center">
-                        <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa fa-bell cursor-pointer"></i>
+                        <a href="<?= base_url('Notifikasi'); ?>" class="nav-link text-white p-0 position-relative" title="Lihat Notifikasi">
+                            <i class="fa fa-bell cursor-pointer" style="font-size: 18px;"></i>
+                            <span id="notifBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 9px; display: none;">
+                                0
+                            </span>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton"></ul>
                     </li>
                 </ul>
             </div>
@@ -60,9 +63,9 @@
                 <h6 class="mb-0">Tabel Data BPM</h6>
                 <div class="d-flex align-items-center">
                     <?php if (can_create()): ?>
-                    <a href="<?= base_url('Bpm/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
-                        <i class="fas fa-plus me-1"></i> Tambah
-                    </a>
+                        <a href="<?= base_url('Bpm/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
+                            <i class="fas fa-plus me-1"></i> Tambah
+                        </a>
                     <?php endif; ?>
                 </div>
             </div>
@@ -104,8 +107,8 @@
                                     <td colspan="5" class="text-center text-secondary py-4">Belum ada data BPM</td>
                                 </tr>
                             <?php else: ?>
-                                    <?php $no = isset($start_no) ? $start_no : 1;
-                                    foreach ($bpm as $row): ?>
+                                <?php $no = isset($start_no) ? $start_no : 1;
+                                foreach ($bpm as $row): ?>
                                     <tr class="<?= ($no % 2 == 0) ? 'table-row-even' : 'table-row-odd'; ?>">
                                         <td class="text-sm"><?= $no++; ?></td>
                                         <td class="text-sm"><?= htmlentities($row['NAMA_FILE'] ?? '-'); ?></td>
@@ -134,19 +137,19 @@
                                             <?php endif; ?>
 
                                             <?php if (can_edit()): ?>
-                                            <!-- Tombol Edit -->
-                                            <a href="<?= base_url('Bpm/edit/' . ($row['ID_BPM'] ?? '')); ?>"
-                                                class="btn btn-warning btn-xs text-white me-1" title="Edit">
-                                                <i class="fas fa-pen"></i>
-                                            </a>
+                                                <!-- Tombol Edit -->
+                                                <a href="<?= base_url('Bpm/edit/' . ($row['ID_BPM'] ?? '')); ?>"
+                                                    class="btn btn-warning btn-xs text-white me-1" title="Edit">
+                                                    <i class="fas fa-pen"></i>
+                                                </a>
                                             <?php endif; ?>
                                             <?php if (can_delete()): ?>
-                                            <!-- Tombol Hapus -->
-                                            <a href="javascript:void(0);"
-                                                onclick="confirmDelete('<?= base_url('Bpm/hapus/' . ($row['ID_BPM'] ?? '')); ?>')"
-                                                class="btn btn-danger btn-xs" title="Hapus">
-                                                <i class="fas fa-trash"></i>
-                                            </a>
+                                                <!-- Tombol Hapus -->
+                                                <a href="javascript:void(0);"
+                                                    onclick="confirmDelete('<?= base_url('Bpm/hapus/' . ($row['ID_BPM'] ?? '')); ?>')"
+                                                    class="btn btn-danger btn-xs" title="Hapus">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
                                             <?php endif; ?>
                                         </td>
                                     </tr>

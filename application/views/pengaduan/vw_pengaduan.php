@@ -29,11 +29,14 @@
                             <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
                         </a>
                     </li>
+                    <!-- Notifikasi -->
                     <li class="nav-item dropdown pe-2 d-flex align-items-center">
-                        <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa fa-bell cursor-pointer"></i>
+                        <a href="<?= base_url('Notifikasi'); ?>" class="nav-link text-white p-0 position-relative" title="Lihat Notifikasi">
+                            <i class="fa fa-bell cursor-pointer" style="font-size: 18px;"></i>
+                            <span id="notifBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 9px; display: none;">
+                                0
+                            </span>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton"></ul>
                     </li>
                 </ul>
             </div>
@@ -60,9 +63,9 @@
                 <h6 class="mb-0">Tabel Data Pengaduan</h6>
                 <div class="d-flex align-items-center">
                     <?php if (can_create()): ?>
-                    <a href="<?= base_url('Pengaduan/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
-                        <i class="fas fa-plus me-1"></i> Tambah
-                    </a>
+                        <a href="<?= base_url('Pengaduan/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
+                            <i class="fas fa-plus me-1"></i> Tambah
+                        </a>
                     <?php endif; ?>
                 </div>
             </div>
@@ -120,10 +123,10 @@
                                             <span class="badge 
                                                 <?= ($row['STATUS'] ?? '') == 'Selesai' ? 'bg-success' : (($row['STATUS'] ?? '') == 'Diproses' ? 'bg-warning text-dark' : 'bg-secondary'); ?>">
                                                 <?php
-                                                    $rawStatus = $row['STATUS'] ?? '-';
-                                                    // Treat legacy 'Menunggu' as 'Lapor' and display 'Lapor' for both
-                                                    $displayStatus = in_array($rawStatus, ['Menunggu', 'Lapor']) ? 'Lapor' : $rawStatus;
-                                                    echo htmlentities($displayStatus);
+                                                $rawStatus = $row['STATUS'] ?? '-';
+                                                // Treat legacy 'Menunggu' as 'Lapor' and display 'Lapor' for both
+                                                $displayStatus = in_array($rawStatus, ['Menunggu', 'Lapor']) ? 'Lapor' : $rawStatus;
+                                                echo htmlentities($displayStatus);
                                                 ?>
                                             </span>
                                         </td>
@@ -134,14 +137,14 @@
                                                 <i class="fas fa-info-circle"></i>
                                             </a>
                                             <?php if (can_edit()): ?>
-                                            <a href="<?= base_url('Pengaduan/edit/' . ($row['ID_PENGADUAN'] ?? '')); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
-                                                <i class="fas fa-pen"></i>
-                                            </a>
+                                                <a href="<?= base_url('Pengaduan/edit/' . ($row['ID_PENGADUAN'] ?? '')); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
+                                                    <i class="fas fa-pen"></i>
+                                                </a>
                                             <?php endif; ?>
                                             <?php if (can_delete()): ?>
-                                            <a href="javascript:void(0);" onclick="confirmDelete('<?= base_url('Pengaduan/hapus/' . ($row['ID_PENGADUAN'] ?? '')); ?>')" class="btn btn-danger btn-xs" title="Hapus">
-                                                <i class="fas fa-trash"></i>
-                                            </a>
+                                                <a href="javascript:void(0);" onclick="confirmDelete('<?= base_url('Pengaduan/hapus/' . ($row['ID_PENGADUAN'] ?? '')); ?>')" class="btn btn-danger btn-xs" title="Hapus">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
                                             <?php endif; ?>
                                         </td>
                                     </tr>
