@@ -24,6 +24,10 @@ class Gh_cell extends CI_Controller
     public function index()
     {
         $data['title'] = 'Data GH Cell';
+        
+        // Navbar data
+        $data['page_title'] = 'Data GH Cell';
+        $data['page_icon'] = 'fas fa-square';
 
         // Konfigurasi paginasi
         $config['base_url'] = site_url('gh_cell/index');

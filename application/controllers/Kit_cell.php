@@ -27,6 +27,10 @@ class Kit_cell extends CI_Controller
     public function index()
     {
         $data['title'] = 'Data KIT Cell';
+        
+        // Navbar data
+        $data['page_title'] = 'Data KIT Cell';
+        $data['page_icon'] = 'fas fa-microchip';
 
         // Konfigurasi paginasi
         $config['base_url'] = site_url('kit_cell/index');

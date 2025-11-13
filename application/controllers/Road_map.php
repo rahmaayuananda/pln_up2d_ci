@@ -1,6 +1,17 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+/**
+ * Controller for Road Map
+ *
+ * @property CI_Input $input
+ * @property CI_Session $session
+ * @property Road_map_model $roadmapModel
+ * @property CI_Pagination $pagination
+ * @property CI_Upload $upload
+ * @property CI_URI $uri
+ * @property CI_Config $config
+ */
 class Road_map extends CI_Controller
 {
     public function __construct()
@@ -17,6 +28,10 @@ class Road_map extends CI_Controller
     public function index()
     {
         $data['judul'] = 'Data Road Map';
+        
+        // Navbar data
+        $data['page_title'] = 'Data Road Map';
+        $data['page_icon'] = 'fas fa-road';
 
         // Konfigurasi pagination
         $config['base_url'] = site_url('road_map/index');

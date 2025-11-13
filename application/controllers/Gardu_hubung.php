@@ -24,6 +24,10 @@ class Gardu_hubung extends CI_Controller
     public function index()
     {
         $data['title'] = 'Data Gardu Hubung';
+        
+        // Navbar data
+        $data['page_title'] = 'Data Gardu Hubung';
+        $data['page_icon'] = 'fas fa-network-wired';
 
     // Handle per_page dari query string (gunakan config default_per_page)
     $allowedPerPage = [5,10,25,50,100,500];

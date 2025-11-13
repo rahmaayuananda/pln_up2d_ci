@@ -1,6 +1,17 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+/**
+ * Controller for SPLN (Standar Perusahaan Listrik Negara)
+ *
+ * @property CI_Input $input
+ * @property CI_Session $session
+ * @property Spln_model $splnModel
+ * @property CI_Pagination $pagination
+ * @property CI_Upload $upload
+ * @property CI_URI $uri
+ * @property CI_Config $config
+ */
 class Spln extends CI_Controller
 {
     public function __construct()
@@ -17,6 +28,10 @@ class Spln extends CI_Controller
     public function index()
     {
         $data['judul'] = 'Data SPLN';
+        
+        // Navbar data
+        $data['page_title'] = 'Data SPLN';
+        $data['page_icon'] = 'fas fa-bolt';
 
         // Konfigurasi pagination
         $config['base_url'] = site_url('spln/index');

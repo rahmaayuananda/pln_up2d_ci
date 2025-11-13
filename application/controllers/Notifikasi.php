@@ -1,6 +1,15 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+/**
+ * Controller for Notifikasi (Notification Management)
+ *
+ * @property CI_Input $input
+ * @property CI_Session $session
+ * @property Notifikasi_model $notifModel
+ * @property CI_URI $uri
+ * @property CI_Config $config
+ */
 class Notifikasi extends CI_Controller
 {
     public function __construct()
@@ -96,6 +105,14 @@ class Notifikasi extends CI_Controller
         $count = $this->notifModel->get_unread_count();
         header('Content-Type: application/json');
         echo json_encode(['unread' => (int)$count]);
+    }
+
+    // API: Get unread count for navbar
+    public function get_unread_count()
+    {
+        $count = $this->notifModel->get_unread_count();
+        header('Content-Type: application/json');
+        echo json_encode(['count' => (int)$count]);
     }
 
     // Cleanup old notifications (bisa dipanggil via cron)

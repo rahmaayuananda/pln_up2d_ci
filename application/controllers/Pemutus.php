@@ -25,6 +25,10 @@ class Pemutus extends CI_Controller
     public function index()
     {
         $data['title'] = 'Data Pemutus (LBS Recloser)';
+        
+        // Navbar data
+        $data['page_title'] = 'Data Pemutus (LBS Recloser)';
+        $data['page_icon'] = 'fas fa-toggle-on';
 
         // Konfigurasi paginasi
         $config['base_url'] = site_url('pemutus/index');

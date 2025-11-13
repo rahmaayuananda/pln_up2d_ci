@@ -1,6 +1,17 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+/**
+ * Controller for Single Line Diagram
+ *
+ * @property CI_Input $input
+ * @property CI_Session $session
+ * @property Single_line_diagram_model $sldModel
+ * @property CI_Pagination $pagination
+ * @property CI_Upload $upload
+ * @property CI_URI $uri
+ * @property CI_Config $config
+ */
 class Single_Line_Diagram extends CI_Controller
 {
     public function __construct()
@@ -17,6 +28,10 @@ class Single_Line_Diagram extends CI_Controller
     public function index()
     {
         $data['judul'] = 'Data Single Line Diagram';
+        
+        // Navbar data
+        $data['page_title'] = 'Data Single Line Diagram';
+        $data['page_icon'] = 'fas fa-project-diagram';
 
     // Per-page dari query string atau default (allowed values)
     $allowedPer = [5,10,25,50,100,500];

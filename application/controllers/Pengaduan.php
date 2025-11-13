@@ -1,6 +1,18 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+/**
+ * Controller for Pengaduan (Complaint Management)
+ *
+ * @property CI_Input $input
+ * @property CI_Session $session
+ * @property Pengaduan_model $Pengaduan_model
+ * @property CI_Pagination $pagination
+ * @property CI_Upload $upload
+ * @property CI_Form_validation $form_validation
+ * @property CI_URI $uri
+ * @property CI_Config $config
+ */
 class Pengaduan extends CI_Controller
 {
     public function __construct()
@@ -15,6 +27,10 @@ class Pengaduan extends CI_Controller
     public function index()
     {
         $data['judul'] = 'Data Pengaduan';
+        
+        // Navbar data
+        $data['page_title'] = 'Data Pengaduan';
+        $data['page_icon'] = 'fas fa-file-alt';
 
         // Pagination setup
         $per_page = (int) $this->input->get('per_page') ?: 5;

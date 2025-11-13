@@ -18,6 +18,10 @@ class Dashboard extends CI_Controller
     {
         $data['judul'] = "Halaman Dashboard";
 
+        // Navbar data
+        $data['page_title'] = "Dashboard";
+        $data['page_icon'] = "ni ni-tv-2";
+
         // If user is logged in, fetch their login_count and last_login for display
         $data['login_count'] = null;
         $data['last_login'] = null;

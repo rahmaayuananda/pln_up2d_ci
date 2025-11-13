@@ -1,6 +1,16 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/**
+ * Controller for Import Data
+ *
+ * @property CI_Input $input
+ * @property CI_Session $session
+ * @property ImportJob_model $ImportJob_model
+ * @property CI_Upload $upload
+ * @property CI_URI $uri
+ * @property CI_Config $config
+ */
 class Import extends CI_Controller {
     private $entityMap = [
         'gi'           => 'gi',
