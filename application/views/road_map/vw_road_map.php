@@ -11,9 +11,10 @@
                     <li class="breadcrumb-item text-sm text-white active" aria-current="page">Data Road Map</li>
                 </ol>
                 <h6 class="font-weight-bolder text-white mb-0">
-                    <i class="fas fa-road me-2"></i> Data Road Map
+                    <i class="fas fa-road me-2 text-success"></i> Data Road Map
                 </h6>
             </nav>
+
             <!-- ICON kanan -->
             <div class="d-flex align-items-center ms-auto">
                 <ul class="navbar-nav flex-row align-items-center mb-0">
@@ -28,11 +29,15 @@
                             <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
                         </a>
                     </li>
+
+                    <!-- Notifikasi -->
                     <li class="nav-item dropdown pe-2 d-flex align-items-center">
-                        <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa fa-bell cursor-pointer"></i>
+                        <a href="<?= base_url('Notifikasi'); ?>" class="nav-link text-white p-0 position-relative" title="Lihat Notifikasi">
+                            <i class="fa fa-bell cursor-pointer" style="font-size: 18px;"></i>
+                            <span id="notifBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 9px; display: none;">
+                                0
+                            </span>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton"></ul>
                     </li>
                 </ul>
             </div>
@@ -55,14 +60,13 @@
         <?php endif; ?>
 
         <div class="card mb-4 shadow border-0 rounded-4">
-            <div
-                class="card-header py-2 d-flex justify-content-between align-items-center bg-gradient-primary text-white rounded-top-4">
-                <h6 class="mb-0">Tabel Data Road Map</h6>
-                <div class="d-flex align-items-center">
+            <div class="card-header py-2 d-flex justify-content-between align-items-center bg-gradient-primary text-white rounded-top-4">
+                <h6 class="mb-0 d-flex align-items-center">Tabel Data Road Map</h6>
+                <div class="d-flex align-items-center" style="padding-top: 16px;">
                     <?php if (can_create()): ?>
-                    <a href="<?= base_url('Road_map/tambah') ?>" class="btn btn-sm btn-light text-primary me-2">
-                        <i class="fas fa-plus me-1"></i> Tambah
-                    </a>
+                        <a href="<?= base_url('Road_map/tambah') ?>" class="btn btn-sm btn-light text-primary me-2 d-flex align-items-center">
+                            <i class="fas fa-plus me-1"></i> Tambah
+                        </a>
                     <?php endif; ?>
                 </div>
             </div>
@@ -72,19 +76,16 @@
                     <div class="d-flex align-items-center">
                         <label class="mb-0 me-2 text-sm">Tampilkan:</label>
                         <select id="perPageSelectRoadMap" class="form-select form-select-sm" style="width: 80px; padding-right: 2rem;" onchange="changePerPageRoadMap(this.value)">
-                            <option value="5" <?= (isset($per_page) && $per_page == 5) ? 'selected' : ''; ?>>5</option>
-                            <option value="10" <?= (isset($per_page) && $per_page == 10) ? 'selected' : ''; ?>>10</option>
-                            <option value="25" <?= (isset($per_page) && $per_page == 25) ? 'selected' : ''; ?>>25</option>
-                            <option value="50" <?= (isset($per_page) && $per_page == 50) ? 'selected' : ''; ?>>50</option>
-                            <option value="100" <?= (isset($per_page) && $per_page == 100) ? 'selected' : ''; ?>>100</option>
-                            <option value="500" <?= (isset($per_page) && $per_page == 500) ? 'selected' : ''; ?>>500</option>
+                            <option value="5" <?= ($per_page == 5) ? 'selected' : ''; ?>>5</option>
+                            <option value="10" <?= ($per_page == 10) ? 'selected' : ''; ?>>10</option>
+                            <option value="25" <?= ($per_page == 25) ? 'selected' : ''; ?>>25</option>
+                            <option value="50" <?= ($per_page == 50) ? 'selected' : ''; ?>>50</option>
+                            <option value="100" <?= ($per_page == 100) ? 'selected' : ''; ?>>100</option>
+                            <option value="500" <?= ($per_page == 500) ? 'selected' : ''; ?>>500</option>
                         </select>
                         <span class="ms-3 text-sm">dari <?= $total_rows ?? 0; ?> data</span>
                     </div>
-
-                    <div style="min-width:240px;">
-                        <input type="text" id="searchInput" onkeyup="searchTable()" class="form-control form-control-sm rounded-3" placeholder="Cari Road Map...">
-                    </div>
+                    <input type="text" id="searchInputRoadMap" onkeyup="searchTableRoadMap()" class="form-control form-control-sm rounded-3" style="max-width: 300px;" placeholder="Cari Road Map...">
                 </div>
 
                 <div class="table-responsive p-0">
@@ -112,41 +113,30 @@
                                         <td class="text-sm"><?= htmlentities($row['CREATED_BY'] ?? '-'); ?></td>
                                         <td class="text-sm">
                                             <?php if (!empty($row['FILE_ROADMAP'])): ?>
-                                                <span class="badge bg-gradient-info text-white p-2">
-                                                    <?= htmlentities($row['FILE_ROADMAP']); ?>
-                                                </span>
+                                                <span class="badge bg-gradient-info text-white p-2"><?= htmlentities($row['FILE_ROADMAP']); ?></span>
                                             <?php else: ?>
                                                 <span class="text-muted fst-italic">Tidak ada file</span>
                                             <?php endif; ?>
                                         </td>
                                         <td class="text-center">
                                             <?php if (!empty($row['FILE_ROADMAP'])): ?>
-                                                <!-- Tombol Lihat -->
-                                                <a href="<?= base_url('uploads/roadmap/' . $row['FILE_ROADMAP']); ?>"
-                                                    target="_blank" class="btn btn-info btn-xs text-white me-1" title="Lihat File">
+                                                <a href="<?= base_url('uploads/roadmap/' . $row['FILE_ROADMAP']); ?>" target="_blank" class="btn btn-info btn-xs text-white me-1" title="Lihat File">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
-                                                <!-- Tombol Unduh -->
-                                                <a href="<?= base_url('uploads/roadmap/' . $row['FILE_ROADMAP']); ?>"
-                                                    download class="btn btn-success btn-xs text-white me-1" title="Unduh File">
+                                                <a href="<?= base_url('uploads/roadmap/' . $row['FILE_ROADMAP']); ?>" download class="btn btn-success btn-xs text-white me-1" title="Unduh File">
                                                     <i class="fas fa-download"></i>
                                                 </a>
                                             <?php endif; ?>
 
                                             <?php if (can_edit()): ?>
-                                            <!-- Tombol Edit -->
-                                            <a href="<?= base_url('Road_map/edit/' . ($row['ID_ROADMAP'] ?? '')); ?>"
-                                                class="btn btn-warning btn-xs text-white me-1" title="Edit">
-                                                <i class="fas fa-pen"></i>
-                                            </a>
+                                                <a href="<?= base_url('Road_map/edit/' . ($row['ID_ROADMAP'] ?? '')); ?>" class="btn btn-warning btn-xs text-white me-1" title="Edit">
+                                                    <i class="fas fa-pen"></i>
+                                                </a>
                                             <?php endif; ?>
                                             <?php if (can_delete()): ?>
-                                            <!-- Tombol Hapus -->
-                                            <a href="javascript:void(0);"
-                                                onclick="confirmDelete('<?= base_url('Road_map/hapus/' . ($row['ID_ROADMAP'] ?? '')); ?>')"
-                                                class="btn btn-danger btn-xs" title="Hapus">
-                                                <i class="fas fa-trash"></i>
-                                            </a>
+                                                <a href="javascript:void(0);" onclick="confirmDelete('<?= base_url('Road_map/hapus/' . ($row['ID_ROADMAP'] ?? '')); ?>')" class="btn btn-danger btn-xs" title="Hapus">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
                                             <?php endif; ?>
                                         </td>
                                     </tr>
@@ -155,9 +145,9 @@
                         </tbody>
                     </table>
                 </div>
-                <!-- pagination bawah (right) -->
-                <div class="px-3 mt-3 d-flex justify-content-end">
-                    <?= isset($pagination) ? $pagination : ''; ?>
+
+                <div class="card-footer d-flex justify-content-end">
+                    <?= $pagination ?? ''; ?>
                 </div>
             </div>
         </div>
@@ -184,24 +174,26 @@
         });
     }
 
-    function searchTable() {
-        const input = document.getElementById('searchInput').value.toLowerCase();
-        const rows = document.querySelectorAll('#roadMapTable tbody tr');
-        rows.forEach(row => {
-            const text = row.innerText.toLowerCase();
-            row.style.display = text.includes(input) ? '' : 'none';
-        });
-    }
-
     function changePerPageRoadMap(perPage) {
         const url = new URL(window.location.href);
         url.searchParams.set('per_page', perPage);
         url.searchParams.set('page', '1');
         window.location.href = url.toString();
     }
+
+    function searchTableRoadMap() {
+        const input = document.getElementById('searchInputRoadMap');
+        const filter = input.value.toUpperCase();
+        const table = document.getElementById('roadMapTable');
+        const tr = table.getElementsByTagName('tr');
+        for (let i = 1; i < tr.length; i++) {
+            let txtValue = tr[i].textContent || tr[i].innerText;
+            tr[i].style.display = (txtValue.toUpperCase().indexOf(filter) > -1) ? '' : 'none';
+        }
+    }
 </script>
 
-<!-- Style tambahan -->
+<!-- Style (disamakan dengan halaman SOP) -->
 <style>
     .card-header {
         display: flex;
@@ -214,6 +206,12 @@
         color: #fff;
         margin: 0;
         font-weight: 600;
+    }
+
+    .breadcrumb .breadcrumb-item.active,
+    .breadcrumb .breadcrumb-item a.opacity-5,
+    .breadcrumb .breadcrumb-item.text-white {
+        color: #ffffff !important;
     }
 
     .bg-gradient-primary {
@@ -234,20 +232,39 @@
     }
 
     .btn-xs {
-        padding: 4px 6px;
+        padding: 2px 6px;
         font-size: 11px;
-        border-radius: 5px;
+        border-radius: 4px;
     }
 
     .btn-xs i {
         font-size: 12px;
     }
 
-    .card-header .d-flex.align-items-center a {
-        transform: translateY(10px);
+    #roadMapTable tbody tr td {
+        padding-top: 2px !important;
+        padding-bottom: 2px !important;
+        font-size: 13px !important;
     }
 
-    input#searchInput {
-        max-width: 1100px;
+    #roadMapTable tbody td.text-center {
+        vertical-align: middle !important;
+        text-align: center !important;
+        padding-top: 6px !important;
+        padding-bottom: 6px !important;
+    }
+
+    #roadMapTable tbody td.text-center .btn {
+        margin: 2px 3px;
+    }
+
+    #roadMapTable thead th {
+        padding-top: 8px !important;
+        padding-bottom: 8px !important;
+        font-size: 12px !important;
+    }
+
+    #roadMapTable tbody tr {
+        line-height: 1.15;
     }
 </style>

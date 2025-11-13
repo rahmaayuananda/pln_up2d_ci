@@ -11,9 +11,11 @@
                     <li class="breadcrumb-item text-sm text-white active" aria-current="page">Single Line Diagram</li>
                 </ol>
                 <h6 class="font-weight-bolder text-white mb-0">
-                    <i class="fas fa-project-diagram me-2"></i> Single Line Diagram
+                    <i class="fas fa-project-diagram me-2 text-success"></i> Single Line Diagram
                 </h6>
             </nav>
+
+            <!-- ICON kanan -->
             <div class="d-flex align-items-center ms-auto">
                 <ul class="navbar-nav flex-row align-items-center mb-0">
                     <li class="nav-item d-flex align-items-center me-3">
@@ -27,13 +29,15 @@
                             <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
                         </a>
                     </li>
+                    <!-- Notifikasi -->
                     <li class="nav-item dropdown pe-2 d-flex align-items-center">
-                        <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa fa-bell cursor-pointer"></i>
+                        <a href="<?= base_url('Notifikasi'); ?>" class="nav-link text-white p-0 position-relative"
+                            title="Lihat Notifikasi">
+                            <i class="fa fa-bell cursor-pointer" style="font-size: 18px;"></i>
+                            <span id="notifBadge"
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                style="font-size: 9px; display: none;">0</span>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4"
-                            aria-labelledby="dropdownMenuButton"></ul>
                     </li>
                 </ul>
             </div>
@@ -42,61 +46,45 @@
 
     <!-- Content -->
     <div class="container-fluid py-4">
-
         <?php if ($this->session->flashdata('success')): ?>
             <div class="alert alert-success text-white">
                 <?= $this->session->flashdata('success'); ?>
             </div>
         <?php endif; ?>
 
-        <?php if ($this->session->flashdata('error')): ?>
-            <div class="alert alert-danger text-white">
-                <?= $this->session->flashdata('error'); ?>
-            </div>
-        <?php endif; ?>
-
         <div class="card mb-4 shadow border-0 rounded-4">
-            <div class="card-header py-3 bg-gradient-primary text-white rounded-top-4">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="d-flex align-items-center gap-4">
-                        <div>
-                            <h6 class="mb-0 fw-bold text-white"><i class="fas fa-project-diagram me-2"></i> Tabel Single Line Diagram</h6>
-                        </div>
-                        <!-- moved per-page control out of colored header to above the table -->
-                    </div>
-
-                    <div class="d-flex align-items-center gap-3">
-                        <?php if (can_create()): ?>
-                        <div>
-                            <a href="<?= base_url('single_line_diagram/tambah') ?>" class="btn btn-sm btn-light text-primary">
-                                <i class="fas fa-plus me-1"></i> Tambah
-                            </a>
-                        </div>
-                        <?php endif; ?>
-                    </div>
+            <div class="card-header py-2 d-flex justify-content-between align-items-center bg-gradient-primary text-white rounded-top-4">
+                <h6 class="mb-0 d-flex align-items-center">
+                    <i class="fas fa-project-diagram me-2"></i> Tabel Data Single Line Diagram
+                </h6>
+                <div class="d-flex align-items-center" style="padding-top: 16px;">
+                    <?php if (can_create()): ?>
+                        <a href="<?= base_url('single_line_diagram/tambah') ?>"
+                            class="btn btn-sm btn-light text-primary me-2 d-flex align-items-center">
+                            <i class="fas fa-plus me-1"></i> Tambah
+                        </a>
+                    <?php endif; ?>
                 </div>
             </div>
 
             <div class="card-body px-0 pt-0 pb-2 bg-white">
-
-                <!-- White control row above the table (per-page left, search right) -->
-                <div class="px-3 py-2 mb-2 bg-white rounded-3 d-flex align-items-center justify-content-between" style="border:1px solid #eef3f6;">
+                <div class="px-3 mt-3 mb-3 d-flex justify-content-between align-items-center">
                     <div class="d-flex align-items-center">
-                        <label class="mb-0 me-2 fw-bold" style="color:#324a5f;">Tampilkan:</label>
-                        <select id="perPageSelectTop" class="form-select form-select-sm" style="width:80px; padding-right: 2rem;" onchange="changePerPageSld(this.value)">
-                            <option value="5" <?= (isset($per_page) && $per_page == 5) ? 'selected' : ''; ?>>5</option>
-                            <option value="10" <?= (isset($per_page) && $per_page == 10) ? 'selected' : ''; ?>>10</option>
-                            <option value="25" <?= (isset($per_page) && $per_page == 25) ? 'selected' : ''; ?>>25</option>
-                            <option value="50" <?= (isset($per_page) && $per_page == 50) ? 'selected' : ''; ?>>50</option>
-                            <option value="100" <?= (isset($per_page) && $per_page == 100) ? 'selected' : ''; ?>>100</option>
-                            <option value="500" <?= (isset($per_page) && $per_page == 500) ? 'selected' : ''; ?>>500</option>
+                        <label class="mb-0 me-2 text-sm">Tampilkan:</label>
+                        <select id="perPageSelectSld" class="form-select form-select-sm"
+                            style="width: 80px; padding-right: 2rem;" onchange="changePerPageSld(this.value)">
+                            <option value="5" <?= ($per_page == 5) ? 'selected' : ''; ?>>5</option>
+                            <option value="10" <?= ($per_page == 10) ? 'selected' : ''; ?>>10</option>
+                            <option value="25" <?= ($per_page == 25) ? 'selected' : ''; ?>>25</option>
+                            <option value="50" <?= ($per_page == 50) ? 'selected' : ''; ?>>50</option>
+                            <option value="100" <?= ($per_page == 100) ? 'selected' : ''; ?>>100</option>
+                            <option value="500" <?= ($per_page == 500) ? 'selected' : ''; ?>>500</option>
                         </select>
-                        <div class="ms-3" style="color:#324a5f; opacity:0.85;">dari <?= $total_rows ?? count($sld) ?> data</div>
+                        <span class="ms-3 text-sm">dari <?= $total_rows ?? count($sld) ?> data</span>
                     </div>
-
-                    <div style="min-width:240px; max-width:640px;">
-                        <input type="text" id="searchInputSLD" onkeyup="searchTableSld()" class="form-control form-control-sm rounded-3" placeholder="Cari GI atau Penyulang...">
-                    </div>
+                    <input type="text" id="searchInputSLD" onkeyup="searchTableSld()"
+                        class="form-control form-control-sm rounded-3" style="max-width: 300px;"
+                        placeholder="Cari GI atau Penyulang...">
                 </div>
 
                 <div class="table-responsive p-0">
@@ -114,24 +102,16 @@
                         <tbody>
                             <?php if (empty($sld)): ?>
                                 <tr>
-                                    <td colspan="6" class="text-center text-secondary py-4">
-                                        Belum ada data Single Line Diagram
-                                    </td>
+                                    <td colspan="6" class="text-center text-secondary py-4">Belum ada data Single Line Diagram</td>
                                 </tr>
                             <?php else: ?>
-                                <?php $no = isset($start_no) ? $start_no : 1;
+                                <?php $no = $start_no;
                                 foreach ($sld as $row): ?>
                                     <tr class="<?= ($no % 2 == 0) ? 'table-row-even' : 'table-row-odd'; ?>">
                                         <td class="text-sm"><?= $no++; ?></td>
-
-                                        <!-- ✅ Kolom baru: Unit Pelaksana -->
-                                        <td class="text-sm fw-bold">
-                                            <?= !empty($row['NAMA_UNIT']) ? htmlentities($row['NAMA_UNIT']) : '<span class="text-muted fst-italic">Tidak ada data</span>'; ?>
-                                        </td>
-
+                                        <td class="text-sm fw-bold"><?= htmlentities($row['NAMA_UNIT']); ?></td>
                                         <td class="text-sm fw-bold"><?= htmlentities($row['NAMA_GI']); ?></td>
                                         <td class="text-sm"><?= htmlentities($row['NAMA_PENYULANG']); ?></td>
-
                                         <td class="text-center">
                                             <?php if (!empty($row['FILE_PDF'])): ?>
                                                 <span class="badge bg-gradient-info text-white p-2">PDF Tersedia</span>
@@ -139,7 +119,6 @@
                                                 <span class="text-muted fst-italic">Tidak ada file</span>
                                             <?php endif; ?>
                                         </td>
-
                                         <td class="text-center">
                                             <?php if (!empty($row['FILE_PDF'])): ?>
                                                 <a href="<?= base_url('uploads/sld/' . $row['FILE_PDF']); ?>" target="_blank"
@@ -147,20 +126,18 @@
                                                     <i class="fas fa-eye"></i>
                                                 </a>
                                             <?php endif; ?>
-
                                             <?php if (can_edit()): ?>
-                                            <a href="<?= base_url('single_line_diagram/edit/' . $row['ID_SLD']); ?>"
-                                                class="btn btn-warning btn-xs text-white me-1" title="Edit">
-                                                <i class="fas fa-pen"></i>
-                                            </a>
+                                                <a href="<?= base_url('single_line_diagram/edit/' . $row['ID_SLD']); ?>"
+                                                    class="btn btn-warning btn-xs text-white me-1" title="Edit">
+                                                    <i class="fas fa-pen"></i>
+                                                </a>
                                             <?php endif; ?>
-
                                             <?php if (can_delete()): ?>
-                                            <a href="javascript:void(0);"
-                                                onclick="confirmDelete('<?= base_url('single_line_diagram/hapus/' . $row['ID_SLD']); ?>')"
-                                                class="btn btn-danger btn-xs" title="Hapus">
-                                                <i class="fas fa-trash"></i>
-                                            </a>
+                                                <a href="javascript:void(0);"
+                                                    onclick="confirmDelete('<?= base_url('single_line_diagram/hapus/' . $row['ID_SLD']); ?>')"
+                                                    class="btn btn-danger btn-xs" title="Hapus">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
                                             <?php endif; ?>
                                         </td>
                                     </tr>
@@ -169,20 +146,16 @@
                         </tbody>
                     </table>
                 </div>
+
+                <div class="card-footer d-flex justify-content-end">
+                    <?= $pagination ?? ''; ?>
+                </div>
             </div>
-        </div>
-        <!-- Pagination links (summary removed) -->
-        <div class="d-flex justify-content-end align-items-center mt-2 px-3">
-            <?php if (!empty($pagination)): ?>
-                <nav id="sldPagination" aria-label="Page navigation">
-                    <?= $pagination ?>
-                </nav>
-            <?php endif; ?>
         </div>
     </div>
 </main>
 
-<!-- Script dan Style tetap -->
+<!-- SweetAlert -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     function confirmDelete(url) {
@@ -202,35 +175,48 @@
         });
     }
 
-    function searchTableSld() {
-        const input = document.getElementById('searchInputSLD').value.toLowerCase();
-        const rows = document.querySelectorAll('#sldTable tbody tr');
-        rows.forEach(row => {
-            const text = row.innerText.toLowerCase();
-            row.style.display = text.includes(input) ? '' : 'none';
-        });
-    }
-
     function changePerPageSld(perPage) {
         const url = new URL(window.location.href);
         url.searchParams.set('per_page', perPage);
-        // when pagination uses query-string offsets, set page to 0 (start)
-        url.searchParams.set('page', 0);
+        url.searchParams.set('page', '1');
         window.location.href = url.toString();
+    }
+
+    function searchTableSld() {
+        const input = document.getElementById('searchInputSLD');
+        const filter = input.value.toUpperCase();
+        const table = document.getElementById('sldTable');
+        const tr = table.getElementsByTagName('tr');
+        for (let i = 1; i < tr.length; i++) {
+            let txtValue = tr[i].textContent || tr[i].innerText;
+            tr[i].style.display = (txtValue.toUpperCase().indexOf(filter) > -1) ? '' : 'none';
+        }
     }
 </script>
 
+<!-- Style disamakan dengan halaman Data Unit -->
 <style>
-    .bg-gradient-primary {
-        background: linear-gradient(90deg, #00416A, #0099CC);
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        padding: 0.75rem 1rem;
     }
 
     .card-header h6 {
-        color: #fff !important;
+        color: #fff;
+        margin: 0;
+        font-weight: 600;
     }
 
-    .card-header .d-flex.align-items-center a {
-        transform: translateY(10px);
+    .breadcrumb .breadcrumb-item.active,
+    .breadcrumb .breadcrumb-item a.opacity-5,
+    .breadcrumb .breadcrumb-item.text-white {
+        color: #ffffff !important;
+    }
+
+    .bg-gradient-primary {
+        background: linear-gradient(90deg, #005C99, #0099CC);
     }
 
     .table-row-odd {
@@ -247,51 +233,39 @@
     }
 
     .btn-xs {
-        padding: 4px 6px;
+        padding: 2px 6px;
         font-size: 11px;
-        border-radius: 5px;
+        border-radius: 4px;
     }
 
     .btn-xs i {
         font-size: 12px;
     }
 
-    input#searchInput {
-        max-width: 1100px;
+    #sldTable tbody tr td {
+        padding-top: 2px !important;
+        padding-bottom: 2px !important;
+        font-size: 13px !important;
     }
 
-    /* Pagination rounded buttons like screenshot */
-    #sldPagination .pagination {
-        margin: 0;
-        padding: 0;
-        display: flex;
-        gap: 8px;
-        align-items: center;
+    #sldTable tbody td.text-center {
+        vertical-align: middle !important;
+        text-align: center !important;
+        padding-top: 6px !important;
+        padding-bottom: 6px !important;
     }
 
-    #sldPagination .pagination li {
-        list-style: none;
+    #sldTable tbody td.text-center .btn {
+        margin: 2px 3px;
     }
 
-    #sldPagination .pagination .page-link {
-        border-radius: 50% !important;
-        width: 38px;
-        height: 38px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0.35rem 0.45rem;
-        border: 1px solid #e9ecef;
-        color: #495057;
+    #sldTable thead th {
+        padding-top: 8px !important;
+        padding-bottom: 8px !important;
+        font-size: 12px !important;
     }
 
-    #sldPagination .pagination .page-item.active .page-link,
-    #sldPagination .pagination .page-item .page-link:hover {
-        background: #0d6efd;
-        color: #fff;
-        border-color: #0d6efd;
+    #sldTable tbody tr {
+        line-height: 1.15;
     }
-
-    /* refine pagination spacing */
-    #sldPagination { padding-right: 8px; }
 </style>
