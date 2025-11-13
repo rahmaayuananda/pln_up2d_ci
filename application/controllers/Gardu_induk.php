@@ -1,6 +1,16 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+/**
+ * Controller for Gardu Induk (Main Substation)
+ *
+ * @property CI_Input $input
+ * @property CI_Session $session
+ * @property Gardu_induk_model $garduModel
+ * @property CI_Pagination $pagination
+ * @property CI_URI $uri
+ * @property CI_Config $config
+ */
 class Gardu_induk extends CI_Controller
 {
     public function __construct()
@@ -17,6 +27,10 @@ class Gardu_induk extends CI_Controller
     public function index()
     {
         $data['judul'] = 'Data Gardu Induk';
+        
+        // Navbar data
+        $data['page_title'] = 'Data Gardu Induk';
+        $data['page_icon'] = 'fas fa-bolt';
 
             // Handle per_page dari query string (gunakan config default_per_page)
             $allowedPerPage = [5, 10, 25, 50, 100, 500];

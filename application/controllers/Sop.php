@@ -1,6 +1,17 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+/**
+ * Controller for SOP (Standard Operating Procedure)
+ *
+ * @property CI_Input $input
+ * @property CI_Session $session
+ * @property Sop_model $sopModel
+ * @property CI_Pagination $pagination
+ * @property CI_Upload $upload
+ * @property CI_URI $uri
+ * @property CI_Config $config
+ */
 class Sop extends CI_Controller
 {
     public function __construct()
@@ -17,6 +28,10 @@ class Sop extends CI_Controller
     public function index()
     {
         $data['judul'] = 'Data SOP';
+        
+        // Navbar data
+        $data['page_title'] = 'Data SOP';
+        $data['page_icon'] = 'fas fa-file-alt';
 
     // Konfigurasi pagination dengan pilihan per-page dari query string
     $allowedPerPage = [5, 10, 25, 50, 100, 500];

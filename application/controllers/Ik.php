@@ -1,6 +1,17 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+/**
+ * Controller for IK (Instruksi Kerja)
+ *
+ * @property CI_Input $input
+ * @property CI_Session $session
+ * @property Ik_model $ikModel
+ * @property CI_Pagination $pagination
+ * @property CI_Upload $upload
+ * @property CI_URI $uri
+ * @property CI_Config $config
+ */
 class Ik extends CI_Controller
 {
     public function __construct()
@@ -17,6 +28,10 @@ class Ik extends CI_Controller
     public function index()
     {
         $data['judul'] = 'Data IK';
+        
+        // Navbar data
+        $data['page_title'] = 'Data IK';
+        $data['page_icon'] = 'fas fa-info-circle';
 
         // Konfigurasi pagination dengan pilihan per-page dari query string
         $allowedPerPage = [5, 10, 25, 50, 100, 500];

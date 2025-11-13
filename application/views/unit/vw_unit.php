@@ -1,47 +1,5 @@
 <main class="main-content position-relative border-radius-lg ">
-    <!-- Navbar -->
-    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="false">
-        <div class="container-fluid py-1 px-3">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-                    <li class="breadcrumb-item text-sm">
-                        <a class="opacity-5 text-white" href="<?= base_url('dashboard'); ?>">Dashboard</a>
-                    </li>
-                    <li class="breadcrumb-item text-sm text-white active" aria-current="page">Data Unit</li>
-                </ol>
-                <h6 class="font-weight-bolder text-white mb-0">
-                    <i class="fas fa-building me-2 text-success"></i> Data Unit
-                </h6>
-            </nav>
-
-            <!-- ICON kanan -->
-            <div class="d-flex align-items-center ms-auto">
-                <ul class="navbar-nav flex-row align-items-center mb-0">
-                    <li class="nav-item d-flex align-items-center me-3">
-                        <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
-                            <i class="fa fa-user me-sm-1"></i>
-                            <span class="d-sm-inline d-none">Sign In</span>
-                        </a>
-                    </li>
-                    <li class="nav-item px-2 d-flex align-items-center me-3">
-                        <a href="javascript:;" class="nav-link text-white p-0">
-                            <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
-                        </a>
-                    </li>
-
-                    <!-- Notifikasi -->
-                    <li class="nav-item dropdown pe-2 d-flex align-items-center">
-                        <a href="<?= base_url('Notifikasi'); ?>" class="nav-link text-white p-0 position-relative" title="Lihat Notifikasi">
-                            <i class="fa fa-bell cursor-pointer" style="font-size: 18px;"></i>
-                            <span id="notifBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 9px; display: none;">
-                                0
-                            </span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <?php $this->load->view('layout/navbar'); ?>
 
     <!-- Content -->
     <div class="container-fluid py-4">

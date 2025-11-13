@@ -1,6 +1,16 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+/**
+ * Controller for Pembangkit (Power Plant)
+ *
+ * @property CI_Input $input
+ * @property CI_Session $session
+ * @property Pembangkit_model $pembangkitModel
+ * @property CI_Pagination $pagination
+ * @property CI_URI $uri
+ * @property CI_Config $config
+ */
 class Pembangkit extends CI_Controller
 {
     public function __construct()
@@ -17,6 +27,10 @@ class Pembangkit extends CI_Controller
     public function index()
     {
         $data['title'] = 'Data Pembangkit';
+        
+        // Navbar data
+        $data['page_title'] = 'Data Pembangkit';
+        $data['page_icon'] = 'fas fa-industry';
 
         // Konfigurasi paginasi
         $config['base_url'] = site_url('pembangkit/index');

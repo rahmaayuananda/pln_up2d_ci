@@ -1,6 +1,16 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+/**
+ * Controller for Unit Pelaksana
+ *
+ * @property CI_Input $input
+ * @property CI_Session $session
+ * @property Unit_model $Unit_model
+ * @property CI_Pagination $pagination
+ * @property CI_URI $uri
+ * @property CI_Config $config
+ */
 class Unit extends CI_Controller
 {
     public function __construct()
@@ -64,6 +74,10 @@ class Unit extends CI_Controller
     public function index()
     {
         $data['title'] = 'Data Unit';
+        
+        // Navbar data
+        $data['page_title'] = 'Data Unit';
+        $data['page_icon'] = 'fas fa-building';
 
         // Konfigurasi paginasi
         $config['base_url'] = site_url('unit/index');

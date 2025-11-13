@@ -27,6 +27,10 @@ class Gi_cell extends CI_Controller
     public function index()
     {
         $data['title'] = 'Data GI Cell';
+        
+        // Navbar data
+        $data['page_title'] = 'Data GI Cell';
+        $data['page_icon'] = 'fas fa-wave-square';
 
         // Konfigurasi paginasi
         $config['base_url'] = site_url('gi_cell/index');

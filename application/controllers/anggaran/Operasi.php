@@ -1,9 +1,17 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/** @property Progress_kontrak_op_model $progress_kontrak_model */
-/** @property Rekomposisi_op_model $rekomposisi_model */
-/** @property Monitoring_op_model $monitoring_model */
+/**
+ * Controller for Anggaran Operasi
+ *
+ * @property CI_Input $input
+ * @property CI_Session $session
+ * @property Progress_kontrak_op_model $progress_kontrak_model
+ * @property Rekomposisi_op_model $rekomposisi_model
+ * @property Monitoring_op_model $monitoring_model
+ * @property CI_URI $uri
+ * @property CI_Config $config
+ */
 class Operasi extends CI_Controller {
     /** @var Progress_kontrak_op_model */
     public $progress_kontrak_model;
@@ -28,6 +36,10 @@ class Operasi extends CI_Controller {
     {
         $data['title'] = 'Progress Kontrak';
         $data['icon'] = 'fa-cogs text-success';
+        
+        // Navbar data
+        $data['page_title'] = 'Progress Kontrak (Operasi)';
+        $data['page_icon'] = 'fas fa-chart-line';
 
         try {
             $result = $this->progress_kontrak_model->get_table_data(200);
@@ -49,6 +61,11 @@ class Operasi extends CI_Controller {
         // For now reuse the same layout as progress_kontrak but with a different title
         $data['title'] = 'Rekomposisi';
         $data['icon'] = 'fa-cogs text-success';
+        
+        // Navbar data
+        $data['page_title'] = 'Rekomposisi (Operasi)';
+        $data['page_icon'] = 'fas fa-exchange-alt';
+        
         try {
             $result = $this->rekomposisi_model->get_table_data(200);
             $data['fields'] = $result['fields'];
@@ -67,6 +84,11 @@ class Operasi extends CI_Controller {
     {
         $data['title'] = 'Monitoring';
         $data['icon'] = 'fa-cogs text-success';
+        
+        // Navbar data
+        $data['page_title'] = 'Monitoring (Operasi)';
+        $data['page_icon'] = 'fas fa-desktop';
+        
         try {
             $result = $this->monitoring_model->get_table_data(500);
             $data['fields'] = $result['fields'];

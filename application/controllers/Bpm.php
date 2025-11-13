@@ -1,6 +1,17 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+/**
+ * Controller for BPM (Business Process Management)
+ *
+ * @property CI_Input $input
+ * @property CI_Session $session
+ * @property Bpm_model $bpmModel
+ * @property CI_Pagination $pagination
+ * @property CI_Upload $upload
+ * @property CI_URI $uri
+ * @property CI_Config $config
+ */
 class Bpm extends CI_Controller
 {
     public function __construct()
@@ -17,6 +28,10 @@ class Bpm extends CI_Controller
     public function index()
     {
         $data['judul'] = 'Data BPM';
+        
+        // Navbar data
+        $data['page_title'] = 'Data BPM';
+        $data['page_icon'] = 'fas fa-project-diagram';
 
     // Konfigurasi pagination dengan pilihan per-page dari query string
     $allowedPerPage = [5, 10, 25, 50, 100, 500];
